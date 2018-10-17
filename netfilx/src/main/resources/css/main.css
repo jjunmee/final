@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+#wrap{width: 80%;height: 800px;margin: auto; }
+#header{width: 100%;height: 20%;background-color: pink; }
+#content{width: 100%;height: 60%;background-color: orange; }
+#footer{width: 100%;height: 20%;background-color: yellow; }
