@@ -1,4 +1,4 @@
-package com.jhta.netflix.bean;
+package com.jhta.netflix.category.vo;
 
 public class CategoryVo {
     private Integer category_num;
