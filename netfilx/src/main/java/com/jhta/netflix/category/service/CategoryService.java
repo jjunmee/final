@@ -1,5 +1,7 @@
 package com.jhta.netflix.category.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +15,8 @@ public class CategoryService {
 	
 	public int insert(CategoryVo vo){
 		return dao.insert(vo);
+	}
+	public List<CategoryVo> list(){
+		return dao.list();
 	}
 }

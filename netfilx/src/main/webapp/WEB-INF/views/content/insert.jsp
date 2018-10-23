@@ -6,6 +6,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				url:"<c:url value='/content/categorylist'/>",
+				dataType:"json",
+				success:function(data){
+					$(data).each(function(i,json) {
+						var str = "<option value=\""+json.categoryNum+"\">"
+							+json.categoryName+"</option>"
+						console.log(str);
+						$("#category").append(str);
+					})
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<h1>컨텐츠등록</h1>
@@ -34,6 +51,16 @@
 						<option value="19">19세</option>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<th>분류</th>
+				<td>
+					<select name="categoryNum" id="category">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>장르</th>
 			</tr>
 			<tr>
 				<th>영상</th>

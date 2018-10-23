@@ -6,5 +6,8 @@
 	<insert id="insert" parameterType="com.jhta.netflix.category.vo.CategoryVo">
 		INSERT INTO category (category_name) VALUES (#{category_name})
 	</insert>
+	<select id="list" resultType="com.jhta.netflix.category.vo.CategoryVo">
+		select * from category
+	</select>
 </mapper>
   
