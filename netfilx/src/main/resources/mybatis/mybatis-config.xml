@@ -6,8 +6,12 @@
 	<!-- <typeAliases>
 		<typeAlias type="" alias=""/>
 	</typeAliases> -->
-
+	<typeAliases>
+		<typeAlias type="com.jhta.netflix.content.vo.ContentVo" alias="content"/>
+	</typeAliases>
+	
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml"/>
+		<mapper resource="mapper/ContentMapper.xml"/>
 	</mappers>
 </configuration>  
