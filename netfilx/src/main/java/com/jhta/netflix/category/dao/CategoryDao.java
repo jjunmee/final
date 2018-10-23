@@ -1,5 +1,7 @@
 package com.jhta.netflix.category.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,5 +17,13 @@ public class CategoryDao {
 	public int insert(CategoryVo vo) {
 		return sqlSession.insert(NAMESPACE + ".insert",vo);
 	}
-	
+	public List<CategoryVo> list(int category_num){
+		return sqlSession.selectList(NAMESPACE + ".list",category_num);
+	}
+	public int delete(int category_num) {
+		return sqlSession.delete(NAMESPACE + ".delete",category_num);
+	}
+	public int update(int category_num) {
+		return sqlSession.update(NAMESPACE + ".update",category_num);
+	}
 }

@@ -4,7 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.CategoryMapper">
 	<insert id="insert" parameterType="com.jhta.netflix.category.vo.CategoryVo">
-		INSERT INTO category (category_name) VALUES (#{category_name})
+		insert into category (category_name) values(#{category_name})
 	</insert>
+	<select id="list" resultType="com.jhta.netflix.category.vo.CategoryVo">
+		select * from category
+	</select>
+	<update id="update" parameterType="com.jhta.netflix.category.vo.CategoryVo">
+		update category set category_name = #{category_name} where category_num = #{category_num}
+	</update>
+	<delete id="delect" parameterType="int">
+		delete from category where category_num = #{category_num}
+	</delete>
 </mapper>
   

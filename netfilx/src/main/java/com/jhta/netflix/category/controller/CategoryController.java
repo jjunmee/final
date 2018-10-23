@@ -19,7 +19,7 @@ public class CategoryController {
 		return "category/category";
 	}
 	
-	@RequestMapping(value="/category/category",method=RequestMethod.POST)
+	@RequestMapping(value="/category/insert",method=RequestMethod.POST)
 	public ModelAndView insert(CategoryVo vo) {
 		int n = service.insert(vo);
 		ModelAndView mv = new ModelAndView();
@@ -31,6 +31,4 @@ public class CategoryController {
 		}
 		return mv;
 	}
-	
-	
 }

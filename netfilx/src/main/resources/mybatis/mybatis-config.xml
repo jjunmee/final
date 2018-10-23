@@ -8,10 +8,12 @@
 	</typeAliases> -->
 	<typeAliases>
 		<typeAlias type="com.jhta.netflix.content.vo.ContentVo" alias="content"/>
+		<typeAlias type="com.jhta.netflix.category.vo.CategoryVo" alias="category"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml"/>
+		<mapper resource="mapper/CategoryMapper.xml"/>
 		<mapper resource="mapper/ContentMapper.xml"/>
 	</mappers>
 </configuration>  
