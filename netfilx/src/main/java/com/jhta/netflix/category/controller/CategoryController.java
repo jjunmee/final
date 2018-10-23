@@ -1,9 +1,14 @@
 package com.jhta.netflix.category.controller;
 
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.netflix.category.service.CategoryService;
@@ -30,5 +35,19 @@ public class CategoryController {
 			mv.addObject("code", "fail");
 		}
 		return mv;
+	}
+	
+	@RequestMapping(value="/content/categorylist",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String categorylist() {
+		List<CategoryVo> list = service.list();
+		JSONArray arr = new JSONArray();
+		for(CategoryVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("categoryNum", vo.getCategory_num());
+			json.put("categoryName", vo.getCategory_name());
+			arr.put(json);
+		}
+		return arr.toString();
 	}
 }

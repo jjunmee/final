@@ -16,13 +16,13 @@ public class CategoryService {
 	public int insert(CategoryVo vo){
 		return dao.insert(vo);
 	}
-	public List<CategoryVo> list(int category_num){
-		return dao.list(category_num);
-	}
 	public int update(int category_num) {
 		return dao.update(category_num);
 	}
 	public int delete(int category_num) {
 		return dao.delete(category_num);
+	}
+	public List<CategoryVo> list(){
+		return dao.list();
 	}
 }
