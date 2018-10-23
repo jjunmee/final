@@ -25,10 +25,11 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/category/insert",method=RequestMethod.POST)
-	public ModelAndView insert(CategoryVo vo) {
+	public ModelAndView insert(String category_name) {
+		CategoryVo vo = new CategoryVo(0,category_name);
 		int n = service.insert(vo);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("category");
+		mv.setViewName("category/category");
 		if(n>0) {
 			mv.addObject("code", "success");
 		}else {
