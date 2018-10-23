@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class MemberController {
+public class UserController {
 	
 	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 	public String loginForm() {
+		return ".user.login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login() {
 		return ".user.login";
 	}
 }
