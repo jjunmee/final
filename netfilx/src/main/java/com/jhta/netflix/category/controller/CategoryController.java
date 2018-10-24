@@ -51,4 +51,12 @@ public class CategoryController {
 		}
 		return arr.toString();
 	}
+	
+	@RequestMapping("/category/categorylist")
+	public ModelAndView categoryformlist() {
+		List<CategoryVo> list = service.list();
+		ModelAndView mv = new ModelAndView("category");
+		mv.addObject("clist", list);
+		return mv;
+	}
 }

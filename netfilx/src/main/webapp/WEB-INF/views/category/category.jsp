@@ -8,13 +8,13 @@
 		<input type="submit" value="추가">
 	</form>
 	<form method="post" action='<c:url value="/category/update/"/>'>
-		<table>
+		<table border="1" width="800">
 			<tr>
 				<th>분류</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
-			<c:forEach items="${list }" var="vo">
+			<c:forEach items="${clist }" var="vo">
 			<tr>
 				<td><input type="text" value="${vo.category_name }"></td>
 			</tr>
