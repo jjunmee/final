@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jhta</groupId>
 	<artifactId>netflix</artifactId>
-	<name>netfilx</name>
+	<name>netflix</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -73,6 +73,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<!-- MYSQL -->
+		<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.12</version>
 		</dependency>
 		<!-- Spring JDBC -->
 		<dependency>
