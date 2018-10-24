@@ -3,11 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<!-- <typeAliases>
+		<typeAlias type="" alias=""/>
+	</typeAliases> -->
 	<typeAliases>
+		<typeAlias type="com.jhta.netflix.content.vo.ContentVo" alias="content"/>
+		<typeAlias type="com.jhta.netflix.category.vo.CategoryVo" alias="category"/>
 		<typeAlias type="com.jhta.netflix.user.vo.UserVo" alias="user"/>
-	</typeAliases> 
-
+	</typeAliases>
+	
 	<mappers>
 		<mapper resource="mapper/UserMapper.xml"/>
+		<mapper resource="mapper/CategoryMapper.xml"/>
+		<mapper resource="mapper/ContentMapper.xml"/>
+		<mapper resource="mapper/CategoryMapper.xml"/>
 	</mappers>
 </configuration>  
