@@ -16,8 +16,8 @@ public class CategoryService {
 	public int insert(CategoryVo vo){
 		return dao.insert(vo);
 	}
-	public int update(int category_num) {
-		return dao.update(category_num);
+	public int update(CategoryVo vo) {
+		return dao.update(vo);
 	}
 	public int delete(int category_num) {
 		return dao.delete(category_num);

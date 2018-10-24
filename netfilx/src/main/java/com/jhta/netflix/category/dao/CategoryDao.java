@@ -20,8 +20,8 @@ public class CategoryDao {
 	public int delete(int category_num) {
 		return sqlSession.delete(NAMESPACE + ".delete",category_num);
 	}
-	public int update(int category_num) {
-		return sqlSession.update(NAMESPACE + ".update",category_num);
+	public int update(CategoryVo vo) {
+		return sqlSession.update(NAMESPACE + ".update",vo);
 	}
 	public List<CategoryVo> list(){
 		return sqlSession.selectList(NAMESPACE + ".list");

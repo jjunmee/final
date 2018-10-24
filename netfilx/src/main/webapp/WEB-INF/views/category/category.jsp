@@ -15,15 +15,15 @@
 				<th>삭제</th>
 			</tr>
 			<c:forEach items="${clist }" var="vo">
-			<tr>
-				<td><input type="text" value="${vo.category_name }"></td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="수정"></td>
-			</tr>
-			<tr>
-				<td><a href="${pageContext.request.contextPath }/category/delete?num=${vo.category_num}">삭제</a></td>
-			</tr>
+				<tr>
+					<td><input type="text" value="${vo.category_name }"></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="수정"></td>
+				</tr>
+				<tr>
+					<td><a href="${pageContext.request.contextPath }/category/delete?num=${vo.category_num}">삭제</a></td>
+				</tr>
 			</c:forEach>
 		</table>
 	</form>
