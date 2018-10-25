@@ -7,9 +7,9 @@
 		
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
    		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-   		<property name="url" value="jdbc:mysql://dmszone.com:43306/final"/>
-   		<property name="username" value="final"/>
-   		<property name="password" value="final1004"/>
+   		<property name="url" value="jdbc:mysql://localhost:3306/final?serverTimezone=Asia/Seoul"/>
+   		<property name="username" value="root"/>
+   		<property name="password" value="java1234"/>
 
    </bean> 
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
