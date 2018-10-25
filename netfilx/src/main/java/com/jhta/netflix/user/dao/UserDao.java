@@ -8,22 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import com.jhta.netflix.user.vo.UserVo;
 
-@Repository
-public class UserDao {
-	@Autowired
-	private SqlSession sqlSession;
-	private final String NAMESPACE = "mapper.UserMapper";
-	
-	public int delete(int users_num) {
-		return sqlSession.delete(NAMESPACE + ".delete",users_num);
-	}
-	public int update(UserVo vo) {
-		return sqlSession.update(NAMESPACE + ".update",vo);
-	}
-	public List<UserVo> info(int users_num){
-		return sqlSession.selectOne(NAMESPACE + ".info",users_num);
-	}
-	public int login(UserVo vo) {
-		return sqlSession.selectOne(NAMESPACE + ".login",vo);
-	}
+
+public interface UserDao {
+	public int delete(int users_num);
+	public int update(UserVo vo);
+	public List<UserVo> info(int users_num);
+	public int login(UserVo vo);
+	public int defaultJoin(UserVo vo);
+	public int id_check(String id);
 }

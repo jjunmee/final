@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.UserMapper">
-	<!-- 
+	
 	<select id="login" resultType="int" parameterType="user">
 		select users_num from users where id=#{id} and pwd=#{pwd }
 	</select>
@@ -16,6 +16,11 @@
 	</update>
 	<select id="info" resultMap="user" parameterType="int">
 		select * from users where users_num = #{users_num}
+	</select> -->
+	<insert id="defaultJoin" parameterType="user">
+		insert into users values(0,#{id},#{pwd},#{birth},0,0,#{pwd2})
+	</insert>
+	<select id="id_check" resultType="int" parameterType="String">
+		select count(*) from users where id=#{id}
 	</select>
-	 -->
  </mapper>
