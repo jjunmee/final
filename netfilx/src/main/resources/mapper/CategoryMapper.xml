@@ -12,8 +12,11 @@
 	<update id="update" parameterType="category">
 		update category set category_name = #{category_name} where category_num = #{category_num}
 	</update>
-	<delete id="delect" parameterType="int">
+	<delete id="delete" parameterType="int">
 		delete from category where category_num = #{category_num}
 	</delete>
+	<select id="selectname" parameterType="int" resultType="category">
+		select * from category where category_num = #{category_num}
+	</select>
 </mapper>
   

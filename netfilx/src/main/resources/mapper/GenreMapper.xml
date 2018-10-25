@@ -10,10 +10,13 @@
 		update genre set genre_name=#{genre_name},category_num=#{category_num} where genre_num=#{genre_num}
 	</update>
 	<delete id="delete" parameterType="int">
-		delete from genre where #{value}
+		delete from genre where category_num = #{value}
 	</delete>
 	<select id="list" parameterType="int" resultType="genre">
-		select * from genre where category_num=#{value}
+		select * from genre where category_num = #{value}
+	</select>
+	<select id="clist" resultType="genre">
+		select * from genre
 	</select>
 </mapper>
   
