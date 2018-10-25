@@ -7,7 +7,6 @@
 	<select id="login" resultType="int" parameterType="user">
 		select users_num from users where id=#{id} and pwd=#{pwd }
 	</select>
-	<!-- 
 	<delete id="delete" parameterType="int">
 		delete from users where users_num = #{users_num}
 	</delete>

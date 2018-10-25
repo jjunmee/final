@@ -26,4 +26,7 @@ public class CategoryDao {
 	public List<CategoryVo> list(){
 		return sqlSession.selectList(NAMESPACE + ".list");
 	}
+	public CategoryVo selectname(int category_num) {
+		return sqlSession.selectOne(NAMESPACE + ".selectname",category_num);
+	}
 }

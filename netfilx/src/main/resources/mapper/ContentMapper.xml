@@ -4,17 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ContentMapper">
 	<insert id="insert" parameterType="content">
-		insert into content values(0,#{contentName},#{orgsrc},#{savesrc},#{content_summary},
+		insert into content values(0,#{content_name},#{orgsrc},#{savesrc},#{content_summary},
 		#{trailer_orgsrc},#{trailer_savesrc},#{content_size},#{trailer_size},#{content_post1},
 		#{content_post2},#{release},#{watch_age},#{content_regdate},#{series_num})
 	</insert>
 	<update id="update" parameterType="content">
-		update content set content_name=#{contentName},orgsrc=#{orgsrc},savesrc=#{savesrc},
-		content_summary=#{contentSummary},trailer_orgsrc=#{trailerOrgsrc},
-		trailer_savesrc=#{trailerSavesrc},content_size=#{contentSize},trailer_size=#{trailerSize},
-		content_post1=#{contentPost1},content_post2=#{contentPost2},release=#{release},
-		watch_age=#{watchAge},content_regdate=#{contentRegdate},series_num=#{seriesNum} 
-		where content_num=#{contentNum}
+		update content set content_name=#{content_name},orgsrc=#{orgsrc},savesrc=#{savesrc},
+		content_summary=#{content_summary},trailer_orgsrc=#{trailer_orgsrc},
+		trailer_savesrc=#{trailer_savesrc},content_size=#{content_size},trailer_size=#{trailer_size},
+		content_post1=#{content_post1},content_post2=#{content_post2},release=#{release},
+		watch_age=#{watch_age},content_regdate=#{content_regdate},series_num=#{series_num} 
+		where content_num=#{content_num}
 	</update>
 	<delete id="delete" parameterType="int">
 		delete from content where content_num=#{value}

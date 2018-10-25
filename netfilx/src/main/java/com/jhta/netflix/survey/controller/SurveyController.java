@@ -10,13 +10,17 @@ import com.jhta.netflix.survey.service.SurveyService;
 @Controller
 public class SurveyController {
 	@Autowired private SurveyService service;
+	@RequestMapping(value="/survey/home", method=RequestMethod.GET)
+	public String surveyHome() {
+		return ".survey.home";
+	}
 	@RequestMapping(value="/survey/surveyInsert", method=RequestMethod.GET)
 	public String surveyForm() {
 		return ".survey.surveyForm";
 	}
 	@RequestMapping(value="/survey/surveyInsert",method=RequestMethod.POST)
 	public String survey() {
-		return "ajax써서 alert에 확인 누르면 list페이지로 넘어갈수있나";
+		return ".survey.home";
 	}
 	
 }

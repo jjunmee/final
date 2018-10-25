@@ -25,4 +25,7 @@ public class CategoryService {
 	public List<CategoryVo> list(){
 		return dao.list();
 	}
+	public CategoryVo selectname(int category_num) {
+		return dao.selectname(category_num);
+	}
 }
