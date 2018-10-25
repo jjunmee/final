@@ -18,16 +18,18 @@ public class UserVo {
     private int point;
     //상태
     private int sts;
-    
+    //solt
+    private String pwd2;
     public UserVo() {}
 
-    public UserVo(int users_num, String id, String pwd, Date birth, int point,int sts) {
+    public UserVo(int users_num, String id, String pwd, Date birth, int point,int sts,String pwd2) {
 		this.users_num = users_num;
 		this.id = id;
 		this.pwd = pwd;
 		this.birth = birth;
 		this.point = point;
-		this.setSts(sts);
+		this.sts=sts;
+		this.pwd2=pwd2;
 	}
 
 	public int getUsersNum() {
@@ -76,6 +78,14 @@ public class UserVo {
 
 	public void setSts(int sts) {
 		this.sts = sts;
+	}
+
+	public String getPwd2() {
+		return pwd2;
+	}
+
+	public void setPwd2(String pwd2) {
+		this.pwd2 = pwd2;
 	}
 
 }
