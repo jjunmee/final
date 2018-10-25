@@ -15,7 +15,7 @@
 				success:function(data){
 					$(data).each(function(i,json) {
 						var str = "<option value=\""+json.categoryNum+"\">"
-							+json.categoryName+"</option>"
+							+json.categoryName+"</option>";
 						console.log(str);
 						$("#category").append(str);
 					})

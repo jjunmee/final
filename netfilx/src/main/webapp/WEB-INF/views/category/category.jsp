@@ -1,5 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:"<c:url value='/content/categorylist'/>",
+			dataType:"json",
+			success:function(data){
+				$(data).each(function(i,json){
+					var str="<tr>"
+								+"<td><input type=\"text\" value=" +json.categoryName+ "></td>"
+								+"<td><a href=\"${pageContext.request.contextPath }/category/update?num=" + json.categoryNum + "\">수정</a></td>"
+								+"<td><a href=\"${pageContext.request.contextPath }/category/delete?num=" + json.categoryNum + "\">삭제</a></td>"
+							+"</tr>";
+					$("#categorylist").append(str);
+				});
+			}
+		});
+	});
+	function update(){
+		
+	};
+</script>
 <div>
 <h1>분류</h1>
 	<form method="post" action='<c:url value="/category/insert"/>'>
@@ -8,23 +30,12 @@
 		<input type="submit" value="추가">
 	</form>
 	<form method="post" action='<c:url value="/category/update/"/>'>
-		<table border="1" width="800">
+		<table border="1" id="categorylist">
 			<tr>
 				<th>분류</th>
 				<th>수정</th>
 				<th>삭제</th>
 			</tr>
-			<c:forEach items="${clist }" var="vo">
-				<tr>
-					<td><input type="text" value="${vo.category_name }"></td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="수정"></td>
-				</tr>
-				<tr>
-					<td><a href="${pageContext.request.contextPath }/category/delete?num=${vo.category_num}">삭제</a></td>
-				</tr>
-			</c:forEach>
 		</table>
 	</form>
 <h1>장르</h1>
@@ -42,11 +53,7 @@
 			<c:forEach items="${list }" var="vo">
 			<tr>
 				<td><input type="text" value="${vo.genre_name }"></td>
-			</tr>
-			<tr>
-				<td><a href="${pageContext.request.contextPath }/category/update?num=${vo.genre_num}">수정</a></td>
-			</tr>
-			<tr>
+				<td><a href="javascript:void(0);" onclick="update()">수정</a></td>
 				<td><a href="${pageContext.request.contextPath }/category/delete?num=${vo.genre_num}">삭제</a></td>
 			</tr>
 			</c:forEach>
