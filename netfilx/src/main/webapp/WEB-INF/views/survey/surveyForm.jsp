@@ -84,33 +84,7 @@
 		//quest.firstChild.nextElementSibling.nextElementSibling.style.display="block";		
 	}
 	
-	/*
 	
-	var showContent1 = function(event){
-		var par=$(event.target.parent);	
-		console.log(par.tagName);
-		var next=par.nextSibling();
-		console.log(next);
-		par.css("display", "none");		
-		next.css("display","block");		
-	}
-	
-	var showContent2 = function(event){
-		var par=this.parent;
-		par.setAttribute("display", "none");		
-		par.nextSibling.nextSibling.setAttribute("display", "block");		
-	}
-	var showContent3 = function(event){
-		var par=this.parent;
-		par.setAttribute("display", "none");		
-		par.nextSibling.nextSibling.nextSibling.setAttribute("display", "block");		
-	}
-	var showContent4 = function(event){
-		var par=this.parent;
-		par.setAttribute("display", "none");		
-		par.nextSibling.nextSibling.nextSibling.nextSibling.setAttribute("display", "block");		
-	}
-	*/
 
 </script>
 
