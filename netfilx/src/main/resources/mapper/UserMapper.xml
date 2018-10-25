@@ -6,6 +6,7 @@
 	<select id="login" resultType="int" parameterType="user">
 		select users_num from users where id=#{id} and pwd=#{pwd }
 	</select>
+	<!-- 
 	<delete id="delete" parameterType="int">
 		delete from users where users_num = #{users_num}
 	</delete>
@@ -14,5 +15,5 @@
 	</update>
 	<select id="info" resultMap="user" parameterType="int">
 		select * from users where users_num = #{users_num}
-	</select>
+	</select> -->
  </mapper>
