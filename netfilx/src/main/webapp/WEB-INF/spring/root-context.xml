@@ -7,7 +7,7 @@
 		
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
    		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-   		<property name="url" value="jdbc:mysql://192.168.0.49:3306/final?serverTimezone=Asia/Seoul"/>
+   		<property name="url" value="jdbc:mysql://localhost:3306/final?serverTimezone=Asia/Seoul"/>
    		<property name="username" value="root"/>
    		<property name="password" value="java1234"/>
    </bean> 
