@@ -10,6 +10,7 @@
    		<property name="url" value="jdbc:mysql://dmszone.com:43306/final"/>
    		<property name="username" value="final"/>
    		<property name="password" value="final1004"/>
+
    </bean> 
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
    		<property name="dataSource" ref="dataSource"/>
