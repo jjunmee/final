@@ -21,7 +21,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(String id,String pwd) {
-		UserVo vo=new UserVo(0,id,pwd,null,0,0);
+		UserVo vo=new UserVo(0,id,pwd,null,0,0,null);
 		System.out.println(id+"asdasd");
 		int n = service.login(vo);
 		String redirect="";
