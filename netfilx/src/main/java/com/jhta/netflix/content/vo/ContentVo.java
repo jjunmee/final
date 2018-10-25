@@ -3,148 +3,184 @@ package com.jhta.netflix.content.vo;
 import java.sql.Date;
 
 public class ContentVo {
-    private Integer contentNum;
-    private String contentName;
+    private Integer content_num;
+    private String content_name;
     private String orgsrc;
     private String savesrc;
-    private String contentSummary;
-    private String trailerOrgsrc;
-    private String trailerSavesrc;
-    private Integer contentSize;
-    private Integer trailerSize;
-    private String contentPost1;
-    private String contentPost2;
+    private String content_summary;
+    private String trailer_orgsrc;
+    private String trailer_savesrc;
+    private Integer content_size;
+    private Integer trailer_size;
+    private String content_post1;
+    private String content_post2;
     private Date release;
-    private Integer categoryNum;
-    private Integer watchAge;
-    private Date contentRegdate;
-    private Integer seriesNum;
-    private Integer staffNum;
+    private Integer category_num;
+    private Integer watch_age;
+    private Date content_regdate;
+    private Integer series_num;
+    private Integer staff_num;
     
 	public ContentVo() {
 	}
-	public ContentVo(Integer contentNum, String contentName, String orgsrc, String savesrc, String contentSummary,
-			String trailerOrgsrc, String trailerSavesrc, Integer contentSize, Integer trailerSize, String contentPost1,
-			String contentPost2, Date release, Integer categoryNum, Integer watchAge, Date contentRegdate,
-			Integer seriesNum, Integer staffNum) {
-		this.contentNum = contentNum;
-		this.contentName = contentName;
+
+	public ContentVo(Integer content_num, String content_name, String orgsrc, String savesrc, String content_summary,
+			String trailer_orgsrc, String trailer_savesrc, Integer content_size, Integer trailer_size,
+			String content_post1, String content_post2, Date release, Integer category_num, Integer watch_age,
+			Date content_regdate, Integer series_num, Integer staff_num) {
+		this.content_num = content_num;
+		this.content_name = content_name;
 		this.orgsrc = orgsrc;
 		this.savesrc = savesrc;
-		this.contentSummary = contentSummary;
-		this.trailerOrgsrc = trailerOrgsrc;
-		this.trailerSavesrc = trailerSavesrc;
-		this.contentSize = contentSize;
-		this.trailerSize = trailerSize;
-		this.contentPost1 = contentPost1;
-		this.contentPost2 = contentPost2;
+		this.content_summary = content_summary;
+		this.trailer_orgsrc = trailer_orgsrc;
+		this.trailer_savesrc = trailer_savesrc;
+		this.content_size = content_size;
+		this.trailer_size = trailer_size;
+		this.content_post1 = content_post1;
+		this.content_post2 = content_post2;
 		this.release = release;
-		this.categoryNum = categoryNum;
-		this.watchAge = watchAge;
-		this.contentRegdate = contentRegdate;
-		this.seriesNum = seriesNum;
-		this.staffNum = staffNum;
+		this.category_num = category_num;
+		this.watch_age = watch_age;
+		this.content_regdate = content_regdate;
+		this.series_num = series_num;
+		this.staff_num = staff_num;
 	}
-	public Integer getContentNum() {
-		return contentNum;
+
+	public Integer getContent_num() {
+		return content_num;
 	}
-	public void setContentNum(Integer contentNum) {
-		this.contentNum = contentNum;
+
+	public void setContent_num(Integer content_num) {
+		this.content_num = content_num;
 	}
-	public String getContentName() {
-		return contentName;
+
+	public String getContent_name() {
+		return content_name;
 	}
-	public void setContentName(String contentName) {
-		this.contentName = contentName;
+
+	public void setContent_name(String content_name) {
+		this.content_name = content_name;
 	}
+
 	public String getOrgsrc() {
 		return orgsrc;
 	}
+
 	public void setOrgsrc(String orgsrc) {
 		this.orgsrc = orgsrc;
 	}
+
 	public String getSavesrc() {
 		return savesrc;
 	}
+
 	public void setSavesrc(String savesrc) {
 		this.savesrc = savesrc;
 	}
-	public String getContentSummary() {
-		return contentSummary;
+
+	public String getContent_summary() {
+		return content_summary;
 	}
-	public void setContentSummary(String contentSummary) {
-		this.contentSummary = contentSummary;
+
+	public void setContent_summary(String content_summary) {
+		this.content_summary = content_summary;
 	}
-	public String getTrailerOrgsrc() {
-		return trailerOrgsrc;
+
+	public String getTrailer_orgsrc() {
+		return trailer_orgsrc;
 	}
-	public void setTrailerOrgsrc(String trailerOrgsrc) {
-		this.trailerOrgsrc = trailerOrgsrc;
+
+	public void setTrailer_orgsrc(String trailer_orgsrc) {
+		this.trailer_orgsrc = trailer_orgsrc;
 	}
-	public String getTrailerSavesrc() {
-		return trailerSavesrc;
+
+	public String getTrailer_savesrc() {
+		return trailer_savesrc;
 	}
-	public void setTrailerSavesrc(String trailerSavesrc) {
-		this.trailerSavesrc = trailerSavesrc;
+
+	public void setTrailer_savesrc(String trailer_savesrc) {
+		this.trailer_savesrc = trailer_savesrc;
 	}
-	public Integer getContentSize() {
-		return contentSize;
+
+	public Integer getContent_size() {
+		return content_size;
 	}
-	public void setContentSize(Integer contentSize) {
-		this.contentSize = contentSize;
+
+	public void setContent_size(Integer content_size) {
+		this.content_size = content_size;
 	}
-	public Integer getTrailerSize() {
-		return trailerSize;
+
+	public Integer getTrailer_size() {
+		return trailer_size;
 	}
-	public void setTrailerSize(Integer trailerSize) {
-		this.trailerSize = trailerSize;
+
+	public void setTrailer_size(Integer trailer_size) {
+		this.trailer_size = trailer_size;
 	}
-	public String getContentPost1() {
-		return contentPost1;
+
+	public String getContent_post1() {
+		return content_post1;
 	}
-	public void setContentPost1(String contentPost1) {
-		this.contentPost1 = contentPost1;
+
+	public void setContent_post1(String content_post1) {
+		this.content_post1 = content_post1;
 	}
-	public String getContentPost2() {
-		return contentPost2;
+
+	public String getContent_post2() {
+		return content_post2;
 	}
-	public void setContentPost2(String contentPost2) {
-		this.contentPost2 = contentPost2;
+
+	public void setContent_post2(String content_post2) {
+		this.content_post2 = content_post2;
 	}
+
 	public Date getRelease() {
 		return release;
 	}
+
 	public void setRelease(Date release) {
 		this.release = release;
 	}
-	public Integer getCategoryNum() {
-		return categoryNum;
+
+	public Integer getCategory_num() {
+		return category_num;
 	}
-	public void setCategoryNum(Integer categoryNum) {
-		this.categoryNum = categoryNum;
+
+	public void setCategory_num(Integer category_num) {
+		this.category_num = category_num;
 	}
-	public Integer getWatchAge() {
-		return watchAge;
+
+	public Integer getWatch_age() {
+		return watch_age;
 	}
-	public void setWatchAge(Integer watchAge) {
-		this.watchAge = watchAge;
+
+	public void setWatch_age(Integer watch_age) {
+		this.watch_age = watch_age;
 	}
-	public Date getContentRegdate() {
-		return contentRegdate;
+
+	public Date getContent_regdate() {
+		return content_regdate;
 	}
-	public void setContentRegdate(Date contentRegdate) {
-		this.contentRegdate = contentRegdate;
+
+	public void setContent_regdate(Date content_regdate) {
+		this.content_regdate = content_regdate;
 	}
-	public Integer getSeriesNum() {
-		return seriesNum;
+
+	public Integer getSeries_num() {
+		return series_num;
 	}
-	public void setSeriesNum(Integer seriesNum) {
-		this.seriesNum = seriesNum;
+
+	public void setSeries_num(Integer series_num) {
+		this.series_num = series_num;
 	}
-	public Integer getStaffNum() {
-		return staffNum;
+
+	public Integer getStaff_num() {
+		return staff_num;
 	}
-	public void setStaffNum(Integer staffNum) {
-		this.staffNum = staffNum;
+
+	public void setStaff_num(Integer staff_num) {
+		this.staff_num = staff_num;
 	}
+	
 }

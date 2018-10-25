@@ -45,8 +45,8 @@ public class CategoryController {
 		JSONArray arr = new JSONArray();
 		for(CategoryVo vo : list) {
 			JSONObject json = new JSONObject();
-			json.put("categoryNum", vo.getCategory_num());
-			json.put("categoryName", vo.getCategory_name());
+			json.put("category_num", vo.getCategory_num());
+			json.put("category_name", vo.getCategory_name());
 			arr.put(json);
 		}
 		return arr.toString();

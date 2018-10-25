@@ -14,14 +14,32 @@
 				dataType:"json",
 				success:function(data){
 					$(data).each(function(i,json) {
-						var str = "<option value=\""+json.categoryNum+"\">"
-							+json.categoryName+"</option>"
-						console.log(str);
+						var str = "<option value=\""+json.category_num+"\">"
+							+json.category_name+"</option>";
 						$("#category").append(str);
+					})
+					genrelist();
+				}
+			});
+			$("#category").change(genrelist);
+		});
+		function genrelist(data){
+			$("#genre").empty();
+			var num = $("#category").val();
+			$.ajax({
+				url:"<c:url value='/content/genrelist?num="+num+"'/>",
+				dataType:"json",
+				success:function(data){
+					$(data).each(function(i,json) {
+						var str = "<input type=\"checkbox\" name=\""+json.genre_name+"\" value=\""+json.genre_num+"\">"+json.genre_name+"";
+						$("#genre").append(str);
+						if((i+1)%3 == 0){
+							$("#genre").append("<br>");
+						}
 					})
 				}
 			});
-		});
+		}
 	</script>
 </head>
 <body>
@@ -31,11 +49,11 @@
 		<table>
 			<tr>
 				<th>컨텐츠 명</th>
-				<td><input type="text" name="contentNum"></td>
+				<td><input type="text" name="content_num"></td>
 			</tr>
 			<tr>
 				<th>줄거리</th>
-				<td><input type="text" name="contentSummary"></td>
+				<td><input type="text" name="content_summary"></td>
 			</tr>
 			<tr>
 				<th>개봉/방영 일</th>
@@ -44,7 +62,7 @@
 			<tr>
 				<th>시청연령</th>
 				<td>
-					<select name="watchAge">
+					<select name="watch_age">
 						<option value="0">전체</option>
 						<option value="12">12세</option>
 						<option value="15">15세</option>
@@ -55,20 +73,22 @@
 			<tr>
 				<th>분류</th>
 				<td>
-					<select name="categoryNum" id="category">
+					<select name="category_num" id="category">
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<th>장르</th>
+				<td id="genre">
+				</td>
 			</tr>
 			<tr>
 				<th>영상</th>
-				<td><input type="file" name="orgFile"></td>
+				<td><input type="file" name="org_file"></td>
 			</tr>
 			<tr>
 				<th>트레일러 영상</th>
-				<td><input type="file" name="trailerFile"></td>
+				<td><input type="file" name="trailer_file"></td>
 			</tr>
 		</table>
 	</form>
