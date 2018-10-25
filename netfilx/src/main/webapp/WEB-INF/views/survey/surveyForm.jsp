@@ -1,37 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <script type="text/javascript">
-	var cloneCnt=0;
-	var sqContent=document.createElement("input");
-	sqContent.setAttribute("type","text");
-	sqContent.setAttribute("placeholder","질문내용을 입력하세요");
 	
-	var opDiv=document.createElement("div");
-	opDiv.setAttribute("id","opDiv");
-	var type1=document.createElement("input");
-	type1.setAttribute("type","button");
-	type1.setAttribute("id","type1");
-	type1.setAttribute("value","객관식 질문");
-	var type2=document.createElement("input");	
-	type2.setAttribute("type","button");
-	type2.setAttribute("id","type2");
-	type2.setAttribute("value","중복선택");
-	var type3=document.createElement("input");
-	type3.setAttribute("type","button");
-	type3.setAttribute("id","type3");
-	type3.setAttribute("value","직선 단계");
-	var type4=document.createElement("input");
-	type4.setAttribute("type","button");
-	type4.setAttribute("id","type4");
-	type4.setAttribute("value","주관식 질문");
-	opDiv.appendChild(type1);
-	opDiv.appendChild(type2);
-	opDiv.appendChild(type3);
-	opDiv.appendChild(type4);
 	
-	var option=document.createElement("input");
-	option.setAttribute("type","text");
-	option.setAttribute("placeholder","옵션을 입력하세요");
+	var cloneCnt=0;	
 	
 	$(document).ready(function(){
 		$("#videoCheck").click(function(){
@@ -60,11 +32,41 @@
 		function appendDiv(){
 			var qBox=document.createElement("div");
 			var br=document.createElement("br");
-			qBox.setAttribute("name","box"+ (++cloneCnt));
+			qBox.setAttribute("id","box"+ (++cloneCnt));
+			qBox.setAttribute("name","box"+cloneCnt);
+			
+			var sqContent=document.createElement("input");
+			sqContent.setAttribute("type","text");
+			sqContent.setAttribute("placeholder","질문내용을 입력하세요");
+			/*
+			var opDiv=document.createElement("div");
+			opDiv.setAttribute("id","opDiv");
+			var type1=document.createElement("input");
+			type1.setAttribute("type","button");
+			type1.setAttribute("value","객관식 질문");
+			var type2=document.createElement("input");	
+			type2.setAttribute("type","button");
+			type2.setAttribute("value","중복선택");
+			var type3=document.createElement("input");
+			type3.setAttribute("type","button");
+			type3.setAttribute("value","직선 단계");
+			var type4=document.createElement("input");
+			type4.setAttribute("type","button");
+			type4.setAttribute("value","주관식 질문");
+			opDiv.appendChild(type1);
+			opDiv.appendChild(type2);
+			opDiv.appendChild(type3);
+			opDiv.appendChild(type4);
+			*/
+			var option=document.createElement("input");
+			option.setAttribute("type","text");
+			option.setAttribute("placeholder","옵션을 입력하세요");
+			
 			qBox.append(sqContent);
-			qBox.append(opDiv);
+			$("#opDiv").css("display","block");
 			$("#mainSurvey2").append(qBox);	
-			$("#type1").click(function(){				
+			
+			$("#type1").click(function(){
 				$("#opDiv").css("display","none");
 				qBox.append(br);
 				qBox.append(option);
@@ -74,28 +76,51 @@
 				$("#opDiv").css("display","none");
 				qBox.append(br);
 				qBox.append(option);
-				$("#qPlus").css("display","block");
+				$("#qPlus").css("display","block");				
 			});
 			$("#type3").click(function(){
 				$("#opDiv").css("display","none");
 				qBox.append(br);
 				qBox.append(option);
-				$("#qPlus").css("display","block");
+				$("#qPlus").css("display","block");				
 			});
 			$("#type4").click(function(){
 				$("#opDiv").css("display","none");
 				qBox.append(br);
 				qBox.append(option);
-				$("#qPlus").css("display","block");
+				$("#qPlus").css("display","block");				
 			});
+			
+			
 		}
+		$("#opPlus").click(function(){
+			var br=document.createElement("br");
+			var option=document.createElement("input");
+			option.setAttribute("type","text");
+			option.setAttribute("placeholder","옵션을 입력하세요");
+			var box="box"+cloneCnt;
+			var qbox=document.getElementById(box);
+			qbox.appendChild(br);							
+			qbox.appendChild(option);
+		});
+		/*
+		function optionPlus(cloneCnt){				
+			var br1=document.createElement("br");
+			var option1=document.createElement("input");
+			option1.setAttribute("type","text");
+			option1.setAttribute("placeholder","옵션을 입력하세요");
+			qBox.append(br1);			
+			qBox.append(option1);
+		}
+		*/
 		$("#qPlus1").click(function(){
-			$("qPlus").css("display","none");
+			$("#qPlus").css("display","none");
 			appendDiv();
 		});
 		$("#qPlus2").click(function(){
-			$("qPlus").css("display","none");
+			$("#qPlus").css("display","none");
 		});
+		
 	});
 	
 	
@@ -120,7 +145,15 @@
 	<div id="mainSurvey2" style="display: none">		
 		
 	</div>	
+	<div id="opDiv" style="display: none">
+		<input type="button" id="type1" value="객관식질문">
+		<input type="button" id="type2" value="중복체크">
+		<input type="button" id="type3" value="직선단계">
+		<input type="button" id="type4" value="주관식질문">
+	</div>
 	<div id="qPlus" style="display: none">
+		<input type="button" id="opPlus" value="옵션추가">
+		<br>
 		<input type="button" id="qPlus1" value="질문추가">
 		<input type="button" id="qPlus2" value="같은질문추가">
 	</div>
