@@ -19,7 +19,7 @@ public class SurveyController {
 		return ".survey.surveyForm";
 	}
 	@RequestMapping(value="/survey/surveyInsert",method=RequestMethod.POST)
-	public String survey() {
+	public String survey(String survey) {
 		return ".survey.home";
 	}
 	

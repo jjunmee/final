@@ -10,7 +10,8 @@
 		<typeAlias type="com.jhta.netflix.content.vo.ContentVo" alias="content"/>
 		<typeAlias type="com.jhta.netflix.category.vo.CategoryVo" alias="category"/>
 		<typeAlias type="com.jhta.netflix.user.vo.UserVo" alias="user"/>
-		<typeAlias type="com.jhta.netflix.genre.vo.GenreVo" alias="genre"/>
+		<typeAlias type="com.jhta.netflix.genre.vo.GenreVo" alias="genre"/>		
+		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVo" alias="survey"/>		
 	</typeAliases>
 	
 	<mappers>
@@ -18,5 +19,6 @@
 		<mapper resource="mapper/ContentMapper.xml"/>
 		<mapper resource="mapper/CategoryMapper.xml"/>
 		<mapper resource="mapper/GenreMapper.xml"/>
+		<mapper resource="mapper/SurveyMapper.xml"/>
 	</mappers>
 </configuration>  
