@@ -7,19 +7,19 @@ public class SurveyVo {
 	private Integer surveyNum;	 
 	private Integer usersNum;
 	private String surveyName; 
-	private String surveyContent;
+	private String surveyDescription;
 	private Date surveyStart;
-	private Date surveyEnd; 
+	private String surveyEnd; 
 	
 	public SurveyVo() {}
 		
-	public SurveyVo(Integer surveyNum, Integer usersNum, String surveyName, String surveyContent, Date surveyStart,
-			Date surveyEnd) {
+	public SurveyVo(Integer surveyNum, Integer usersNum, String surveyName, String surveyDescription, Date surveyStart,
+			String surveyEnd) {
 		super();
 		this.surveyNum = surveyNum;
 		this.usersNum = usersNum;
 		this.surveyName = surveyName;
-		this.surveyContent = surveyContent;
+		this.surveyDescription = surveyDescription;
 		this.surveyStart = surveyStart;
 		this.surveyEnd = surveyEnd;
 	}
@@ -48,11 +48,11 @@ public class SurveyVo {
 		this.surveyStart = surveyStart;
 	}
 
-	public Date getSurveyEnd() {
+	public String getSurveyEnd() {
 		return surveyEnd;
 	}
 
-	public void setSurveyEnd(Date surveyEnd) {
+	public void setSurveyEnd(String surveyEnd) {
 		this.surveyEnd = surveyEnd;
 	}
 
@@ -64,12 +64,12 @@ public class SurveyVo {
 		this.usersNum = usersNum;
 	}
 
-	public String getSurveyContent() {
-		return surveyContent;
+	public String getSurveyDescription() {
+		return surveyDescription;
 	}
 
-	public void setSurveyContent(String surveyContent) {
-		this.surveyContent = surveyContent;
+	public void setSurveyDescription(String surveyDescription) {
+		this.surveyDescription = surveyDescription;
 	}
  
 }

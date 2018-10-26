@@ -3,5 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.SurveyMapper">
-	
+	<insert id="surveyInsert" parameterType="survey">
+		insert into survey values(0,1,#{surveyName},#{surveyDescription},now(),#{surveyEnd})
+	</insert>
+	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
+		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})
+	</insert>
+	<insert id="surveyAnswerInsert" parameterType="surveyAnswer">
+		insert into survey_answer values(0,#{sqNum},#{saAnswer})
+	</insert>
+	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
+		select survey_num from survey
+		where users_num=1 and survey_name=#{surveyName} 
+	</select>
+	<select id="sqNumSelect" parameterType="hashmap" resultType="int">
+		select sq_num from survey_question
+		where survey_num=#{surveyNum} and sq_title=#{sqTitle}
+	</select>
 </mapper>
