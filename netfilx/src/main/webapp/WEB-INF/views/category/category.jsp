@@ -21,6 +21,21 @@
 				});
 			}
 		});
+		$.ajax({
+			url:"<c:url value='/category/genrelist'/>",
+			dataType:"json",
+			success:function(data){
+				$(data).each(function(i,json){
+					var str="<tr>"
+								+"<td>" +json.category_num+ "</td>"
+								+"<td id=\"genre" + json.genre_num + "\">" +json.genre_name+ "</td>"
+								+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num + ")\">수정</a></td>"
+								+"<td><a href=\"${pageContext.request.contextPath }/genre/delete?num=" + json.genre_num + "\">삭제</a></td>"
+							+"</tr>";
+					$("#genrelist").append(str);
+				});
+			}
+		});
 		cateselect();
 	});
 	
@@ -78,7 +93,7 @@
 		<input type="text" name="category_name">
 		<input type="submit" value="추가">
 	</form>
-		<table border="1" id="categorylist">
+		<table border="1" id="categorylist" width="800">
 			<tr>
 				<th>분류</th>
 				<th>수정</th>
@@ -86,14 +101,14 @@
 			</tr>
 		</table>
 <h1>장르</h1>
-	<form method="post" action="genre/insert">
+	<form method="post" action='<c:url value="genre/insert"/>'>
 		장르 
 		<select name="category_num" id="category">
 		</select>
 		<input type="text" name="genre_name">
 		<input type="submit" value="추가">
 	</form>
-		<table>
+		<table border="1" id="genrelist" width="800">
 			<tr>
 				<th>컨텐츠번호</th>
 				<th>장르</th>
