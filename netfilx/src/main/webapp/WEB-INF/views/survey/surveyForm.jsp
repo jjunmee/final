@@ -2,9 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <script type="text/javascript">
 	
-	
 	var cloneCnt=0;	
-	
+	var ansNum=0;
 	$(document).ready(function(){
 		$("#videoCheck").click(function(){
 			if(this.checked==true){
@@ -50,6 +49,7 @@
 		}
 		
 		$("#type1").click(function(){
+			ansNum=1;
 			var br=document.createElement("br");
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
@@ -58,7 +58,7 @@
 			
 			var op1=document.createElement("input");
 			op1.setAttribute("type","text");
-			op1.setAttribute("name",cloneCnt+"/saAnswer");
+			op1.setAttribute("name",cloneCnt+"/saAnswer1");
 			op1.setAttribute("placeholder","옵션을 입력하세요");
 			$("#opDiv").css("display","none");
 			var box="box"+cloneCnt;
@@ -68,6 +68,7 @@
 			$("#qPlus").css("display","block");				
 		});
 		$("#type2").click(function(){
+			ansNum=1;
 			var br=document.createElement("br");
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
@@ -76,7 +77,7 @@
 			
 			var op2=document.createElement("input");
 			op2.setAttribute("type","text");
-			op2.setAttribute("name",cloneCnt+"/saAnswer");
+			op2.setAttribute("name",cloneCnt+"/saAnswer1");
 			op2.setAttribute("placeholder","옵션을 입력하세요");
 			$("#opDiv").css("display","none");
 			var box="box"+cloneCnt;
@@ -86,6 +87,7 @@
 			$("#qPlus").css("display","block");				
 		});
 		$("#type3").click(function(){
+			ansNum=1;
 			var br=document.createElement("br");
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
@@ -94,7 +96,7 @@
 			
 			var op3=document.createElement("input");
 			op3.setAttribute("type","text");
-			op3.setAttribute("name",cloneCnt+"/saAnswer");
+			op3.setAttribute("name",cloneCnt+"/saAnswer1");
 			op3.setAttribute("placeholder","옵션을 입력하세요");
 			$("#opDiv").css("display","none");
 			var box="box"+cloneCnt;
@@ -104,6 +106,7 @@
 			$("#qPlus").css("display","block");				
 		});
 		$("#type4").click(function(){
+			ansNum=1;
 			var br=document.createElement("br");
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
@@ -112,7 +115,7 @@
 			
 			var op4=document.createElement("input");
 			op4.setAttribute("type","text");
-			op4.setAttribute("name",cloneCnt+"/saAnswer");
+			op4.setAttribute("name",cloneCnt+"/saAnswer1");
 			op4.setAttribute("readonly","readonly");
 			op4.setAttribute("value","주관식답변입니다.");
 			$("#opDiv").css("display","none");
@@ -129,7 +132,7 @@
 			var br=document.createElement("br");
 			var option=document.createElement("input");
 			option.setAttribute("type","text");
-			option.setAttribute("name",cloneCnt+"/saAnswer");
+			option.setAttribute("name",cloneCnt+"/saAnswer"+ (++ansNum));
 			option.setAttribute("placeholder","옵션을 입력하세요");
 			var box="box"+cloneCnt;
 			var qbox=document.getElementById(box);
@@ -157,14 +160,17 @@
 			appendDiv();
 		});
 		
+		
 	});
+	
+	
 	
 	
 	
 
 </script>
 
-<form id="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
+<form name="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
 	<div id="surveyOverall">
 		<label>설문제목<input type="text" name="surveyName" placeholder="설문제목을 입력하세요"></label><br>
 		<label><input type="checkbox" id="videoCheck">영상첨부</label><span id="file"></span><br>
