@@ -11,7 +11,8 @@ public class DefaultJoinVo {
 	@NotEmpty(message="비밀번호를 입력하세요")
 	@Length(min=8,max=32,message="8자 이상 대소문자")
 	private String pwd;
-	@NotEmpty(message="생년월일을 입력하세")
+	@NotEmpty(message="생년월일을 입력하세요")
+	
 	private Date birth;
 	private String pwd2;
 	public DefaultJoinVo() {}
