@@ -21,7 +21,7 @@ public class CategoryController {
 	
 	@RequestMapping(value="/category/category",method=RequestMethod.GET)
 	public String categoryForm() {
-		return "category/category";
+		return ".category.category";
 	}
 	
 	@RequestMapping(value="/category/insert",method=RequestMethod.POST)
@@ -29,13 +29,44 @@ public class CategoryController {
 		CategoryVo vo = new CategoryVo(0,category_name);
 		int n = service.insert(vo);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("category/category");
+		String result = ".category.category";
 		if(n>0) {
-			mv.addObject("code", "success");
+			mv.addObject("code", "요청성공");
 		}else {
-			mv.addObject("code", "fail");
+			mv.addObject("code", "요청실패");
 		}
+		mv.setViewName(result);
 		return mv;
+	}
+	
+	@RequestMapping(value="/category/delete",method=RequestMethod.GET)
+	public ModelAndView delete(int num) {
+		int n = service.delete(num);
+		System.out.println(num);
+		ModelAndView mv = new ModelAndView();
+		String result = ".category.category";
+		if(n>0) {
+			mv.addObject("code", "요청성공");
+		}else {
+			mv.addObject("code", "요청실패");
+		}
+		mv.setViewName(result);
+		return mv;
+	}
+	
+	@RequestMapping(value="/category/update",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String update(String category_name,int category_num) {
+		CategoryVo vo = new CategoryVo(category_num,category_name);
+		int n = service.update(vo);
+		JSONObject json = new JSONObject();
+		if(n>0) {
+			json.put("updatename",category_name);
+			json.put("updatenum",category_num);
+		}else {
+			json.put("code", "요청실패");
+		}
+		return json.toString();
 	}
 	
 	@RequestMapping(value="/content/categorylist",produces="application/json;charset=utf-8")
@@ -52,4 +83,14 @@ public class CategoryController {
 		return arr.toString();
 	}
 	
+	@RequestMapping(value="/category/categoryname",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String categorylist(int num) {
+		CategoryVo vo = service.selectname(num);
+			JSONObject json = new JSONObject();
+			json.put("category_num", vo.getCategory_num());
+			json.put("category_name", vo.getCategory_name());
+		return json.toString();
+	}
+
 }

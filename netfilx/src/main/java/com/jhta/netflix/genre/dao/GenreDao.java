@@ -26,5 +26,8 @@ public class GenreDao {
 	public List<GenreVo> list(int num){
 		return sqlSession.selectList(NAMESPACE + ".list",num);
 	}
+	public List<GenreVo> list(){
+		return sqlSession.selectList(NAMESPACE + ".clist");
+	}
 
 }

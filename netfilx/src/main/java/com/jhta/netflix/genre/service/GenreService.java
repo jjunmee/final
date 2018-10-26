@@ -25,4 +25,7 @@ public class GenreService {
 	public List<GenreVo> list(int num){
 		return dao.list(num);
 	}
+	public List<GenreVo> list(){
+		return dao.list();
+	}
 }
