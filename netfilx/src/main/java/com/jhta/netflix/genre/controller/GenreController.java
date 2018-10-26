@@ -53,12 +53,13 @@ public class GenreController {
 		GenreVo vo = new GenreVo(0,genre_name,category_num);
 		int n = service.insert(vo);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("category/category");
+		String result = ".category.category";
 		if(n>0) {
-			mv.addObject("code", "success");
+			mv.addObject("code", "요청성공");
 		}else {
-			mv.addObject("code", "fail");
+			mv.addObject("code", "요청실패");
 		}
+		mv.setViewName(result);
 		return mv;
 	}
 }

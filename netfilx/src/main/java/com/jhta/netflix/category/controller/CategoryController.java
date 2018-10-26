@@ -21,7 +21,7 @@ public class CategoryController {
 	
 	@RequestMapping(value="/category/category",method=RequestMethod.GET)
 	public String categoryForm() {
-		return "category/category";
+		return ".category.category";
 	}
 	
 	@RequestMapping(value="/category/insert",method=RequestMethod.POST)
@@ -29,12 +29,13 @@ public class CategoryController {
 		CategoryVo vo = new CategoryVo(0,category_name);
 		int n = service.insert(vo);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("category/category");
+		String result = ".category.category";
 		if(n>0) {
-			mv.addObject("code", "success");
+			mv.addObject("code", "요청성공");
 		}else {
-			mv.addObject("code", "fail");
+			mv.addObject("code", "요청실패");
 		}
+		mv.setViewName(result);
 		return mv;
 	}
 	
@@ -43,12 +44,13 @@ public class CategoryController {
 		int n = service.delete(num);
 		System.out.println(num);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("category/category");
+		String result = ".category.category";
 		if(n>0) {
-			mv.addObject("code", "success");
+			mv.addObject("code", "요청성공");
 		}else {
-			mv.addObject("code", "fail");
+			mv.addObject("code", "요청실패");
 		}
+		mv.setViewName(result);
 		return mv;
 	}
 	
@@ -62,7 +64,7 @@ public class CategoryController {
 			json.put("updatename",category_name);
 			json.put("updatenum",category_num);
 		}else {
-			json.put("code", "fail");
+			json.put("code", "요청실패");
 		}
 		return json.toString();
 	}
@@ -80,6 +82,7 @@ public class CategoryController {
 		}
 		return arr.toString();
 	}
+	
 	@RequestMapping(value="/category/categoryname",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String categorylist(int num) {

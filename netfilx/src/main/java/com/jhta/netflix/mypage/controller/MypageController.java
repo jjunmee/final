@@ -14,6 +14,6 @@ public class MypageController {
 	
 	@RequestMapping(value="/mypage/myinfo",method=RequestMethod.GET)
 	public String userinfo() {
-		return "mypage/myinfo";
+		return ".mypage.myinfo";
 	}
 }

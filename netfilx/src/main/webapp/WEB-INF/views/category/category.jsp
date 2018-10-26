@@ -3,6 +3,10 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <script type="text/javascript">
 	$(function(){
+		var code = '${code}';
+		if(code != null && code != ""){
+			alert(code);
+		}
 		$.ajax({
 			url:"<c:url value='/content/categorylist'/>",
 			dataType:"json",
