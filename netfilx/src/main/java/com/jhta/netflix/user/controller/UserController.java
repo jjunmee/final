@@ -50,7 +50,7 @@ public class UserController {
 	}
 	
 	//일반사용자 회원가입완료
-	@RequestMapping(value = "/join/default", method = RequestMethod.GET)
+	@RequestMapping(value = "/join/default", method = RequestMethod.POST)
 	public ModelAndView defaultJoin(String id,String pwd, Date birth) {
 		String pwd2= SHA512.generateSalt();
 		String pw=SHA512.get_SHA_512_SecurePassword(pwd, pwd2);

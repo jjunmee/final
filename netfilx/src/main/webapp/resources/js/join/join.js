@@ -1,5 +1,6 @@
 var filter =/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;;
 var row=/[0-9]$/;
+var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 $(document).ready(function(){
 	$("#check").bind("click",function(){
 		var ck_id=$("#id").val();
@@ -37,18 +38,32 @@ $(document).ready(function(){
 		var pw1 = $("#pwd").val();
 		var pw2 = $("#pwd2").val();
 		var birth = $("#birth").val();
-		if(b){
+		if(!b){
+			alert("이메일 중복확인");
 			$("#id").focus();
-		}else if(!filter.test(b)){
+			return false;
+		}else if(!filter.test($("#id").val())){
 			$("#id").focus();
-		}else if(pw1){
+			return false;
+		}else if(pw1==""){
 			$("#pwd").focus();
-		}else if(pw2){
+			return false;
+		}else if(pw2==""){
 			$("#pwd2").focus();
-		}else if(birth){
+			return false;
+		}else if(pw1!=pw2){
+			$("#pwd2").empty();
+			$("#pwd2").focus();
+			return false;
+		}else if(!pass.test(pw1)){
+			$("#pwd").empty();
+			$("#pwd2").empty();
+			return false;
+		}else if(birth==""){
 			$("#birth").focus();
+			return false;
 		}else if(!row.test(birth)){
 			$("#birth").focus();
+			return false;
 		}
-		return false;
 	}
