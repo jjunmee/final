@@ -4,34 +4,25 @@ import java.sql.Date;
 
 //설문 
 public class SurveyVo {
-	// 설문번호 
-	private Integer surveyNum;
-	// 설문명 
-	private String surveyName;
-	// 설문시작일 
-	private Date surveyStart;
-	// 설문만료일 
-	private Date surveyEnd;
-	// 유저번호 
+	private Integer surveyNum;	 
 	private Integer usersNum;
-	// 설문설명 
+	private String surveyName; 
 	private String surveyContent;
+	private Date surveyStart;
+	private Date surveyEnd; 
 	
 	public SurveyVo() {}
 		
-	
-	public SurveyVo(Integer surveyNum, String surveyName, Date surveyStart, Date surveyEnd, Integer usersNum,
-			String surveyContent) {
+	public SurveyVo(Integer surveyNum, Integer usersNum, String surveyName, String surveyContent, Date surveyStart,
+			Date surveyEnd) {
 		super();
 		this.surveyNum = surveyNum;
+		this.usersNum = usersNum;
 		this.surveyName = surveyName;
+		this.surveyContent = surveyContent;
 		this.surveyStart = surveyStart;
 		this.surveyEnd = surveyEnd;
-		this.usersNum = usersNum;
-		this.surveyContent = surveyContent;
 	}
-
-
 
 	public Integer getSurveyNum() {
 		return surveyNum;
