@@ -43,7 +43,8 @@ public class SurveyController {
 		map.put("surveyName", surveyVo.getSurveyName());
 		int surveyNum=service.surveyNumSelect(map);		
 		List<SurveyQuestionDto> qlist = sqDto.getQlist();
-		List<SurveyAnswerDto> salist=saDto.getSalist();
+		List<SurveyAnswerDto> salist=saDto.getSalist();		
+		int qtime=0;//설문의 질문횟수구하기
 		for(SurveyQuestionDto sq:qlist) {
 			String sqTitle=sq.getSqTitle();
 			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
@@ -54,19 +55,18 @@ public class SurveyController {
 			map1.put("surveyNum", surveyNum);
 			map1.put("sqTitle", sqTitle);
 			int sqNum=service.sqNumSelect(map1);
-			
-			//데이터가 중복 insert 되고 있음
-			//salist[0];
-			for(SurveyAnswerDto alist:salist) {
-				for(String answer:alist.getAlist()) {
-					SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
-					service.surveyAnswerInsert(saVo);
+			for(int i=0;i<salist.size();i++) {
+				if(qtime==i) {
+					SurveyAnswerDto alist=salist.get(i);
+					for(String answer:alist.getAlist()) {
+						SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+						service.surveyAnswerInsert(saVo);
+					}					
 				}
 			}
+			qtime++;
 		}
 
-		
-		
 		
 		return ".survey.home";
 	}
