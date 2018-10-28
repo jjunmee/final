@@ -1,13 +1,10 @@
-var filter =/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;;
-var row=/[0-9]$/;
-var pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 $(document).ready(function(){
 	$("#check").bind("click",function(){
 		var ck_id=$("#id").val();
 		ck_id.replace(/\s/gi, "");
 		var path = $("#path").val()+"/email_check_k";
 		if(ck_id){
-			if(!filter.test(ck_id)){
+			if(!email.test(ck_id)){
 				$("#id").val("");
 				$("#id").focus();
 				$("#email_ck").html("잘못된 이메일 입니다.");
@@ -29,20 +26,19 @@ $(document).ready(function(){
 			});
 		}
 	});
-	$("id").change(function(){
+	$("id").bind("change",function(){
 		$("#email_boolean").val("false");
 	});
 });
-	function test(){
+	function joinFormCheck(){
 		var b = $("#email_boolean").val();
 		var pw1 = $("#pwd").val();
 		var pw2 = $("#pwd2").val();
 		var birth = $("#birth").val();
 		if(!b){
-			alert("이메일 중복확인");
 			$("#id").focus();
 			return false;
-		}else if(!filter.test($("#id").val())){
+		}else if(!email.test($("#id").val())){
 			$("#id").focus();
 			return false;
 		}else if(pw1==""){
@@ -55,14 +51,14 @@ $(document).ready(function(){
 			$("#pwd2").empty();
 			$("#pwd2").focus();
 			return false;
-		}else if(!pass.test(pw1)){
+		}else if(!password.test(pw1)){
 			$("#pwd").empty();
 			$("#pwd2").empty();
 			return false;
 		}else if(birth==""){
 			$("#birth").focus();
 			return false;
-		}else if(!row.test(birth)){
+		}else if(!number.test(birth)){
 			$("#birth").focus();
 			return false;
 		}
