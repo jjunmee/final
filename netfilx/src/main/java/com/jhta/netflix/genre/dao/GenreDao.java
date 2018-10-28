@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.category.vo.CateGenreVo;
 import com.jhta.netflix.genre.vo.GenreVo;
 
 @Repository
@@ -26,7 +27,7 @@ public class GenreDao {
 	public List<GenreVo> list(int num){
 		return sqlSession.selectList(NAMESPACE + ".list",num);
 	}
-	public List<GenreVo> list(){
+	public List<CateGenreVo> list(){
 		return sqlSession.selectList(NAMESPACE + ".clist");
 	}
 

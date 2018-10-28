@@ -7,6 +7,7 @@
 		if(code != null && code != ""){
 			alert(code);
 		}
+		//카테고리 리스트 뿌리기
 		$.ajax({
 			url:"<c:url value='/content/categorylist'/>",
 			dataType:"json",
@@ -21,24 +22,28 @@
 				});
 			}
 		});
+		//장르 리스트 뿌리기
 		$.ajax({
 			url:"<c:url value='/category/genrelist'/>",
 			dataType:"json",
 			success:function(data){
 				$(data).each(function(i,json){
 					var str="<tr>"
-								+"<td>" +json.category_num+ "</td>"
+								+"<td>" +json.category_name+ "</td>"
 								+"<td id=\"genre" + json.genre_num + "\">" +json.genre_name+ "</td>"
-								+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num + ")\">수정</a></td>"
+								+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num +"," + json.category_num+ ")\">수정</a></td>"
 								+"<td><a href=\"${pageContext.request.contextPath }/genre/delete?num=" + json.genre_num + "\">삭제</a></td>"
 							+"</tr>";
 					$("#genrelist").append(str);
 				});
 			}
 		});
+		
+		//장르등록옵션에 카테고리 리스트 뿌리는거 요청
 		cateselect();
 	});
 	
+	//카테고리리스트 장르등록 옵션에 뿌리기
 	function cateselect(){
 		$.ajax({
 			url:"<c:url value='/content/categorylist'/>",
@@ -52,6 +57,24 @@
 			}
 		});
 	}
+	
+	//장르 수정버튼 클릭시 요청
+	function cupdate(num){
+		$("#genre"+num).empty();
+		$("#genreok"+num).empty();
+		$.ajax({
+			url:"<c:url value='/genre/genrename'/>",
+			data:{"num":num},
+			dataType:"json",
+			success:function(data){
+				var str1="<input type=\"text\" id=\"genreName"+ num +"\" value=\"" + data.genre_name + "\" >";
+				var str2="<a href=\"javascript:false;\" onclick=\"gupdateOk(" + num + ")\">확인</a>";
+				$("#genre" + num).append(str1);
+				$("#genreok" + num).append(str2);
+			}
+		});
+	}
+	//카테고리 수정버튼 클릭시 요청
 	function cupdate(num){
 		$("#cate"+num).empty();
 		$("#cateok"+num).empty();
@@ -67,6 +90,8 @@
 			}
 		});
 	}
+	
+	//수정확인시 요청
 	function cupdateOk(num){
 		var category_name = $("#cateName"+num).val();
 		$("#cate"+num).empty();
@@ -114,6 +139,11 @@
 				<th>장르</th>
 				<th>수정</th>
 				<th>삭제</th>
+				<td>
+					<select name="g_c_list">
+						<option value=""></option>
+					</select>
+				</td>
 			</tr>
 		</table>
 </div>

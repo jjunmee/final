@@ -19,11 +19,13 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 	
+	//카테고리등록수정폼으로 이동
 	@RequestMapping(value="/category/category",method=RequestMethod.GET)
 	public String categoryForm() {
 		return ".category.category";
 	}
 	
+	//카테고리 등록
 	@RequestMapping(value="/category/insert",method=RequestMethod.POST)
 	public ModelAndView insert(String category_name) {
 		CategoryVo vo = new CategoryVo(0,category_name);
@@ -39,10 +41,10 @@ public class CategoryController {
 		return mv;
 	}
 	
+	//카테고리 삭제
 	@RequestMapping(value="/category/delete",method=RequestMethod.GET)
 	public ModelAndView delete(int num) {
 		int n = service.delete(num);
-		System.out.println(num);
 		ModelAndView mv = new ModelAndView();
 		String result = ".category.category";
 		if(n>0) {
@@ -54,6 +56,7 @@ public class CategoryController {
 		return mv;
 	}
 	
+	//카테고리 수정
 	@RequestMapping(value="/category/update",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String update(String category_name,int category_num) {
@@ -69,6 +72,7 @@ public class CategoryController {
 		return json.toString();
 	}
 	
+	//카테고리리스트뿌리기
 	@RequestMapping(value="/content/categorylist",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String categorylist() {
@@ -83,6 +87,7 @@ public class CategoryController {
 		return arr.toString();
 	}
 	
+	//선택한 카테고리 찾기
 	@RequestMapping(value="/category/categoryname",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String categorylist(int num) {

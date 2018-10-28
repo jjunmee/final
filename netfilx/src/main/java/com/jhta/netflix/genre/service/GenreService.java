@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jhta.netflix.category.vo.CateGenreVo;
 import com.jhta.netflix.genre.dao.GenreDao;
 import com.jhta.netflix.genre.vo.GenreVo;
 
@@ -25,7 +26,7 @@ public class GenreService {
 	public List<GenreVo> list(int num){
 		return dao.list(num);
 	}
-	public List<GenreVo> list(){
+	public List<CateGenreVo> list(){
 		return dao.list();
 	}
 }
