@@ -90,7 +90,7 @@
 			}
 		});
 	}
-	
+	 
 	//수정확인시 요청
 	function cupdateOk(num){
 		var category_name = $("#cateName"+num).val();
