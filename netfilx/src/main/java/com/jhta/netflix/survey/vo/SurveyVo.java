@@ -4,34 +4,25 @@ import java.sql.Date;
 
 //설문 
 public class SurveyVo {
-	// 설문번호 
-	private Integer surveyNum;
-	// 설문명 
-	private String surveyName;
-	// 설문시작일 
-	private Date surveyStart;
-	// 설문만료일 
-	private Date surveyEnd;
-	// 유저번호 
+	private Integer surveyNum;	 
 	private Integer usersNum;
-	// 설문설명 
-	private String surveyContent;
+	private String surveyName; 
+	private String surveyDescription;
+	private Date surveyStart;
+	private String surveyEnd; 
 	
 	public SurveyVo() {}
 		
-	
-	public SurveyVo(Integer surveyNum, String surveyName, Date surveyStart, Date surveyEnd, Integer usersNum,
-			String surveyContent) {
+	public SurveyVo(Integer surveyNum, Integer usersNum, String surveyName, String surveyDescription, Date surveyStart,
+			String surveyEnd) {
 		super();
 		this.surveyNum = surveyNum;
+		this.usersNum = usersNum;
 		this.surveyName = surveyName;
+		this.surveyDescription = surveyDescription;
 		this.surveyStart = surveyStart;
 		this.surveyEnd = surveyEnd;
-		this.usersNum = usersNum;
-		this.surveyContent = surveyContent;
 	}
-
-
 
 	public Integer getSurveyNum() {
 		return surveyNum;
@@ -57,11 +48,11 @@ public class SurveyVo {
 		this.surveyStart = surveyStart;
 	}
 
-	public Date getSurveyEnd() {
+	public String getSurveyEnd() {
 		return surveyEnd;
 	}
 
-	public void setSurveyEnd(Date surveyEnd) {
+	public void setSurveyEnd(String surveyEnd) {
 		this.surveyEnd = surveyEnd;
 	}
 
@@ -73,12 +64,12 @@ public class SurveyVo {
 		this.usersNum = usersNum;
 	}
 
-	public String getSurveyContent() {
-		return surveyContent;
+	public String getSurveyDescription() {
+		return surveyDescription;
 	}
 
-	public void setSurveyContent(String surveyContent) {
-		this.surveyContent = surveyContent;
+	public void setSurveyDescription(String surveyDescription) {
+		this.surveyDescription = surveyDescription;
 	}
  
 }

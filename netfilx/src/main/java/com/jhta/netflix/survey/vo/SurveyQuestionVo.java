@@ -1,14 +1,15 @@
 package com.jhta.netflix.survey.vo;
 
+
 public class SurveyQuestionVo {
 	private int sqNum;
 	private int surveyNum;
 	private String sqTitle;
-	private int sqType;
+	private String sqType;
 	
 	public SurveyQuestionVo() {}
 
-	public SurveyQuestionVo(int sqNum, int surveyNum, String sqTitle, int sqType) {
+	public SurveyQuestionVo(int sqNum, int surveyNum, String sqTitle, String sqType) {
 		super();
 		this.sqNum = sqNum;
 		this.surveyNum = surveyNum;
@@ -40,14 +41,13 @@ public class SurveyQuestionVo {
 		this.sqTitle = sqTitle;
 	}
 
-	public int getSqType() {
+	public String getSqType() {
 		return sqType;
 	}
 
-	public void setSqType(int sqType) {
+	public void setSqType(String sqType) {
 		this.sqType = sqType;
 	}
-	
 	
 	
 }

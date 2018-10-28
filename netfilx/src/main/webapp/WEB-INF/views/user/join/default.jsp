@@ -15,15 +15,15 @@
 		</div>
 		<div class="form-group col-sm-3">
 			<label for="pwd"></label>
-			<input type="text" id="pwd" name="pwd" class="form-control" tabindex="" alt="비밀번호" placeholder="비밀번호">
+			<input type="password" id="pwd" name="pwd" class="form-control" tabindex="" alt="비밀번호" placeholder="비밀번호" min="4" size="32">
 		</div>
 		<div class="form-group col-sm-3">
 			<label for="pwd2"></label>
-			<input type="text" id="pwd2" name="pwd2" class="form-control" tabindex="" alt="비밀번호확인" placeholder="비밀번호확인">
+			<input type="password" id="pwd2" name="pwd2" class="form-control" tabindex="" alt="비밀번호확인" placeholder="비밀번호확인" min="4" size="32">
 		</div>
 		<div class="form-group col-sm-3">
 			<label for="birth"></label>
-			<input type="text" id="birth" name="birth" class="form-control" tabindex="" alt="생년월일" placeholder="주민번호 앞6자리">
+			<input type="text" id="birth" name="birth" class="form-control" tabindex="" alt="생년월일" placeholder="주민번호 앞6자리" size="6">
 		</div>
 		<div class="form-group col-sm-3">
 			<button type="submit" class="btn btn-default" tabindex="">가입하기</button>
