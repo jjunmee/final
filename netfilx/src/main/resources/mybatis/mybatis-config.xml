@@ -16,6 +16,7 @@
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVo" alias="survey"/>		
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyQuestionVo" alias="surveyQuestion"/>		
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyAnswerVo" alias="surveyAnswer"/>		
+		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVideoVo" alias="surveyVideo"/>		
 		<typeAlias type="com.jhta.netflix.series.vo.SeriesVo" alias="series"/>		
 	</typeAliases>
 	
