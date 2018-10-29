@@ -119,10 +119,10 @@
 		function selectInfo(position,num,name){
 			$("#sForm").remove();
 			if(position==0){
-				var str = name+" <input type=\"hidden\" name=\"actor"+num+"\" value=\""+num+"\">";
+				var str = name+" <input type=\"hidden\" name=\"staff"+num+"\" value=\""+num+"\">";
 				$("#actor").append(str);
 			}else if(position==1){
-				var str = name+" <input type=\"hidden\" name=\"director"+num+"\" value=\""+num+"\">";
+				var str = name+" <input type=\"hidden\" name=\"staff"+num+"\" value=\""+num+"\">";
 				$("#director").append(str);
 			}else{
 				var str = name+" <input type=\"hidden\" name=\"series\" value=\""+num+"\">";

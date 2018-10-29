@@ -10,24 +10,21 @@ public class ContentVo {
     private String content_summary;
     private String trailer_orgsrc;
     private String trailer_savesrc;
-    private Integer content_size;
-    private Integer trailer_size;
+    private long content_size;
+    private long trailer_size;
     private String content_post1;
     private String content_post2;
     private Date release;
-    private Integer category_num;
     private Integer watch_age;
     private Date content_regdate;
     private Integer series_num;
-    private Integer staff_num;
     
 	public ContentVo() {
 	}
 
 	public ContentVo(Integer content_num, String content_name, String orgsrc, String savesrc, String content_summary,
-			String trailer_orgsrc, String trailer_savesrc, Integer content_size, Integer trailer_size,
-			String content_post1, String content_post2, Date release, Integer category_num, Integer watch_age,
-			Date content_regdate, Integer series_num, Integer staff_num) {
+			String trailer_orgsrc, String trailer_savesrc, long content_size, long trailer_size, String content_post1,
+			String content_post2, Date release, Integer watch_age, Date content_regdate, Integer series_num) {
 		this.content_num = content_num;
 		this.content_name = content_name;
 		this.orgsrc = orgsrc;
@@ -40,11 +37,9 @@ public class ContentVo {
 		this.content_post1 = content_post1;
 		this.content_post2 = content_post2;
 		this.release = release;
-		this.category_num = category_num;
 		this.watch_age = watch_age;
 		this.content_regdate = content_regdate;
 		this.series_num = series_num;
-		this.staff_num = staff_num;
 	}
 
 	public Integer getContent_num() {
@@ -103,19 +98,19 @@ public class ContentVo {
 		this.trailer_savesrc = trailer_savesrc;
 	}
 
-	public Integer getContent_size() {
+	public long getContent_size() {
 		return content_size;
 	}
 
-	public void setContent_size(Integer content_size) {
+	public void setContent_size(long content_size) {
 		this.content_size = content_size;
 	}
 
-	public Integer getTrailer_size() {
+	public long getTrailer_size() {
 		return trailer_size;
 	}
 
-	public void setTrailer_size(Integer trailer_size) {
+	public void setTrailer_size(long trailer_size) {
 		this.trailer_size = trailer_size;
 	}
 
@@ -143,14 +138,6 @@ public class ContentVo {
 		this.release = release;
 	}
 
-	public Integer getCategory_num() {
-		return category_num;
-	}
-
-	public void setCategory_num(Integer category_num) {
-		this.category_num = category_num;
-	}
-
 	public Integer getWatch_age() {
 		return watch_age;
 	}
@@ -174,13 +161,4 @@ public class ContentVo {
 	public void setSeries_num(Integer series_num) {
 		this.series_num = series_num;
 	}
-
-	public Integer getStaff_num() {
-		return staff_num;
-	}
-
-	public void setStaff_num(Integer staff_num) {
-		this.staff_num = staff_num;
-	}
-	
 }

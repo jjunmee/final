@@ -28,4 +28,7 @@ public class ContentService {
 	public ContentVo find(int num) {
 		return dao.find(num);
 	}
+	public int count() {
+		return dao.count();
+	}
 }

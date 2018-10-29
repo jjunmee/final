@@ -33,4 +33,7 @@ public class ContentDao {
 	public ContentVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE + ".find", num);
 	}
+	public int count() {
+		return sqlSession.selectOne(NAMESPACE + ".count");
+	}
 }

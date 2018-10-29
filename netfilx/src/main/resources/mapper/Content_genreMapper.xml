@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Content_genreMapper">
+	<insert id="insert" parameterType="cgenre">
+		insert into content_genre values(0,#{content_num},#{genre_num})
+	</insert>
+	<update id="update" parameterType="cgenre">
+		update content_genre set content_num=#{content_num},genre_num=#{genre_num} 
+		where cgenre_num=#{cgenre_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from content_genre where cgenre_num=#{value}
+	</delete>
+	<select id="list" resultType="cgenre">
+		select * from content_genre
+	</select>
+	<select id="find" parameterType="int" resultType="cgenre">
+		select * from content_genre where cgenre_num=#{cgenre_num}
+	</select>
+</mapper>
+  

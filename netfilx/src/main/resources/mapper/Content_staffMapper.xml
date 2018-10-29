@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Content_staffMapper">
+	<insert id="insert" parameterType="cstaff">
+		insert into content_staff values(0,#{staff_num},#{content_num})
+	</insert>
+	<update id="update" parameterType="cstaff">
+		update content_staff set staff_num=#{staff_num},content_num=#{content_num} where cs_num=#{cs_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from content_staff where cs_num=#{value}
+	</delete>
+	<select id="list" resultType="cstaff">
+		select * from content_staff
+	</select>
+	<select id="find" parameterType="int" resultType="cstaff">
+		select * from content_staff where cs_num=#{value}
+	</select>
+</mapper>
+  
