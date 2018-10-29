@@ -22,14 +22,17 @@ import com.jhta.netflix.survey.vo.SurveyVo;
 @Controller
 public class SurveyController {
 	@Autowired private SurveyService service;
+	
 	@RequestMapping(value="/survey/home", method=RequestMethod.GET)
 	public String surveyHome() {
 		return ".survey.home";
 	}
+	
 	@RequestMapping(value="/survey/surveyInsert", method=RequestMethod.GET)
 	public String surveyForm() {
 		return ".survey.surveyForm";
 	}
+	
 	@RequestMapping(value="/survey/surveyInsert",method=RequestMethod.POST)
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,int choiceType) {	

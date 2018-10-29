@@ -68,9 +68,7 @@
 			$("#colPlus").click(function(){
 				$("#colBox").append(document.createElement("br"));
 				appendCol();
-			});
-			
-			
+			});			
 		}
 			
 			
