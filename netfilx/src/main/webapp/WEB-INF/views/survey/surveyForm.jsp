@@ -3,7 +3,9 @@
 <script type="text/javascript">
 	
 	var cloneCnt=-1;
-	var opNum=0;
+	var opNum=-1;	
+	var choiceType=0;
+	
 	$(document).ready(function(){
 		$("#videoCheck").click(function(){
 			if(this.checked==true){
@@ -22,17 +24,81 @@
 			changeYear:true		
 		});
 		$("#choice1").click(function(){
+			choiceType=1;	
+	
+			var rowBox=document.createElement("div");
+			rowBox.setAttribute("id","rowBox");
+			rowBox.innerHTML="질문";
+			rowBox.appendChild(document.createElement("br"));
+
+			var colBox=document.createElement("div");
+			colBox.setAttribute("id","colBox");
+			colBox.innerHTML="옵션";
+			colBox.appendChild(document.createElement("br"));
+			
+			$("#mainSurvey1").append(rowBox);
+			$("#mainSurvey1").append(colBox);
+			
 			$("#typeChoice").hide();			
 			$("#mainSurvey1").show();
+			
+			appendBtnBox();
+			appendRow();
+			appendCol();
 		});
 		$("#choice2").click(function(){
+			choiceType=2;
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
 			appendDiv(0);			
 		});
+		
+		function appendBtnBox(){
+			var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
+			$("#rowBox").after(rowPlusBox);
+			var colPlusBox=$("<div id='colPlusBox' style='display:none'><input type='button' id='colPlus' value='옵션추가'></div>");
+			$("#colBox").after(colPlusBox);
+			$("#rowPlusBox").css("display","block");
+			$("#colPlusBox").css("display","block");
+			
+			$("#rowPlus").click(function(){
+				$("#rowBox").append(document.createElement("br"));
+				appendRow();
+			});
+			$("#colPlus").click(function(){
+				$("#colBox").append(document.createElement("br"));
+				appendCol();
+			});
+			
+			
+		}
+			
+			
+		function appendRow(){				
+			var sqTitle=document.createElement("input");
+			sqTitle.setAttribute("type","text");
+			sqTitle.setAttribute("name","qlist["+(++cloneCnt)+"].sqTitle");
+			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");					
+			$("#rowBox").append(sqTitle);		
+			var sqType=document.createElement("input");
+			sqType.setAttribute("type","hidden");
+			sqType.setAttribute("name","qlist["+cloneCnt+"].sqType");
+			sqType.setAttribute("value","0");					
+			$("#rowBox").append(sqType);		
+		}
+		
+		
+		function appendCol(){			
+			var op=document.createElement("input");
+			op.setAttribute("type","text");
+			op.setAttribute("name","salist["+(++opNum)+"].alist");
+			op.setAttribute("placeholder","옵션을 입력하세요");					
+			$("#colBox").append(op);			
+		}
+		
+		
 		function appendDiv(n){
-			var qBox=document.createElement("div");
-			var br=document.createElement("br");
+			var qBox=document.createElement("div");			
 			qBox.setAttribute("id","box"+ (++cloneCnt));
 			qBox.setAttribute("name","box"+cloneCnt);
 			
@@ -58,6 +124,8 @@
 		}
 		
 		
+		
+		
 		$("#opPlus").click(function(){
 			var br=document.createElement("br");
 			var option=document.createElement("input");
@@ -72,13 +140,24 @@
 
 		$("#qPlus1").click(function(){
 			$("#opPlus").css("display","block");
-			$("#qPlus").css("display","none");
+			$("#qPlusBox").css("display","none");
 			appendDiv(0);
 		});
 		$("#qPlus2").click(function(){
 			$("#opPlus").css("display","block");
-			$("#qPlus").css("display","none");
+			$("#qPlusBox").css("display","none");
 			appendDiv(opNum);
+		});
+		$("#submitBtn").click(function(){
+			var choiceBox=document.createElement("input");
+			choiceBox.setAttribute("type","hidden");
+			choiceBox.setAttribute("name","choiceType");
+			choiceBox.setAttribute("value",choiceType);
+			$("#things").append(choiceBox);			
+			
+			var frm=document.frm;
+			frm.submit();
+			
 		});
 		
 	});
@@ -101,7 +180,7 @@
 		var qbox=document.getElementById(box);
 		qbox.append(br);
 		qbox.append(op1);	
-		$("#qPlus").css("display","block");		
+		$("#qPlusBox").css("display","block");		
 	}
 	
 	function checktype2(){
@@ -122,7 +201,7 @@
 		var qbox=document.getElementById(box);
 		qbox.append(br);
 		qbox.append(op2);	
-		$("#qPlus").css("display","block");			
+		$("#qPlusBox").css("display","block");			
 	}
 	function checktype3(){
 		opNum=3;
@@ -142,7 +221,7 @@
 		var qbox=document.getElementById(box);
 		qbox.append(br);
 		qbox.append(op3);	
-		$("#qPlus").css("display","block");		
+		$("#qPlusBox").css("display","block");		
 	}
 	function checktype4(){
 		opNum=4;
@@ -163,7 +242,7 @@
 		var qbox=document.getElementById(box);
 		qbox.append(br);
 		qbox.append(op4);				
-		$("#qPlus").css("display","block");
+		$("#qPlusBox").css("display","block");
 		$("#opPlus").css("display","none");
 	}
 	
@@ -172,7 +251,7 @@
 
 </script>
 
-<form action="<c:url value='/survey/surveyInsert'/>" method="post">
+<form name="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
 	<div id="surveyOverall">
 		<label>설문제목<input type="text" name="surveyName" placeholder="설문제목을 입력하세요"></label><br>
 		<label><input type="checkbox" id="videoCheck">영상첨부</label><span id="file"></span><br>
@@ -195,12 +274,13 @@
 		<input type="button" id="type3" onclick="checktype3()" value="직선단계">
 		<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
 	</div>
-	<div id="qPlus" style="display: none">
+	
+	<div id="qPlusBox" style="display: none">
 		<input type="button" id="opPlus" style="display: block" value="옵션추가">		
 		<input type="button" id="qPlus1" value="질문추가">
 		<input type="button" id="qPlus2" value="같은질문추가">
 	</div>
 	<div id="things">
-		<input type="submit" value="등록">
+		<input type="button" id="submitBtn" value="등록">
 	</div>
 </form>
