@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jhta.netflix.survey.dao.SurveyDao;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
 import com.jhta.netflix.survey.vo.SurveyQuestionVo;
+import com.jhta.netflix.survey.vo.SurveyVideoVo;
 import com.jhta.netflix.survey.vo.SurveyVo;
 
 @Service
@@ -23,6 +24,11 @@ public class SurveyService {
 	public int surveyAnswerInsert(SurveyAnswerVo vo) {
 		return dao.surveyAnswerInsert(vo);
 	}
+	public int surveyVideoInsert(SurveyVideoVo vo) {
+		return dao.surveyVideoInsert(vo);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
 	
 	public int surveyNumSelect(Map<String, Object> map) {
 		return dao.surveyNumSelect(map);
@@ -30,4 +36,6 @@ public class SurveyService {
 	public int sqNumSelect(Map<String, Object> map) {
 		return dao.sqNumSelect(map);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////
 }

@@ -12,6 +12,10 @@
 	<insert id="surveyAnswerInsert" parameterType="surveyAnswer">
 		insert into survey_answer values(0,#{sqNum},#{saAnswer})
 	</insert>
+	<insert id="surveyVideoInsert" parameterType="surveyVideo">
+		insert into survey_video values(0,#{surveyNum},#{svOrgSrc},#{svSaveSrc})
+	</insert>
+	
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
 		select survey_num from survey
 		where users_num=1 and survey_name=#{surveyName} 

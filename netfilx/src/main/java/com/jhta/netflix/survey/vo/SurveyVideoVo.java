@@ -1,25 +1,27 @@
 package com.jhta.netflix.survey.vo;
 
 public class SurveyVideoVo {
-	private int scNum;
+	private int svNum;
 	private int surveyNum;
-	private String scSrc;
+	private String svOrgSrc;
+	private String svSaveSrc;
 	
 	public SurveyVideoVo() {}
 
-	public SurveyVideoVo(int scNum, int surveyNum, String scSrc) {
+	public SurveyVideoVo(int svNum, int surveyNum, String svOrgSrc, String svSaveSrc) {
 		super();
-		this.scNum = scNum;
+		this.svNum = svNum;
 		this.surveyNum = surveyNum;
-		this.scSrc = scSrc;
+		this.svOrgSrc = svOrgSrc;
+		this.svSaveSrc = svSaveSrc;
 	}
 
-	public int getScNum() {
-		return scNum;
+	public int getSvNum() {
+		return svNum;
 	}
 
-	public void setScNum(int scNum) {
-		this.scNum = scNum;
+	public void setSvNum(int svNum) {
+		this.svNum = svNum;
 	}
 
 	public int getSurveyNum() {
@@ -30,13 +32,24 @@ public class SurveyVideoVo {
 		this.surveyNum = surveyNum;
 	}
 
-	public String getScSrc() {
-		return scSrc;
+	public String getSvOrgSrc() {
+		return svOrgSrc;
 	}
 
-	public void setScSrc(String scSrc) {
-		this.scSrc = scSrc;
+	public void setSvOrgSrc(String svOrgSrc) {
+		this.svOrgSrc = svOrgSrc;
 	}
+
+	public String getSvSaveSrc() {
+		return svSaveSrc;
+	}
+
+	public void setSvSaveSrc(String svSaveSrc) {
+		this.svSaveSrc = svSaveSrc;
+	}
+
+	
+
 	
 	
 }
