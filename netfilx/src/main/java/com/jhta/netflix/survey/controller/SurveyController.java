@@ -54,9 +54,10 @@ public class SurveyController {
 		map.put("usersNum", surveyVo.getUsersNum());
 		map.put("surveyName", surveyVo.getSurveyName());
 		int surveyNum=service.surveyNumSelect(map);		
+		
 		//설문영상테이블 insert
-		if(file1!=null) {//파일이 넘어왔으면
-			String uploadPath=session.getServletContext().getRealPath("/resources/survey/surveyVideo");
+		if(!file1.isEmpty()) {//파일이 넘어왔으면
+			String uploadPath=session.getServletContext().getRealPath("/resources/upload/survey");
 			String orgsrc=file1.getOriginalFilename();
 			String savesrc=UUID.randomUUID()+"_"+orgsrc;
 			try {
@@ -65,25 +66,17 @@ public class SurveyController {
 				FileCopyUtils.copy(is, fos);
 				is.close();
 				fos.close();
-				System.out.println(uploadPath+"경로에 파일업로드 ok");
+				System.out.println("파일업로드 경로 : "+uploadPath);
 				long filesize=file1.getSize();
 				System.out.println("파일크기 : " + filesize);
 				SurveyVideoVo svVo=new SurveyVideoVo(0, surveyNum, orgsrc, savesrc);
-				service.surveyVideoInsert(svVo);
-				
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				service.surveyVideoInsert(svVo);				
+			}catch (IOException e) {				
 				e.printStackTrace();
 			}
-			
-			
-			
-			
 		}else {//파일이 넘어오지 않았으면
-			
+			System.out.println("넘어온 파일 없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		}
-		
 		
 		List<SurveyQuestionDto> qlist = sqDto.getQlist();
 		List<SurveyAnswerDto> salist=saDto.getSalist();	

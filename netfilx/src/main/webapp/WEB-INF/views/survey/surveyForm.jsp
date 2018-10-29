@@ -249,7 +249,7 @@
 
 </script>
 
-<form name="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
+<form id="frm" name="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
 	<div id="surveyOverall">
 		<label>설문제목<input type="text" name="surveyName" placeholder="설문제목을 입력하세요"></label><br>
 		<label><input type="checkbox" id="videoCheck">영상첨부</label><span id="file"></span><br>
