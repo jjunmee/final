@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,12 +38,21 @@ public class SurveyController {
 		return ".survey.home";
 	}
 	
-	@RequestMapping(value="/survey/surveyInsert", method=RequestMethod.GET)
-	public String surveyForm() {
-		return ".survey.surveyForm";
+	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
+	public String surveyForm1(Model model,HttpServletRequest request) {
+		//String userId=(String)request.getSession().getAttribute("userId");//userId로 받는지 usersId로 받는지 아직
+		String userId="alsl";
+		int point=service.userPointSelect(userId);
+		model.addAttribute("userId",userId);
+		model.addAttribute("userPoint",point);
+		return ".survey.surveyForm1";
+	}
+	@RequestMapping(value="/survey/surveyInsert1",method=RequestMethod.POST)
+	public String surveyForm1ok() {
+		return ".survey.surveyForm2";
 	}
 	
-	@RequestMapping(value="/survey/surveyInsert",method=RequestMethod.POST)
+	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.POST)
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
 		//설문테이블 insert

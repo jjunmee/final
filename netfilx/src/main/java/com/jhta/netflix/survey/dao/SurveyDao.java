@@ -37,7 +37,9 @@ public class SurveyDao {
 	public int sqNumSelect(Map<String, Object> map) {
 		return session.selectOne(NAMESPACE+".sqNumSelect",map);
 	}
-	
+	public int userPointSelect(String userId) {
+		return session.selectOne(NAMESPACE+".userPointSelect",userId);
+	}
 	
 	///////////////////////////////////////////////////////////////////////
 }

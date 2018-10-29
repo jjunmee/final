@@ -36,6 +36,8 @@ public class SurveyService {
 	public int sqNumSelect(Map<String, Object> map) {
 		return dao.sqNumSelect(map);
 	}
-	
+	public int userPointSelect(String userId) {
+		return dao.userPointSelect(userId);
+	}
 	//////////////////////////////////////////////////////////////////////////////
 }

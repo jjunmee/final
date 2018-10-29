@@ -24,4 +24,7 @@
 		select sq_num from survey_question
 		where survey_num=#{surveyNum} and sq_title=#{sqTitle}
 	</select>
+	<select id="userPointSelect" parameterType="String" resultType="int">
+		select point from users where id=#{userId}
+	</select>
 </mapper>
