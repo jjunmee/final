@@ -28,8 +28,8 @@ public class UserVo {
 		this.pwd = pwd;
 		this.birth = birth;
 		this.point = point;
-		this.sts=sts;
-		this.pwd2=pwd2;
+		this.sts = sts;
+		this.pwd2 = pwd2;
 	}
 
 	public int getUsersNum() {
