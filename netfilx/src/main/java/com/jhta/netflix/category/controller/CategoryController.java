@@ -87,7 +87,7 @@ public class CategoryController {
 		return arr.toString();
 	}
 	
-	//선택한 카테고리 찾기
+	//수정 선택한 카테고리 찾기
 	@RequestMapping(value="/category/categoryname",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String categorylist(int num) {

@@ -3,6 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.GenreMapper">
+	<!-- 
+	<sql id="search">
+		<if test=""
+	</sql>
+	 -->
 	<insert id="insert" parameterType="genre">
 		insert into genre values(0,#{genre_name},#{category_num})
 	</insert>
@@ -10,16 +15,22 @@
 		update genre set genre_name=#{genre_name},category_num=#{category_num} where genre_num=#{genre_num}
 	</update>
 	<delete id="delete" parameterType="int">
-		delete from genre where category_num = #{value}
+		delete from genre where genre_num = #{genre_num}
 	</delete>
 	<select id="list" parameterType="int" resultType="genre">
 		select * from genre where category_num = #{value}
 	</select>
+	<select id="selectname" parameterType="int" resultType="categenre">
+		SELECT g.genre_num, g.genre_name, g.category_num, c.category_name
+		FROM genre g, category c
+		WHERE g.category_num = c.category_num and genre_num = #{genre_num}
+		ORDER BY c.category_num, g.genre_num
+	</select>
 	<select id="clist" resultType="categenre">
-		select *
-		from genre g
-		full outer join category c
-		on g.category_num = c.category_num;
+		SELECT g.genre_num, g.genre_name, g.category_num, c.category_name
+		FROM genre g, category c
+		WHERE g.category_num = c.category_num
+		ORDER BY c.category_num, g.genre_num
 	</select>
 </mapper>
   

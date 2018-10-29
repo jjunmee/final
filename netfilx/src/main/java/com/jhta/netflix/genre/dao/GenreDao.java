@@ -30,5 +30,7 @@ public class GenreDao {
 	public List<CateGenreVo> list(){
 		return sqlSession.selectList(NAMESPACE + ".clist");
 	}
-
+	public CateGenreVo selectname(int num) {
+		return sqlSession.selectOne(NAMESPACE + ".selectname",num);
+	}
 }

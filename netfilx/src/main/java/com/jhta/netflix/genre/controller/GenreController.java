@@ -35,6 +35,19 @@ public class GenreController {
 		return arr.toString();
 	}
 	
+	//수정 선택한 장르 찾기
+	@RequestMapping(value="/genre/genrename",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String genrename(int gnum) {
+		CateGenreVo vo = service.selectname(gnum);
+		JSONObject json = new JSONObject();
+		json.put("genre_num", vo.getGenre_num());
+		json.put("genre_name", vo.getGenre_name());
+		json.put("category_num", vo.getCategory_num());
+		json.put("category_name", vo.getCategory_name());
+		return json.toString();
+	}
+	
 	//장르전체리스트 카테고리오름차순으로 뿌리기
 	@RequestMapping(value="/category/genrelist",produces="application/json;charset=utf-8")
 	@ResponseBody
@@ -87,12 +100,15 @@ public class GenreController {
 	@RequestMapping(value="/genre/update",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String update(String genre_name,int genre_num,int category_num) {
-		GenreVo vo = new GenreVo();
+		GenreVo vo = new GenreVo(genre_num,genre_name,category_num);
 		int n = service.update(vo);
 		JSONObject json = new JSONObject();
 		if(n>0) {
-			json.put("updatename",genre_name);
-			json.put("updatenum",genre_num);
+			CateGenreVo upvo = service.selectname(genre_num);
+			json.put("genre_num", upvo.getGenre_num());
+			json.put("genre_name", upvo.getGenre_name());
+			json.put("category_num", upvo.getCategory_num());
+			json.put("category_name", upvo.getCategory_name());
 		}else {
 			json.put("code", "요청실패");
 		}
