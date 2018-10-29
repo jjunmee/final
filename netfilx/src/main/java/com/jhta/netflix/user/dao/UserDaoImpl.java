@@ -21,13 +21,10 @@ public class UserDaoImpl implements UserDao{
 	public int update(UserVo vo) {
 		return sqlSession.update(NAMESPACE + ".update",vo);
 	}
+
 	@Override
-	public List<UserVo> info(int users_num){
-		return sqlSession.selectOne(NAMESPACE + ".info",users_num);
-	}
-	@Override
-	public int login(UserVo vo) {
-		return sqlSession.selectOne(NAMESPACE + ".login",vo);
+	public UserVo login(String id) {
+		return sqlSession.selectOne(NAMESPACE + ".login",id);
 	}
 	@Override
 	public int defaultJoin(UserVo vo) {
