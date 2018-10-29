@@ -49,7 +49,6 @@ public class StaffController {
 		}else {
 			json.put("code", "fail");
 		}
-		json.put("position", staff_position);
 		return json.toString();
 	}
 }
