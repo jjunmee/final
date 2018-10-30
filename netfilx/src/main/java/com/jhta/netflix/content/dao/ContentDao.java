@@ -1,5 +1,6 @@
 package com.jhta.netflix.content.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,8 +27,8 @@ public class ContentDao {
 		return sqlSession.delete(NAMESPACE + ".delete", num);
 	}
 	
-	public List<ContentVo> list(){
-		return sqlSession.selectList(NAMESPACE + ".list");
+	public List<ContentVo> list(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".list", map);
 	}
 	
 	public ContentVo find(int num) {

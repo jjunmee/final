@@ -10,6 +10,7 @@ public class PageUtil {
 	private int rowBlockCount;//보여질글목록갯수
 	private int pageBlockCount;//보여질페이지갯수
 	private int totalRowCount;//전체글의갯수
+	private int mysqlStartRow;//mysql용 startRow(민성)
 	public PageUtil() {}
 	public PageUtil(int pageNum,int totalRowCount,int rowBlockCount,int pageBlockCount) {
 		this.pageNum=pageNum;
@@ -17,6 +18,9 @@ public class PageUtil {
 		this.rowBlockCount=rowBlockCount;
 		this.pageBlockCount=pageBlockCount;
 		startRow=(pageNum-1)*rowBlockCount+1;
+		//
+		mysqlStartRow=startRow-1;
+		//
 		endRow=startRow+rowBlockCount-1;
 		totalPageCount=(int)Math.ceil(totalRowCount/(double)rowBlockCount);
 		startPageNum=(pageNum-1)/pageBlockCount*pageBlockCount+1;
@@ -78,6 +82,12 @@ public class PageUtil {
 	}
 	public void setTotalRowCount(int totalRowCount) {
 		this.totalRowCount = totalRowCount;
+	}
+	public int getMysqlStartRow() {
+		return mysqlStartRow;
+	}
+	public void setMysqlStartRow(int mysqlStartRow) {
+		this.mysqlStartRow = mysqlStartRow;
 	}
 	
 	

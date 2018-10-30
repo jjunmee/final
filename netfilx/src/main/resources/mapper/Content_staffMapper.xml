@@ -12,11 +12,16 @@
 	<delete id="delete" parameterType="int">
 		delete from content_staff where cs_num=#{value}
 	</delete>
-	<select id="list" resultType="cstaff">
-		select * from content_staff
+	<select id="list" resultType="cstaff" parameterType="int">
+		select * from content_staff where content_num=#{value}
 	</select>
 	<select id="find" parameterType="int" resultType="cstaff">
 		select * from content_staff where cs_num=#{value}
+	</select>
+	<select id="staffList" parameterType="int" resultType="staff">
+		select s.*
+		from content_staff cs, staff s
+		where cs.staff_num=s.staff_num and content_num=#{value}
 	</select>
 </mapper>
   

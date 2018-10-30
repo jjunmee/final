@@ -6,24 +6,27 @@
 	<insert id="insert" parameterType="content">
 		insert into content values(#{content_num},#{content_name},#{orgsrc},#{savesrc},#{content_summary},
 		#{trailer_orgsrc},#{trailer_savesrc},#{content_size},#{trailer_size},#{content_post1},
-		#{content_post2},#{release},#{watch_age},now(),#{series_num})
+		#{content_post2},#{release_date},#{watch_age},now(),#{series_num})
 	</insert>
 	<update id="update" parameterType="content">
 		update content set content_name=#{content_name},orgsrc=#{orgsrc},savesrc=#{savesrc},
 		content_summary=#{content_summary},trailer_orgsrc=#{trailer_orgsrc},
 		trailer_savesrc=#{trailer_savesrc},content_size=#{content_size},trailer_size=#{trailer_size},
-		content_post1=#{content_post1},content_post2=#{content_post2},release=#{release},
+		content_post1=#{content_post1},content_post2=#{content_post2},release_date=#{release_date},
 		watch_age=#{watch_age},content_regdate=#{content_regdate},series_num=#{series_num} 
 		where content_num=#{content_num}
 	</update>
 	<delete id="delete" parameterType="int">
 		delete from content where content_num=#{value}
 	</delete>
-	<select id="list" resultType="content">
-		select * from content
+	<select id="list" resultType="content" parameterType="hashmap">
+		select *
+		from content
+		order by content_num desc
+		limit #{startRow}, #{rowBlockCount}
 	</select>
 	<select id="find" parameterType="int" resultType="content">
-		select * from content where #{value}
+		select * from content where content_num=#{value}
 	</select>
 	<select id="count" resultType="int">
 		select count(*) from content

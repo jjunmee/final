@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.content_staff.dao.Content_staffDao;
 import com.jhta.netflix.content_staff.vo.Content_staffVo;
+import com.jhta.netflix.staff.vo.StaffVo;
 
 @Service
 public class Content_staffService {
@@ -22,10 +23,13 @@ public class Content_staffService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<Content_staffVo> list(){
-		return dao.list();
+	public List<Content_staffVo> list(int num){
+		return dao.list(num);
 	}
 	public Content_staffVo find(int num) {
 		return dao.find(num);
+	}
+	public List<StaffVo> staffList(int num){
+		return dao.staffList(num);
 	}
 }

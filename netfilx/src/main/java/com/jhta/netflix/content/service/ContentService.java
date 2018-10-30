@@ -1,5 +1,6 @@
 package com.jhta.netflix.content.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class ContentService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<ContentVo> list(){
-		return dao.list();
+	public List<ContentVo> list(HashMap<String, Object> map){
+		return dao.list(map);
 	}
 	public ContentVo find(int num) {
 		return dao.find(num);
