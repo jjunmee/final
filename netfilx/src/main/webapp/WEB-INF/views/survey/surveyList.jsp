@@ -17,7 +17,7 @@
 </div>
 <div id="listBox">
 		
-	<table class="jhTable" border="1">
+	<table class="jhTable">
 		<tr>
 			<th>설문번호</th><th>설문제목</th><th>조사인원</th><th>배당금</th><th>마감기한</th>
 		</tr>

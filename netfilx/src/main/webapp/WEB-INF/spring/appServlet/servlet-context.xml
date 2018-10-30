@@ -51,5 +51,5 @@
 	<context:component-scan base-package="com.jhta.netflix" />
 	
 	
-	<beans:bean id="NaverLogin" class="com.jhta.netflix.user.vo.NaverLogin"/>        
+	<beans:bean id="NaverLogin" class="com.jhta.netflix.user.naver.NaverLoginBo"/>        
 </beans:beans>

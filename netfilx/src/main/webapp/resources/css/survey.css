@@ -1,0 +1,13 @@
+@charset "UTF-8";
+table {width: 70%;border-collapse: collapse;}
+th, td {padding-top : 10px;}
+#surveyForm {width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
+#surveyForm #surveyOverall{padding-left:100px;}
+#surveyForm #things{padding-left:300px;}
+#surveyForm #typeChoice{padding-left:300px;}
+#surveyForm #typeChoice input[type=button]{width:100px;height:70px; }
+#surveyForm textarea{width:500px;color:black;}
+#surveyForm input[type=text]{width:500px;color: black;}
+#surveyForm input[type=button]{color:black;}
+#surveyForm button{color:black;}
+

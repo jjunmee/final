@@ -21,6 +21,7 @@
 				$(this).val("배당금확인하기");
 			}		
 		});
+		
 		$("#submitBtn").click(function(){
 			$("#spointSpan").html("");
 			$("#joinNumSpan").html("");
@@ -37,9 +38,11 @@
 					$("#frm").submit();									
 				}
 			}
+			
 		})
 		
 	});
+	
 
 </script>
 <form id="frm" action="<c:url value='/survey/surveyInsert1'/>" method="post">
@@ -61,5 +64,7 @@
 			이 설문조사 폼은 ~~~~~설명!
 		</div>
 		<input type="button" id="submitBtn" value="결제하고 설문등록하러가기">
+		
+		
 	</div>
 </form>
