@@ -32,4 +32,7 @@ public class GenreService {
 	public CateGenreVo selectname(int num) {
 		return dao.selectname(num);
 	}
+	public List<CateGenreVo> checklist(int num){
+		return dao.checklist(num);
+	}
 }
