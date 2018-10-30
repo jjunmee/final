@@ -33,5 +33,8 @@ public class Content_staffDao {
 	public List<StaffVo> staffList(int num) {
 		return sqlSession.selectList(NAMESPACE+".staffList", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	
 }

@@ -50,7 +50,7 @@ public class ContentController {
 	public String insert(HttpSession session,HttpServletRequest request,
 			MultipartFile poster,MultipartFile stillcut,MultipartFile trailer,MultipartFile org,
 			Date release_date,int watch_age) {
-		int content_num = contentService.count() + 1;
+		int content_num = contentService.maxNum() + 1;
 		String content_name = request.getParameter("content_name");
 		String content_summary = request.getParameter("content_summary");
 		String category_num = request.getParameter("category_num");
@@ -240,11 +240,11 @@ public class ContentController {
 					trailer_orgsrc, trailer_savesrc, content_size, trailer_size, content_post1, 
 					content_post2, release_date, watch_age, null, series_num);
 			contentService.update(vo);
-			
-			
+			content_genreService.relDelete(content_num);
 			for(int i = 0;i < genres.size();i++) {
 				content_genreService.insert(new Content_genreVo(0, content_num, genres.get(i)));
 			}
+			content_staffService.relDelete(content_num);
 			for(int i = 0;i < staffs.size();i++) {
 				content_staffService.insert(new Content_staffVo(0, staffs.get(i), content_num));
 			}

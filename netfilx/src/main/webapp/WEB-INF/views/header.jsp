@@ -16,6 +16,7 @@
           <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
           <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
           <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
+          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
           <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
           <li><a href="<c:url value='/mypage/myinfo'/>">계정관리</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>

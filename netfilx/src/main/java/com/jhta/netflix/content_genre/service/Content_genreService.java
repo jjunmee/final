@@ -31,4 +31,7 @@ public class Content_genreService {
 	public int getCategory(int num) {
 		return dao.getCategory(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 }

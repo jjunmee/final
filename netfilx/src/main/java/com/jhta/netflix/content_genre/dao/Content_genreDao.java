@@ -32,4 +32,7 @@ public class Content_genreDao {
 	public int getCategory(int num) {
 		return sqlSession.selectOne(NAMESPACE+".getCategory", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 }

@@ -9,11 +9,27 @@
 		#{content_post2},#{release_date},#{watch_age},now(),#{series_num})
 	</insert>
 	<update id="update" parameterType="content">
-		update content set content_name=#{content_name},orgsrc=#{orgsrc},savesrc=#{savesrc},
-		content_summary=#{content_summary},trailer_orgsrc=#{trailer_orgsrc},
-		trailer_savesrc=#{trailer_savesrc},content_size=#{content_size},trailer_size=#{trailer_size},
-		content_post1=#{content_post1},content_post2=#{content_post2},release_date=#{release_date},
-		watch_age=#{watch_age},content_regdate=#{content_regdate},series_num=#{series_num} 
+		update content 
+		set 
+		<if test="savesrc != null">
+			orgsrc=#{orgsrc},savesrc=#{savesrc},
+			content_size=#{content_size},
+		</if>
+		<if test="trailer_savesrc != null">
+			trailer_orgsrc=#{trailer_orgsrc},trailer_savesrc=#{trailer_savesrc},
+			trailer_size=#{trailer_size},
+		</if>
+		<if test="content_post1 != null">
+			content_post1=#{content_post1},
+		</if>
+		<if test="content_post2 != null">
+			content_post2=#{content_post2},
+		</if>
+		<if test="series_num != 0">
+			series_num=#{series_num},
+		</if>
+		content_name=#{content_name},content_summary=#{content_summary},
+		release_date=#{release_date},watch_age=#{watch_age}
 		where content_num=#{content_num}
 	</update>
 	<delete id="delete" parameterType="int">
@@ -30,6 +46,9 @@
 	</select>
 	<select id="count" resultType="int">
 		select count(*) from content
+	</select>
+	<select id="maxNum" resultType="int">
+		select max(content_num) from content
 	</select>
 </mapper>
   

@@ -32,4 +32,7 @@ public class ContentService {
 	public int count() {
 		return dao.count();
 	}
+	public int maxNum() {
+		return dao.maxNum();
+	}
 }
