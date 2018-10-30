@@ -22,10 +22,13 @@ public class Content_genreService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<Content_genreVo> list(){
-		return dao.list();
+	public List<Content_genreVo> list(int num){
+		return dao.list(num);
 	}
 	public Content_genreVo find(int num) {
 		return dao.find(num);
+	}
+	public int getCategory(int num) {
+		return dao.getCategory(num);
 	}
 }

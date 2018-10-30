@@ -5,23 +5,29 @@ import java.sql.Date;
 //¼³¹® 
 public class SurveyVo {
 	private Integer surveyNum;	 
-	private Integer usersNum;
+	private Integer userNum;
 	private String surveyName; 
 	private String surveyDescription;
 	private Date surveyStart;
 	private String surveyEnd; 
+	private int spoint;
+	private int joinNum;
+	private String state;
 	
 	public SurveyVo() {}
-		
-	public SurveyVo(Integer surveyNum, Integer usersNum, String surveyName, String surveyDescription, Date surveyStart,
-			String surveyEnd) {
+
+	public SurveyVo(Integer surveyNum, Integer userNum, String surveyName, String surveyDescription, Date surveyStart,
+			String surveyEnd, int spoint, int joinNum, String state) {
 		super();
 		this.surveyNum = surveyNum;
-		this.usersNum = usersNum;
+		this.userNum = userNum;
 		this.surveyName = surveyName;
 		this.surveyDescription = surveyDescription;
 		this.surveyStart = surveyStart;
 		this.surveyEnd = surveyEnd;
+		this.spoint = spoint;
+		this.joinNum = joinNum;
+		this.state = state;
 	}
 
 	public Integer getSurveyNum() {
@@ -29,7 +35,15 @@ public class SurveyVo {
 	}
 
 	public void setSurveyNum(Integer surveyNum) {
-	    this.surveyNum = surveyNum;
+		this.surveyNum = surveyNum;
+	}
+
+	public Integer getUserNum() {
+		return userNum;
+	}
+
+	public void setUserNum(Integer userNum) {
+		this.userNum = userNum;
 	}
 
 	public String getSurveyName() {
@@ -38,6 +52,14 @@ public class SurveyVo {
 
 	public void setSurveyName(String surveyName) {
 		this.surveyName = surveyName;
+	}
+
+	public String getSurveyDescription() {
+		return surveyDescription;
+	}
+
+	public void setSurveyDescription(String surveyDescription) {
+		this.surveyDescription = surveyDescription;
 	}
 
 	public Date getSurveyStart() {
@@ -56,20 +78,31 @@ public class SurveyVo {
 		this.surveyEnd = surveyEnd;
 	}
 
-	public Integer getUsersNum() {
-		return usersNum;
+	public int getSpoint() {
+		return spoint;
 	}
 
-	public void setUsersNum(Integer usersNum) {
-		this.usersNum = usersNum;
+	public void setSpoint(int spoint) {
+		this.spoint = spoint;
 	}
 
-	public String getSurveyDescription() {
-		return surveyDescription;
+	public int getJoinNum() {
+		return joinNum;
 	}
 
-	public void setSurveyDescription(String surveyDescription) {
-		this.surveyDescription = surveyDescription;
+	public void setJoinNum(int joinNum) {
+		this.joinNum = joinNum;
 	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	
+	
  
 }

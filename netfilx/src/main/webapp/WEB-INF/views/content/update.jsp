@@ -14,17 +14,26 @@
 				dataType:"json",
 				success:function(data){
 					$(data).each(function(i,json) {
-						var str = "<option value=\""+json.category_num+"\">"
-							+json.category_name+"</option>";
+						var str = "<option value=\""+json.category_num+"\"";
+						if(${category_num } == json.category_num){
+							str+="selected=\"selected\"";
+						}
+						str+=">"+json.category_name+"</option>";
 						$("#category").append(str);
-					})
+					});
 					genrelist();
 				}
 			});
 			$("#category").change(genrelist);
+			if(${vo.series_num } != 0){
+				selectInfo('series',${seriesVo.series_num},"${seriesVo.series_name}");
+			}
+			<c:forEach items="${slist}" var="item">
+				selectInfo(${item.staff_position},${item.staff_num},"${item.staff_name}");
+			</c:forEach>
 			
 		});
-		function genrelist(data){
+		function genrelist(){
 			$("#genre").empty();
 			var num = $("#category").val();
 			$.ajax({
@@ -32,13 +41,21 @@
 				dataType:"json",
 				success:function(data){
 					$(data).each(function(i,json) {
+						var list = new Array();
+						<c:forEach items="${glist}" var="item">
+							list.push(${item.genre_num });
+						</c:forEach>
 						var str = "<input type=\"checkbox\" name=\"genre"+json.genre_num
-						+"\" value=\""+json.genre_num+"\">"+json.genre_name;
+							+"\" value=\""+json.genre_num+"\"";
+						if($.inArray(json.genre_num, list) != -1){
+							str+="checked=\"checked\"";
+						}
+						str+=">"+json.genre_name;
 						$("#genre").append(str);
 						if((i+1)%3 == 0){
 							$("#genre").append("<br>");
 						}
-					})
+					});
 				}
 			});
 		}
@@ -242,30 +259,42 @@
 	</script>
 </head>
 <body>
-	<h1>컨텐츠등록</h1>
-	<form action='<c:url value="/content/insert"/>' method="post"
+	<h1>컨텐츠수정</h1>
+	<form action='<c:url value="/content/update"/>' method="post"
 	enctype="multipart/form-data">
 		<table>
 			<tr>
+				<th>컨텐츠 번호</th>
+				<td>${vo.content_num }<input type="hidden" name="content_num" value="${vo.content_num }"></td>
+			</tr>
+			<tr>
 				<th>컨텐츠 명</th>
-				<td><input type="text" name="content_name"></td>
+				<td><input type="text" name="content_name" value="${vo.content_name }"></td>
 			</tr>
 			<tr>
 				<th>줄거리</th>
-				<td><textarea rows="7" cols="30" name="content_summary"></textarea></td>
+				<td><textarea rows="7" cols="30" name="content_summary">${vo.content_summary }</textarea></td>
 			</tr>
 			<tr>
 				<th>개봉/방영 일</th>
-				<td><input type="date" name="release_date"></td>
+				<td><input type="date" name="release_date" value="${vo.release_date }"></td>
 			</tr>
 			<tr>
 				<th>시청연령</th>
 				<td>
 					<select name="watch_age">
-						<option value="0">전체</option>
-						<option value="12">12세</option>
-						<option value="15">15세</option>
-						<option value="19">19세</option>
+						<option value="0"
+						<c:if test="${vo.watch_age == 0 }">selected="selected"</c:if>
+						>전체</option>
+						<option value="12"
+						<c:if test="${vo.watch_age == 12 }">selected="selected"</c:if>
+						>12세</option>
+						<option value="15"
+						<c:if test="${vo.watch_age == 15 }">selected="selected"</c:if>
+						>15세</option>
+						<option value="19"
+						<c:if test="${vo.watch_age == 19 }">selected="selected"</c:if>
+						>19세</option>
 					</select>
 				</td>
 			</tr>
@@ -295,10 +324,6 @@
 					<a href="javascript:false;" onclick="selectForm(0)">+</a>
 				</th>
 				<td id="actor">
-					<!-- 
-					<span id="staff1">한지민 <input type="hidden" name="actor1" value="한지민"></span>
-					<a href="javascript:false;" onclick="removeInfo(event,0,1)">-</a>
-					 -->
 				</td>
 			</tr>
 			<tr>
@@ -327,40 +352,11 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" value="등록">
+					<input type="submit" value="수정">
 					<input type="reset" value="취소">
 				</td>
 			</tr>
 		</table>
 	</form>
-	<!-- 
-		<div id="sForm" style="position: absolute;top: 200px;left: 200px;
-		width: 400px;border: 1px solid red;background-color: lightgray;">
-			배우이름 : <input type="text" id="actorName" size="20" onkeyup="searchStaff(event,0)">
-			<input type="button" value="등록" onclick="insertForm()">
-			<input type="button" value="취소" onclick="removeForm()">
-			<form onsubmit="insertStaff(0)" id="insertForm">
-				<table border="1" width="400" id="searchTable">
-					<tr>
-						<th>이름</th>
-						<th>출생년도</th>
-						<th>성별</th>
-						<th>데뷔작</th>
-					</tr>
-					<tr>
-						<td><input type="text" size="8" id="staff_name"></td>
-						<td><input type="text" size="8" id="staff_age"></td>
-						<td><input type="text" size="8" id="staff_gender"></td>
-						<td><input type="text" size="8" id="staff_debut"></td>
-					</tr>
-					<tr>
-						<td colspan="4">
-							<input type="submit" value="등록">
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	 -->
 </body>
 </html>

@@ -13,11 +13,17 @@
 	<delete id="delete" parameterType="int">
 		delete from content_genre where cgenre_num=#{value}
 	</delete>
-	<select id="list" resultType="cgenre">
-		select * from content_genre
+	<select id="list" resultType="cgenre" parameterType="int">
+		select * from content_genre where content_num=#{value}
 	</select>
 	<select id="find" parameterType="int" resultType="cgenre">
-		select * from content_genre where cgenre_num=#{cgenre_num}
+		select * from content_genre where cgenre_num=#{value}
+	</select>
+	<select id="getCategory" parameterType="int" resultType="int">
+		select category_num
+		from content_genre cg,genre g
+		where cg.genre_num = g.genre_num and cg.content_num=#{value}
+		limit 1
 	</select>
 </mapper>
   

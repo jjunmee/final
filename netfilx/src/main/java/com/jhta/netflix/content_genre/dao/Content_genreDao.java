@@ -23,10 +23,13 @@ public class Content_genreDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
-	public List<Content_genreVo> list(){
-		return sqlSession.selectList(NAMESPACE+".list");
+	public List<Content_genreVo> list(int num){
+		return sqlSession.selectList(NAMESPACE+".list", num);
 	}
 	public Content_genreVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE+".find", num);
+	}
+	public int getCategory(int num) {
+		return sqlSession.selectOne(NAMESPACE+".getCategory", num);
 	}
 }

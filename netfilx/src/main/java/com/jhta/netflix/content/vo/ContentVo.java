@@ -14,17 +14,16 @@ public class ContentVo {
     private long trailer_size;
     private String content_post1;
     private String content_post2;
-    private Date release;
+    private Date release_date;
     private Integer watch_age;
     private Date content_regdate;
     private Integer series_num;
     
 	public ContentVo() {
 	}
-
 	public ContentVo(Integer content_num, String content_name, String orgsrc, String savesrc, String content_summary,
 			String trailer_orgsrc, String trailer_savesrc, long content_size, long trailer_size, String content_post1,
-			String content_post2, Date release, Integer watch_age, Date content_regdate, Integer series_num) {
+			String content_post2, Date release_date, Integer watch_age, Date content_regdate, Integer series_num) {
 		this.content_num = content_num;
 		this.content_name = content_name;
 		this.orgsrc = orgsrc;
@@ -36,7 +35,7 @@ public class ContentVo {
 		this.trailer_size = trailer_size;
 		this.content_post1 = content_post1;
 		this.content_post2 = content_post2;
-		this.release = release;
+		this.release_date = release_date;
 		this.watch_age = watch_age;
 		this.content_regdate = content_regdate;
 		this.series_num = series_num;
@@ -130,12 +129,12 @@ public class ContentVo {
 		this.content_post2 = content_post2;
 	}
 
-	public Date getRelease() {
-		return release;
+	public Date getRelease_date() {
+		return release_date;
 	}
 
-	public void setRelease(Date release) {
-		this.release = release;
+	public void setRelease_date(Date release_date) {
+		this.release_date = release_date;
 	}
 
 	public Integer getWatch_age() {
@@ -161,4 +160,5 @@ public class ContentVo {
 	public void setSeries_num(Integer series_num) {
 		this.series_num = series_num;
 	}
+	
 }
