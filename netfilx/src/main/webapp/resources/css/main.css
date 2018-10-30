@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-#wrap{width: 80%;height: 800px;margin: auto; }
-#header{width: 100%;height: 20%;background-color: pink; }
-#content{width: 100%;height: 60%;background-color: orange; }
-#footer{width: 100%;height: 20%;background-color: yellow; }
+body {
+	position: relative; 
+}
+#section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
+#section2 {padding-top:50px;height:500px;color: #fff; background-color: #673ab7;}
