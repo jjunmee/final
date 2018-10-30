@@ -19,12 +19,10 @@ public class UserService {
 	public int delete(int users_num) {
 		return dao.delete(users_num);
 	}
-	public List<UserVo> info(int users_num){
-		return dao.info(users_num);
+	public UserVo login(String id){
+		return dao.login(id);
 	}
-	public int login(UserVo vo) {
-		return dao.login(vo);
-	}
+	
 	public int defaultJoin(UserVo vo) {
 		return dao.defaultJoin(vo);
 	}

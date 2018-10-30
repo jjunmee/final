@@ -8,40 +8,57 @@
 			alert(code);
 		}
 		//카테고리 리스트 뿌리기
+		categorylist();
+
+		//장르 리스트 뿌리기
+		genrelist();
+		
+		//장르등록시 옵션에 카테고리 리스트 뿌리는거 요청
+		cateselect();
+	});
+	
+	//카테고리 리스트 뿌리기
+	function categorylist(){
 		$.ajax({
 			url:"<c:url value='/content/categorylist'/>",
 			dataType:"json",
 			success:function(data){
 				$(data).each(function(i,json){
-					var str="<tr>"
-								+"<td id=\"cate" + json.category_num + "\">" +json.category_name+ "</td>"
+						var str="<tr>";
+					if(json.category_name == "미정"){
+								str+="<td id=\"cate" + json.category_num + "\" colspan=\"3\">" +json.category_name+ "</td>";
+					}else{
+								str+="<td id=\"cate" + json.category_num + "\">" +json.category_name+ "</td>"
 								+"<td id=\"cateok" + json.category_num + "\"><a href=\"javascript:false;\" onclick=\"cupdate(" + json.category_num + ")\">수정</a></td>"
-								+"<td><a href=\"${pageContext.request.contextPath }/category/delete?num=" + json.category_num + "\">삭제</a></td>"
-							+"</tr>";
+								+"<td><a href=\"${pageContext.request.contextPath }/category/delete?num=" + json.category_num + "\">삭제</a></td>";
+					}
+								str+="</tr>";
 					$("#categorylist").append(str);
 				});
 			}
 		});
-		//장르 리스트 뿌리기
+	}
+	
+	//장르 리스트 뿌리기
+	function genrelist(){
 		$.ajax({
 			url:"<c:url value='/category/genrelist'/>",
 			dataType:"json",
 			success:function(data){
+				var str1 = "<tr><th>컨텐츠번호</th><th>장르</th><th>수정</th><th>삭제</th></tr>"
+				$("#genrelist").append(str1);
 				$(data).each(function(i,json){
 					var str="<tr>"
-								+"<td>" +json.category_name+ "</td>"
+								+"<td id=\"gcate" + json.genre_num + "\">" +json.category_name+ "</td>"
 								+"<td id=\"genre" + json.genre_num + "\">" +json.genre_name+ "</td>"
-								+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num +"," + json.category_num+ ")\">수정</a></td>"
+								+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num + "," + json.category_num+ ")\">수정</a></td>"
 								+"<td><a href=\"${pageContext.request.contextPath }/genre/delete?num=" + json.genre_num + "\">삭제</a></td>"
 							+"</tr>";
 					$("#genrelist").append(str);
 				});
 			}
 		});
-		
-		//장르등록옵션에 카테고리 리스트 뿌리는거 요청
-		cateselect();
-	});
+	}
 	
 	//카테고리리스트 장르등록 옵션에 뿌리기
 	function cateselect(){
@@ -50,30 +67,85 @@
 			dataType:"json",
 			success:function(data){
 				$(data).each(function(i,json) {
-					var str = "<option value=\""+json.category_num+"\">"
+					var str1 = "<option value=\""+json.category_num+"\">"
 						+json.category_name+"</option>";
-					$("#category").append(str);
+					var str2 = "<input type=\"checkbox\" name=\"gcate_check\" value=\"" + json.category_num + "\"onchange=\"checkcheck()\">" + json.category_name;
+					$("#category").append(str1);
+					$("#gcate_check_div").append(str2);
+				});
+				
+			}
+		});
+	}
+	/*
+	//장르 수정시 장르의 카테고리 선택하는 창에 옵션뿌리기
+	function gcselect_option(gnum){
+		$.ajax({
+			url:"<c:url value='/content/categorylist'/>",
+			dataType:"json",
+			success:function(data){
+				$(data).each(function(i,json) {
+					var str1 = "<option value=\""+json.category_num+"\">"
+						+json.category_name+"</option>";
+					$("#gcate_select"+ gnum).append(str1);
 				});
 			}
 		});
 	}
+	*/
 	
 	//장르 수정버튼 클릭시 요청
-	function cupdate(num){
-		$("#genre"+num).empty();
-		$("#genreok"+num).empty();
+	function gupdate(gnum,cnum){
+		/*
+		$("#gcate"+gnum).empty();
+		*/
+		$("#genre"+gnum).empty();
+		$("#genreok"+gnum).empty();
 		$.ajax({
 			url:"<c:url value='/genre/genrename'/>",
-			data:{"num":num},
+			data:{"gnum":gnum},
 			dataType:"json",
 			success:function(data){
-				var str1="<input type=\"text\" id=\"genreName"+ num +"\" value=\"" + data.genre_name + "\" >";
-				var str2="<a href=\"javascript:false;\" onclick=\"gupdateOk(" + num + ")\">확인</a>";
-				$("#genre" + num).append(str1);
-				$("#genreok" + num).append(str2);
+				var str1="<input type=\"text\" id=\"genreName"+ data.genre_num +"\" value=\"" + data.genre_name + "\" >";
+				var str2="<a href=\"javascript:false;\" onclick=\"gupdateOk(" + data.genre_num + "," + data.category_num+ ")\">확인</a>";
+				/*
+				var str3="<select name=\"gcateselect\" id=\"gcate_select" + data.genre_num + "\"><option value=\""+data.category_num+"\" selected=\"selected\">"
+				+data.category_name+"(기존)</option></select>";
+				$("#gcate" + gnum).append(str3);
+				gcselect_option(data.genre_num);
+				*/
+				$("#genre" + gnum).append(str1);
+				$("#genreok" + gnum).append(str2);
 			}
 		});
 	}
+	
+	//장르 수정확인시 요청
+	function gupdateOk(gnum,cnum){
+		var genre_name = $("#genreName"+gnum).val();
+		/*
+		var category_num = $("#gcate_select" + gnum + " option:selected").val();
+		$("#gcate"+gnum).empty();
+		*/
+		$("#genre"+gnum).empty();
+		$("#genreok"+gnum).empty();
+		$.ajax({
+			url:"<c:url value='/genre/update'/>",
+			data:{"genre_name":genre_name,"genre_num":gnum/*,"category_num":category_num*/},
+			dataType:"json",
+			success:function(data){
+				/*
+				var cname = data.category_name;
+				$("#gcate" + gnum).append(cname);
+				*/
+				var gname = data.genre_name;
+				var str = "<a href=\"javascript:false;\" onclick=\"gupdate(" + data.genre_num + "," + data.category_num+ ")\">수정</a>";
+				$("#genre" + gnum).append(gname);
+				$("#genreok" + gnum).append(str);
+			}
+		});
+	}
+	
 	//카테고리 수정버튼 클릭시 요청
 	function cupdate(num){
 		$("#cate"+num).empty();
@@ -91,7 +163,7 @@
 		});
 	}
 	 
-	//수정확인시 요청
+	//카테고리 수정확인시 요청
 	function cupdateOk(num){
 		var category_name = $("#cateName"+num).val();
 		$("#cate"+num).empty();
@@ -106,9 +178,49 @@
 				$("#cate" + num).append(name);
 				$("#cateok" + num).append(str);
 				$("#category").empty();
+				$("#gcate_check_div").empty();
 				cateselect();
+				//장르리스트 지우기
+				$("#genrelist").empty();
+				//장르리스트 다시 뿌리기
+				genrelist();
 			}
 		});
+	}
+	//each로 loop를 돌면서 checkbox의 check된 값을 가져와 담아준다.
+
+	function checkcheck(){
+		$("#genrelist").empty();
+		var arraycate = new Array();
+		$("input:checkbox[name=gcate_check]:checked").each(function(){
+			arraycate.push($(this).val());
+		});
+		if(arraycate.length != 0){
+		var str1 = "<tr><th>컨텐츠번호</th><th>장르</th><th>수정</th><th>삭제</th></tr>"
+		$("#genrelist").append(str1);
+			$("input:checkbox[name=gcate_check]:checked").each(function(){
+				var num = $(this).val()
+				alert("arraycate : "+ num);
+				$.ajax({
+					url:"<c:url value='/category/check_genrelist'/>",
+					data:{"num":num},
+					dataType:"json",
+					success:function(data){
+						$(data).each(function(i,json){
+							var str="<tr>"
+										+"<td id=\"gcate" + json.genre_num + "\">" +json.category_name+ "</td>"
+										+"<td id=\"genre" + json.genre_num + "\">" +json.genre_name+ "</td>"
+										+"<td id=\"genreok" + json.genre_num + "\"><a href=\"javascript:false;\" onclick=\"gupdate(" + json.genre_num + "," + json.category_num+ ")\">수정</a></td>"
+										+"<td><a href=\"${pageContext.request.contextPath }/genre/delete?num=" + json.genre_num + "\">삭제</a></td>"
+									+"</tr>";
+							$("#genrelist").append(str);
+						});
+					}
+				});
+			});
+		}else{
+			genrelist();
+		}
 	}
 </script>
 <div>
@@ -126,24 +238,14 @@
 			</tr>
 		</table>
 <h1>장르</h1>
-	<form method="post" action='<c:url value="genre/insert"/>'>
+	<form method="post" action='<c:url value="/genre/insert"/>'>
 		장르 
 		<select name="category_num" id="category">
 		</select>
 		<input type="text" name="genre_name">
 		<input type="submit" value="추가">
 	</form>
+		<div id="gcate_check_div"></div>
 		<table border="1" id="genrelist" width="800">
-			<tr>
-				<th>컨텐츠번호</th>
-				<th>장르</th>
-				<th>수정</th>
-				<th>삭제</th>
-				<td>
-					<select name="g_c_list">
-						<option value=""></option>
-					</select>
-				</td>
-			</tr>
 		</table>
 </div>

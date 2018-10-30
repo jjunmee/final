@@ -29,4 +29,10 @@ public class GenreService {
 	public List<CateGenreVo> list(){
 		return dao.list();
 	}
+	public CateGenreVo selectname(int num) {
+		return dao.selectname(num);
+	}
+	public List<CateGenreVo> checklist(int num){
+		return dao.checklist(num);
+	}
 }

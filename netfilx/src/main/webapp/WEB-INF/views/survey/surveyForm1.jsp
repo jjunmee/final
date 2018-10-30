@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style type="text/css">
+	.btnStyle{width: 150px;background-color: white;border-color: tan}
+</style>
+<script type="text/javascript">
+	$(function(){
+		if(${userPoint}<1000){
+			$("#spoint").attr("disabled","disabled");
+			$("#joinNum").attr("readonly","readonly");
+			
+		}
+		
+		
+		$("#nthing").on({
+			mouseover: function(){
+				var cal=Math.round($("#spoint").val()/$("#joinNum").val());				
+				$(this).val(cal+"포인트");
+			},
+			mouseout: function(){
+				$(this).val("배당금확인하기");
+			}		
+		});
+		$("#submitBtn").click(function(){
+			$("#spointSpan").html("");
+			$("#joinNumSpan").html("");
+			
+			if($("#spoint").val()<1000){
+				$("#spointSpan").html("1000포인트 이상 가능합니다.");
+			}else if($("#joinNum").val()<10){
+				$("#joinNumSpan").html("설문참여자는 10명 이상이어야 합니다.")
+			}else{
+				if(${userPoint}<$("#spoint").val()){
+					alert("포인트가 부족합니다.");
+				}else{
+					//modal사용해서 결제를 진행할껀지 
+					$("#frm").submit();									
+				}
+			}
+		})
+		
+	});
+
+</script>
+<form id="frm" action="<c:url value='/survey/surveyInsert1'/>" method="post">
+	<div id="box">
+		<h2> ${userId }님이 현재 보유하고 있는 포인트는 ${userPoint }입니다. </h2>
+		<div id="payBox">
+			결제포인트
+			<input type="number" id="spoint" name="spoint" min="1000" max="9999000" step="1000" value="1000">
+			<span id="spointSpan"></span>
+			<br>
+			인원
+			<input type="number" id="joinNum" name="joinNum" min="10" max="9999000" step="10" value="10">
+			<span id="joinNumSpan"></span>
+			<br>
+			<input type="button" id="nthing" class="btnStyle"  value="배당금확인하기">			
+			
+		</div>
+		<div id="descriptionBox">
+			이 설문조사 폼은 ~~~~~설명!
+		</div>
+		<input type="button" id="submitBtn" value="결제하고 설문등록하러가기">
+	</div>
+</form>

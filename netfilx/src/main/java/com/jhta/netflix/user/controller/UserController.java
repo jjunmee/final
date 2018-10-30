@@ -23,7 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jhta.netflix.lib.SHA512;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.validator.JoinValidator;
+import com.jhta.netflix.user.validator.LoginValidator;
 import com.jhta.netflix.user.vo.DefaultJoinVo;
+import com.jhta.netflix.user.vo.LoginVo;
 import com.jhta.netflix.user.vo.UserVo;
 
 @Controller
@@ -38,17 +40,26 @@ public class UserController {
 	
 	//일반사용자 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(String id,String pwd) {
-		UserVo vo=new UserVo(0,id,pwd,null,0,0,null);
-		int n = service.login(vo);
-		String redirect="";
-		if(n>=0) {
-			redirect=".main";
-		}else {
-			redirect=".user.login";
+	public String login(@Valid @ModelAttribute("LoginVo")LoginVo vo,
+			BindingResult result,HttpSession session) {
+		LoginValidator validator=new LoginValidator();
+		validator.validate(vo,result);
+		if(result.hasErrors()) {
+			return ".user.login";
 		}
-		ModelAndView mv=new ModelAndView(redirect);
-		return mv;
+		UserVo vo1 = service.login(vo.getId());
+		if(vo1.getPwd()!=null) {
+			String pw = SHA512.get_SHA_512_SecurePassword(vo.getPwd(), vo1.getPwd2());
+			if(vo1.getPwd().equals(pw)) {
+				session.setAttribute("id", vo.getId());
+				session.setAttribute("sts", vo1.getSts());
+				return ".main";
+			}else {
+				return ".user.login";
+			}
+		}else {
+			return ".user.login";
+		}
 	}
 	
 	//일반회원가입 이동
@@ -59,8 +70,8 @@ public class UserController {
 	
 	//일반사용자 회원가입완료
 	@RequestMapping(value = "/join/default", method = RequestMethod.POST)
-	public ModelAndView defaultJoin(@Valid @ModelAttribute("defaultJoinVo")DefaultJoinVo vo,
-			BindingResult result, HttpSession session) {
+	public ModelAndView defaultJoin(@Valid @ModelAttribute("DefaultJoinVo")DefaultJoinVo vo,
+			BindingResult result) {
 		JoinValidator validator=new JoinValidator();
 		validator.validate(vo,result);
 		if(result.hasErrors()) {

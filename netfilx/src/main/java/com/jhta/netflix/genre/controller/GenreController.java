@@ -35,6 +35,37 @@ public class GenreController {
 		return arr.toString();
 	}
 	
+	//카테고리별 장르리스트뿌리기(등록,수정,삭제 페이지에서)
+	@RequestMapping(value="/category/check_genrelist",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String check_genrelist(int num) {
+		System.out.println("넘어온 값"+num);
+		List<CateGenreVo> list = service.checklist(num);
+		JSONArray arr = new JSONArray();
+		for(CateGenreVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("genre_num", vo.getGenre_num());
+			json.put("genre_name", vo.getGenre_name());
+			json.put("category_num", vo.getCategory_num());
+			json.put("category_name", vo.getCategory_name());
+			arr.put(json);
+			System.out.println("보낼값"+vo.getGenre_name());
+		}
+		return arr.toString();
+	}
+	//수정 선택한 장르 찾기
+	@RequestMapping(value="/genre/genrename",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String genrename(int gnum) {
+		CateGenreVo vo = service.selectname(gnum);
+		JSONObject json = new JSONObject();
+		json.put("genre_num", vo.getGenre_num());
+		json.put("genre_name", vo.getGenre_name());
+		json.put("category_num", vo.getCategory_num());
+		json.put("category_name", vo.getCategory_name());
+		return json.toString();
+	}
+	
 	//장르전체리스트 카테고리오름차순으로 뿌리기
 	@RequestMapping(value="/category/genrelist",produces="application/json;charset=utf-8")
 	@ResponseBody
@@ -86,13 +117,16 @@ public class GenreController {
 	//장르수정
 	@RequestMapping(value="/genre/update",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public String update(String genre_name,int genre_num,int category_num) {
-		GenreVo vo = new GenreVo();
+	public String update(String genre_name,int genre_num) {
+		GenreVo vo = new GenreVo(genre_num,genre_name,0);
 		int n = service.update(vo);
 		JSONObject json = new JSONObject();
 		if(n>0) {
-			json.put("updatename",genre_name);
-			json.put("updatenum",genre_num);
+			CateGenreVo upvo = service.selectname(genre_num);
+			json.put("genre_num", upvo.getGenre_num());
+			json.put("genre_name", upvo.getGenre_name());
+			json.put("category_num", upvo.getCategory_num());
+			json.put("category_name", upvo.getCategory_name());
 		}else {
 			json.put("code", "요청실패");
 		}

@@ -9,11 +9,9 @@
 	$(document).ready(function(){
 		$("#videoCheck").click(function(){
 			if(this.checked==true){
-				$("#file").append("<input type='file' name='file1'>");
-				$("#frm").attr("enctype","multipart/form-data");
+				$("#file").append("<input type='file' name='file1'>");				
 			}else{
-				$("#file").empty();
-				$("#frm").attr("enctype","application/www-form-urlencoded");				
+				$("#file").empty();								
 			}
 		});
 		$("#surveyEnd").datepicker({
@@ -146,6 +144,7 @@
 			$("#qPlusBox").css("display","none");
 			appendDiv(opNum);
 		});
+		/*
 		$("#submitBtn").click(function(){
 			var choiceBox=document.createElement("input");
 			choiceBox.setAttribute("type","hidden");
@@ -154,12 +153,33 @@
 			$("#things").append(choiceBox);			
 			
 			var frm=document.frm;
-			frm.submit();
-			
+			frm.action="<c:url value='/survey/surveyInsert2'/>";
+			frm.submit();			
 		});
+		*/
 		
 	});
-	
+	function submitOk(n){
+		var choiceBox=document.createElement("input");
+		choiceBox.setAttribute("type","hidden");
+		choiceBox.setAttribute("name","choiceType");
+		choiceBox.setAttribute("value",choiceType);
+		$("#things").append(choiceBox);	
+		
+		var stateBox=document.createElement("input");
+		stateBox.setAttribute("type","hidden");
+		stateBox.setAttribute("name","state");
+		if(n==1){
+			stateBox.setAttribute("value","저장중");
+		}else{
+			stateBox.setAttribute("value","등록완료");
+		}
+		$("#things").append(stateBox);	
+		
+		var frm=document.frm;
+		frm.submit();
+		
+	}
 	function checktype1(){
 		opNum=1;
 		var br=document.createElement("br");
@@ -249,7 +269,7 @@
 
 </script>
 
-<form id="frm" name="frm" action="<c:url value='/survey/surveyInsert'/>" method="post">
+<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
 	<div id="surveyOverall">
 		<label>설문제목<input type="text" name="surveyName" placeholder="설문제목을 입력하세요"></label><br>
 		<label><input type="checkbox" id="videoCheck">영상첨부</label><span id="file"></span><br>
@@ -279,6 +299,7 @@
 		<input type="button" id="qPlus2" value="같은질문추가">
 	</div>
 	<div id="things">
-		<input type="button" id="submitBtn" value="등록">
+		<input type="button" onclick="submitOk(1)" value="저장">
+		<input type="button" onclick="submitOk(2)" value="등록">
 	</div>
 </form>

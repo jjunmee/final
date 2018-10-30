@@ -1,5 +1,5 @@
-$(document).ready(function(){
-	$("#check").bind("click",function(){
+	function email_check_id(){
+		$("#email_ck").empty();
 		var ck_id=$("#id").val();
 		ck_id.replace(/\s/gi, "");
 		var path = $("#path").val()+"/email_check_k";
@@ -25,18 +25,18 @@ $(document).ready(function(){
 				}
 			});
 		}
-	});
-	$("id").bind("change",function(){
+	};
+	function email_check(){
 		$("#email_boolean").val("false");
-	});
-});
+	};
 	function joinFormCheck(){
 		var b = $("#email_boolean").val();
 		var pw1 = $("#pwd").val();
 		var pw2 = $("#pwd2").val();
 		var birth = $("#birth").val();
-		if(!b){
+		if(b=="false"){
 			$("#id").focus();
+			$("#email_ck").html("중복확인");
 			return false;
 		}else if(!email.test($("#id").val())){
 			$("#id").focus();
