@@ -33,7 +33,7 @@ public class NaverLoginController {
 	@RequestMapping(value = "/loginForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session, 0);
 		//네이버 
 		model.addAttribute("url", naverAuthUrl);
 		/* 생성한 인증 URL을 View로 전달 */
@@ -42,7 +42,7 @@ public class NaverLoginController {
 
 	//네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/user/naver", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+	public ModelAndView callback(@RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException {
 		OAuth2AccessToken oauthToken;
         oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -51,11 +51,10 @@ public class NaverLoginController {
 	    JSONObject json = new JSONObject(apiResult);
 	    JSONObject json1 = new JSONObject(oauthToken);
 	    String id = (String)json.getJSONObject("response").getString("email");
-	    System.out.println(id);
 	    ModelAndView mv=null;
 	    //아이디 조회
 	    UserVo vo=service.login(id);
-	    if(vo.getSts() >= 0) {
+	    if(vo!=null) {
 	    	session.setAttribute("id", id);
 	    	session.setAttribute("sts", vo.getSts());
 	    	session.setAttribute("access_token", json1.getJSONObject("rowResponse").getString("access_token"));
