@@ -44,7 +44,7 @@ public class ContentController {
 	
 	@RequestMapping(value="/content/insert",method=RequestMethod.GET)
 	public String insertForm() {
-		return "content/insert";
+		return ".content.insert";
 	}
 	@RequestMapping(value="/content/insert",method=RequestMethod.POST)
 	public String insert(HttpSession session,HttpServletRequest request,
@@ -143,7 +143,7 @@ public class ContentController {
 		model.addAttribute("category_num", content_genreService.getCategory(num));
 		model.addAttribute("glist", content_genreService.list(num));
 		model.addAttribute("slist", content_staffService.staffList(num));
-		return "content/update";
+		return ".content.update";
 	}
 	@RequestMapping(value="/content/update",method=RequestMethod.POST)
 	public String update(HttpSession session,HttpServletRequest request,
@@ -264,7 +264,7 @@ public class ContentController {
 		List<ContentVo> contentList = contentService.list(map);
 		model.addAttribute("contentList", contentList);
 		model.addAttribute("pageUtil", pageUtil);
-		return "content/list";
+		return ".content.list";
 	}
 	
 }
