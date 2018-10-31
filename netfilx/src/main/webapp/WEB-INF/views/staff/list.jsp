@@ -6,41 +6,71 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
+	<script type="text/javascript">
+		function setPageNum(pageNum) {
+			$("#pageNum").val(pageNum);
+			$("#listForm").submit();
+		}
+		function deleteStaff(num) {
+			var pageNum = $("#pageNum").val();
+			var position = $("#position").val();
+			var keyword = $("#keyword").val();
+			location.href='<c:url value="/staff/delete'
+			+'?pageNum='+pageNum+'&position='+position
+			+'&keyword='+keyword+'&num='+num+'"/>';
+		}
+	</script>
 </head>
 <body>
 	<h1>스테프 목록</h1>
-	<select style="background-color: gray;">
-		<option value="false">배우</option>
-		<option value="true">감독</option>
-	</select>
-	<input type="text" name="keyword" style="background-color: lightgray;">
-	<input type="submit" value="검색">
-	<table>
-		<tr>
-			<th>구분</th>
-			<th>이름</th>
-			<th>출생년도</th>
-			<th>성별</th>
-			<th>데뷔작</th>
-		</tr>
-		<c:forEach items="${list }" var="vo">
+	<form id="listForm" action='<c:url value="/staff/list"/>' method="post">
+		<select id="position" name="position" onchange="submit()" style="background-color: gray;">
+			<option value="false"
+				<c:if test="${position == false }">selected="selected"</c:if>
+				>배우</option>
+			<option value="true"
+				<c:if test="${position == true }">selected="selected"</c:if>
+				>감독</option>
+		</select>
+		<input type="text" placeholder="이름" id="keyword" name="keyword" value="${keyword }" 
+			style="background-color: lightgray;">
+		<input type="submit" value="검색">
+		<input type="hidden" id="pageNum" name="pageNum" value="${pageUtil.pageNum }">
+		<table>
 			<tr>
-				<c:choose>
-					<c:when test="${vo.staff_position == false }">
-						<td>배우</td>
-					</c:when>
-					<c:otherwise>
-						<td>감독</td>
-					</c:otherwise>
-				</c:choose>
-				<td>${vo.staff_name }</td>
-				<td>${vo.staff_age }</td>
-				<td>${vo.staff_gender }</td>
-				<td>${vo.staff_debut }</td>
+				<th>구분</th>
+				<th>이름</th>
+				<th>출생년도</th>
+				<th>성별</th>
+				<th>데뷔작</th>
+				<th>수정</th>
+				<th>삭제</th>
 			</tr>
-		</c:forEach>
-	</table>
-	<c:choose>
+			<c:forEach items="${list }" var="vo">
+				<tr>
+					<c:choose>
+						<c:when test="${vo.staff_position == false }">
+							<td>배우</td>
+						</c:when>
+						<c:otherwise>
+							<td>감독</td>
+						</c:otherwise>
+					</c:choose>
+					<td>${vo.staff_name }</td>
+					<td>${vo.staff_age }</td>
+					<td>${vo.staff_gender }</td>
+					<td>${vo.staff_debut }</td>
+					<td>
+						<a href='<c:url value="/staff/update?num=${vo.staff_num }"/>'>수정</a>
+					</td><!-- 수정작업! -->
+					<td>
+						<a href='javascript:deleteStaff(${vo.staff_num });'>삭제</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<c:choose>
 			<c:when test="${pageUtil.pageNum > pageUtil.pageBlockCount }">
 				<a href='javascript:setPageNum(${pageUtil.startPageNum - 1 });' 
 				style="color: blue;">[이전]</a>
@@ -70,5 +100,6 @@
 				[다음]
 			</c:otherwise>
 		</c:choose>
+	</form>
 </body>
 </html>
