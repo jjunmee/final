@@ -13,6 +13,10 @@
 	<delete id="delete" parameterType="int">
 		delete from content_genre where cgenre_num=#{value}
 	</delete>
+	<!-- 장르테이블의 분류가 변경될때 장르연결된거 삭제하기 -->
+	<delete id="genredelete" parameterType="int">
+		delete from content_genre where genre_num=#{value}
+	</delete>
 	<select id="list" resultType="cgenre" parameterType="int">
 		select * from content_genre where content_num=#{value}
 	</select>

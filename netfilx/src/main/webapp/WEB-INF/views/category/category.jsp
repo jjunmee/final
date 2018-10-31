@@ -23,18 +23,35 @@
 			url:"<c:url value='/content/categorylist'/>",
 			dataType:"json",
 			success:function(data){
+				var str1 = "<tr><th>분류</th><th>수정</th><th>삭제</th></tr>"
+				$("#categorylist").append(str1);
 				$(data).each(function(i,json){
-						var str="<tr>";
+					var str="<tr>";
 					if(json.category_name == "미정"){
 								str+="<td id=\"cate" + json.category_num + "\" colspan=\"3\">" +json.category_name+ "</td>";
 					}else{
 								str+="<td id=\"cate" + json.category_num + "\">" +json.category_name+ "</td>"
 								+"<td id=\"cateok" + json.category_num + "\"><a href=\"javascript:false;\" onclick=\"cupdate(" + json.category_num + ")\">수정</a></td>"
-								+"<td><a href=\"${pageContext.request.contextPath }/category/delete?num=" + json.category_num + "\">삭제</a></td>";
+								+"<td><a href=\"javascript:false;\" onclick=\"catedelete(" + json.category_num + ")\">삭제</a></td>";
 					}
 								str+="</tr>";
 					$("#categorylist").append(str);
 				});
+			}
+		});
+	}
+	//카테고리 삭제
+	function catedelete(num){
+		$("#genrelist").empty();
+		$("#categorylist").empty();
+		$.ajax({
+			url:"<c:url value='/category/delete'/>",
+			data:{"num":num},
+			dataType: "json",
+			success:function(data){
+				alert(data.code);
+				categorylist();
+				genrelist();
 			}
 		});
 	}
@@ -77,7 +94,7 @@
 			}
 		});
 	}
-	/*
+	
 	//장르 수정시 장르의 카테고리 선택하는 창에 옵션뿌리기
 	function gcselect_option(gnum){
 		$.ajax({
@@ -92,13 +109,10 @@
 			}
 		});
 	}
-	*/
 	
 	//장르 수정버튼 클릭시 요청
 	function gupdate(gnum,cnum){
-		/*
 		$("#gcate"+gnum).empty();
-		*/
 		$("#genre"+gnum).empty();
 		$("#genreok"+gnum).empty();
 		$.ajax({
@@ -108,12 +122,10 @@
 			success:function(data){
 				var str1="<input type=\"text\" id=\"genreName"+ data.genre_num +"\" value=\"" + data.genre_name + "\" >";
 				var str2="<a href=\"javascript:false;\" onclick=\"gupdateOk(" + data.genre_num + "," + data.category_num+ ")\">확인</a>";
-				/*
 				var str3="<select name=\"gcateselect\" id=\"gcate_select" + data.genre_num + "\"><option value=\""+data.category_num+"\" selected=\"selected\">"
 				+data.category_name+"(기존)</option></select>";
 				$("#gcate" + gnum).append(str3);
 				gcselect_option(data.genre_num);
-				*/
 				$("#genre" + gnum).append(str1);
 				$("#genreok" + gnum).append(str2);
 			}
@@ -123,21 +135,17 @@
 	//장르 수정확인시 요청
 	function gupdateOk(gnum,cnum){
 		var genre_name = $("#genreName"+gnum).val();
-		/*
 		var category_num = $("#gcate_select" + gnum + " option:selected").val();
 		$("#gcate"+gnum).empty();
-		*/
 		$("#genre"+gnum).empty();
 		$("#genreok"+gnum).empty();
 		$.ajax({
 			url:"<c:url value='/genre/update'/>",
-			data:{"genre_name":genre_name,"genre_num":gnum/*,"category_num":category_num*/},
+			data:{"genre_name":genre_name,"genre_num":gnum,"category_num":category_num},
 			dataType:"json",
 			success:function(data){
-				/*
 				var cname = data.category_name;
 				$("#gcate" + gnum).append(cname);
-				*/
 				var gname = data.genre_name;
 				var str = "<a href=\"javascript:false;\" onclick=\"gupdate(" + data.genre_num + "," + data.category_num+ ")\">수정</a>";
 				$("#genre" + gnum).append(gname);
@@ -162,33 +170,7 @@
 			}
 		});
 	}
-	 
-	//카테고리 수정확인시 요청
-	function cupdateOk(num){
-		var category_name = $("#cateName"+num).val();
-		$("#cate"+num).empty();
-		$("#cateok"+num).empty();
-		$.ajax({
-			url:"<c:url value='/category/update'/>",
-			data:{"category_name":category_name,"category_num":num},
-			dataType:"json",
-			success:function(data){
-				var name = data.updatename;
-				var str = "<a href=\"javascript:false;\" onclick=\"cupdate(" + data.updatenum + ")\">수정</a>";
-				$("#cate" + num).append(name);
-				$("#cateok" + num).append(str);
-				$("#category").empty();
-				$("#gcate_check_div").empty();
-				cateselect();
-				//장르리스트 지우기
-				$("#genrelist").empty();
-				//장르리스트 다시 뿌리기
-				genrelist();
-			}
-		});
-	}
-	//each로 loop를 돌면서 checkbox의 check된 값을 가져와 담아준다.
-
+	
 	function checkcheck(){
 		$("#genrelist").empty();
 		var arraycate = new Array();
@@ -231,11 +213,6 @@
 		<input type="submit" value="추가">
 	</form>
 		<table border="1" id="categorylist" width="800">
-			<tr>
-				<th>분류</th>
-				<th>수정</th>
-				<th>삭제</th>
-			</tr>
 		</table>
 <h1>장르</h1>
 	<form method="post" action='<c:url value="/genre/insert"/>'>

@@ -11,14 +11,14 @@
 	<insert id="insert" parameterType="genre">
 		insert into genre values(0,#{genre_name},#{category_num})
 	</insert>
-	<!--
 	<update id="update" parameterType="genre">
 		update genre set genre_name=#{genre_name},category_num=#{category_num} where genre_num=#{genre_num}
 	</update>
-	 -->
+	<!--
 	<update id="update" parameterType="genre">
 		update genre set genre_name=#{genre_name} where genre_num=#{genre_num}
 	</update>
+	 -->
 	<delete id="delete" parameterType="int">
 		delete from genre where genre_num = #{genre_num}
 	</delete>

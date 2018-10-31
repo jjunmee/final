@@ -23,6 +23,9 @@ public class Content_genreDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int genredelete(int num) {
+		return sqlSession.delete(NAMESPACE+".genredelete", num);
+	}
 	public List<Content_genreVo> list(int num){
 		return sqlSession.selectList(NAMESPACE+".list", num);
 	}
