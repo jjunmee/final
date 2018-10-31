@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.QnaMapper">
+	<insert id="insert" parameterType="qna">
+		insert into qna values(0,#{qna_title},#{qna_content},now(),#{open},#{lev},#{step},#{users_num})
+	</insert>
+	<select id="list" resultType="qna">
+		select * from qna
+	</select>
+	<select id="detail" parameterType="int" resultType="qna">
+		select * from qna where qna_num = #{qna_num}
+	</select>
+	<update id="update" parameterType="qna">
+		update set qna qna_title = #{qna_title}, qna_content = #{qna_content}, open = #{open} where qna_num = #{qna_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from qna where qna_num = #{qna_num}
+	</delete>
+	<select id="maxnum" resultType="int">
+		select IFNULL(max(qna_num),0) maxnum from qna
+	</select>
+</mapper>
+  

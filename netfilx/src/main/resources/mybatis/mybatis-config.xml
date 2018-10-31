@@ -20,6 +20,7 @@
 		<typeAlias type="com.jhta.netflix.series.vo.SeriesVo" alias="series"/>		
 		<typeAlias type="com.jhta.netflix.content_genre.vo.Content_genreVo" alias="cgenre"/>		
 		<typeAlias type="com.jhta.netflix.content_staff.vo.Content_staffVo" alias="cstaff"/>		
+		<typeAlias type="com.jhta.netflix.qna.vo.QnaVo" alias="qna"/>		
 	</typeAliases>
 	
 	<mappers>
@@ -32,5 +33,6 @@
 		<mapper resource="mapper/SeriesMapper.xml"/>
 		<mapper resource="mapper/Content_genreMapper.xml"/>
 		<mapper resource="mapper/Content_staffMapper.xml"/>
+		<mapper resource="mapper/QnaMapper.xml"/>
 	</mappers>
 </configuration>
