@@ -22,6 +22,9 @@ public class Content_genreService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int genredelete(int num) {
+		return dao.genredelete(num);
+	}
 	public List<Content_genreVo> list(int num){
 		return dao.list(num);
 	}

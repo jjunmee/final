@@ -13,11 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.netflix.category.service.CategoryService;
 import com.jhta.netflix.category.vo.CategoryVo;
+import com.jhta.netflix.genre.controller.GenreController;
 
 @Controller
 public class CategoryController {
 	@Autowired
 	private CategoryService service;
+	@Autowired
+	private GenreController genreController;
 	
 	//카테고리등록수정폼으로 이동
 	@RequestMapping(value="/category/category",method=RequestMethod.GET)
@@ -41,6 +44,7 @@ public class CategoryController {
 		return mv;
 	}
 	
+	/*
 	//카테고리 삭제
 	@RequestMapping(value="/category/delete",method=RequestMethod.GET)
 	public ModelAndView delete(int num) {
@@ -55,6 +59,7 @@ public class CategoryController {
 		mv.setViewName(result);
 		return mv;
 	}
+	*/
 	
 	//카테고리 수정
 	@RequestMapping(value="/category/update",produces="application/json;charset=utf-8")
