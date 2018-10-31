@@ -21,16 +21,26 @@
 			<if test="position != null">
 				staff_position=#{position}
 			</if>
-			<if test="name != null">
+			<if test="staff_name != null">
 				and staff_name like CONCAT('%',#{staff_name},'%')
 			</if>
+			<if test="keyword != null">
+				and staff_name like CONCAT('%',#{keyword},'%')
+			</if>
 		</where>
+		order by staff_num desc
+		limit #{startRow}, #{rowBlockCount}
 	</select>
-	<select id="listCount" resultType="staff" parameterType="string">
+	<select id="listCount" resultType="int" parameterType="hashmap">
 		select count(*) from staff 
-		<if test="value != null">
-			where staff_name like CONCAT('%',#{keyword},'%')
-		</if>
+		<where>
+			<if test="position != null">
+				staff_position=#{position}
+			</if>
+			<if test="keyword != null">
+				and staff_name like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
 	</select>
 </mapper>
   

@@ -15,6 +15,9 @@
 	<delete id="relDelete" parameterType="int">
 		delete from content_staff where content_num=#{value}
 	</delete>
+	<delete id="staffRelDelete" parameterType="int">
+		delete from content_staff where staff_num=#{value}
+	</delete>
 	<select id="list" resultType="cstaff" parameterType="int">
 		select * from content_staff where content_num=#{value}
 	</select>

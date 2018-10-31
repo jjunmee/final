@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jhta.netflix.content.vo.ContentVo;
+import com.jhta.netflix.content_staff.service.Content_staffService;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.staff.service.StaffService;
 import com.jhta.netflix.staff.vo.StaffVo;
@@ -22,26 +23,35 @@ import com.jhta.netflix.staff.vo.StaffVo;
 public class StaffController {
 	@Autowired
 	private StaffService service;
+	@Autowired
+	private Content_staffService content_staffService;
 	
-	@RequestMapping(value="/staff/list",method=RequestMethod.GET)
+	@RequestMapping(value="/staff/list")
 	public String staffList(Model model,@RequestParam(value="pageNum",defaultValue="1")int pageNum,
 			@RequestParam(value="position",defaultValue="false")boolean position,String keyword) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		System.out.println(keyword);
+		map.put("position", position);
 		if(keyword != null && !keyword.trim().equals("")) {
 			map.put("keyword", keyword);
 			model.addAttribute("keyword", keyword);
 		}
-		int totalRowCount = service.listCount(keyword);
+		int totalRowCount = service.listCount(map);
 		PageUtil pageUtil = new PageUtil(pageNum, totalRowCount, 10, 10);
 		map.put("startRow", pageUtil.getMysqlStartRow());
 		map.put("rowBlockCount", pageUtil.getRowBlockCount());
-		map.put("position", position);
 		List<StaffVo> list = service.list(map);
 		model.addAttribute("list", list);
 		model.addAttribute("pageUtil", pageUtil);
 		model.addAttribute("position", position);
 		return ".staff.list";
+	}
+	@RequestMapping(value="/staff/delete",method=RequestMethod.GET)
+	public String delete(@RequestParam(value="pageNum",defaultValue="1")int pageNum,
+			@RequestParam(value="position",defaultValue="false")boolean position,
+			String keyword,int num) {
+		content_staffService.staffRelDelete(num);
+		service.delete(num);
+		return "redirect:/staff/list?pageNum="+pageNum+"&position="+position+"&keyword="+keyword;
 	}
 	@RequestMapping(value="/content/stafflist",produces="application/json;charset=utf-8")
 	@ResponseBody

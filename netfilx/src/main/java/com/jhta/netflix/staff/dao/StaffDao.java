@@ -27,9 +27,7 @@ public class StaffDao {
 	public List<StaffVo> list(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE+".list", map);
 	}
-	public int listCount(String keyword) {
-		int n = sqlSession.selectOne(NAMESPACE+".listCount", keyword);
-		System.out.println(n);
-		return n;
+	public int listCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE+".listCount", map);
 	}
 }

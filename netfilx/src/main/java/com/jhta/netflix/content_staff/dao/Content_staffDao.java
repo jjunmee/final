@@ -36,5 +36,8 @@ public class Content_staffDao {
 	public int relDelete(int num) {
 		return sqlSession.delete(NAMESPACE+".relDelete", num);
 	}
+	public int staffRelDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".staffRelDelete", num);
+	}
 	
 }

@@ -35,4 +35,7 @@ public class Content_staffService {
 	public int relDelete(int num) {
 		return dao.relDelete(num);
 	}
+	public int staffRelDelete(int num) {
+		return dao.staffRelDelete(num);
+	}
 }
