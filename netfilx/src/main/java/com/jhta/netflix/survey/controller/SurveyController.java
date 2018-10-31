@@ -38,9 +38,9 @@ public class SurveyController {
 		String state="";
 		
 		if(code==1) {//현재진행중인 설문
-			state="success";			
+			state="등록완료";			
 		}else if(code==2){//완료된 설문(code:2)
-			state="fail";
+			state="설문종료";
 		}			
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);
