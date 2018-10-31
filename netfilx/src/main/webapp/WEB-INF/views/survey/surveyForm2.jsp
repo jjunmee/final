@@ -23,7 +23,14 @@
 		});
 		$("#choice1").click(function(){
 			choiceType=1;	
-	
+			
+			var leftBox=document.createElement("div");
+			leftBox.setAttribute("id","leftBox");
+			leftBox.setAttribute("class","leftBox");
+			var rightBox=document.createElement("div");
+			rightBox.setAttribute("id","rightBox");
+			rightBox.setAttribute("class","rightBox");
+			
 			var rowBox=document.createElement("div");
 			rowBox.setAttribute("id","rowBox");
 			rowBox.innerHTML="질문";
@@ -34,9 +41,12 @@
 			colBox.innerHTML="옵션";
 			colBox.appendChild(document.createElement("br"));
 			
-			$("#mainSurvey1").append(rowBox);
-			$("#mainSurvey1").append(colBox);
+			$("#mainSurvey1").append(leftBox);
+			$("#leftBox").append(rowBox);
+			$("#mainSurvey1").append(rightBox);
+			$("#rightBox").append(colBox);
 			
+			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey1").show();
 			
@@ -46,6 +56,7 @@
 		});
 		$("#choice2").click(function(){
 			choiceType=2;
+			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
 			appendDiv(0);			
@@ -269,52 +280,56 @@
 
 </script>
 <div id="surveyForm">
-	<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
-		<div id="surveyOverall">
-			<table>
-				<tr>
-					<th><label for="surveyName">설문제목</label></th>
-					<td><input type="text" id="surveyName" name="surveyName" placeholder="설문제목을 입력하세요"></td>
-				</tr>
-				<tr>
-					<th><label for="surveyDescription">설문내용</label></th>
-					<td><textarea rows="5" cols="cols" id="surveyDescription" name="surveyDescription" placeholder="설문내용을 입력하세요"></textarea></td>
-				</tr>
-				<tr>
-					<th><label for="videoCheck"><input type="checkbox" id="videoCheck">영상첨부</label></th>
-					<td><span id="file"></span></td>
-				</tr>
-				<tr>
-					<th>설문종료일</th>
-					<td><input type="text" id="surveyEnd" name="surveyEnd" readonly="readonly"></td>
-				</tr>
-			</table>	
-		</div>
-		<div id="typeChoice">
-			<input type="button" id="choice1" value="객관식그리드">
-			<input type="button" id="choice2" value="복합질문타입">
-		</div>
-		<div id="mainSurvey1" style="display: none">
+	<div class="survey">
+		<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
+			<div id="surveyOverall">
+				<div class="overall">
+					<table>
+						<tr>
+							<th><label for="surveyName">설문제목</label></th>
+							<td><input type="text" id="surveyName" name="surveyName" placeholder="설문제목을 입력하세요"></td>
+						</tr>
+						<tr>
+							<th><label for="surveyDescription">설문내용</label></th>
+							<td><textarea rows="5" cols="cols" id="surveyDescription" name="surveyDescription" placeholder="설문내용을 입력하세요"></textarea></td>
+						</tr>
+						<tr>
+							<th><label for="videoCheck"><input type="checkbox" id="videoCheck">영상첨부</label></th>
+							<td><span id="file"></span></td>
+						</tr>
+						<tr>
+							<th>설문종료일</th>
+							<td><input type="text" id="surveyEnd" name="surveyEnd" readonly="readonly"></td>
+						</tr>
+					</table>
+				</div>	
+			</div>
+			<div id="typeChoice" class="typeChoice">
+				<input type="button" id="choice1" value="객관식그리드">
+				<input type="button" id="choice2" value="복합질문타입">
+			</div>
+			<div id="mainSurvey1" class="mainSurvey1" style="display: none">			
+				
+			</div>
+			<div id="mainSurvey2" class="mainSurvey2" style="display: none">
+							
+			</div>	
+			<div id="opDiv" class="opDiv" style="display: none">
+				<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
+				<input type="button" id="type2" onclick="checktype2()" value="중복체크">
+				<input type="button" id="type3" onclick="checktype3()" value="직선단계">
+				<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
+			</div>
 			
-		</div>
-		<div id="mainSurvey2" style="display: none">		
-			
-		</div>	
-		<div id="opDiv" style="display: none">
-			<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
-			<input type="button" id="type2" onclick="checktype2()" value="중복체크">
-			<input type="button" id="type3" onclick="checktype3()" value="직선단계">
-			<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
-		</div>
-		
-		<div id="qPlusBox" style="display: none">
-			<input type="button" id="opPlus" style="display: block" value="옵션추가">		
-			<input type="button" id="qPlus1" value="질문추가">
-			<input type="button" id="qPlus2" value="같은질문추가">
-		</div>
-		<div id="things">
-			<input type="button" onclick="submitOk(1)" value="저장하기">
-			<input type="button" onclick="submitOk(2)" value="등록하기">
-		</div>
-	</form>
+			<div id="qPlusBox" style="display: none">
+				<input type="button" id="opPlus" value="옵션추가" style="display: block">		
+				<input type="button" id="qPlus1" value="질문추가">
+				<input type="button" id="qPlus2" value="같은질문추가">
+			</div>
+			<div id="things" class="things">
+				<input type="button" id="submitBtn1" onclick="submitOk(1)" value="저장하기">
+				<input type="button" id="submitBtn2" onclick="submitOk(2)" value="등록하기" style="display: none">
+			</div>
+		</form>
+	</div>
 </div>

@@ -12,6 +12,10 @@
 #content .survey .mainSurvey2 input[type=text]{width:400px;color:black;}
 #content .survey .typeChoice{padding-left:300px;}
 #content .survey .typeChoice input[type=button]{width:100px;height:70px; }
+#content .survey .leftBox{width:400px;background-color: lightgrey;float: left;}
+#content .survey .rightBox{width:400px;background-color: gray;float: left;}
 #content .survey .things{padding-left:300px;}
+#content .survey .mainSurvey2{padding-left:100px;}
+#content .survey .opDiv{padding-left:100px;}
 
 
