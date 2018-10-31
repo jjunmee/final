@@ -37,4 +37,7 @@ public class ContentDao {
 	public int count() {
 		return sqlSession.selectOne(NAMESPACE + ".count");
 	}
+	public int maxNum() {
+		return sqlSession.selectOne(NAMESPACE + ".maxNum");
+	}
 }

@@ -32,4 +32,7 @@ public class Content_staffService {
 	public List<StaffVo> staffList(int num){
 		return dao.staffList(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 }

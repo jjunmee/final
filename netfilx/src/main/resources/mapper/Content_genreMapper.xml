@@ -17,6 +17,9 @@
 	<delete id="genredelete" parameterType="int">
 		delete from content_genre where genre_num=#{value}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from content_genre where content_num=#{value}
+	</delete>
 	<select id="list" resultType="cgenre" parameterType="int">
 		select * from content_genre where content_num=#{value}
 	</select>

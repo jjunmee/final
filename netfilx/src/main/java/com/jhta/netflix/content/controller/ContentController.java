@@ -50,7 +50,7 @@ public class ContentController {
 	public String insert(HttpSession session,HttpServletRequest request,
 			MultipartFile poster,MultipartFile stillcut,MultipartFile trailer,MultipartFile org,
 			Date release_date,int watch_age) {
-		int content_num = contentService.count() + 1;
+		int content_num = contentService.maxNum() + 1;
 		String content_name = request.getParameter("content_name");
 		String content_summary = request.getParameter("content_summary");
 		String category_num = request.getParameter("category_num");
@@ -129,7 +129,22 @@ public class ContentController {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/content/delete",method=RequestMethod.GET)
-	public String delete(int num) {
+	public String delete(HttpSession session,int num) {
+		ContentVo orgVo = contentService.find(num);
+		String posterUploadPath = session.getServletContext().getRealPath("/resources/upload/poster");
+		File f = new File(posterUploadPath + "\\" + orgVo.getContent_post1());
+		f.delete();
+		String stillcutUploadPath = session.getServletContext().getRealPath("/resources/upload/stillcut");
+		f = new File(stillcutUploadPath + "\\" + orgVo.getContent_post2());
+		f.delete();
+		String trailerUploadPath = session.getServletContext().getRealPath("/resources/upload/trailer");
+		f = new File(trailerUploadPath + "\\" + orgVo.getTrailer_savesrc());
+		f.delete();
+		String orgUploadPath = session.getServletContext().getRealPath("/resources/upload/org");
+		f = new File(orgUploadPath + "\\" + orgVo.getSavesrc());
+		f.delete();
+		content_genreService.relDelete(num);
+		content_staffService.relDelete(num);
 		contentService.delete(num);
 		return "redirect:/content/list";
 	}
@@ -240,11 +255,11 @@ public class ContentController {
 					trailer_orgsrc, trailer_savesrc, content_size, trailer_size, content_post1, 
 					content_post2, release_date, watch_age, null, series_num);
 			contentService.update(vo);
-			
-			
+			content_genreService.relDelete(content_num);
 			for(int i = 0;i < genres.size();i++) {
 				content_genreService.insert(new Content_genreVo(0, content_num, genres.get(i)));
 			}
+			content_staffService.relDelete(content_num);
 			for(int i = 0;i < staffs.size();i++) {
 				content_staffService.insert(new Content_staffVo(0, staffs.get(i), content_num));
 			}

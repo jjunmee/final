@@ -32,11 +32,7 @@ import com.jhta.netflix.user.vo.UserVo;
 public class UserController {
 	@Autowired private UserService service;
 	
-	//로그인 이동
-	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-	public String loginForm() {
-		return ".user.login";
-	}
+	
 	
 	//일반사용자 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -63,9 +59,9 @@ public class UserController {
 	}
 	
 	//일반회원가입 이동
-	@RequestMapping(value = "/joinForm", method = RequestMethod.GET)
-	public String joinForm() {
-		return ".user.join.default";
+	@RequestMapping(value = "/joinSel", method = RequestMethod.GET)
+	public String joinSel() {
+		return ".user.join.index";
 	}
 	
 	//일반사용자 회원가입완료

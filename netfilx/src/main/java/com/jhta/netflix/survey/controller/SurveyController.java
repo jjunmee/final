@@ -43,7 +43,7 @@ public class SurveyController {
 		}
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);
-		
+		model.addAttribute("code",code);
 		return ".survey.surveyList";
 	}
 	
