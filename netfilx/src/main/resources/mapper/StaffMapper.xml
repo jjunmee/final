@@ -16,7 +16,21 @@
 		delete from staff where staff_num=#{value}
 	</delete>
 	<select id="list" parameterType="hashmap" resultType="staff">
-		select * from staff where staff_position=#{position} and staff_name like CONCAT('%',#{name},'%')
+		select * from staff
+		<where>
+			<if test="position != null">
+				staff_position=#{position}
+			</if>
+			<if test="name != null">
+				and staff_name like CONCAT('%',#{staff_name},'%')
+			</if>
+		</where>
+	</select>
+	<select id="listCount" resultType="staff" parameterType="string">
+		select count(*) from staff 
+		<if test="value != null">
+			where staff_name like CONCAT('%',#{keyword},'%')
+		</if>
 	</select>
 </mapper>
   

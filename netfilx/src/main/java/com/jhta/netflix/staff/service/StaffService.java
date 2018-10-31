@@ -25,4 +25,7 @@ public class StaffService {
 	public List<StaffVo> list(HashMap<String, Object> map){
 		return dao.list(map);
 	}
+	public int listCount(String keyword) {
+		return dao.listCount(keyword);
+	}
 }

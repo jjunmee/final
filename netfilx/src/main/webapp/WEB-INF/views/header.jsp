@@ -19,6 +19,7 @@
             <ul class="dropdown-menu">
 	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
 	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
+	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
             </ul>
           </li>
           <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
