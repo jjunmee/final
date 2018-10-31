@@ -129,7 +129,22 @@ public class ContentController {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/content/delete",method=RequestMethod.GET)
-	public String delete(int num) {
+	public String delete(HttpSession session,int num) {
+		ContentVo orgVo = contentService.find(num);
+		String posterUploadPath = session.getServletContext().getRealPath("/resources/upload/poster");
+		File f = new File(posterUploadPath + "\\" + orgVo.getContent_post1());
+		f.delete();
+		String stillcutUploadPath = session.getServletContext().getRealPath("/resources/upload/stillcut");
+		f = new File(stillcutUploadPath + "\\" + orgVo.getContent_post2());
+		f.delete();
+		String trailerUploadPath = session.getServletContext().getRealPath("/resources/upload/trailer");
+		f = new File(trailerUploadPath + "\\" + orgVo.getTrailer_savesrc());
+		f.delete();
+		String orgUploadPath = session.getServletContext().getRealPath("/resources/upload/org");
+		f = new File(orgUploadPath + "\\" + orgVo.getSavesrc());
+		f.delete();
+		content_genreService.relDelete(num);
+		content_staffService.relDelete(num);
 		contentService.delete(num);
 		return "redirect:/content/list";
 	}
