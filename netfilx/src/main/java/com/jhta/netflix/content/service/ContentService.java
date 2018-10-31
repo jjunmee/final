@@ -32,6 +32,9 @@ public class ContentService {
 	public int count() {
 		return dao.count();
 	}
+	public int listCount(HashMap<String, Object> map) {
+		return dao.listCount(map);
+	}
 	public int maxNum() {
 		return dao.maxNum();
 	}

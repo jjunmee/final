@@ -269,17 +269,44 @@ public class ContentController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value="/content/list",method=RequestMethod.GET)
-	public String list(Model model,@RequestParam(value="pageNum",defaultValue="1")int pageNum) {
+	@RequestMapping(value="/content/list")
+	public String list(Model model,@RequestParam(value="pageNum",defaultValue="1")int pageNum,
+			@RequestParam(value="sort",defaultValue="recommend")String sort,String keyword) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		int totalRowCount = contentService.count();
+		if(keyword != null && !keyword.trim().equals("")) {
+			map.put("keyword", keyword);
+			model.addAttribute("keyword", keyword);
+		}
+		int totalRowCount = contentService.listCount(map);
 		PageUtil pageUtil = new PageUtil(pageNum, totalRowCount, 10, 10);
 		map.put("startRow", pageUtil.getMysqlStartRow());
 		map.put("rowBlockCount", pageUtil.getRowBlockCount());
+		map.put("sort", sort);
 		List<ContentVo> contentList = contentService.list(map);
 		model.addAttribute("contentList", contentList);
 		model.addAttribute("pageUtil", pageUtil);
+		model.addAttribute("sort", sort);
 		return ".content.list";
 	}
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

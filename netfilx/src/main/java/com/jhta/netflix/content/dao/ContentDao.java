@@ -37,6 +37,9 @@ public class ContentDao {
 	public int count() {
 		return sqlSession.selectOne(NAMESPACE + ".count");
 	}
+	public int listCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".listCount",map);
+	}
 	public int maxNum() {
 		return sqlSession.selectOne(NAMESPACE + ".maxNum");
 	}

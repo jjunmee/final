@@ -38,7 +38,22 @@
 	<select id="list" resultType="content" parameterType="hashmap">
 		select *
 		from content
-		order by content_num desc
+		<if test="keyword != null">
+			where content_name like CONCAT('%',#{keyword},'%')
+		</if>
+		order by 
+		<if test="sort == 'recommend'">
+			content_num desc
+		</if>
+		<if test="sort == 'date'">
+			release_date desc
+		</if>
+		<if test="sort == 'asc'">
+			content_name 
+		</if>
+		<if test="sort == 'desc'">
+			content_name desc
+		</if>
 		limit #{startRow}, #{rowBlockCount}
 	</select>
 	<select id="find" parameterType="int" resultType="content">
@@ -46,6 +61,12 @@
 	</select>
 	<select id="count" resultType="int">
 		select count(*) from content
+	</select>
+	<select id="listCount" resultType="int" parameterType="hashmap">
+		select count(*) from content 
+		<if test="keyword != null">
+			where content_name like CONCAT('%',#{keyword},'%')
+		</if>
 	</select>
 	<select id="maxNum" resultType="int">
 		select max(content_num) from content
