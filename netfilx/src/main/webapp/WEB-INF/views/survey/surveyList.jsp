@@ -25,7 +25,20 @@
 	<div id="listBox" class="centerBox">			
 		<table>
 			<tr>
-				<th>설문번호</th><th>설문제목</th><th>조사인원</th><th>배당금</th><th>마감기한</th>
+				<th>번호</th>
+				<th>설문제목</th>
+				<th>조사인원</th>
+				<th>배당금</th>
+				<c:choose>
+					<c:when test="${code==1 }">
+						<th>마감기한</th>
+					</c:when>
+					<c:when test="${code==2 }">
+						<th>등록일</th>
+						<th>종료일</th>
+					</c:when>
+				</c:choose>
+				
 			</tr>
 			<c:set var="num" value="${fn:length(list) }"/>
 			<c:forEach var="vo" items="${list }">
@@ -40,6 +53,7 @@
 						</c:when>
 						<c:when test="${code==2 }">
 							<td>${vo.surveyStart }</td>
+							<td>${vo.surveyEnd }</td>
 						</c:when>
 					</c:choose>				
 				</tr>

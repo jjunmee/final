@@ -4,12 +4,15 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-		
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/database.properties"/>
+	</bean>	
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-   		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-   		<property name="url" value="jdbc:mysql://dmszone.com:43306/final?useSSL=false&amp;"/>
-   		<property name="username" value="final"/>
-   		<property name="password" value="final1004"/>
+   		<property name="driverClassName" value="${driver}"/>
+   		<property name="url" value="${url}"/>
+   		<property name="username" value="${user}"/>
+   		<property name="password" value="${password}"/>
    </bean> 
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
    		<property name="dataSource" ref="dataSource"/>
@@ -24,5 +27,14 @@
    		<context:exclude-filter type="annotation" 
    		        expression="org.springframework.stereotype.Controller"/>
    </context:component-scan>
-   			
+   <!-- Google 소셜 로그인 연결 설정 -->
+	<bean id = "googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<constructor-arg value="946660456085-j3vehjpk08futtej7r2pe4eq8snuk5sr.apps.googleusercontent.com"/>
+	<constructor-arg value="U2iBi_oB7J-Pl7481t3Z8M3Z"/>    
+	</bean>
+	<bean id = "googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+	<property name="scope" value="https://www.googleapis.com/auth/plus.login"></property>
+	<property name="redirectUri" value="http://localhost:8080/netflix/user/google"/>
+	</bean>
+   
 </beans>

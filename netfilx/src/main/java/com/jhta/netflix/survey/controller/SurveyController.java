@@ -38,9 +38,9 @@ public class SurveyController {
 		String state="";
 		
 		if(code==1) {//������������ ����
-			state="success";			
+			state="��ϿϷ�";			
 		}else if(code==2){//�Ϸ�� ����(code:2)
-			state="fail";
+			state="��������";
 		}			
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);

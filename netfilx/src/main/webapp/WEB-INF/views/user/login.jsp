@@ -21,5 +21,10 @@
 		<a href="<c:url value='/joinSel'/>" tabindex="4" class="btn btn-default" role="button">회원가입</a>
 		<button type="reset" tabindex="5" class="btn btn-default" role="button">취소</button>
 		<a href="${url }"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+		<a href="${google_url}">
+			<button id="btnJoinGoogle" class="btn btn-primary btn-round" style="width: 100%">
+            <i class="fa fa-google" aria-hidden="true"></i>Google Login
+            </button>
+        </a> 
 	</form:form>
 </div>

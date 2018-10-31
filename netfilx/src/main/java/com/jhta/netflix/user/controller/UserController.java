@@ -32,8 +32,6 @@ import com.jhta.netflix.user.vo.UserVo;
 public class UserController {
 	@Autowired private UserService service;
 	
-	
-	
 	//일반사용자 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@Valid @ModelAttribute("LoginVo")LoginVo vo,

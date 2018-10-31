@@ -42,10 +42,10 @@
 	<select id="surveyListSelect" parameterType="String" resultType="survey">
 		select * from survey where state=#{state}		
 		<choose>
-			<when test="state=='success'">
+			<when test="value=='등록완료'">
 				order by surveyEnd desc
 			</when>			
-			<when test="state=='fail'">
+			<when test="value=='설문종료'">
 				order by surveyStart desc
 			</when>
 		</choose>
