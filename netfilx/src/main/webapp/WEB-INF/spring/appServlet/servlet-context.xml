@@ -17,7 +17,7 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	
@@ -50,6 +50,7 @@
 	
 	<context:component-scan base-package="com.jhta.netflix" />
 	
+	<!-- 네이버 로그인  -->
+	<beans:bean id="NaverLogin" class="com.jhta.netflix.user.naver.NaverLoginBo"/>
 	
-	<beans:bean id="NaverLogin" class="com.jhta.netflix.user.naver.NaverLoginBo"/>        
 </beans:beans>

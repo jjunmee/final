@@ -1,4 +1,4 @@
-package com.jhta.netflix.user.naver;
+package com.jhta.netflix.user.controller;
 
 import java.io.IOException;
 
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.jhta.netflix.user.naver.NaverLoginBo;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.vo.UserVo;
 
 @Controller
 public class NaverLoginController {
 	/* NaverLoginBO */
-	private NaverLoginBo naverLoginBO;
+	@Autowired private NaverLoginBo naverLoginBO;
 	private String apiResult = null;
 	@Autowired private UserService service;
-	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBo naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
@@ -33,8 +33,7 @@ public class NaverLoginController {
 	@RequestMapping(value = "/loginForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session, 0);
-		//네이버 
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		model.addAttribute("url", naverAuthUrl);
 		/* 생성한 인증 URL을 View로 전달 */
 		return ".user.login";
@@ -44,6 +43,7 @@ public class NaverLoginController {
 	@RequestMapping(value = "/user/naver", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView callback(@RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException {
+		//collback 구분을 위한 설정
 		OAuth2AccessToken oauthToken;
         oauthToken = naverLoginBO.getAccessToken(session, code, state);
         //로그인 사용자 정보를 읽어온다.
@@ -54,18 +54,19 @@ public class NaverLoginController {
 	    ModelAndView mv=null;
 	    //아이디 조회
 	    UserVo vo=service.login(id);
-	    if(vo!=null) {
-	    	session.setAttribute("id", id);
-	    	session.setAttribute("sts", vo.getSts());
-	    	session.setAttribute("access_token", json1.getJSONObject("rowResponse").getString("access_token"));
-	    	session.setAttribute("tokenType", json1.getJSONObject("rowResponse").getString("tokenType"));
-	    	session.setAttribute("refresh_token", json1.getJSONObject("rowResponse").getString("refresh_token"));
-	    	mv= new ModelAndView(".main");
-	    }else{
-	    	mv=new ModelAndView(".user.login");
-	    	mv.addObject("errMSG", "가입되어있는 아이디가 없습니다.");
+	    if(vo==null) {
+	    	vo=new UserVo(0,id,null,null,0,0,null);
+	    	service.defaultJoin(vo);
 	    }
+	    session.setAttribute("id", id);
+	    session.setAttribute("sts", vo.getSts());
+	    session.setAttribute("sns", "naver");
+	    session.setAttribute("accessToken", json1.getString("accessToken").toString());
+	    session.setAttribute("tokenType", json1.getString("tokenType").toString());
+	    session.setAttribute("refreshToken", json1.getString("refreshToken").toString());
+	    mv= new ModelAndView(".main");
         /* 네이버 로그인 성공 페이지 View 호출 */
 		return mv;
 	}
+	
 }
