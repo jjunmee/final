@@ -36,11 +36,12 @@ public class SurveyController {
 	@RequestMapping(value="/survey/list", method=RequestMethod.GET)
 	public String surveyList(int code,Model model) {
 		String state="";
+		
 		if(code==1) {//현재진행중인 설문
-			state="등록완료";			
-		}else {//완료된 설문(code:2)
-			state="설문종료";
-		}
+			state="success";			
+		}else if(code==2){//완료된 설문(code:2)
+			state="fail";
+		}			
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);

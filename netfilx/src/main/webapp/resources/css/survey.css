@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-#content .survey{width:70%;padding-top:100px; margin:auto;border: 2px solid black;}
+#content .survey{width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
 #content .survey table{width: 70%;border-collapse: collapse;}
 #content .survey th, td {padding-top : 10px;}
 #content .survey input[type=button]{color:black;}
@@ -18,4 +18,9 @@
 #content .survey .mainSurvey2{padding-left:100px;}
 #content .survey .opDiv{padding-left:100px;}
 
+#content .surveyList{width:90%;height:100%;padding-top:100px;margin:auto;border:2px solid black;}
+#content .surveyList table{width:100%;border-collapse: collapse;}
+#content .surveyList th,td{}
+#content .surveyList .leftBox{width:15%;float:left;}
+#content .surveyList .centerBox{width:85%;float:left;}
 
