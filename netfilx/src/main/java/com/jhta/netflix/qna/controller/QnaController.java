@@ -45,7 +45,7 @@ public class QnaController {
 			System.out.println("새글 등록");
 		}
 		System.out.println("vo에 담을꺼야");
-		int n = service.insert(vo);
+		int n = service.insert(vo); 
 		System.out.println("vo에 담았어!!");
 		if(n>0) {
 			result = ".qna.list";
