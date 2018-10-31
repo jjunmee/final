@@ -1,13 +1,17 @@
 @charset "UTF-8";
-table {width: 70%;border-collapse: collapse;}
-th, td {padding-top : 10px;}
-#surveyForm {width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
-#surveyForm #surveyOverall{padding-left:100px;}
-#surveyForm #things{padding-left:300px;}
-#surveyForm #typeChoice{padding-left:300px;}
-#surveyForm #typeChoice input[type=button]{width:100px;height:70px; }
-#surveyForm textarea{width:500px;color:black;}
-#surveyForm input[type=text]{width:500px;color: black;}
-#surveyForm input[type=button]{color:black;}
-#surveyForm button{color:black;}
+
+#content .survey{width:70%;padding-top:100px; margin:auto;border: 2px solid black;}
+#content .survey table{width: 70%;border-collapse: collapse;}
+#content .survey th, td {padding-top : 10px;}
+#content .survey input[type=button]{color:black;}
+#content .survey button{color:black;}
+#content .survey textarea{width:500px;color:black;}
+#content .survey .overall{padding-left:100px;}
+#content .survey .overall input[type=text]{width:500px;color: black;}
+#content .survey .mainSurvey1 input[type=text]{width:400px;color:black;}
+#content .survey .mainSurvey2 input[type=text]{width:400px;color:black;}
+#content .survey .typeChoice{padding-left:300px;}
+#content .survey .typeChoice input[type=button]{width:100px;height:70px; }
+#content .survey .things{padding-left:300px;}
+
 
