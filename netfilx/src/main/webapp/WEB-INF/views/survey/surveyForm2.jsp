@@ -257,8 +257,7 @@
 		opPlus.setAttribute("value","옵션추가");	
 		opPlus.setAttribute("onclick","mkFunc(cloneCnt)")
 		opPlusBox.append(opPlus);
-		qBox.append(opPlusBox);
-		
+		qBox.append(opPlusBox);		
 		
 	}
 	
