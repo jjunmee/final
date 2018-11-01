@@ -19,8 +19,6 @@ import com.jhta.netflix.genre.controller.GenreController;
 public class CategoryController {
 	@Autowired
 	private CategoryService service;
-	@Autowired
-	private GenreController genreController;
 	
 	//카테고리등록수정폼으로 이동
 	@RequestMapping(value="/category/category",method=RequestMethod.GET)
