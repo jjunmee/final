@@ -53,13 +53,19 @@
 						+"<a href='javascript:updateStaff();'>확인</a>"
 					+"</td>"
 					+"<td>"
-						+"<a href='javascript:cancelUpdate();'>취소</a>"
+						+"<a href='javascript:cancelFunction();'>취소</a>"
 					+"</td>";
 				$("#tr"+num).append(str);
 			});
 		}
-		function cancelUpdate() {
+		function cancelFunction() {
 			$("#listForm").submit();
+		}
+		function showForm() {
+			$("#insertBox").css("display", "block");
+		}
+		function removeForm() {
+			$("#insertBox").css("display", "none");
 		}
 		function updateStaff() {
 			var params = $("#updateForm").serialize();
@@ -71,10 +77,21 @@
 				}
 			});
 		}
+		function insertStaff() {
+			var params = $("#insertForm").serialize();
+			$.post("<c:url value='/content/insertStaff'/>", params, function(data) {
+				if(data.code == 'success'){
+					$("#listForm").submit();
+				}else{
+					alert("데이터 등록 실패!!");
+				}
+			});
+		}
 	</script>
 </head>
 <body>
 	<h1>스테프 목록</h1>
+	<input type="button" value="등록" onclick="showForm()">
 	<form id="updateForm" action='<c:url value="/staff/update"/>' method="post">
 		<table>
 			<tr>
@@ -154,5 +171,44 @@
 		<input type="submit" value="검색">
 		<input type="hidden" id="pageNum" name="pageNum" value="${pageUtil.pageNum }">
 	</form>
+	<div id="insertBox" style="background-color: gray;position: absolute;
+							border: 1px solid red;top: 200px;left: 100px;display: none;">
+		<form id="insertForm" action="javascript:false;" method="post" 
+			onsubmit="insertStaff()">
+			<table>
+				<tr>
+					<th>구분</th>
+					<td>
+						<select name="staff_position">
+							<option value="false">배우</option>
+							<option value="true">감독</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" name="staff_name"> </td>
+				</tr>
+				<tr>
+					<th>출생년도</th>
+					<td><input type="text" name="staff_age"> </td>
+				</tr>
+				<tr>
+					<th>성별</th>
+					<td><input type="text" name="staff_gender"> </td>
+				</tr>
+				<tr>
+					<th>데뷔작</th>
+					<td><input type="text" name="staff_debut"> </td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="submit" value="등록"> 
+						<input type="button" value="취소" onclick="removeForm()"> 
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </body>
 </html>
