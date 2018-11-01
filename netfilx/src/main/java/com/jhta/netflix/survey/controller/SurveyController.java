@@ -38,10 +38,10 @@ public class SurveyController {
 	public String surveyList(int code,Model model) {
 		String state="";
 		
-		if(code==1) {//������������ ����
-			state="��ϿϷ�";			
-		}else if(code==2){//�Ϸ�� ����(code:2)
-			state="��������";
+		if(code==1) {//현재진행중인설문
+			state="등록완료";			
+		}else if(code==2){//종료된 설문
+			state="설문종료";
 		}			
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);
@@ -55,11 +55,11 @@ public class SurveyController {
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
-		map.put("state", "������");
+		map.put("state", "저장중");
 		List<SurveyVo> list1= service.mySurveyListSelect(map);
-		map.replace("state", "��ϿϷ�");
+		map.replace("state", "등록완료");
 		List<SurveyVo> list2= service.mySurveyListSelect(map);
-		map.replace("state", "��������");
+		map.replace("state", "설문종료");
 		List<SurveyVo> list3= service.mySurveyListSelect(map);
 		model.addAttribute("list1",list1);
 		model.addAttribute("list2",list2);
@@ -71,14 +71,14 @@ public class SurveyController {
 	public String detail1(int surveyNum, Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		List<SurveyQuestionVo> sqList= service.surveyQuestionSelect(surveyNum);
-		//������ȣ�� ���� �迭�� ��� 
+		//질문번호만 배열에 담기
 		int[] sqNumList=null;
 		int i=0;
 		for(SurveyQuestionVo sqVo:sqList) {
 			sqNumList[i]=sqVo.getSqNum();
 			i++;
 		}
-		//���迭������	��ȸ���Ʈ�� ���
+		//질문번호 돌려서 리스트에 담기
 		List<SurveyAnswerVo> saVoList=null;
 		String[] aList=null;
 		List<String[]> saList=null;		
@@ -122,22 +122,22 @@ public class SurveyController {
 	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.POST)
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
-		//�������̺� insert
+		//설문테이블 insert
 		//String userId=(String)session.getAttribute("userId");
 		String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
 		//���������� �Է½�ų�� ������� �Է½�ų���� ȭ�� �����ٽ��غ���!
-		map.put("state", "�����Ϸ�");
+		map.put("state", "등록완료");
 		int surveyNum=service.surveyNumSelect(map);
 		surveyVo.setSurveyNum(surveyNum);
 		surveyVo.setSurveyEnd(surveyVo.getSurveyEnd().replaceAll("/", "-"));
 		service.surveyUpdate(surveyVo);
 		
-		//�����������̺� insert
+		//설문영상테이블 insert
 		try {
-			if(!file1.isEmpty()) {//������ �Ѿ������
+			if(!file1.isEmpty()) {//파일이 넘어오면
 				String uploadPath=session.getServletContext().getRealPath("/resources/upload/survey");
 				String orgsrc=file1.getOriginalFilename();
 				String savesrc=UUID.randomUUID()+"_"+orgsrc;
@@ -146,34 +146,34 @@ public class SurveyController {
 				FileCopyUtils.copy(is, fos);
 				is.close();
 				fos.close();
-				System.out.println("���Ͼ��ε� ��� : "+uploadPath);
+				System.out.println("저장경로 : "+uploadPath);
 				long filesize=file1.getSize();
-				System.out.println("����ũ�� : " + filesize);
+				System.out.println("파일사이즈 : " + filesize);
 				SurveyVideoVo svVo=new SurveyVideoVo(0, surveyNum, orgsrc, savesrc);
 				service.surveyVideoInsert(svVo);
 			}		
 		}catch(NullPointerException npe) {//���ϰ����� npe�� �߻������� �׳� �ѱ�������?!
-			System.out.println("�Ѿ�� ���� ����!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.out.println("영상없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		}catch(IOException ie) {
 			ie.printStackTrace();
 		}
 		
 		List<SurveyQuestionDto> qlist = sqDto.getQlist();
 		List<SurveyAnswerDto> salist=saDto.getSalist();	
-		int qtime=0;//������ ����Ƚ�����ϱ�		
+		int qtime=0;//질문돌리기
 		for(SurveyQuestionDto sq:qlist) {
 			String sqTitle=sq.getSqTitle();
 			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
 			service.surveyQuestionInsert(sqVo);
 			
-			//������ȣ��������
+			//질문번호가져오기
 			Map<String, Object> map1=new HashMap<String, Object>();
 			map1.put("surveyNum", surveyNum);
 			map1.put("sqTitle", sqTitle);
 			int sqNum=service.sqNumSelect(map1);
 			//������ ������ȣ�� ������̺� insert�ϱ�
 			
-			if(choiceType==1) {//�����ı׸����϶�
+			if(choiceType==1) {//객관식 그리드
 				for(int i=0;i<salist.size();i++) {
 					SurveyAnswerDto alist=salist.get(i);
 					for(String answer:alist.getAlist()) {
@@ -181,7 +181,7 @@ public class SurveyController {
 						service.surveyAnswerInsert(saVo);
 					}						
 				}					
-			}else if(choiceType==2) {//�����������϶�								
+			}else if(choiceType==2) {//복합질문타입							
 				for(int i=0;i<salist.size();i++) {
 					if(qtime==i) {
 						SurveyAnswerDto alist=salist.get(i);
