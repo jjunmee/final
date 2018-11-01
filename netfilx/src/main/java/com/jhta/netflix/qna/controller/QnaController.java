@@ -25,9 +25,10 @@ public class QnaController {
 	}
 	
 	@RequestMapping(value="/qna/insert",method=RequestMethod.POST)
-	public ModelAndView insert(String qna_title,String qna_content,Boolean open,String id,int qna_num) {
+	public ModelAndView insert(String qna_title,String qna_content,Boolean open,String id) {
 		//String id는 로그인되면 세션에서 가져와서 users_num찾아서 넣어줄꺼야
 		int users_num = 1;
+		int qna_num = 0;
 		ModelAndView mv = new ModelAndView();
 		QnaVo vo = new QnaVo();
 		String result = "";
@@ -45,6 +46,7 @@ public class QnaController {
 			System.out.println("새글 등록");
 		}
 		System.out.println("vo에 담을꺼야");
+		//여기부터 안됨
 		int n = service.insert(vo); 
 		System.out.println("vo에 담았어!!");
 		if(n>0) {

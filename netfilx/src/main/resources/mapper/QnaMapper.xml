@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.QnaMapper">
 	<insert id="insert" parameterType="qna">
-		insert into qna values(0,#{qna_title},#{qna_content},now(),#{open},#{lev},#{step},#{users_num})
+		insert into qna values(#{qna_num},#{qna_title},#{qna_content},now(),#{open},#{lev},#{step},#{users_num})
 	</insert>
 	<select id="list" resultType="qna">
 		select * from qna

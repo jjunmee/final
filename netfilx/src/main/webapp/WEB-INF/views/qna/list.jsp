@@ -12,5 +12,8 @@
 			<th>공개/비공개</th>
 			<th>글쓴이</th>
 		</tr>
+		<tr>
+			<td></td>
+		</tr>
 	</table>
 </div>

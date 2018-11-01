@@ -10,8 +10,10 @@
 </script>
 <div>
 	<h1>문의등록</h1>
-	<form method="post" action="<c:url value="/qna/insert"/>">
+	<form method="post" action='<c:url value="/qna/insert"/>'>
+	<!-- 
 		<input type="hidden" name="qna_num" value="${qna_num}">
+	 -->
 		문의제목 <input type="text" name="qna_title"><br>
 		문의내용 <textarea rows="20" cols="5" name="qna_content"></textarea><br>
 		공개<input type="radio" name="open" value="0">
