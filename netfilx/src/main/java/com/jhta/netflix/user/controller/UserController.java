@@ -42,7 +42,7 @@ public class UserController {
 			return ".user.login";
 		}
 		UserVo vo1 = service.login(vo.getId());
-		if(vo1.getPwd()!=null) {
+		if(vo1!=null) {
 			String pw = SHA512.get_SHA_512_SecurePassword(vo.getPwd(), vo1.getPwd2());
 			if(vo1.getPwd().equals(pw)) {
 				session.setAttribute("id", vo.getId());

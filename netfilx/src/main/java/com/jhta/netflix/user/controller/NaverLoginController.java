@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
@@ -49,8 +47,9 @@ public class NaverLoginController {
 		model.addAttribute("url", naverAuthUrl);
 		/* 구글code 발행 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		model.addAttribute("google_url", url);
+		String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		System.out.println(google_url);
+		model.addAttribute("google_url", google_url);
 		/* 생성한 인증 URL을 View로 전달 */
 		return ".user.login";
 	}
