@@ -38,7 +38,12 @@
 		select * from users where id=#{userId}
 	</select>
 	
-	
+	<select id="surveySelect" parameterType="int" resultType="survey">
+		select * from survey where survey_num=#{surveyNum}
+	</select>
+	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
+		select * from survey_question where survey_num=#{surveyNum}
+	</select>
 	<select id="surveyListSelect" parameterType="String" resultType="survey">
 		select * from survey where state=#{state}		
 		<choose>
@@ -50,7 +55,9 @@
 			</when>
 		</choose>
 	</select>
-	
+	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">
+		select * from survey where userNum=#{userNum} and state=#{state} order by surveyStart desc
+	</select>
 	
 	
 	

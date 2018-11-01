@@ -114,6 +114,13 @@
 			sqTitle.setAttribute("name","qlist["+cloneCnt+"].sqTitle");
 			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");			
 			qBox.append(sqTitle);
+			
+			var delBtn=document.createElement("input");
+			delBtn.setAttribute("type","button");
+			delBtn.setAttribute("id","delBtn");
+			delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");
+			delBtn.setAttribute("value","X");
+			qBox.append(delBtn);
 			$("#mainSurvey2").append(qBox);				
 			
 			if(n==0){
@@ -130,8 +137,7 @@
 			
 		}
 		
-		
-		
+
 		
 		$("#opPlus").click(function(){
 			var br=document.createElement("br");
@@ -170,6 +176,19 @@
 		*/
 		
 	});
+	
+	function delDiv(cloneCnt){
+		var mainSurvey1=document.getElementById("mainSurvey1");
+		var mainSurvey2=document.getElementById("mainSurvey2");
+		var delBox=document.getElementById("box"+cloneCnt);
+		mainSurvey1.removeChild(delBox);
+		mainSurvey2.removeChild(delBox);
+		
+		
+		
+	}
+	
+	
 	function submitOk(n){
 		var choiceBox=document.createElement("input");
 		choiceBox.setAttribute("type","hidden");
@@ -280,7 +299,7 @@
 
 </script>
 <div id="surveyForm">
-	<div class="survey">
+	<div class="survey2">
 		<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
 			<div id="surveyOverall">
 				<div class="overall">
@@ -321,7 +340,7 @@
 				<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
 			</div>
 			
-			<div id="qPlusBox" style="display: none">
+			<div id="qPlusBox" class="qPlusBox" style="display: none">
 				<input type="button" id="opPlus" value="옵션추가" style="display: block">		
 				<input type="button" id="qPlus1" value="질문추가">
 				<input type="button" id="qPlus2" value="같은질문추가">

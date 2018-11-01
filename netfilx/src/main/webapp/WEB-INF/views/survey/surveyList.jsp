@@ -3,9 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
-	$(function(){
-		
-	});
+	
 
 </script>
 
@@ -18,7 +16,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/surveyInsert1'/>">설문등록하러가기</a>
+			<a href="<c:url value='/survey/mySurvey'/>">설문등록하러가기</a>
 		</div>
 	</div>
 	
@@ -45,7 +43,7 @@
 				<tr>
 					<td>${num }</td>
 					<td>${vo.surveyName }</td>
-					<td><span id="joinNum">${vo.joinNum }</span></td>
+					<td>${vo.joinNum }</td>
 					<td>${Math.round(vo.spoint/vo.joinNum) }포인트</td>
 					<c:choose>
 						<c:when test="${code==1 }">

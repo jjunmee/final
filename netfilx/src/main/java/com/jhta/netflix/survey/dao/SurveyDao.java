@@ -50,9 +50,20 @@ public class SurveyDao {
 	}
 	
 	///////////////////////////////////////////////////////////////////////
-	
+	public SurveyVo surveySelect(int surveyNum) {
+		return session.selectOne(NAMESPACE+".surveySelect",surveyNum);
+	}
+	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
+		return session.selectList(NAMESPACE+".surveyQuestionSelect",surveyNum);
+	}
+	public List<SurveyAnswerVo> surveyAnswerSelect(int sqNum) {
+		return session.selectList(NAMESPACE+".surveyAnswerSelect",sqNum);
+	}
 	public List<SurveyVo> surveyListSelect(String state){
 		return session.selectList(NAMESPACE+".surveyListSelect",state);
+	}
+	public List<SurveyVo> mySurveyListSelect(Map<String, Object> map){
+		return session.selectList(NAMESPACE+".mySurveyListSelect",map);
 	}
 	
 	

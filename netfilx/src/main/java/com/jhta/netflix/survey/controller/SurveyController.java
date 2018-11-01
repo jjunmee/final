@@ -4,6 +4,7 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,52 @@ public class SurveyController {
 		model.addAttribute("code",code);
 		return ".survey.surveyList";
 	}
-	
+	@RequestMapping(value="/survey/mySurvey",method=RequestMethod.GET)
+	public String mySurvey(Model model) {
+		//String userId=(String)request.getSession().getAttribute("userId");
+		String userId="alsl";
+		int userNum=service.userSelect(userId).getUsersNum();
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userNum", userNum);
+		map.put("state", "저장중");
+		List<SurveyVo> list1= service.mySurveyListSelect(map);
+		map.replace("state", "등록완료");
+		List<SurveyVo> list2= service.mySurveyListSelect(map);
+		map.replace("state", "설문종료");
+		List<SurveyVo> list3= service.mySurveyListSelect(map);
+		model.addAttribute("list1",list1);
+		model.addAttribute("list2",list2);
+		model.addAttribute("list3",list3);
+		
+		return ".survey.mySurvey";
+	}
+	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
+	public String detail1(int surveyNum, Model model) {
+		SurveyVo surveyVo=service.surveySelect(surveyNum);
+		List<SurveyQuestionVo> sqList= service.surveyQuestionSelect(surveyNum);
+		//질문번호만 따로 배열로 담고 
+		int[] sqNumList=null;
+		int i=0;
+		for(SurveyQuestionVo sqVo:sqList) {
+			sqNumList[i]=sqVo.getSqNum();
+			i++;
+		}
+		//담긴배열돌려서	답안리스트에 담기
+		List<SurveyAnswerVo> saVoList=null;
+		String[] aList=null;
+		List<String[]> saList=null;		
+		for(int j=0;j<sqNumList.length;j++) {			
+			saVoList=service.surveyAnswerSelect(sqNumList[i]);
+			for(SurveyAnswerVo vo:saVoList) {
+				aList[j]=vo.getSaAnswer();
+			}
+			saList.add(aList);
+		}		
+		model.addAttribute("surveyVo",surveyVo);
+		model.addAttribute("sqList",sqList);
+		model.addAttribute("saList",saList);
+		return ".survey.myDetail";
+	}
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(Model model,HttpServletRequest request) {
 		//String userId=(String)request.getSession().getAttribute("userId");

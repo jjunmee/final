@@ -1,22 +1,25 @@
 @charset "UTF-8";
 
-#content .survey{width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
-#content .survey table{width: 70%;border-collapse: collapse;}
-#content .survey th, td {padding-top : 10px;}
-#content .survey input[type=button]{color:black;}
-#content .survey button{color:black;}
-#content .survey textarea{width:500px;color:black;}
-#content .survey .overall{padding-left:100px;}
-#content .survey .overall input[type=text]{width:500px;color: black;}
-#content .survey .mainSurvey1 input[type=text]{width:400px;color:black;}
-#content .survey .mainSurvey2 input[type=text]{width:400px;color:black;}
-#content .survey .typeChoice{padding-left:300px;}
-#content .survey .typeChoice input[type=button]{width:100px;height:70px; }
-#content .survey .leftBox{width:400px;background-color: lightgrey;float: left;}
-#content .survey .rightBox{width:400px;background-color: gray;float: left;}
-#content .survey .things{padding-left:300px;}
-#content .survey .mainSurvey2{padding-left:100px;}
-#content .survey .opDiv{padding-left:100px;}
+#content .survey1{width:70%;height:100%;padding-top:100px;margin:auto;border:2px solid black;}
+
+#content .survey2{width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
+#content .survey2 table{width: 70%;border-collapse: collapse;}
+#content .survey2 th, td {padding-top : 10px;}
+#content .survey2 input[type=button]{color:black;}
+#content .survey2 button{color:black;}
+#content .survey2 textarea{width:500px;color:black;}
+#content .survey2 .overall{padding-left:100px;}
+#content .survey2 .overall input[type=text]{width:500px;color: black;}
+#content .survey2 .mainSurvey1 input[type=text]{width:400px;color:black;}
+#content .survey2 .mainSurvey2 input[type=text]{width:400px;color:black;}
+#content .survey2 .typeChoice{padding-left:300px;}
+#content .survey2 .typeChoice input[type=button]{width:100px;height:70px; }
+#content .survey2 .leftBox{width:400px;background-color: lightgrey;float: left;}
+#content .survey2 .rightBox{width:400px;background-color: gray;float: left;}
+#content .survey2 .things{padding-left:300px;}
+#content .survey2 .mainSurvey2{padding-left:100px;}
+#content .survey2 .opDiv{padding-left:100px;}
+#content .survey2 .qPlusBox{padding-left:100px;}
 
 #content .surveyList{width:90%;height:100%;padding-top:100px;margin:auto;border:2px solid black;}
 #content .surveyList table{width:100%;border-collapse: collapse;}

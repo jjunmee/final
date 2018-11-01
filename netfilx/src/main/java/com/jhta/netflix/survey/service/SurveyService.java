@@ -51,8 +51,20 @@ public class SurveyService {
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////
+	public SurveyVo surveySelect(int surveyNum) {
+		return dao.surveySelect(surveyNum);
+	}
+	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
+		return dao.surveyQuestionSelect(surveyNum);
+	}
+	public List<SurveyAnswerVo> surveyAnswerSelect(int sqNum) {
+		return dao.surveyAnswerSelect(sqNum);
+	}
 	public List<SurveyVo> surveyListSelect(String state){
 		return dao.surveyListSelect(state);
+	}
+	public List<SurveyVo> mySurveyListSelect(Map<String, Object> map){
+		return dao.mySurveyListSelect(map);
 	}
 	
 	
