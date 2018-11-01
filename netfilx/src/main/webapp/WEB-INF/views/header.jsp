@@ -19,9 +19,15 @@
             <ul class="dropdown-menu">
 	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
 	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
+	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
             </ul>
           </li>
-          <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">미현작업<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+	          <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
+              <li><a href="<c:url value='/qna/list'/>">문의게시판</a></li>
+            </ul>
+          </li>
           <li><a href="<c:url value='/mypage/myinfo'/>">계정관리</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>
             <ul class="dropdown-menu">

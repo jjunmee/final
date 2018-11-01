@@ -98,7 +98,7 @@
 				var name = event.target.value;
 				$.ajax({
 					url:"<c:url value='/content/stafflist'/>",
-					data:{"position":position,"name":name},
+					data:{"position":position,"staff_name":name},
 					dataType:"json",
 					success:function(data){
 						$(data).each(function(i,json) {

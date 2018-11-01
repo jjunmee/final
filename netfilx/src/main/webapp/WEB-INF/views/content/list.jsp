@@ -59,7 +59,7 @@
 		</table>
 		<c:choose>
 			<c:when test="${pageUtil.pageNum > pageUtil.pageBlockCount }">
-				<a href='<c:url value="/content/list?pageNum=${pageUtil.startPageNum - 1 }"/>'
+				<a href='javascript:setPageNum(${pageUtil.startPageNum - 1 });' 
 				style="color: blue;">[이전]</a>
 			</c:when>
 			<c:otherwise>
@@ -69,18 +69,10 @@
 		<c:forEach begin="${pageUtil.startPageNum }" end="${pageUtil.endPageNum }" var="i">
 			<c:choose>
 				<c:when test="${pageUtil.pageNum == i }">
-				<!-- 
-					<a href='<c:url value="/content/list?pageNum=${i }"/>' 
-					style="color: red;">[${i }]</a>
-				 -->
 					<a href='javascript:setPageNum(${i });' 
 					style="color: red;">[${i }]</a>
 				</c:when>
 				<c:otherwise>
-				<!-- 
-					<a href='<c:url value="/content/list?pageNum=${i }"/>' 
-					style="color: lightgray;">[${i }]</a>
-				 -->
 					<a href='javascript:setPageNum(${i });' 
 					style="color: lightgray;">[${i }]</a>
 				</c:otherwise>
@@ -88,7 +80,7 @@
 		</c:forEach>
 		<c:choose>
 			<c:when test="${pageUtil.endPageNum != pageUtil.totalPageCount }">
-				<a href='<c:url value="/content/list?pageNum=${pageUtil.endPageNum + 1 }"/>'
+				<a href='javascript:setPageNum(${pageUtil.endPageNum + 1 });' 
 				style="color: blue;">[다음]</a>
 			</c:when>
 			<c:otherwise>

@@ -38,10 +38,10 @@ public class SurveyController {
 	public String surveyList(int code,Model model) {
 		String state="";
 		
-		if(code==1) {//ÇöÀçÁøÇàÁßÀÎ ¼³¹®
-			state="µî·Ï¿Ï·á";			
-		}else if(code==2){//¿Ï·áµÈ ¼³¹®(code:2)
-			state="¼³¹®Á¾·á";
+		if(code==1) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			state="ï¿½ï¿½Ï¿Ï·ï¿½";			
+		}else if(code==2){//ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(code:2)
+			state="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 		}			
 		List<SurveyVo> list= service.surveyListSelect(state);
 		model.addAttribute("list",list);
@@ -110,7 +110,7 @@ public class SurveyController {
 		int userNum=service.userSelect(userId).getUsersNum();
 		vo.setUserNum(userNum);
 		if(service.surveyInsert(vo)>0) {
-			//¼³¹®Å×ÀÌºí¿¡ ÀÎ¼­Æ®¼º°øÇÏ¸é À¯ÀúÅ×ÀÌºíÀÇ Æ÷ÀÎÆ® Â÷°¨½ÃÅ°±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½Î¼ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("userNum", userNum);
 			map.put("point", vo.getSpoint());
@@ -122,22 +122,22 @@ public class SurveyController {
 	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.POST)
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
-		//¼³¹®Å×ÀÌºí insert
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ insert
 		//String userId=(String)session.getAttribute("userId");
 		String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
-		//ÀúÀåÁßÀ¸·Î ÀÔ·Â½ÃÅ³Áö µî·ÏÀ¸·Î ÀÔ·Â½ÃÅ³Áö´Â È­¸é ±¸Çö´Ù½ÃÇØº¸°í!
-		map.put("state", "°áÁ¦¿Ï·á");
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½ï¿½Øºï¿½ï¿½ï¿½!
+		map.put("state", "ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½");
 		int surveyNum=service.surveyNumSelect(map);
 		surveyVo.setSurveyNum(surveyNum);
 		surveyVo.setSurveyEnd(surveyVo.getSurveyEnd().replaceAll("/", "-"));
 		service.surveyUpdate(surveyVo);
 		
-		//¼³¹®¿µ»óÅ×ÀÌºí insert
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ insert
 		try {
-			if(!file1.isEmpty()) {//ÆÄÀÏÀÌ ³Ñ¾î¿ÔÀ¸¸é
+			if(!file1.isEmpty()) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				String uploadPath=session.getServletContext().getRealPath("/resources/upload/survey");
 				String orgsrc=file1.getOriginalFilename();
 				String savesrc=UUID.randomUUID()+"_"+orgsrc;
@@ -146,34 +146,34 @@ public class SurveyController {
 				FileCopyUtils.copy(is, fos);
 				is.close();
 				fos.close();
-				System.out.println("ÆÄÀÏ¾÷·Îµå °æ·Î : "+uploadPath);
+				System.out.println("ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ : "+uploadPath);
 				long filesize=file1.getSize();
-				System.out.println("ÆÄÀÏÅ©±â : " + filesize);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ : " + filesize);
 				SurveyVideoVo svVo=new SurveyVideoVo(0, surveyNum, orgsrc, savesrc);
 				service.surveyVideoInsert(svVo);
 			}		
-		}catch(NullPointerException npe) {//ÆÄÀÏ°ª¿¡¼­ npe°¡ ¹ß»ýÇßÀ»¶§ ±×³É ³Ñ±â°í½ÍÀºµ¥?!
-			System.out.println("³Ñ¾î¿Â ÆÄÀÏ ¾øÀ½!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}catch(NullPointerException npe) {//ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ï¿½ npeï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?!
+			System.out.println("ï¿½Ñ¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		}catch(IOException ie) {
 			ie.printStackTrace();
 		}
 		
 		List<SurveyQuestionDto> qlist = sqDto.getQlist();
 		List<SurveyAnswerDto> salist=saDto.getSalist();	
-		int qtime=0;//¼³¹®ÀÇ Áú¹®È½¼ö±¸ÇÏ±â		
+		int qtime=0;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½		
 		for(SurveyQuestionDto sq:qlist) {
 			String sqTitle=sq.getSqTitle();
 			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
 			service.surveyQuestionInsert(sqVo);
 			
-			//Áú¹®¹øÈ£°¡Á®¿À±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Map<String, Object> map1=new HashMap<String, Object>();
 			map1.put("surveyNum", surveyNum);
 			map1.put("sqTitle", sqTitle);
 			int sqNum=service.sqNumSelect(map1);
-			//°¡Á®¿Â Áú¹®¹øÈ£·Î ´ä¾ÈÅ×ÀÌºí insertÇÏ±â
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ insertï¿½Ï±ï¿½
 			
-			if(choiceType==1) {//°´°ü½Ä±×¸®µåÀÏ¶§
+			if(choiceType==1) {//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±×¸ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
 				for(int i=0;i<salist.size();i++) {
 					SurveyAnswerDto alist=salist.get(i);
 					for(String answer:alist.getAlist()) {
@@ -181,7 +181,7 @@ public class SurveyController {
 						service.surveyAnswerInsert(saVo);
 					}						
 				}					
-			}else if(choiceType==2) {//º¹ÇÕÁú¹®ÇüÀÏ¶§								
+			}else if(choiceType==2) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½								
 				for(int i=0;i<salist.size();i++) {
 					if(qtime==i) {
 						SurveyAnswerDto alist=salist.get(i);

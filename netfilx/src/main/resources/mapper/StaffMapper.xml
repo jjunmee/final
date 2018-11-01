@@ -16,7 +16,34 @@
 		delete from staff where staff_num=#{value}
 	</delete>
 	<select id="list" parameterType="hashmap" resultType="staff">
-		select * from staff where staff_position=#{position} and staff_name like CONCAT('%',#{name},'%')
+		select * from staff
+		<where>
+			<if test="position != null">
+				staff_position=#{position}
+			</if>
+			<if test="staff_name != null">
+				and staff_name like CONCAT('%',#{staff_name},'%')
+			</if>
+			<if test="keyword != null">
+				and staff_name like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+		order by staff_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="listCount" resultType="int" parameterType="hashmap">
+		select count(*) from staff 
+		<where>
+			<if test="position != null">
+				staff_position=#{position}
+			</if>
+			<if test="keyword != null">
+				and staff_name like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	</select>
+	<select id="find" parameterType="int" resultType="staff">
+		select * from staff where staff_num=#{value}
 	</select>
 </mapper>
   

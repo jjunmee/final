@@ -27,4 +27,10 @@ public class StaffDao {
 	public List<StaffVo> list(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE+".list", map);
 	}
+	public int listCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE+".listCount", map);
+	}
+	public StaffVo find(int num) {
+		return sqlSession.selectOne(NAMESPACE+".find", num);
+	}
 }

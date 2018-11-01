@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Repository;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -17,19 +16,66 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 
 public class NaverLoginBo {
-	/* 인증 요청문을 구성하는 파라미터 */
-	//client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디
-	//response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
-	//redirect_uri: 네이버 로그인 인증의 결과를 전달받을 콜백 URL(URL 인코딩). 애플리케이션을 등록할 때 Callback URL에 설정한 정보입니다.
-	//state: 애플리케이션이 생성한 상태 토큰
-	private final String CLIENT_ID = "ZxZeXVmBP7JrDzS9rW3c";
-    private final String CLIENT_SECRET = "JbufpSZkrH";
-    private final String REDIRECT_URI ="http://localhost:8080/netflix/user/naver";
-    private final String SESSION_STATE = "oauth_state";
-    /* 프로필 조회 API URL */
-    private final String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
+	private String CLIENT_ID;
+    private String CLIENT_SECRET;
+    private String REDIRECT_URI;
+    private String SESSION_STATE;
+    private String PROFILE_API_URL;
     
-    /* 네이버 아이디로 인증  URL 생성  Method */
+
+    
+
+	public String getCLIENT_ID() {
+		return CLIENT_ID;
+	}
+
+
+	public void setCLIENT_ID(String cLIENT_ID) {
+		CLIENT_ID = cLIENT_ID;
+	}
+
+
+	public String getCLIENT_SECRET() {
+		return CLIENT_SECRET;
+	}
+
+
+	public void setCLIENT_SECRET(String cLIENT_SECRET) {
+		CLIENT_SECRET = cLIENT_SECRET;
+	}
+
+
+	public String getREDIRECT_URI() {
+		return REDIRECT_URI;
+	}
+
+
+	public void setREDIRECT_URI(String rEDIRECT_URI) {
+		REDIRECT_URI = rEDIRECT_URI;
+	}
+
+
+	public String getSESSION_STATE() {
+		return SESSION_STATE;
+	}
+
+
+	public void setSESSION_STATE(String sESSION_STATE) {
+		SESSION_STATE = sESSION_STATE;
+	}
+
+
+	public String getPROFILE_API_URL() {
+		return PROFILE_API_URL;
+	}
+
+
+	public void setPROFILE_API_URL(String pROFILE_API_URL) {
+		PROFILE_API_URL = pROFILE_API_URL;
+	}
+
+
+	/* 네이버 아이디로 인증  URL 생성  Method */
     public String getAuthorizationUrl(HttpSession session) {
         /* 세션 유효성 검증을 위하여 난수를 생성 */
         String state = generateRandomString();

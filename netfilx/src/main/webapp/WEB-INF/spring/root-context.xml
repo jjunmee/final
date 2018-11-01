@@ -4,16 +4,33 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-
+	
+	<!-- <context:property-placeholder location="/WEB-INF/social.properties"/> -->
+	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="/WEB-INF/database.properties"/>
+		<property name="locations">
+			<list>
+			<value>/WEB-INF/database.properties</value>
+			<value>/WEB-INF/social.properties</value>
+			</list>
+		</property>
 	</bean>	
-   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+   
+   <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
    		<property name="driverClassName" value="${driver}"/>
    		<property name="url" value="${url}"/>
    		<property name="username" value="${user}"/>
    		<property name="password" value="${password}"/>
    </bean> 
+   <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+      <constructor-arg ref="dataSourceSpied" />
+      <property name="logFormatter">
+         <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+            <property name="loggingType" value="MULTI_LINE" />
+            <property name="sqlPrefix" value="SQL         :  " />
+         </bean>
+      </property>
+   </bean>
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
    		<property name="dataSource" ref="dataSource"/>
    		<property name="configLocation"
@@ -27,14 +44,21 @@
    		<context:exclude-filter type="annotation" 
    		        expression="org.springframework.stereotype.Controller"/>
    </context:component-scan>
-   <!-- Google 소셜 로그인 연결 설정 -->
+   <!-- Google 소셜 로그인 계정 설정 -->
 	<bean id = "googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
-	<constructor-arg value="946660456085-j3vehjpk08futtej7r2pe4eq8snuk5sr.apps.googleusercontent.com"/>
-	<constructor-arg value="U2iBi_oB7J-Pl7481t3Z8M3Z"/>    
+	<constructor-arg value="${google_key_id}"/>
+	<constructor-arg value="${google_key_secret}"/>    
 	</bean>
 	<bean id = "googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
 	<property name="scope" value="https://www.googleapis.com/auth/plus.login"></property>
-	<property name="redirectUri" value="http://localhost:8080/netflix/user/google"/>
+	<property name="redirectUri" value="${google_redirect}"/>
 	</bean>
-   
+	<!--  Naver 소셜 로그인 계정 설정 -->
+	<bean id = "naverConnectionFactory" class="com.jhta.netflix.user.naver.NaverLoginBo">
+		<property name="CLIENT_ID" value="${naver_key_id}"/>
+		<property name="CLIENT_SECRET" value="${naver_key_secret}"/>   
+		<property name="REDIRECT_URI" value="${naver_redirect}"/> 
+		<property name="SESSION_STATE" value="oauth_state"/> 
+		<property name="PROFILE_API_URL" value="https://openapi.naver.com/v1/nid/me"/> 
+	</bean>
 </beans>
