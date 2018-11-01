@@ -86,6 +86,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.3.19.RELEASE</version>
 		</dependency>
+		<!-- log4j -->
+		<dependency>
+         <groupId>org.lazyluke</groupId>
+         <artifactId>log4jdbc-remix</artifactId>
+         <version>0.2.7</version>
+      </dependency>
 		<!-- DBCP -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -161,6 +167,11 @@
 		
 		<!-- Logging -->
 		<dependency>
+	    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+	    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+	    <version>1.16</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j-version}</version>
@@ -222,12 +233,12 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- jstl -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
