@@ -36,12 +36,17 @@ public class StaffController {
 			model.addAttribute("keyword", keyword);
 		}
 		int totalRowCount = service.listCount(map);
-		PageUtil pageUtil = new PageUtil(pageNum, totalRowCount, 10, 10);
-		map.put("startRow", pageUtil.getMysqlStartRow());
-		map.put("rowBlockCount", pageUtil.getRowBlockCount());
-		List<StaffVo> list = service.list(map);
-		model.addAttribute("list", list);
-		model.addAttribute("pageUtil", pageUtil);
+		if(totalRowCount != 0) {
+			PageUtil pageUtil = new PageUtil(pageNum, totalRowCount, 10, 10);
+			if(pageNum > pageUtil.getTotalPageCount()) {
+				pageUtil = new PageUtil(pageUtil.getTotalPageCount(), totalRowCount, 10, 10);
+			}
+			map.put("startRow", pageUtil.getMysqlStartRow());
+			map.put("rowBlockCount", pageUtil.getRowBlockCount());
+			List<StaffVo> list = service.list(map);
+			model.addAttribute("list", list);
+			model.addAttribute("pageUtil", pageUtil);
+		}
 		model.addAttribute("position", position);
 		return ".staff.list";
 	}
@@ -52,6 +57,31 @@ public class StaffController {
 		content_staffService.staffRelDelete(num);
 		service.delete(num);
 		return "redirect:/staff/list?pageNum="+pageNum+"&position="+position+"&keyword="+keyword;
+	}
+	@RequestMapping(value="/staff/update",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String update(StaffVo vo) {
+		int n = service.update(vo);
+		JSONObject json = new JSONObject();
+		if(n>0) {
+			json.put("result", true);
+		}else{
+			json.put("result", false);
+		}
+		return json.toString();
+	}
+	@RequestMapping(value="/staff/find",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String find(int num) {
+		StaffVo vo = service.find(num);
+		JSONObject json = new JSONObject();
+		json.put("staff_num", vo.getStaff_num());
+		json.put("staff_position", vo.getStaff_position());
+		json.put("staff_name", vo.getStaff_name());
+		json.put("staff_age", vo.getStaff_age());
+		json.put("staff_gender", vo.getStaff_gender());
+		json.put("staff_debut", vo.getStaff_debut());
+		return json.toString();
 	}
 	@RequestMapping(value="/content/stafflist",produces="application/json;charset=utf-8")
 	@ResponseBody

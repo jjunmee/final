@@ -42,5 +42,8 @@
 			</if>
 		</where>
 	</select>
+	<select id="find" parameterType="int" resultType="staff">
+		select * from staff where staff_num=#{value}
+	</select>
 </mapper>
   
