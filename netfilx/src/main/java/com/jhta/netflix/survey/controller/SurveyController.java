@@ -195,6 +195,5 @@ public class SurveyController {
 			}
 		}
 		return "redirect:/survey/list?code=1";
-	}
-	
+	}	
 }
