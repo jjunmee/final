@@ -288,6 +288,10 @@ public class ContentController {
 		model.addAttribute("sort", sort);
 		return ".content.list";
 	}
+	@RequestMapping(value="/content/userView",method=RequestMethod.GET)
+	public String userList() {
+		return ".user_content.list";
+	}
 }
 
 

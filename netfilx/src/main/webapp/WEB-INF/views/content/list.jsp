@@ -89,7 +89,7 @@
 		</c:choose>
 		<br>
 		<input type="hidden" id="pageNum" name="pageNum" value="${pageUtil.pageNum }">
-		<input type="text" placeholder="제목,이름,장르" name="keyword" value="${keyword }" style="background-color: lightgray;">
+		<input type="text" placeholder="제목,이름(x),장르(x)" name="keyword" value="${keyword }" style="background-color: lightgray;">
 		<input type="submit" value="검색">
 	</form>
 </body>
