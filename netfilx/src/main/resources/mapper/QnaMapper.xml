@@ -3,17 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.QnaMapper">
+	<sql id="search">
+		<if test="field!=null and field!=''">
+			where ${field} like '%#{keyword}%'
+		</if>
+	</sql>
 	<insert id="insert" parameterType="qna">
-		insert into qna values(#{qna_num},#{qna_title},#{qna_content},now(),#{open},#{lev},#{step},#{users_num})
+		insert into qna values(#{qna_num},#{qna_title},#{qna_content},now(),#{qna_open},#{lev},#{step},#{users_num})
 	</insert>
-	<select id="list" resultType="qna">
+	<select id="list" resultType="qna" parameterType="hashmap">
 		select * from qna
+		<include refid="search"/>
+		order by lev desc, step asc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="listCount" resultType="int" parameterType="hashmap">
+		select count(*) from qna 
+		<include refid="search"/>
 	</select>
 	<select id="detail" parameterType="int" resultType="qna">
 		select * from qna where qna_num = #{qna_num}
 	</select>
 	<update id="update" parameterType="qna">
-		update set qna qna_title = #{qna_title}, qna_content = #{qna_content}, open = #{open} where qna_num = #{qna_num}
+		update set qna qna_title = #{qna_title}, qna_content = #{qna_content}, qna_open = #{qna_open} where qna_num = #{qna_num}
 	</update>
 	<delete id="delete" parameterType="int">
 		delete from qna where qna_num = #{qna_num}

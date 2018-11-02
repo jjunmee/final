@@ -1,5 +1,6 @@
 package com.jhta.netflix.qna.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ public class QnaService {
 	public int insert(QnaVo vo) {
 		return dao.insert(vo);
 	}
-	public List<QnaVo> list(){
-		return dao.list();
+	public List<QnaVo> list(HashMap<String, Object> map){
+		return dao.list(map);
+	}
+	public int listCount(HashMap<String, Object> map) {
+		return dao.listCount(map);
 	}
 	public QnaVo detail(int num) {
 		return dao.detail(num);
