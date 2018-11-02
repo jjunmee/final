@@ -110,11 +110,14 @@
 			var qBox=document.createElement("div");			
 			qBox.setAttribute("id","box"+ (++cloneCnt));
 			qBox.setAttribute("name","box"+cloneCnt);		
+			qBox.onclick=showOption;
+			qBox.style='border:2px solid black';			
 			
 			var sqBox=document.createElement("div");
 			sqBox.setAttribute("id","sqBox"+cloneCnt);
 			var sqTitle=document.createElement("input");
 			sqTitle.setAttribute("type","text");
+			sqTitle.setAttribute("class","sqType"+cloneCnt);
 			sqTitle.setAttribute("name","qlist["+cloneCnt+"].sqTitle");
 			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");	
 			sqBox.append(sqTitle);
@@ -144,22 +147,22 @@
 				checktype3();
 			}else if(n==4){
 				checktype4();
-			}
-			
+			}			
 		}
 		
+		function showOption(){	
+			$("#surveyForm").find(".opBox").hide();		
+			$("#surveyForm").find(".opPlusBox").hide();		
+			$(this).find('div').css("display","block");
+		}
 
 		$("#qPlus1").click(function(){
 			if(opNum!=4){
 				$("#opPlusBox").show();				
 			}
 			$("#qPlusBox").css("display","none");
-			for(var i=0;i<=cloneCnt;i++){
-				var box1=document.getElementById("opBox"+i);
-				var box2=document.getElementById("opPlusBox"+i);
-				box1.setAttribute("style","display:none");
-				box2.setAttribute("style","display:none");
-			}
+			$("#surveyForm").find(".opBox").hide();		
+			$("#surveyForm").find(".opPlusBox").hide();		
 			appendDiv(0);
 		});
 		$("#qPlus2").click(function(){
@@ -167,12 +170,8 @@
 				$("#opPlusBox").show();				
 			}
 			$("#qPlusBox").css("display","none");
-			for(var i=0;i<=cloneCnt;i++){
-				var box1=document.getElementById("opBox"+i);
-				var box2=document.getElementById("opPlusBox"+i);
-				box1.setAttribute("style","display:none");
-				box2.setAttribute("style","display:none");
-			}
+			$("#surveyForm").find(".opBox").hide();		
+			$("#surveyForm").find(".opPlusBox").hide();		
 			appendDiv(opNum);
 		});
 		/*
@@ -193,16 +192,16 @@
 	
 	
 	
-	function delDiv(cloneCnt){
+	function delDiv(n){		
 		var mainSurvey=document.getElementById("mainSurvey"+choiceType);
-		var delBox=document.getElementById("box"+cloneCnt);
-		var qBox=document.getElementById("box"+cloneCnt);
+		var delBox=document.getElementById("box"+n);
+		var qBox=document.getElementById("box"+n);
 		if(exist!=1){
 			mainSurvey.removeChild(delBox);
-			exist--;			
+			exist--;	
+			$("#opDiv").hide();
+			$("#qPlusBox").show();
 		}
-		
-		$("#qPlusBox").show();
 		
 		
 	}
@@ -230,40 +229,45 @@
 		
 	}
 	
-	function mkFunc(){
-		var qBox=document.getElementById("box"+cloneCnt);
-		var opPlusBox=document.getElementById("opPlusBox"+cloneCnt);
+	function mkFunc(cnt){
+		var qBox=document.getElementById("box"+cnt);
+		var opPlusBox=document.getElementById("opPlusBox"+cnt);
 		qBox.removeChild(opPlusBox);
 		
 		var br=document.createElement("br");
 		var option=document.createElement("input");
 		option.setAttribute("type","text");
-		option.setAttribute("name","salist["+cloneCnt+"].alist");
+		option.setAttribute("name","salist["+cnt+"].alist");
 		option.setAttribute("placeholder","옵션을 입력하세요");
-		var box="opBox"+cloneCnt;
+		var box="opBox"+cnt;
 		var opBox=document.getElementById(box);
 		opBox.appendChild(br);							
 		opBox.appendChild(option);
-		makeOpBox();
+		
+		var chNum=$("#surveyForm").find('.sqType'+cnt).val();
+		makeOpBox(chNum,cnt);
 	}
 	
-	function makeOpBox(){
-		var qBox=document.getElementById("box"+cloneCnt);
+	function makeOpBox(n,cnt){
+		var qBox=document.getElementById("box"+cnt);
 		var opPlusBox=document.createElement("div");
-		opPlusBox.setAttribute("id","opPlusBox"+cloneCnt);
-		var opPlus=document.createElement("input");
-		opPlus.setAttribute("type","button");
-		opPlus.setAttribute("id","opPlus");
-		opPlus.setAttribute("value","옵션추가");	
-		opPlus.setAttribute("onclick","mkFunc(cloneCnt)")
-		opPlusBox.append(opPlus);
+		opPlusBox.setAttribute("id","opPlusBox"+cnt);
+		opPlusBox.setAttribute("class","opPlusBox");
+		if(n!=4){
+			var opPlus=document.createElement("input");
+			opPlus.setAttribute("type","button");
+			opPlus.setAttribute("id","opPlus"+cnt);
+			opPlus.setAttribute("value","옵션추가");	
+			opPlus.setAttribute("onclick","mkFunc("+cnt+")");			
+			opPlusBox.append(opPlus);
+		}
 		qBox.append(opPlusBox);		
 		
 	}
 	
 	function checktype1(){
 		opNum=1;
-		makeOpBox();
+		makeOpBox(1,cloneCnt);
 		var br=document.createElement("br");
 		var sqType=document.createElement("input");
 		sqType.setAttribute("type","hidden");
@@ -278,6 +282,7 @@
 		$("#opDiv").css("display","none");
 		var box="opBox"+cloneCnt;
 		var opBox=document.getElementById(box);
+		opBox.setAttribute("class","opBox");
 		opBox.append(br);
 		opBox.append(op1);	
 		$("#qPlusBox").css("display","block");	
@@ -287,7 +292,7 @@
 	
 	function checktype2(){
 		opNum=2;
-		makeOpBox();
+		makeOpBox(2,cloneCnt);
 		var br=document.createElement("br");
 		var sqType=document.createElement("input");
 		sqType.setAttribute("type","hidden");
@@ -302,6 +307,7 @@
 		$("#opDiv").css("display","none");
 		var box="opBox"+cloneCnt;
 		var opBox=document.getElementById(box);
+		opBox.setAttribute("class","opBox");
 		opBox.append(br);
 		opBox.append(op2);	
 		$("#qPlusBox").css("display","block");	
@@ -310,7 +316,7 @@
 	}
 	function checktype3(){
 		opNum=3;
-		makeOpBox();
+		makeOpBox(3,cloneCnt);
 		var br=document.createElement("br");
 		var sqType=document.createElement("input");
 		sqType.setAttribute("type","hidden");
@@ -325,6 +331,7 @@
 		$("#opDiv").css("display","none");
 		var box="opBox"+cloneCnt;
 		var opBox=document.getElementById(box);
+		opBox.setAttribute("class","opBox");
 		opBox.append(br);
 		opBox.append(op3);		
 		$("#qPlusBox").css("display","block");	
@@ -332,7 +339,8 @@
 		opPlusBox.setAttribute("style","display:block");
 	}
 	function checktype4(){
-		opNum=4;		
+		opNum=4;
+		makeOpBox(4,cloneCnt);
 		var br=document.createElement("br");
 		var sqType=document.createElement("input");
 		sqType.setAttribute("type","hidden");
@@ -348,6 +356,7 @@
 		$("#opDiv").css("display","none");
 		var box="opBox"+cloneCnt;
 		var opBox=document.getElementById(box);
+		opBox.setAttribute("class","opBox");
 		opBox.append(br);
 		opBox.append(op4);					
 		
