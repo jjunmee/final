@@ -1,10 +1,8 @@
 package com.jhta.netflix.user.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
@@ -22,21 +20,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jhta.netflix.lib.UserStatus;
+import com.jhta.netflix.user.service.UserService;
+import com.jhta.netflix.user.vo.UserVo;
+
 @Controller
-public class testCon {
+public class GoogleLoginController {
 	/* GoogleLogin */
 	@Autowired
 	private GoogleConnectionFactory googleConnectionFactory;
 	@Autowired
 	private OAuth2Parameters googleOAuth2Parameters;
-
+	@Autowired private UserService service;
 
 	// 구글 Callback호출 메소드
 	@RequestMapping(value = "/user/google", method = { RequestMethod.GET, RequestMethod.POST })
-	public String googleCallback(Model model, @RequestParam String code) throws IOException {
-		
+	public String googleCallback(@RequestParam String code,HttpSession session) throws IOException {
 		 
-         OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
         AccessGrant accessGrant = oauthOperations.exchangeForAccess(code, googleOAuth2Parameters.getRedirectUri(),
                 null);
  
@@ -44,40 +45,27 @@ public class testCon {
         Long expireTime = accessGrant.getExpireTime();
         if (expireTime != null && expireTime < System.currentTimeMillis()) {
             accessToken = accessGrant.getRefreshToken();
-            System.out.printf("accessToken is expired. refresh token = {}", accessToken);
- 
         }
         Connection<Google> connection = googleConnectionFactory.createConnection(accessGrant);
         Google google = connection == null ? new GoogleTemplate(accessToken) : connection.getApi();
-        System.out.println(connection);
         PlusOperations plusOperations = google.plusOperations();
         Person profile = plusOperations.getGoogleProfile();
-        
-        System.out.println("User Uid : " + profile.getId());
-        System.out.println("User Name : " + profile.getDisplayName());
-        System.out.println("User Email : " + profile.getAccountEmail());
-        System.out.println("User Profile : " + profile.getImageUrl());
-        // Access Token 취소
-        try {
-            System.out.println("Closing Token....");
-            String revokeUrl = "https://accounts.google.com/o/oauth2/revoke?token=" + accessToken + "";
-            URL url = new URL(revokeUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setDoOutput(true);
- 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-        } catch (Exception e) {
- 
-            e.printStackTrace();
-        }
-       
-		return ".main";
+        String id = profile.getAccountEmail();
+        UserVo vo= service.login(id);
+        String path = "";
+        if(vo==null) {
+        	System.out.println(UserStatus.TRUE_USER);
+	    	vo=new UserVo(0,id,accessToken,null,0,UserStatus.TRUE_USER, null);
+	    	service.defaultJoin(vo);
+	    	session.setAttribute("sts", UserStatus.TRUE_USER);
+	    	path=".main";
+	    }else {
+	    	session.setAttribute("sts", vo.getSts());
+	    	path=".main";
+	    }
+	    session.setAttribute("id", id);
+	    session.setAttribute("sns", "google");
+	    session.setAttribute("accessToken", accessToken);
+	    return path;
 	}
 }

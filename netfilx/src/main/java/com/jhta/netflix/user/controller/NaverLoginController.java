@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.jhta.netflix.lib.UserStatus;
 import com.jhta.netflix.user.naver.NaverLoginBo;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.vo.UserVo;
@@ -70,11 +71,13 @@ public class NaverLoginController {
 	    //아이디 조회
 	    UserVo vo=service.login(id);
 	    if(vo==null) {
-	    	vo=new UserVo(0,id,null,null,0,0,null);
+	    	vo=new UserVo(0,id,json1.getString("accessToken").toString(),null,0,UserStatus.TRUE_USER,null);
 	    	service.defaultJoin(vo);
+	    	session.setAttribute("sts", UserStatus.TRUE_USER);
+	    }else {
+	    	session.setAttribute("sts", vo.getSts());
 	    }
 	    session.setAttribute("id", id);
-	    session.setAttribute("sts", vo.getSts());
 	    session.setAttribute("sns", "naver");
 	    session.setAttribute("accessToken", json1.getString("accessToken").toString());
 	    session.setAttribute("tokenType", json1.getString("tokenType").toString());
