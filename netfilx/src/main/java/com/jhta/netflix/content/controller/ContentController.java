@@ -289,7 +289,12 @@ public class ContentController {
 		return ".content.list";
 	}
 	@RequestMapping(value="/content/userView",method=RequestMethod.GET)
-	public String userList() {
+	public String userList(Model model) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("sort", "recommend");
+		map.put("startRow", 0);
+		map.put("rowBlockCount", 80);
+		model.addAttribute("list", contentService.list(map));
 		return ".user_content.list";
 	}
 }
