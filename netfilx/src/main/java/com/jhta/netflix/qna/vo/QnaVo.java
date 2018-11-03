@@ -12,7 +12,7 @@ public class QnaVo {
     // 문의게시일 
     private Date qna_regdate;
     // 공개/비공개 
-    private Boolean open;
+    private Boolean qna_open;
     // lev 
     private Integer lev;
     // step 
@@ -21,14 +21,14 @@ public class QnaVo {
     private Integer users_num;
     
     public QnaVo() {}
-	public QnaVo(Integer qna_num, String qna_title, String qna_content, Date qna_regdate, Boolean open, Integer lev,
+	public QnaVo(Integer qna_num, String qna_title, String qna_content, Date qna_regdate, Boolean qna_open, Integer lev,
 			Integer step, Integer users_num) {
 		super();
 		this.qna_num = qna_num;
 		this.qna_title = qna_title;
 		this.qna_content = qna_content;
 		this.qna_regdate = qna_regdate;
-		this.open = open;
+		this.qna_open = qna_open;
 		this.lev = lev;
 		this.step = step;
 		this.users_num = users_num;
@@ -57,11 +57,11 @@ public class QnaVo {
 	public void setQna_regdate(Date qna_regdate) {
 		this.qna_regdate = qna_regdate;
 	}
-	public Boolean getOpen() {
-		return open;
+	public Boolean getQna_open() {
+		return qna_open;
 	}
-	public void setOpen(Boolean open) {
-		this.open = open;
+	public void setQna_open(Boolean qna_open) {
+		this.qna_open = qna_open;
 	}
 	public Integer getLev() {
 		return lev;
@@ -82,5 +82,5 @@ public class QnaVo {
 		this.users_num = users_num;
 	}
     
-    
+   
 }

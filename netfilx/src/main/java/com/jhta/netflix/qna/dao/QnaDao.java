@@ -1,5 +1,6 @@
 package com.jhta.netflix.qna.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,8 +18,11 @@ public class QnaDao {
 	public int insert(QnaVo vo) {
 		return sqlSession.insert(NAMESPACE + ".insert", vo);
 	}
-	public List<QnaVo> list() {
-		return sqlSession.selectList(NAMESPACE + ".list");
+	public List<QnaVo> list(HashMap<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".list",map);
+	}
+	public int listCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".listCount",map);
 	}
 	public QnaVo detail(int num) {
 		return sqlSession.selectOne(NAMESPACE + ".detail",num);

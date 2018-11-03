@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.netflix.lib.SHA512;
+import com.jhta.netflix.lib.UserStatus;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.validator.JoinValidator;
 import com.jhta.netflix.user.validator.LoginValidator;
@@ -80,7 +81,7 @@ public class UserController {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 		}
-		UserVo vo1=new UserVo(0,vo.getId(),pw,birth,0,0,pwd2);
+		UserVo vo1=new UserVo(0,vo.getId(),pw,birth,0,UserStatus.DEFAULT_USER,pwd2);
 		int n=service.defaultJoin(vo1);
 		String redirect="";
 		if(n>=0) {

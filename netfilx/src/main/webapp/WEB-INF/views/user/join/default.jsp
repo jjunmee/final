@@ -34,7 +34,7 @@
 		</div>
 		<div class="form-group col-sm-3">
 			<button type="submit" class="btn btn-default" tabindex="">가입하기</button>
-			<input type="reset" class="btn btn-default" value="취소">
+			<input type="reset" class="btn btn-default" value="취소" onclick="javascript:history.go(-1);">
 		</div>
 	</div>
 </form:form>

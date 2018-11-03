@@ -128,8 +128,8 @@ public class SurveyController {
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
-		//���������� �Է½�ų�� ������� �Է½�ų���� ȭ�� �����ٽ��غ���!
-		map.put("state", "등록완료");
+		//설문번호 가져와서 설문테이블 업데이트하기
+		map.put("state", "결제완료");
 		int surveyNum=service.surveyNumSelect(map);
 		surveyVo.setSurveyNum(surveyNum);
 		surveyVo.setSurveyEnd(surveyVo.getSurveyEnd().replaceAll("/", "-"));
@@ -194,7 +194,6 @@ public class SurveyController {
 				qtime++;
 			}
 		}
-		return ".survey.home";
-	}
-	
+		return "redirect:/survey/list?code=1";
+	}	
 }
