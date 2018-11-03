@@ -8,13 +8,13 @@
 	<title>Insert title here</title>
 	<style type="text/css">
 		.carousel-cell{width: 18%;height: 100%;}
-		.carousel-cell img{width: 200px;height: 150px;margin-top: 25px;background-color: black;
+		.carousel-cell>img{width: 200px;height: 150px;margin-top: 25px;background-color: black;
 			position:absolute;z-index: 2;}
-		.carousel-cell video{width: 300px;height: 200px;margin-left: -50px;background-color: black;
+		.carousel-cell>video{width: 300px;height: 200px;margin-left: -50px;background-color: black;
 			position:absolute;z-index: 1;display: none;}
-		.carousel-cell div{width: 300px;height: 200px;margin-left: -50px;
+		.carousel-cell>div{width: 300px;height: 200px;margin-left: -50px;
 			position:absolute;z-index: 1;display: none;cursor: pointer;}
-		.carousel-cell div *{padding-left: 20px;}
+		.carousel-cell>div>*{padding-left: 20px;}
 		.content-cover{width: 300px;height: 200px;margin-left: -50px;
 			position:absolute;z-index: 1;background-color: yellow;display: null;}
 		.main-carousel{
@@ -24,9 +24,12 @@
 			transition: height 0.2s;
 		}
 		.detail{width: 100%;height: 500px;margin: auto;background-color: black;display: none;}
-		.detail video{height: 500px;right: 0px;position: absolute;z-index: 1;}
-		.detail div{width: 100%;height: 500px;padding: 20px;position: absolute;z-index: 2;}
-		.detail div h5{width: 50%;}
+		.detail>video{height: 500px;right: 0px;position: absolute;z-index: 1;}
+		.detail>div{width: 100%;height: 500px;padding: 20px;position: absolute;z-index: 2;}
+		.detail>div>h5{width: 50%;}
+		.detail>div>#closeBtn{position: absolute;right: 0px;top: 0px;}
+		.detail>div>div{position: absolute;bottom: 0px;left: 35%;}
+		.detail>div>div>a{margin: 10px;}
 	</style>
 	<!-- https://flickity.metafizzy.co/ -->
 	<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
@@ -107,9 +110,15 @@
 			});
 		});
 		function contentDetail(event) {
-			$(".detail").slideDown();
-			$(event.target.previousElementSibling.previousElementSibling).clone()
-				.removeAttr("style").prependTo(".detail");
+			$(".detail").slideDown(function() {
+				$(".detail *").show();
+				$(event.target.previousElementSibling.previousElementSibling).clone()
+					.removeAttr("style").prependTo(".detail");
+			});
+		}
+		function closeDetail(event) {
+			$(".detail *").hide();
+			$(".detail").slideUp();
 		}
 	</script>
 </head>
@@ -147,6 +156,14 @@
 			<input type="button" value="재생">
 			<input type="button" value="찜">
 			<input type="button" value="좋아요">
+			<br>
+			<div>
+				<a href="">컨텐츠 정보</a>
+				<a href="">회차 정보</a>
+				<a href="">비슷한 컨텐츠</a>
+				<a href="">상세 정보</a>
+			</div>
+			<input id="closeBtn" type="button" value="x" onclick="closeDetail()">
 		</div>
 	</div>
 	<h4>Watflix 인기 콘텐츠</h4>
