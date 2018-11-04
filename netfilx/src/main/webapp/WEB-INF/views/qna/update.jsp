@@ -37,7 +37,7 @@
 				<td><textarea rows="5" cols="20" name="qna_content">${qna_content }</textarea></td>
 			</tr>
 			<tr>
-				<th>OPEN/CLOSED</th>
+				<th>OPEN/CLOSED</th> 
 				<td>
 					<c:choose>
 						<c:when test="${step == 0}">

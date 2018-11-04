@@ -16,7 +16,7 @@
 	}
 </style>
 <div>
-	<h1>글 수정</h1>
+	<h1>글 수정</h1> 
 	<table width="800" border="1">
 		<tr>
 			<th>TITLE</th>
