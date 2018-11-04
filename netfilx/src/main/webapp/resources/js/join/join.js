@@ -16,8 +16,8 @@
 				dataType:"json",
 				data : {"id":ck_id},
 				success : function(data){
-					if(!data.success){
-						$("#email_ck").html("사용가능");
+					if(data.success){
+						$("#email_ck").html("메일이 전송되었습니다.");
 						$("#email_boolean").val("true");
 					}else{
 						$("#email_ck").html("사용중인 이메일 또는 잘못된 이메일 입니다.");

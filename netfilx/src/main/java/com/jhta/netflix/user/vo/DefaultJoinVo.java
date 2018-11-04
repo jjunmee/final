@@ -7,19 +7,22 @@ public class DefaultJoinVo {
 	@NotEmpty(message="아이디를 입력하세요")
 	private String id;
 	@NotEmpty(message="비밀번호를 입력하세요")
-	@Length(min=8,max=32,message="8자 이상 대소문자")
+	@Length(min=8,max=32,message="8자 이상 대소문자,숫자,특수문자가 포함 되어야 합니다.")
 	private String pwd;
 	@NotEmpty(message="생년월일을 입력하세요")
 	private String birth;
 	@NotEmpty(message="비밀번호 확인을 입력하세요")
 	private String pwd2;
+	@NotEmpty(message="인증번호를 입력하세요")
+	private String passCheck;
 	private String email_boolean;
 	public DefaultJoinVo() {}
-	public DefaultJoinVo(String id, String pwd, String birth, String pwd2,String email_boolean) {
+	public DefaultJoinVo(String id, String pwd, String birth, String pwd2,String passCheck,String email_boolean) {
 		this.id = id;
 		this.pwd = pwd;
 		this.birth = birth;
 		this.pwd2 = pwd2;
+		this.passCheck=passCheck;
 		this.email_boolean = email_boolean;
 	}
 	public String getId() {
@@ -46,6 +49,12 @@ public class DefaultJoinVo {
 	}
 	public void setPwd2(String pwd2) {
 		this.pwd2 = pwd2;
+	}
+	public String getPassCheck() {
+		return passCheck;
+	}
+	public void setPassCheck(String passCheck) {
+		this.passCheck = passCheck;
 	}
 	public String getEmail_boolean() {
 		return email_boolean;

@@ -11,6 +11,7 @@
 		<typeAlias type="com.jhta.netflix.category.vo.CategoryVo" alias="category"/>
 		<typeAlias type="com.jhta.netflix.category.vo.CateGenreVo" alias="categenre"/>
 		<typeAlias type="com.jhta.netflix.user.vo.UserVo" alias="user"/>
+		<typeAlias type="com.jhta.netflix.user.vo.CertificationVo" alias="certifi"/>
 		<typeAlias type="com.jhta.netflix.genre.vo.GenreVo" alias="genre"/>
 		<typeAlias type="com.jhta.netflix.staff.vo.StaffVo" alias="staff"/>
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVo" alias="survey"/>		

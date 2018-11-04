@@ -18,7 +18,7 @@
 			<form:errors path="pwd"/>
 		</div>
 		<button type="submit" tabindex="3" class="btn btn-default" role="button">로그인</button>
-		<a href="<c:url value='/joinSel'/>" tabindex="4" class="btn btn-default" role="button">회원가입</a>
+		<a href="<c:url value='/join/default'/>" tabindex="4" class="btn btn-default" role="button">회원가입</a>
 		<button type="reset" tabindex="5" class="btn btn-default" role="button">취소</button>
 		<a href="${url }"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
 		<a href="${google_url}" class="btn btn-default">
