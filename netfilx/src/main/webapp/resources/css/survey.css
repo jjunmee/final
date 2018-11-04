@@ -27,3 +27,8 @@
 #content .surveyList .leftBox{width:15%;float:left;}
 #content .surveyList .centerBox{width:85%;float:left;}
 
+
+
+.ui-datepicker{ font-size: 12px; width: 500px; }
+.ui-datepicker select.ui-datepicker-month{ width:100%; font-size: 11px; }
+.ui-datepicker select.ui-datepicker-year{ width:100%; font-size: 11px; }

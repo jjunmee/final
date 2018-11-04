@@ -132,7 +132,6 @@ public class SurveyController {
 		map.put("state", "결제완료");
 		int surveyNum=service.surveyNumSelect(map);
 		surveyVo.setSurveyNum(surveyNum);
-		surveyVo.setSurveyEnd(surveyVo.getSurveyEnd().replaceAll("/", "-"));
 		service.surveyUpdate(surveyVo);
 		
 		//설문영상테이블 insert

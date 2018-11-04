@@ -6,10 +6,10 @@
 	var choiceType=0;//객관식그리드인지 복합질문형인지 구분하려는 용도
 	var opNum=-1;//복합질문형의 몇번타입을 선택했는지 구분하려는 용도
 	var exist=0;//질문몇개인가 세려는 용도
-	var arrayStore='';
+	var arrayStore='';//div순서리스트
 	
 	$(document).ready(function(){
-		$("#videoCheck").click(function(){
+		$("#videoCheck").click(function(){//영상
 			if(this.checked==true){
 				$("#file").append("<input type='file' name='file1'>");				
 			}else{
@@ -17,11 +17,18 @@
 			}
 		});
 		$("#surveyEnd").datepicker({
-			dateFormat: "yy/mm/dd", //날짜 포맷형식
+			dateFormat: "yy-mm-dd", //날짜 포맷형식
 			showOn:"button",
+			showMonthAfterYear:true,
 			buttonText:"달력펼치기",
 			changeMonth: true,
-			changeYear:true		
+			changeYear:true,
+			yearSuffix:"년",
+			monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			nextText:"다음 달",
+			prevText:"이전 달",
+			minDate:"0",
+			maxDate:"1y"
 		});		
 		
 		$("#choice1").click(function(){//객관식그리드 선택
