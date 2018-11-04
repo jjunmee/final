@@ -24,45 +24,25 @@
 	});
 </script>
 <div>
-	<h1>INSERT</h1>
-	<form method="post" action='<c:url value="/qna/insert"/>'>
+	<h1>UPDATE</h1>
+	<form method="post" action='<c:url value="/qna/update"/>'>
 		<input type="hidden" name="qna_num" value="${qna_num}">
 		<table width="800" border="1">
 			<tr>
 				<th>TITLE</th>
 				<td><input type="text" name="qna_title" value="${qna_title }"></td>
 			</tr>
-			<c:choose>
-				<c:when test="${qna_num == 0}">
-					<tr>
-						<th>CONTENT</th>
-						<td>
-							<textarea rows="5" cols="20" name="qna_content"></textarea>
-						</td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<th>CONTENT</th>
-						<td>
-							${qna_content }
-						</td>
-					</tr>
-					<tr>
-						<th>ANSWER</th>
-						<td>
-							<textarea rows="5" cols="20" name="qna_content"></textarea>
-						</td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
 			<tr>
-				<th>OPEN/CLOSED</th>
+				<th>CONTENT</th>
+				<td><textarea rows="5" cols="20" name="qna_content">${qna_content }</textarea></td>
+			</tr>
+			<tr>
+				<th>OPEN/CLOSED</th> 
 				<td>
 					<c:choose>
-						<c:when test="${qna_num == 0}">
-							OPEN<input type="radio" name="qna_open" value="true">
-							CLOSED<input type="radio" name="qna_open" value="false">
+						<c:when test="${step == 0}">
+							OPEN<input type="radio" name="qna_open" value="1">
+							CLOSED<input type="radio" name="qna_open" value="0">
 						</c:when>
 						<c:otherwise>
 							<input type="hidden" name="qna_open" value="${qna_open }">
@@ -72,7 +52,8 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-				<input type="submit" value="등록">
+				id ${id}<br>
+				<input type="submit" value="수정">
 				</td>
 			</tr>
 		</table>
