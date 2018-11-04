@@ -91,27 +91,38 @@
 			});			
 		}			
 			
-		function appendRow(){//객관식그리드의 질문추가		
+		function appendRow(){//객관식그리드의 질문추가	
 			var sqTitle=document.createElement("input");
 			sqTitle.setAttribute("type","text");
-			sqTitle.setAttribute("name","qlist["+(++cloneCnt)+"].sqTitle");
+			sqTitle.setAttribute("name","sqlist["+(++cloneCnt)+"].sqTitle");
 			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");					
 			$("#rowBox").append(sqTitle);		
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
-			sqType.setAttribute("name","qlist["+cloneCnt+"].sqType");
+			sqType.setAttribute("name","sqlist["+cloneCnt+"].sqType");
+			sqType.setAttribute("class","org");
 			sqType.setAttribute("value","0");					
-			$("#rowBox").append(sqType);		
+			$("#things").append(sqType);
 		}		
 		
 		function appendCol(){//객관식그리드의 옵션추가		
 			var op=document.createElement("input");
 			op.setAttribute("type","text");
-			op.setAttribute("name","salist["+(++opNum)+"].alist");
+			op.setAttribute("name","ssalist["+(++opNum)+"].alist");
 			op.setAttribute("placeholder","옵션을 입력하세요");					
 			$("#colBox").append(op);			
 		}
-		
+		$("#rowBox").sortable({
+			axis: "y",
+			containment: "parent",
+			update: function (event, ui) {
+				var order = $(this).sortable('toArray', {
+					attribute: 'data-order'
+				});
+				arrayStore=order;
+				console.log("arrayStore : " + arrayStore);
+			}
+		});
 		$("#mainSurvey2").sortable({//div순서바꾸기
 			axis: "y",
 			containment: "parent",
@@ -386,17 +397,25 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
-		var len=arrayStore.length;
-		console.log(len);		
-		for(i=0;i<=len;i++){
-			var num=arrayStore[i];
-			$("input[name='sqlist["+num+"].sqType']").attr("class","save");			
-			$("input[name='sqlist["+num+"].sqType']").attr("name","qlist["+i+"].sqType");			
-			$("input[name='sqlist["+num+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
-			$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
-		}
-		$("#things").find(".org").remove();
-		
+		if(arrayStore!='' && arrayStore!=null){
+			var len=arrayStore.length;
+			console.log(len);
+			for(i=0;i<=len;i++){
+				var num=arrayStore[i];
+				$("input[name='sqlist["+num+"].sqType']").attr("class","save");			
+				$("input[name='sqlist["+num+"].sqType']").attr("name","qlist["+i+"].sqType");			
+				$("input[name='sqlist["+num+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+				$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
+			}			
+			$("#things").find(".org").remove();
+		}else{
+			for(i=0;i<=cloneCnt;i++){
+				$("input[name='sqlist["+i+"].sqType']").attr("class","save");			
+				$("input[name='sqlist["+i+"].sqType']").attr("name","qlist["+i+"].sqType");			
+				$("input[name='sqlist["+i+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+				$("input[name='ssalist["+i+"].alist']").attr("name","salist["+i+"].alist");
+			}
+		}	
 		
 		var stateBox=document.createElement("input");
 		stateBox.setAttribute("type","hidden");
