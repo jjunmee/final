@@ -12,6 +12,7 @@
 			<list>
 			<value>/WEB-INF/database.properties</value>
 			<value>/WEB-INF/social.properties</value>
+			<value>/WEB-INF/email.properties</value>
 			</list>
 		</property>
 	</bean>	
@@ -61,4 +62,26 @@
 		<property name="SESSION_STATE" value="oauth_state"/> 
 		<property name="PROFILE_API_URL" value="https://openapi.naver.com/v1/nid/me"/> 
 	</bean>
+	
+	<!-- 자바메일설정하기 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}"/>
+		<property name="port" value="${email.port}"/>
+		<property name="defaultEncoding" value="euc-kr"/>
+		<property name="username" value="${email.userId}"/>
+		<property name="password" value="${email.userPw}"/>
+		<property name="javaMailProperties">
+			<props>
+				<!-- 인증받아서 이메일보내기 -->
+				<prop key="mail.smtp.auth">${email.auth}</prop>
+				<!-- smtp통신을 ssl암호화해서 보니기 -->
+				<prop key="mail.smtp.starttls.enable">${email.enable}</prop>
+				<!-- <prop key="mail.transport.protocol">${email.protocol}</prop> -->
+               	<prop key="mail.debug">true</prop>
+               	<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+			</props>
+		</property>
+	</bean>
+	
 </beans>

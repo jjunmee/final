@@ -49,7 +49,6 @@ public class NaverLoginController {
 		/* 구글code 발행 */
 		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
 		String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		System.out.println(google_url);
 		model.addAttribute("google_url", google_url);
 		/* 생성한 인증 URL을 View로 전달 */
 		return ".user.login";

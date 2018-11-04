@@ -8,12 +8,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="<c:url value='/'/>">WAHFLIX</a>
     </div>
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
           <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">민성작업 <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -29,17 +28,30 @@
               <li><a href="<c:url value='/qna/list'/>">문의게시판</a></li>
             </ul>
           </li>
-          <li><a href="<c:url value='/mypage/myinfo'/>">계정관리</a></li>
-          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">프로필</a></li>
-              <li><a href="#">계정</a></li>
-              <li><a href="#">고객센터</a></li>
-            </ul>
-          </li>
+        </ul>
+        <ul class="nav navbar-nav" style="float: right;">
+	          <c:choose>
+		          <c:when test="${id eq null }">
+		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
+		          </c:when>
+		          <c:otherwise>
+			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>
+			            <ul class="dropdown-menu">
+			              <li><a href="#">프로필</a></li>
+			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
+			              <li><a href="#">고객센터</a></li>
+				          <li><a href="<c:url value='/logout'/>">로그아웃</a></li>
+			            </ul>
+			          </li>
+		          </c:otherwise>
+	          </c:choose>
+          
         </ul>
       </div>
     </div>
+    
+    	
+   
   </div>
 </nav>    
 

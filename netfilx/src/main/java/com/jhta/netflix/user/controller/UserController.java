@@ -11,6 +11,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +35,7 @@ import com.jhta.netflix.user.vo.UserVo;
 @Controller
 public class UserController {
 	@Autowired private UserService service;
-	
+	@Autowired private JavaMailSender mailSender;
 	//일반사용자 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@Valid @ModelAttribute("LoginVo")LoginVo vo,
@@ -57,10 +60,10 @@ public class UserController {
 		}
 	}
 	
-	//일반회원가입 이동
-	@RequestMapping(value = "/joinSel", method = RequestMethod.GET)
+	//회원가입 이동
+	@RequestMapping(value = "/join/default", method = RequestMethod.GET)
 	public String joinSel() {
-		return ".user.join.index";
+		return ".user.join.default";
 	}
 	
 	//일반사용자 회원가입완료
@@ -97,12 +100,39 @@ public class UserController {
 	
 	//가입시 사용중인 이메일인지 체크 json
 	@RequestMapping(value = "/email_check_k", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> id_check(@RequestParam("id")String id,HttpServletResponse res) {
+	public @ResponseBody Map<String, Object> id_check(@RequestParam("id")String id,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int n=service.id_check(id);
 		boolean f=false;
-		if(n>0) {f=true;}
+		String pass=null;
+		int ser_no=0;
+		if(n==0) {
+				try {
+					pass = SHA512.generateSalt();
+					SimpleMailMessage mailMsg=new SimpleMailMessage();
+					mailMsg.setSubject("WATFLIX 회원가입 본인인증 메일");
+					mailMsg.setText("인증을 위한 보안키 '"+ pass +"'를 입력해주세요");
+					mailMsg.setTo(id);
+					mailMsg.setFrom("hyunjin8981@naver.com");
+					mailSender.send(mailMsg);
+					//메일보낸 pass와 동일한지 검사할 인증  key
+					session.setAttribute("passCk", pass);
+					f=true;
+				}catch(Exception e) {
+					System.out.println(e.getMessage());
+					f=false;
+				}
+		}
 		map.put("success", f);
+		map.put("sertification", ser_no);
 		return map;
+	}
+	
+	
+	//logout
+	@RequestMapping(value = "/Logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return ".main";
 	}
 }
