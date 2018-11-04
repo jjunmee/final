@@ -5,30 +5,58 @@
 <mapper namespace="mapper.QnaMapper">
 	<sql id="search">
 		<if test="field!=null and field!=''">
-			where ${field} like '%#{keyword}%'
+			and ${field} like CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
 	<insert id="insert" parameterType="qna">
-		insert into qna values(#{qna_num},#{qna_title},#{qna_content},now(),#{qna_open},#{lev},#{step},#{users_num})
+		insert into qna values(#{qna_num},#{qna_title},#{qna_content},now(),#{qna_open},#{lev},#{step},#{users_num},#{qna_state})
 	</insert>
+	<!-- 
 	<select id="list" resultType="qna" parameterType="hashmap">
 		select * from qna
 		<include refid="search"/>
 		order by lev desc, step asc
 		limit #{startRow}, #{rowBlockCount}
 	</select>
+	 -->
+	<select id="list" resultType="qnauser" parameterType="hashmap">
+		select q.qna_num, q.qna_title, q.qna_content, q.qna_regdate, q.qna_open, q.lev, q.step, q.users_num, q.qna_state, u.id
+		from qna q, users u
+		where q.users_num = u.users_num
+		<include refid="search"/>
+		order by q.lev desc, q.step asc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
 	<select id="listCount" resultType="int" parameterType="hashmap">
 		select count(*) from qna 
 		<include refid="search"/>
 	</select>
-	<select id="detail" parameterType="int" resultType="qna">
-		select * from qna where qna_num = #{qna_num}
+	<!-- 유저가 쓴 글 보기 -->
+	<select id="detail" parameterType="int" resultType="qnauser">
+		select q.qna_num, q.qna_title, q.qna_content, q.qna_regdate, q.qna_open, q.lev, q.step, q.qna_state, q.users_num, u.id
+		from qna q, users u
+		where q.users_num = u.users_num and q.qna_num = #{qna_num}
+	</select>
+	<!-- 답글 보기 -->
+	<select id="a_detail" parameterType="int" resultType="qnauser">
+		select q.qna_num, q.qna_title, q.qna_content, q.qna_regdate, q.qna_open, q.lev, q.step, q.qna_state, q.users_num, u.id
+		from qna q, users u
+		where q.users_num = u.users_num and lev = #{qna_num} and step = 1
 	</select>
 	<update id="update" parameterType="qna">
-		update set qna qna_title = #{qna_title}, qna_content = #{qna_content}, qna_open = #{qna_open} where qna_num = #{qna_num}
+		update qna set qna_title = #{qna_title}, qna_content = #{qna_content}, qna_open = #{qna_open} where qna_num = #{qna_num}
 	</update>
+	<!-- state 변경 -->
+	<update id="s_update" parameterType="hashmap">
+		update qna set qna_state = #{qna_state} where qna_num = #{qna_num}
+	</update>
+	<!-- 유저가 쓴 글 삭제 -->
 	<delete id="delete" parameterType="int">
 		delete from qna where qna_num = #{qna_num}
+	</delete>
+	<!-- 답글 삭제 -->
+	<delete id="a_delete" parameterType="int">
+		delete from qna where lev = #{qna_num} and step = 1
 	</delete>
 	<select id="maxnum" resultType="int">
 		select IFNULL(max(qna_num),0) maxnum from qna

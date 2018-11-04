@@ -1,25 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style type="text/css">
+	input[type=text], select, textarea {
+	    background-color:  ;
+	    color: #fff;
+	}
+	
+	input[type=submit] {
+	    background-color: #ddd;
+	    color: white;
+	}
+	
+	input[type=submit]:hover {
+	    background-color: #000;
+	}
+</style>
 <div>
 	<h1>리스트</h1>
 	<a href="<c:url value="/qna/insert"/>"> 글 등록 </a>
 	<table width="800" border="1">
 		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>게시일</th>
-			<th>공개/비공개</th>
-			<th>글쓴이</th>
-			<th>답글남기기</th>
+			<th></th>
+			<th>TITLE</th>
+			<th>RAGDATE</th>
+			<th>OPEN/CLOSED</th>
+			<th>ID</th>
+			<th>STATE</th>
+			<th></th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
-			<td>${vo.qna_num }</td>
-			<td><a href='<c:url value="/qna/detail?qna_num=${vo.qna_num }"/>'>${vo.qna_title }</a></td>
+			<!-- 답변은 번호 말고 답변이라고 적기 -->
+			<c:choose>
+				<c:when test="${vo.step == 0 }">
+					<td>문의.${vo.qna_num }</td>
+				</c:when>
+				<c:otherwise>
+					<td>답변</td>
+				</c:otherwise>
+			</c:choose>
+			<!-- 비공개라면 등록한 users_num과 등록한사람의 users_num이 같을경우에만 볼 수 있게 -->
+			<td><a href='<c:url value="/qna/detail?qna_num=${vo.qna_num }&qna_open=${vo.qna_open }"/>'>${vo.qna_title }</a></td>
 			<td>${vo.qna_regdate }</td>
-			<td>${vo.qna_open }</td>
-			<td>${vo.users_num }</td>
-			<td><a href='<c:url value="/qna/insert?qna_num=${vo.qna_num }"/>'>답글남기기</a></td>
+			<c:choose>
+				<c:when test="${vo.qna_open == true }">
+					<td>공개</td>
+				</c:when>
+				<c:otherwise>
+					<td>비공개</td>
+				</c:otherwise>
+			</c:choose>
+			<td>${vo.id }</td>
+			<!-- 답글 상태(유저의 글에만 상태 보이기) -->
+			<c:choose>
+				<c:when test="${vo.step == 0 }">
+					<td>${vo.qna_state }</td>
+				</c:when>
+			</c:choose>
+			<!-- 관리자일 때만 답글 남기기 -->
+			<c:choose>
+				<c:when test="${vo.qna_state == '답변대기' }">
+					<td><a href='<c:url value="/qna/insert?qna_num=${vo.qna_num }"/>'>답글남기기</a></td>
+				</c:when>
+			</c:choose>
 		</tr>
 		</c:forEach>
 	</table>

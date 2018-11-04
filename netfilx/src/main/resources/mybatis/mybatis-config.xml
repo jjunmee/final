@@ -21,6 +21,7 @@
 		<typeAlias type="com.jhta.netflix.content_genre.vo.Content_genreVo" alias="cgenre"/>		
 		<typeAlias type="com.jhta.netflix.content_staff.vo.Content_staffVo" alias="cstaff"/>		
 		<typeAlias type="com.jhta.netflix.qna.vo.QnaVo" alias="qna"/>		
+		<typeAlias type="com.jhta.netflix.qna_user.vo.Qna_userVo" alias="qnauser"/>
 	</typeAliases>
 	
 	<mappers>

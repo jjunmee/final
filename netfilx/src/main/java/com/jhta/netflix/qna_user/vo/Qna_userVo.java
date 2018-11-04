@@ -1,8 +1,8 @@
-package com.jhta.netflix.qna.vo;
+package com.jhta.netflix.qna_user.vo;
 
 import java.sql.Date;
 
-public class QnaVo {
+public class Qna_userVo {
 	// 문의번호 
     private Integer qna_num;
     // 문의제목 
@@ -19,12 +19,15 @@ public class QnaVo {
     private Integer step;
     // 유저번호 
     private Integer users_num;
-    // 상태
+    // 유저아이디
+    private String id;
+    //상태
     private String qna_state;
     
-    public QnaVo() {}
-	public QnaVo(Integer qna_num, String qna_title, String qna_content, Date qna_regdate, Boolean qna_open, Integer lev,
-			Integer step, Integer users_num,String qna_state) {
+    public Qna_userVo() {}
+    
+	public Qna_userVo(Integer qna_num, String qna_title, String qna_content, Date qna_regdate, Boolean qna_open,
+			Integer lev, Integer step, Integer users_num, String id, String qna_state) {
 		super();
 		this.qna_num = qna_num;
 		this.qna_title = qna_title;
@@ -34,6 +37,7 @@ public class QnaVo {
 		this.lev = lev;
 		this.step = step;
 		this.users_num = users_num;
+		this.id = id;
 		this.qna_state = qna_state;
 	}
 	public Integer getQna_num() {
@@ -83,6 +87,12 @@ public class QnaVo {
 	}
 	public void setUsers_num(Integer users_num) {
 		this.users_num = users_num;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getQna_state() {
 		return qna_state;
