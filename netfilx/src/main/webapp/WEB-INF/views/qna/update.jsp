@@ -32,17 +32,33 @@
 				<th>TITLE</th>
 				<td><input type="text" name="qna_title" value="${qna_title }"></td>
 			</tr>
-			<tr>
-				<th>CONTENT</th>
-				<td><textarea rows="5" cols="20" name="qna_content">${qna_content }</textarea></td>
-			</tr>
+			<c:choose>
+				<c:when test="${qna_state == '답변대기'}">
+					<tr>
+						<th>CONTENT</th>
+						<td><textarea rows="5" cols="20" name="qna_content">${qna_content }</textarea></td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<th>CONTENT</th>
+						<td>
+							${u_qna_content }
+						</td>
+					</tr>
+					<tr>
+						<th>ANSWER</th>
+						<td><textarea rows="5" cols="20" name="qna_content">${qna_content }</textarea></td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
 			<tr>
 				<th>OPEN/CLOSED</th> 
 				<td>
 					<c:choose>
 						<c:when test="${step == 0}">
-							OPEN<input type="radio" name="qna_open" value="1">
-							CLOSED<input type="radio" name="qna_open" value="0">
+							OPEN<input type="radio" name="qna_open" value="1" <c:if test="${qna_open== true}">checked="checked"</c:if>>
+							CLOSED<input type="radio" name="qna_open" value="0" <c:if test="${qna_open== false}">checked="checked"</c:if>>
 						</c:when>
 						<c:otherwise>
 							<input type="hidden" name="qna_open" value="${qna_open }">

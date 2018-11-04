@@ -15,6 +15,14 @@
 	    background-color: #000;
 	}
 </style>
+<script type="text/javascript">
+	$(function(){
+		var code = '${code}';
+		if(code != null && code != ""){
+			alert(code);
+		}
+	});
+</script>
 <div>
 	<h1>리스트</h1>
 	<a href="<c:url value="/qna/insert"/>"> 글 등록 </a>

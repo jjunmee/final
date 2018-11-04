@@ -16,7 +16,7 @@
 	}
 </style>
 <div>
-	<h1>글 수정</h1> 
+	<h1>DETAIL</h1> 
 	<table width="800" border="1">
 		<tr>
 			<th>TITLE</th>
@@ -78,7 +78,7 @@
 			<th>OPEN/CLOSED</th>
 			<td>
 				<c:choose>
-					<c:when test="${qna_open == 1}">
+					<c:when test="${qna_open == false}">
 						비공개
 					</c:when>
 					<c:otherwise>
@@ -94,10 +94,10 @@
 						<a href='<c:url value="/qna/delete?qna_num=${qna_num }&step=${step }"/>'>삭제</a>
 					</c:when>
 					<%-- 답변이고 관리자일때 --%>
-					<c:when test="${qna_state != '답변'}">
+					<c:when test="${qna_state == '답변'}">
 						<a href='<c:url value="/qna/update?qna_num=${qna_num }&step=${step }"/>'>수정</a>
 					<%-- 답변이고 관리자일때 삭제할때 --%>
-						<a href='<c:url value="/qna/delete?qna_num=${u_qna_num }&step=${step }"/>'>삭제</a>
+						<a href='<c:url value="/qna/delete?qna_num=${qna_num }&step=${step }"/>'>삭제</a>
 					</c:when>
 					<c:otherwise>
 						<a href='<c:url value="/qna/update?qna_num=${qna_num }&step=${step }"/>'>수정</a>
