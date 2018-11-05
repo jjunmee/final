@@ -5,15 +5,17 @@
 	<h1>로그인페이지</h1>
 	<form:form method="POST" action="${pageContext.request.contextPath }/login" commandName="LoginVo">
 		<div class="form-group col-sm-3">
-			<label for="id"></label>
-			<input type="text" id="id" name="id" class="form-control" tabindex="1" alt="아이디" placeholder="이메일"><br>
-			<c:if test="${!empty(errMSG) }">
+			<input type="text" id="id" name="id" class="form-control" tabindex="1" alt="아이디" placeholder="이메일">
+			<c:choose>
+			<c:when test="${!empty(errMSG) }">
 			<span>${errMSG } </span><br>
-			</c:if>
+			</c:when>
+			<c:otherwise>
 			<form:errors path="id"/>
+			</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="form-group col-sm-3">
-			<label for="pwd"></label>
 			<input type="password" id="pwd" name="pwd" class="form-control" tabindex="2" alt="비밀번호" placeholder="비밀번호">
 			<form:errors path="pwd"/>
 		</div>
@@ -23,6 +25,6 @@
 		<a href="${url }"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
 		<a href="${google_url}" class="btn btn-default">
             <i class="fa fa-google" aria-hidden="true"></i>Google Login
-        </a> 
+        </a>
 	</form:form>
 </div>

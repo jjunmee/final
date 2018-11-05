@@ -35,4 +35,7 @@ public class GenreService {
 	public List<CateGenreVo> checklist(int num){
 		return dao.checklist(num);
 	}
+	public List<GenreVo> detailList(int num){
+		return dao.detailList(num);
+	}
 }

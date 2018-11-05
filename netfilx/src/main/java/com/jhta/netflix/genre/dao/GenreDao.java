@@ -36,4 +36,7 @@ public class GenreDao {
 	public List<CateGenreVo> checklist(int num){
 		return sqlSession.selectList(NAMESPACE + ".checklist",num);
 	}
+	public List<GenreVo> detailList(int num){
+		return sqlSession.selectList(NAMESPACE + ".detailList", num);
+	}
 }

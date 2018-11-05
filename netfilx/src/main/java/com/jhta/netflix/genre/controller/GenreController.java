@@ -171,4 +171,19 @@ public class GenreController {
 		}
 		return json.toString();
 	}
+	
+	@RequestMapping(value="/genre/detailList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String detailList(int content_num) {
+		List<GenreVo> list = service.detailList(content_num);
+		JSONArray arr = new JSONArray();
+		for(GenreVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("genre_num", vo.getGenre_num());
+			json.put("genre_name", vo.getGenre_name());
+			json.put("category_num", vo.getCategory_num());
+			arr.put(json);
+		}
+		return arr.toString();
+	}
 }

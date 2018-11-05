@@ -43,5 +43,10 @@
 		WHERE g.category_num = c.category_num
 		ORDER BY c.category_num, g.genre_num
 	</select>
+	<select id="detailList" parameterType="int" resultType="genre">
+		select g.*
+		from content c, content_genre cg, genre g
+		where c.content_num=cg.content_num and cg.genre_num=g.genre_num and c.content_num=#{value}
+	</select>
 </mapper>
   

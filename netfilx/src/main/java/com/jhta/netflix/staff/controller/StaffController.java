@@ -116,4 +116,21 @@ public class StaffController {
 		}
 		return json.toString();
 	}
+	@RequestMapping(value="/staff/detailList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String detailList(int content_num) {
+		List<StaffVo> list = service.detailList(content_num);
+		JSONArray arr = new JSONArray();
+		for(StaffVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("staff_num", vo.getStaff_num());
+			json.put("staff_position", vo.getStaff_position());
+			json.put("staff_name", vo.getStaff_name());
+			json.put("staff_age", vo.getStaff_age());
+			json.put("staff_gender", vo.getStaff_gender());
+			json.put("staff_debut", vo.getStaff_debut());
+			arr.put(json);
+		}
+		return arr.toString();
+	}
 }

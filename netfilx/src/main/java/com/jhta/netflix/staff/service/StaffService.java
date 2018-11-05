@@ -31,4 +31,7 @@ public class StaffService {
 	public StaffVo find(int num) {
 		return dao.find(num);
 	}
+	public List<StaffVo> detailList(int num){
+		return dao.detailList(num);
+	}
 }
