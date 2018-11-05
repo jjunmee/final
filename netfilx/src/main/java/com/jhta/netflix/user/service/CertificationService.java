@@ -20,4 +20,7 @@ public class CertificationService {
 	public int insert(CertificationVo vo) {
 		return dao.insert(vo);
 	}
+	public void cerTest() {
+		dao.cerTest();
+	}
 }

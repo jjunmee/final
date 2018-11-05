@@ -3,8 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.CertificationMapper">
-	<select id="maxno" resultType="int">
-		select ifnull(max(no),0) as no from certification;select max(no) from certification;
+	<insert id="cerTest">
+		insert into certification values(0,asdasdasd)
+	</insert>
+	<select id="maxNo" resultType="int">
+		select ifnull(max(no),0) as no from certification
 	</select>
 	<insert id="insert" parameterType="certifi">
 		insert into certification values(#{no},#{pass})
@@ -13,3 +16,4 @@
 		select pass from certification where no=#{no}
 	</select>
  </mapper>
+ 

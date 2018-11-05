@@ -13,15 +13,18 @@ public class CertificationDaoImpl implements CertificationDao{
 	private final String NAMESPACE = "mapper.CertificationMapper";
 	@Override
 	public int maxNo() {
-		return sqlSession.selectOne(NAMESPACE+".maxno");
+		return sqlSession.selectOne(NAMESPACE + ".maxNo");
 	}
 	@Override
 	public String getInfo(int no) {
-		return sqlSession.selectOne(NAMESPACE+".getInfo",no);
+		return sqlSession.selectOne(NAMESPACE + ".getInfo",no);
 	}
 	@Override
 	public int insert(CertificationVo vo) {
-		return sqlSession.insert(NAMESPACE+".insert",vo);
+		return sqlSession.insert(NAMESPACE + ".insert",vo);
 	}
-	
+	@Override
+	public void cerTest() {
+		sqlSession.insert(NAMESPACE + ".cerTest");
+	}
 }

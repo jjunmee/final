@@ -1,15 +1,22 @@
+--ì´ë©”ì¼ ë³¸ì¸ì¸ì¦ì„ ìœ„í•œ ë‹¨ë… í…Œì´ë¸”
+CREATE TABLE certification
+(
+	`no` INT(11) primary key,
+	`pass` varchar(32)
+);
+
 -- users Table Create SQL
 CREATE TABLE users
 (
-    `users_num`  INT            NOT NULL    AUTO_INCREMENT COMMENT 'À¯Àú¹øÈ£', 
-    `id`         VARCHAR(50)    NOT NULL    COMMENT '¾ÆÀÌµğ', 
-    `pwd`        VARCHAR(30)    NOT NULL    COMMENT 'ºñ¹Ğ¹øÈ£', 
-    `birth`      INT            NOT NULL    COMMENT 'ÁÖ¹Îµî·Ï¹øÈ£', 
-    `point`      INT            NULL        COMMENT 'Æ÷ÀÎÆ®', 
+    `users_num`  INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `id`         VARCHAR(50)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ìµï¿½', 
+    `pwd`        VARCHAR(30)    NOT NULL    COMMENT 'ï¿½ï¿½Ğ¹ï¿½È£', 
+    `birth`      INT            NOT NULL    COMMENT 'ï¿½Ö¹Îµï¿½Ï¹ï¿½È£', 
+    `point`      INT            NULL        COMMENT 'ï¿½ï¿½ï¿½ï¿½Æ®', 
     PRIMARY KEY (users_num)
 );
 
-ALTER TABLE users COMMENT 'À¯Àú';
+ALTER TABLE users COMMENT 'ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE users
     ADD CONSTRAINT UC_id UNIQUE (id);
@@ -18,29 +25,29 @@ ALTER TABLE users
 -- profile_img Table Create SQL
 CREATE TABLE profile_img
 (
-    `pimg_num`  INT             NOT NULL    AUTO_INCREMENT COMMENT 'ÇÁ·ÎÇÊÀÌ¹ÌÁö¹øÈ£', 
-    `pimg_src`  VARCHAR(100)    NOT NULL    COMMENT 'ÇÁ·ÎÇÊÀÌ¹ÌÁöÁÖ¼Ò', 
+    `pimg_num`  INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `pimg_src`  VARCHAR(100)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½', 
     PRIMARY KEY (pimg_num)
 );
 
-ALTER TABLE profile_img COMMENT 'ÇÁ·ÎÇÊÀÌ¹ÌÁö';
+ALTER TABLE profile_img COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½';
 
 
 -- profile Table Create SQL
 CREATE TABLE profile
 (
-    `profile_num`      INT            NOT NULL    AUTO_INCREMENT COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `nickname`         VARCHAR(20)    NOT NULL    COMMENT '´Ğ³×ÀÓ', 
-    `users_num`        INT            NOT NULL    COMMENT 'À¯Àú¹øÈ£', 
-    `pimg_num`         INT            NOT NULL    COMMENT 'ÇÁ·ÎÇÊÀÌ¹ÌÁö¹øÈ£', 
-    `profile_age`      INT            NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¿¬·É', 
-    `profile_pwd`      VARCHAR(10)    NOT NULL    COMMENT 'ÇÁ·ÎÇÊºñ¹Ğ¹øÈ£', 
-    `profile_first`    TINYINT        NOT NULL    COMMENT '´ëÇ¥ÇÁ·ÎÇÊ', 
-    `profile_regdate`  DATE           NOT NULL    COMMENT '»ı¼ºÀÏ', 
+    `profile_num`      INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `nickname`         VARCHAR(20)    NOT NULL    COMMENT 'ï¿½Ğ³ï¿½ï¿½ï¿½', 
+    `users_num`        INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `pimg_num`         INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `profile_age`      INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½', 
+    `profile_pwd`      VARCHAR(10)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Ğ¹ï¿½È£', 
+    `profile_first`    TINYINT        NOT NULL    COMMENT 'ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `profile_regdate`  DATE           NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (profile_num)
 );
 
-ALTER TABLE profile COMMENT 'ÇÁ·ÎÇÊ ´ëÇ¥ Á¤ÇÏ´Â°Å Ãß°¡ÇØ¾ßÇÏ´Âµ¥..';
+ALTER TABLE profile COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ï¿½Ï´Âµï¿½..';
 
 ALTER TABLE profile ADD CONSTRAINT FK_profile_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -51,64 +58,64 @@ ALTER TABLE profile ADD CONSTRAINT FK_profile_pimg_num_profile_img_pimg_num FORE
 -- staff Table Create SQL
 CREATE TABLE staff
 (
-    `staff_num`       INT            NOT NULL    AUTO_INCREMENT COMMENT '½ºÅÇ¹øÈ£', 
-    `staff_position`  TINYINT        NOT NULL    COMMENT '¹è¿ì/°¨µ¶', 
-    `staff_name`      VARCHAR(45)    NOT NULL    COMMENT 'ÀÌ¸§', 
-    `staff_age`       INT            NOT NULL    COMMENT '³ªÀÌ', 
-    `staff_gender`    VARCHAR(10)    NOT NULL    COMMENT '¼ºº°', 
+    `staff_num`       INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½Ç¹ï¿½È£', 
+    `staff_position`  TINYINT        NOT NULL    COMMENT 'ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½', 
+    `staff_name`      VARCHAR(45)    NOT NULL    COMMENT 'ï¿½Ì¸ï¿½', 
+    `staff_age`       INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½', 
+    `staff_gender`    VARCHAR(10)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (staff_num)
 );
 
-ALTER TABLE staff COMMENT '½ºÅÇ';
+ALTER TABLE staff COMMENT 'ï¿½ï¿½ï¿½ï¿½';
 
 
 -- category Table Create SQL
 CREATE TABLE category
 (
-    `category_num`   INT            NOT NULL    AUTO_INCREMENT COMMENT 'Á¾·ù¹øÈ£', 
-    `category_name`  VARCHAR(20)    NOT NULL    COMMENT 'Á¾·ù¸í', 
+    `category_num`   INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `category_name`  VARCHAR(20)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (category_num)
 );
 
-ALTER TABLE category COMMENT 'Ä«Å×°í¸®';
+ALTER TABLE category COMMENT 'Ä«ï¿½×°ï¿½';
 
 
 -- series Table Create SQL
 CREATE TABLE series
 (
-    `series_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT '½Ã¸®Áî¹øÈ£', 
-    `series_name`  VARCHAR(100)    NOT NULL    COMMENT '½Ã¸®Áî¸í', 
-    `season`       VARCHAR(100)    NOT NULL    COMMENT '½ÃÁğ', 
+    `series_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½È£', 
+    `series_name`  VARCHAR(100)    NOT NULL    COMMENT 'ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½', 
+    `season`       VARCHAR(100)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (series_num)
 );
 
-ALTER TABLE series COMMENT '½Ã¸®Áî';
+ALTER TABLE series COMMENT 'ï¿½Ã¸ï¿½ï¿½ï¿½';
 
 
 -- content Table Create SQL
 CREATE TABLE content
 (
-    `content_num`      INT              NOT NULL    AUTO_INCREMENT COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
-    `content_name`     VARCHAR(50)      NOT NULL    COMMENT 'ÄÁÅÙÃ÷¸í', 
-    `orgsrc`           VARCHAR(100)     NOT NULL    COMMENT '¿øº»°æ·Î', 
-    `savesrc`          VARCHAR(100)     NOT NULL    COMMENT 'ÀúÀå°æ·Î', 
-    `content_sunmer`   VARCHAR(1000)    NOT NULL    COMMENT 'ÁÙ°Å¸®', 
-    `trailer_orgsrc`   VARCHAR(100)     NOT NULL    COMMENT '¿¹°íÆí¿øº»°æ·Î', 
-    `trailer_savesrc`  VARCHAR(100)     NOT NULL    COMMENT '¿¹°íÆíÀúÀå°æ·Î', 
-    `content_size`     INT              NOT NULL    COMMENT 'ÄÁÅÙÃ÷ÆÄÀÏÅ©±â', 
-    `trailer_size`     INT              NOT NULL    COMMENT '¿¹°íÆíÆÄÀÏÅ©±â', 
-    `content_post1`    VARCHAR(100)     NOT NULL    COMMENT 'Æ÷½ºÆ®°æ·Î1', 
-    `content_post2`    VARCHAR(100)     NOT NULL    COMMENT 'Æ÷½ºÆ®°æ·Î2', 
-    `release`          DATE             NOT NULL    COMMENT '°³ºÀ/¹æ¿µÀÏ', 
-    `category_num`     INT              NOT NULL    COMMENT 'Á¾·ù¹øÈ£', 
-    `watch_age`        INT              NOT NULL    COMMENT '½ÃÃ»¿¬·É', 
-    `content_regdate`  DATE             NOT NULL    COMMENT 'µî·ÏÀÏ', 
-    `series_num`       INT              NOT NULL    COMMENT '½Ã¸®Áî¹øÈ£', 
-    `staff_num`        INT              NOT NULL    COMMENT '½ºÅÇ¹øÈ£', 
+    `content_num`      INT              NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `content_name`     VARCHAR(50)      NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `orgsrc`           VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `savesrc`          VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `content_sunmer`   VARCHAR(1000)    NOT NULL    COMMENT 'ï¿½Ù°Å¸ï¿½', 
+    `trailer_orgsrc`   VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `trailer_savesrc`  VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `content_size`     INT              NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½', 
+    `trailer_size`     INT              NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½', 
+    `content_post1`    VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½1', 
+    `content_post2`    VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½2', 
+    `release`          DATE             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½/ï¿½æ¿µï¿½ï¿½', 
+    `category_num`     INT              NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `watch_age`        INT              NOT NULL    COMMENT 'ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½', 
+    `content_regdate`  DATE             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `series_num`       INT              NOT NULL    COMMENT 'ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½È£', 
+    `staff_num`        INT              NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ç¹ï¿½È£', 
     PRIMARY KEY (content_num)
 );
 
-ALTER TABLE content COMMENT 'ÄÁÅÙÃ÷';
+ALTER TABLE content COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE content ADD CONSTRAINT FK_content_category_num_category_category_num FOREIGN KEY (category_num)
  REFERENCES category (category_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -121,16 +128,16 @@ ALTER TABLE content ADD CONSTRAINT FK_content_staff_num_staff_staff_num FOREIGN 
 -- survey Table Create SQL
 CREATE TABLE survey
 (
-    `survey_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '¼³¹®¹øÈ£', 
-    `survey_name`     VARCHAR(100)    NOT NULL    COMMENT '¼³¹®¸í', 
-    `survey_start`    DATE            NOT NULL    COMMENT '¼³¹®½ÃÀÛÀÏ', 
-    `survey_end`      DATE            NOT NULL    COMMENT '¼³¹®¸¸·áÀÏ', 
-    `users_num`       INT             NOT NULL    COMMENT 'À¯Àú¹øÈ£', 
-    `survey_content`  VARCHAR(500)    NOT NULL    COMMENT '¼³¹®¼³¸í', 
+    `survey_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `survey_name`     VARCHAR(100)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `survey_start`    DATE            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `survey_end`      DATE            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `users_num`       INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `survey_content`  VARCHAR(500)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (survey_num)
 );
 
-ALTER TABLE survey COMMENT '¼³¹®';
+ALTER TABLE survey COMMENT 'ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE survey ADD CONSTRAINT FK_survey_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -139,14 +146,14 @@ ALTER TABLE survey ADD CONSTRAINT FK_survey_users_num_users_users_num FOREIGN KE
 -- survey_question Table Create SQL
 CREATE TABLE survey_question
 (
-    `sq_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'Áú¹®¹øÈ£', 
-    `sq_content`  VARCHAR(500)    NOT NULL    COMMENT 'Áú¹®³»¿ë', 
-    `survey_num`  INT             NOT NULL    COMMENT '¼³¹®¹øÈ£', 
-    `sq_type`     INT             NOT NULL    COMMENT 'Áú¹®Å¸ÀÔ', 
+    `sq_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `sq_content`  VARCHAR(500)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `survey_num`  INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `sq_type`     INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½', 
     PRIMARY KEY (sq_num)
 );
 
-ALTER TABLE survey_question COMMENT '¼³¹®Áú¹®';
+ALTER TABLE survey_question COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE survey_question ADD CONSTRAINT FK_survey_question_survey_num_survey_survey_num FOREIGN KEY (survey_num)
  REFERENCES survey (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -155,18 +162,18 @@ ALTER TABLE survey_question ADD CONSTRAINT FK_survey_question_survey_num_survey_
 -- content_comment Table Create SQL
 CREATE TABLE content_comment
 (
-    `comment_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT 'ÄÁÅÙÃ÷´ñ±Û¹øÈ£', 
-    `comment`       VARCHAR(500)    NOT NULL    COMMENT '´ñ±Û', 
+    `comment_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¹ï¿½È£', 
+    `comment`       VARCHAR(500)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½', 
     `c_lev`         INT             NOT NULL    COMMENT 'c_lev', 
     `c_step`        INT             NOT NULL    COMMENT 'c_step', 
-    `content_num`   INT             NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
-    `profile_num`   INT             NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `comment_open`  TINYINT         NOT NULL    COMMENT '°ø°³/ºñ°ø°³', 
-    `bookmark`      TINYINT         NOT NULL    COMMENT 'Ã¥°¥ÇÇÀ¯¹«', 
+    `content_num`   INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `profile_num`   INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `comment_open`  TINYINT         NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `bookmark`      TINYINT         NOT NULL    COMMENT 'Ã¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
     PRIMARY KEY (comment_num)
 );
 
-ALTER TABLE content_comment COMMENT 'ÄÚ¸àÆ®';
+ALTER TABLE content_comment COMMENT 'ï¿½Ú¸ï¿½Æ®';
 
 ALTER TABLE content_comment ADD CONSTRAINT FK_content_comment_content_num_content_content_num FOREIGN KEY (content_num)
  REFERENCES content (content_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -177,37 +184,37 @@ ALTER TABLE content_comment ADD CONSTRAINT FK_content_comment_profile_num_profil
 -- grade Table Create SQL
 CREATE TABLE grade
 (
-    `grade_num`    INT            NOT NULL    AUTO_INCREMENT COMMENT 'µî±Ş¹øÈ£', 
-    `grade_name`   VARCHAR(20)    NOT NULL    COMMENT 'µî±Ş¸í', 
-    `grade_price`  VARCHAR(5)     NOT NULL    COMMENT 'µî±Ş°¡°İ', 
+    `grade_num`    INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½Ş¹ï¿½È£', 
+    `grade_name`   VARCHAR(20)    NOT NULL    COMMENT 'ï¿½ï¿½Ş¸ï¿½', 
+    `grade_price`  VARCHAR(5)     NOT NULL    COMMENT 'ï¿½ï¿½Ş°ï¿½ï¿½ï¿½', 
     PRIMARY KEY (grade_num)
 );
 
-ALTER TABLE grade COMMENT 'µî±Ş';
+ALTER TABLE grade COMMENT 'ï¿½ï¿½ï¿½';
 
 
 -- alarm_info Table Create SQL
 CREATE TABLE alarm_info
 (
-    `alarm_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '¾Ë¶÷Á¤º¸¹øÈ£', 
-    `alarm_content`  VARCHAR(500)    NOT NULL    COMMENT '¾Ë¶÷Á¤º¸³»¿ë', 
-    `alarm_date`     DATE            NOT NULL    COMMENT '¾Ë¸²ÀÏ', 
+    `alarm_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `alarm_content`  VARCHAR(500)    NOT NULL    COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `alarm_date`     DATE            NOT NULL    COMMENT 'ï¿½Ë¸ï¿½ï¿½ï¿½', 
     PRIMARY KEY (alarm_num)
 );
 
-ALTER TABLE alarm_info COMMENT '¾Ë¶÷Á¤º¸';
+ALTER TABLE alarm_info COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 
 -- genre Table Create SQL
 CREATE TABLE genre
 (
-    `genre_num`     INT            NOT NULL    AUTO_INCREMENT COMMENT 'Àå¸£¹øÈ£', 
-    `genre_name`    VARCHAR(45)    NOT NULL    COMMENT 'Àå¸£¸í', 
-    `category_num`  INT            NOT NULL    COMMENT 'Á¾·ù¹øÈ£', 
+    `genre_num`     INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½å¸£ï¿½ï¿½È£', 
+    `genre_name`    VARCHAR(45)    NOT NULL    COMMENT 'ï¿½å¸£ï¿½ï¿½', 
+    `category_num`  INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (genre_num)
 );
 
-ALTER TABLE genre COMMENT 'Àå¸£';
+ALTER TABLE genre COMMENT 'ï¿½å¸£';
 
 ALTER TABLE genre ADD CONSTRAINT FK_genre_category_num_category_category_num FOREIGN KEY (category_num)
  REFERENCES category (category_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -216,18 +223,18 @@ ALTER TABLE genre ADD CONSTRAINT FK_genre_category_num_category_category_num FOR
 -- qna Table Create SQL
 CREATE TABLE qna
 (
-    `qna_num`      INT              NOT NULL    AUTO_INCREMENT COMMENT '¹®ÀÇ¹øÈ£', 
-    `qna_title`    VARCHAR(100)     NOT NULL    COMMENT '¹®ÀÇÁ¦¸ñ', 
-    `qna_content`  VARCHAR(1000)    NOT NULL    COMMENT '¹®ÀÇ³»¿ë', 
-    `qna_regdate`  DATE             NOT NULL    COMMENT '¹®ÀÇ°Ô½ÃÀÏ', 
-    `qna_open`     TINYINT          NOT NULL    COMMENT '°ø°³/ºñ°ø°³', 
+    `qna_num`      INT              NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½Ç¹ï¿½È£', 
+    `qna_title`    VARCHAR(100)     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `qna_content`  VARCHAR(1000)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½', 
+    `qna_regdate`  DATE             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ç°Ô½ï¿½ï¿½ï¿½', 
+    `qna_open`     TINYINT          NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½', 
     `lev`          INT              NOT NULL    COMMENT 'lev', 
     `step`         INT              NOT NULL    COMMENT 'step', 
-    `users_num`    INT              NULL        COMMENT 'À¯Àú¹øÈ£', 
+    `users_num`    INT              NULL        COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (qna_num)
 );
 
-ALTER TABLE qna COMMENT '¹®ÀÇ°Ô½ÃÆÇ';
+ALTER TABLE qna COMMENT 'ï¿½ï¿½ï¿½Ç°Ô½ï¿½ï¿½ï¿½';
 
 ALTER TABLE qna ADD CONSTRAINT FK_qna_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -236,13 +243,13 @@ ALTER TABLE qna ADD CONSTRAINT FK_qna_users_num_users_users_num FOREIGN KEY (use
 -- count_limit Table Create SQL
 CREATE TABLE count_limit
 (
-    `cl_num`     INT    NOT NULL    AUTO_INCREMENT COMMENT '½ÃÃ»Á¦ÇÑ¹øÈ£', 
+    `cl_num`     INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ñ¹ï¿½È£', 
     `count`      INT    NOT NULL    COMMENT 'count', 
-    `users_num`  INT    NOT NULL    COMMENT 'À¯Àú¹øÈ£', 
+    `users_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (cl_num)
 );
 
-ALTER TABLE count_limit COMMENT '½ÃÃ»Á¦ÇÑ';
+ALTER TABLE count_limit COMMENT 'ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE count_limit ADD CONSTRAINT FK_count_limit_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -251,13 +258,13 @@ ALTER TABLE count_limit ADD CONSTRAINT FK_count_limit_users_num_users_users_num 
 -- survey_in Table Create SQL
 CREATE TABLE survey_in
 (
-    `si_num`      INT    NOT NULL    AUTO_INCREMENT COMMENT '¼³¹®¿©ºÎ¹øÈ£', 
-    `users_num`   INT    NOT NULL    COMMENT 'À¯Àú¹øÈ£', 
-    `survey_num`  INT    NOT NULL    COMMENT '¼³¹®¹øÈ£', 
+    `si_num`      INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¹ï¿½È£', 
+    `users_num`   INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `survey_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (si_num)
 );
 
-ALTER TABLE survey_in COMMENT '¼³¹®¿©ºÎ';
+ALTER TABLE survey_in COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -268,16 +275,16 @@ ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_survey_num_survey_survey_num F
 -- pay_info Table Create SQL
 CREATE TABLE pay_info
 (
-    `pay_num`    INT            NOT NULL    AUTO_INCREMENT COMMENT '°áÁ¦¹øÈ£', 
-    `pay_start`  DATE           NOT NULL    COMMENT '½ÃÀÛÀÏ', 
-    `pay_end`    DATE           NOT NULL    COMMENT '¸¸·áÀÏ', 
-    `payment`    VARCHAR(15)    NOT NULL    COMMENT '°áÁ¦¹æ¹ı', 
-    `users_num`  INT            NOT NULL    COMMENT 'À¯Àú¹øÈ£', 
-    `grade_num`  INT            NOT NULL    COMMENT 'µî±Ş¹øÈ£', 
+    `pay_num`    INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `pay_start`  DATE           NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `pay_end`    DATE           NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `payment`    VARCHAR(15)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `users_num`  INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `grade_num`  INT            NOT NULL    COMMENT 'ï¿½ï¿½Ş¹ï¿½È£', 
     PRIMARY KEY (pay_num)
 );
 
-ALTER TABLE pay_info COMMENT '¸¸·á ¹èÄ¡';
+ALTER TABLE pay_info COMMENT 'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡';
 
 ALTER TABLE pay_info ADD CONSTRAINT FK_pay_info_users_num_users_users_num FOREIGN KEY (users_num)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -288,13 +295,13 @@ ALTER TABLE pay_info ADD CONSTRAINT FK_pay_info_grade_num_grade_grade_num FOREIG
 -- good Table Create SQL
 CREATE TABLE good
 (
-    `good_num`     INT    NOT NULL    AUTO_INCREMENT COMMENT 'ÁÁ¾Æ¿ä³Ñ¹ö', 
-    `comment_num`  INT    NOT NULL    COMMENT 'ÄÁÅÙÃ÷´ñ±Û¹øÈ£', 
-    `profile_num`  INT    NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
+    `good_num`     INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½Æ¿ï¿½Ñ¹ï¿½', 
+    `comment_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¹ï¿½È£', 
+    `profile_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
     PRIMARY KEY (good_num)
 );
 
-ALTER TABLE good COMMENT 'ÁÁ¾Æ¿ä';
+ALTER TABLE good COMMENT 'ï¿½ï¿½ï¿½Æ¿ï¿½';
 
 ALTER TABLE good ADD CONSTRAINT FK_good_comment_num_content_comment_comment_num FOREIGN KEY (comment_num)
  REFERENCES content_comment (comment_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -305,15 +312,15 @@ ALTER TABLE good ADD CONSTRAINT FK_good_profile_num_profile_profile_num FOREIGN 
 -- record Table Create SQL
 CREATE TABLE record
 (
-    `record_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT '½ÃÃ»±â·Ï¹øÈ£', 
-    `next_watch`   TIME    NOT NULL    COMMENT 'ÀÌ¾îº¸±â', 
-    `total_time`   TIME    NOT NULL    COMMENT '´©Àû½ÃÃ»½Ã°£', 
-    `profile_num`  INT     NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `content_num`  INT     NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
+    `record_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½Ã»ï¿½ï¿½Ï¹ï¿½È£', 
+    `next_watch`   TIME    NOT NULL    COMMENT 'ï¿½Ì¾îº¸ï¿½ï¿½', 
+    `total_time`   TIME    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ã°ï¿½', 
+    `profile_num`  INT     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `content_num`  INT     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (record_num)
 );
 
-ALTER TABLE record COMMENT '½ÃÃ»±â·Ï';
+ALTER TABLE record COMMENT 'ï¿½ï¿½Ã»ï¿½ï¿½ï¿½';
 
 ALTER TABLE record ADD CONSTRAINT FK_record_profile_num_profile_profile_num FOREIGN KEY (profile_num)
  REFERENCES profile (profile_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -324,13 +331,13 @@ ALTER TABLE record ADD CONSTRAINT FK_record_content_num_content_content_num FORE
 -- interasts Table Create SQL
 CREATE TABLE interasts
 (
-    `interasts_num`  INT    NOT NULL    AUTO_INCREMENT COMMENT 'Âò¹øÈ£', 
-    `profile_num`    INT    NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `content_num`    INT    NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
+    `interasts_num`  INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½È£', 
+    `profile_num`    INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `content_num`    INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (interasts_num)
 );
 
-ALTER TABLE interasts COMMENT 'Âò¿µ»ó';
+ALTER TABLE interasts COMMENT 'ï¿½ò¿µ»ï¿½';
 
 ALTER TABLE interasts ADD CONSTRAINT FK_interasts_profile_num_profile_profile_num FOREIGN KEY (profile_num)
  REFERENCES profile (profile_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -341,14 +348,14 @@ ALTER TABLE interasts ADD CONSTRAINT FK_interasts_content_num_content_content_nu
 -- rates Table Create SQL
 CREATE TABLE rates
 (
-    `rates_num`    INT      NOT NULL    AUTO_INCREMENT COMMENT 'ÆòÁ¡¹øÈ£', 
-    `rates_score`  FLOAT    NOT NULL    COMMENT 'Æò°¡Á¡¼ö', 
-    `profile_num`  INT      NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `content_num`  INT      NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
+    `rates_num`    INT      NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `rates_score`  FLOAT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `profile_num`  INT      NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `content_num`  INT      NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (rates_num)
 );
 
-ALTER TABLE rates COMMENT 'ÆòÁ¡';
+ALTER TABLE rates COMMENT 'ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE rates ADD CONSTRAINT FK_rates_profile_num_profile_profile_num FOREIGN KEY (profile_num)
  REFERENCES profile (profile_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -359,13 +366,13 @@ ALTER TABLE rates ADD CONSTRAINT FK_rates_content_num_content_content_num FOREIG
 -- survey_answer Table Create SQL
 CREATE TABLE survey_answer
 (
-    `sa_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT '´äº¯¹øÈ£', 
-    `sa_answer`  VARCHAR(500)    NOT NULL    COMMENT '¼³¹®´äº¯', 
-    `sq_num`     INT             NOT NULL    COMMENT 'Áú¹®¹øÈ£', 
+    `sa_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½äº¯ï¿½ï¿½È£', 
+    `sa_answer`  VARCHAR(500)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½äº¯', 
+    `sq_num`     INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (sa_num)
 );
 
-ALTER TABLE survey_answer COMMENT '¼³¹®´äº¯';
+ALTER TABLE survey_answer COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½äº¯';
 
 ALTER TABLE survey_answer ADD CONSTRAINT FK_survey_answer_sq_num_survey_question_sq_num FOREIGN KEY (sq_num)
  REFERENCES survey_question (sq_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -374,13 +381,13 @@ ALTER TABLE survey_answer ADD CONSTRAINT FK_survey_answer_sq_num_survey_question
 -- survey_result Table Create SQL
 CREATE TABLE survey_result
 (
-    `sr_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT '¼³¹®°á°ú¹øÈ£', 
-    `sq_num`     INT             NOT NULL    COMMENT 'Áú¹®¹øÈ£', 
-    `sr_answer`  VARCHAR(500)    NOT NULL    COMMENT '´äº¯', 
+    `sr_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `sq_num`     INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `sr_answer`  VARCHAR(500)    NOT NULL    COMMENT 'ï¿½äº¯', 
     PRIMARY KEY (sr_num)
 );
 
-ALTER TABLE survey_result COMMENT '¼³¹®°á°ú';
+ALTER TABLE survey_result COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE survey_result ADD CONSTRAINT FK_survey_result_sq_num_survey_question_sq_num FOREIGN KEY (sq_num)
  REFERENCES survey_question (sq_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -389,13 +396,13 @@ ALTER TABLE survey_result ADD CONSTRAINT FK_survey_result_sq_num_survey_question
 -- content_genre Table Create SQL
 CREATE TABLE content_genre
 (
-    `cgenre_num`   INT    NOT NULL    AUTO_INCREMENT COMMENT 'ÄÁÅÙÃ÷Àå¸£¹øÈ£', 
-    `content_num`  INT    NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
-    `genre_num`    INT    NOT NULL    COMMENT 'Àå¸£¹øÈ£', 
+    `cgenre_num`   INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸£ï¿½ï¿½È£', 
+    `content_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `genre_num`    INT    NOT NULL    COMMENT 'ï¿½å¸£ï¿½ï¿½È£', 
     PRIMARY KEY (cgenre_num)
 );
 
-ALTER TABLE content_genre COMMENT 'ÄÁÅÙÃ÷Àå¸£';
+ALTER TABLE content_genre COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¸£';
 
 ALTER TABLE content_genre ADD CONSTRAINT FK_content_genre_content_num_content_content_num FOREIGN KEY (content_num)
  REFERENCES content (content_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -406,26 +413,26 @@ ALTER TABLE content_genre ADD CONSTRAINT FK_content_genre_genre_num_genre_genre_
 -- static_question Table Create SQL
 CREATE TABLE static_question
 (
-    `stq_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ÀÚ¹¯¹øÈ£', 
-    `stq_title`    VARCHAR(100)    NOT NULL    COMMENT 'ÀÚ¹¯Á¦¸ñ', 
-    `stq_content`  VARCHAR(100)    NOT NULL    COMMENT 'ÀÚ¹¯³»¿ë', 
-    `stq_hit`      INT             NOT NULL    COMMENT 'ÀÚ¹¯Á¶È¸¼ö', 
+    `stq_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½Ú¹ï¿½ï¿½ï¿½È£', 
+    `stq_title`    VARCHAR(100)    NOT NULL    COMMENT 'ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `stq_content`  VARCHAR(100)    NOT NULL    COMMENT 'ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½', 
+    `stq_hit`      INT             NOT NULL    COMMENT 'ï¿½Ú¹ï¿½ï¿½ï¿½È¸ï¿½ï¿½', 
     PRIMARY KEY (stq_num)
 );
 
-ALTER TABLE static_question COMMENT 'ÀÚÁÖ¹¯´ÂÁú¹®';
+ALTER TABLE static_question COMMENT 'ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 
 -- survey_content Table Create SQL
 CREATE TABLE survey_content
 (
-    `sc_num`      INT            NOT NULL    AUTO_INCREMENT COMMENT '¼³¹®¿µ»ó¹øÈ£', 
-    `sc_`         VARCHAR(45)    NOT NULL    COMMENT 'ÆÄÀÏ°æ·Î', 
-    `survey_num`  INT            NOT NULL    COMMENT '¼³¹®¹øÈ£', 
+    `sc_num`      INT            NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `sc_`         VARCHAR(45)    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ï°ï¿½ï¿½', 
+    `survey_num`  INT            NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (sc_num)
 );
 
-ALTER TABLE survey_content COMMENT '¼³¹®¿µ»ó';
+ALTER TABLE survey_content COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE survey_content ADD CONSTRAINT FK_survey_content_survey_num_survey_survey_num FOREIGN KEY (survey_num)
  REFERENCES survey (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -434,13 +441,13 @@ ALTER TABLE survey_content ADD CONSTRAINT FK_survey_content_survey_num_survey_su
 -- bookmark Table Create SQL
 CREATE TABLE bookmark
 (
-    `bookmark_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT 'Ã¥°¥ÇÇ¹øÈ£', 
-    `comment_num`    INT     NOT NULL    COMMENT 'ÄÁÅÙÃ÷´ñ±Û¹øÈ£', 
-    `bookmark_time`  TIME    NOT NULL    COMMENT 'Ã¥°¥ÇÇ½Ã°£', 
+    `bookmark_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT 'Ã¥ï¿½ï¿½ï¿½Ç¹ï¿½È£', 
+    `comment_num`    INT     NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¹ï¿½È£', 
+    `bookmark_time`  TIME    NOT NULL    COMMENT 'Ã¥ï¿½ï¿½ï¿½Ç½Ã°ï¿½', 
     PRIMARY KEY (bookmark_num)
 );
 
-ALTER TABLE bookmark COMMENT 'Ã¥°¥ÇÇ';
+ALTER TABLE bookmark COMMENT 'Ã¥ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE bookmark ADD CONSTRAINT FK_bookmark_comment_num_content_comment_comment_num FOREIGN KEY (comment_num)
  REFERENCES content_comment (comment_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -449,13 +456,13 @@ ALTER TABLE bookmark ADD CONSTRAINT FK_bookmark_comment_num_content_comment_comm
 -- content_staff Table Create SQL
 CREATE TABLE content_staff
 (
-    `cs_num`       INT    NOT NULL    AUTO_INCREMENT COMMENT 'ÄÁÅÙÃ÷½ºÅÜ¹øÈ£', 
-    `staff_num`    INT    NOT NULL    COMMENT '½ºÅÇ¹øÈ£', 
-    `content_num`  INT    NOT NULL    COMMENT 'ÄÁÅÙÃ÷¹øÈ£', 
+    `cs_num`       INT    NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½È£', 
+    `staff_num`    INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½Ç¹ï¿½È£', 
+    `content_num`  INT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (cs_num)
 );
 
-ALTER TABLE content_staff COMMENT 'ÄÁÅÙÃ÷½ºÅÜ¹ø';
+ALTER TABLE content_staff COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹ï¿½';
 
 ALTER TABLE content_staff ADD CONSTRAINT FK_content_staff_staff_num_staff_staff_num FOREIGN KEY (staff_num)
  REFERENCES staff (staff_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -466,14 +473,14 @@ ALTER TABLE content_staff ADD CONSTRAINT FK_content_staff_content_num_content_co
 -- alarm_user Table Create SQL
 CREATE TABLE alarm_user
 (
-    `au_num`       INT        NOT NULL    AUTO_INCREMENT COMMENT '¾Ë¶÷»ç¿ëÀÚ¹øÈ£', 
-    `alarm_num`    INT        NOT NULL    COMMENT '¾Ë¶÷Á¤º¸¹øÈ£', 
-    `alarm_state`  TINYINT    NOT NULL    COMMENT '»óÅÂ', 
-    `profile_num`  INT        NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
+    `au_num`       INT        NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£', 
+    `alarm_num`    INT        NOT NULL    COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `alarm_state`  TINYINT    NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½', 
+    `profile_num`  INT        NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
     PRIMARY KEY (au_num)
 );
 
-ALTER TABLE alarm_user COMMENT '¾Ë¶÷»ç¿ëÀÚ';
+ALTER TABLE alarm_user COMMENT 'ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 ALTER TABLE alarm_user ADD CONSTRAINT FK_alarm_user_alarm_num_alarm_info_alarm_num FOREIGN KEY (alarm_num)
  REFERENCES alarm_info (alarm_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -484,14 +491,14 @@ ALTER TABLE alarm_user ADD CONSTRAINT FK_alarm_user_profile_num_profile_profile_
 -- report Table Create SQL
 CREATE TABLE report
 (
-    `report_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '½Å°í³»¿ª¹øÈ£', 
-    `profile_num`     INT             NOT NULL    COMMENT 'ÇÁ·ÎÇÊ¹øÈ£', 
-    `report_content`  VARCHAR(100)    NOT NULL    COMMENT '½Å°í³»¿ë', 
-    `survey_num`      INT             NOT NULL    COMMENT '¼³¹®¹øÈ£', 
+    `report_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT 'ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
+    `profile_num`     INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½È£', 
+    `report_content`  VARCHAR(100)    NOT NULL    COMMENT 'ï¿½Å°ï¿½ï¿½ï¿½', 
+    `survey_num`      INT             NOT NULL    COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£', 
     PRIMARY KEY (report_num)
 );
 
-ALTER TABLE report COMMENT '½Å°í³»¿ª';
+ALTER TABLE report COMMENT 'ï¿½Å°ï¿½ï¿½ï¿½';
 
 ALTER TABLE report ADD CONSTRAINT FK_report_survey_num_survey_survey_num FOREIGN KEY (survey_num)
  REFERENCES survey (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;

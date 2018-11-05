@@ -15,6 +15,7 @@
 			<input type="hidden" id="email_boolean" name="email_boolean" value="false">
 			<input type="hidden" id="path" name="path" value="${pageContext.request.contextPath }">
 			<span id="email_ck"></span>
+			<input type="hidden" name="passNum" id="passNum" />
 		</div>
 		<div class="form-group col-sm-3">
 			<input type="password" id="pwd" name="pwd" class="form-control" tabindex="" alt="비밀번호" placeholder="비밀번호" min="8" size="32">
