@@ -29,7 +29,9 @@
 			</if>
 		</where>
 		order by staff_num desc
-		limit #{startRow}, #{rowBlockCount}
+		<if test="startRow != null">
+			limit #{startRow}, #{rowBlockCount}
+		</if>
 	</select>
 	<select id="listCount" resultType="int" parameterType="hashmap">
 		select count(*) from staff 
@@ -44,6 +46,12 @@
 	</select>
 	<select id="find" parameterType="int" resultType="staff">
 		select * from staff where staff_num=#{value}
+	</select>
+	<select id="detailList" parameterType="int" resultType="staff">
+		select s.*
+		from content c, content_staff cs, staff s
+		where c.content_num=cs.content_num and cs.staff_num=s.staff_num and c.content_num=#{value}
+		order by s.staff_position desc
 	</select>
 </mapper>
   

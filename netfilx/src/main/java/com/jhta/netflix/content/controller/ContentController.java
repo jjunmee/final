@@ -266,7 +266,7 @@ public class ContentController {
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "redirect:/";
+		return "redirect:/content/list";
 	}
 
 	@RequestMapping(value="/content/list")

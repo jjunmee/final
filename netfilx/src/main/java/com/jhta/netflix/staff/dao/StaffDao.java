@@ -33,4 +33,7 @@ public class StaffDao {
 	public StaffVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE+".find", num);
 	}
+	public List<StaffVo> detailList(int num){
+		return sqlSession.selectList(NAMESPACE+".detailList", num);
+	}
 }
