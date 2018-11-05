@@ -28,6 +28,7 @@ import com.jhta.netflix.user.service.CertificationService;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.validator.JoinValidator;
 import com.jhta.netflix.user.validator.LoginValidator;
+import com.jhta.netflix.user.vo.CertificationVo;
 import com.jhta.netflix.user.vo.DefaultJoinVo;
 import com.jhta.netflix.user.vo.LoginVo;
 import com.jhta.netflix.user.vo.UserVo;
@@ -73,19 +74,17 @@ public class UserController {
 	//일반사용자 회원가입완료
 	@RequestMapping(value = "/join/default", method = RequestMethod.POST)
 	public ModelAndView defaultJoin(@Valid @ModelAttribute("DefaultJoinVo")DefaultJoinVo vo,
-			BindingResult result,HttpServletRequest req) {
+			BindingResult result,HttpServletRequest req,HttpSession session) {
 		JoinValidator validator=new JoinValidator();
 		validator.validate(vo,result);
 		if(result.hasErrors()) {
 			return new ModelAndView(".user.join.default");
 		}
-		String pass_key = cer_service.getInfo(Integer.parseInt(req.getParameter("pass_no")));
+		String pass_key = cer_service.getInfo(Integer.parseInt(req.getParameter("passNum")));
 		String pass_check = req.getParameter("passCheck");
 		if(!pass_key.equals(pass_check)) {
-			System.out.println("sdasdadsasdasdasdasdasd1111111111");
 			return new ModelAndView(".user.join.default");
 		}
-		System.out.println("sadasdasdasds");
 		String pwd2= SHA512.generateSalt();
 		String pw=SHA512.get_SHA_512_SecurePassword(vo.getPwd(), pwd2);
 		SimpleDateFormat dateForm = new SimpleDateFormat("yyMMdd");
@@ -95,11 +94,20 @@ public class UserController {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 		}
-		UserVo vo1=new UserVo(0,vo.getId(),pw,birth,0,UserStatus.DEFAULT_USER,pwd2);
+		UserVo vo1=new UserVo(0,vo.getId(),pw,birth,0,UserStatus.TRUE_USER,pwd2);
 		int n=service.defaultJoin(vo1);
 		String redirect="";
 		if(n>=0) {
-			redirect=".main";
+			redirect=".main";//변경
+			session.setAttribute("id",vo.getId());
+			session.setAttribute("sts", UserStatus.TRUE_USER);
+			
+			//유저 번호가 있어야 프로필을 가져올 수 있다.1
+			//최초 가입시 프로필이 없다. 2
+			//선택 1 가입시 프로필 디펄트로 인서트를 넣는다.
+			//2 프로필 창으로넘겨 생성시 아이디 조회 후 넣는다 젠장
+			//배먼저 배꼽먼저
+			
 		}else {
 			redirect=".user.join.default";
 		}
@@ -119,29 +127,36 @@ public class UserController {
 		int ser_no=0;
 		if(n==0) {
 				try {
+					//메일보낸 pass와 동일한지 검사할 인증  key
 					pass = SHA512.generateSalt();
 					SimpleMailMessage mailMsg=new SimpleMailMessage();
 					mailMsg.setSubject("WATFLIX 회원가입 본인인증 메일");
 					mailMsg.setText("인증을 위한 보안키 '"+ pass +"'를 입력해주세요");
 					mailMsg.setTo(id);
-					mailMsg.setFrom("hyunjin8981@naver.com");
-					//mailSender.send(mailMsg);
-					//메일보낸 pass와 동일한지 검사할 인증  key
-					cer_service.cerTest();
-					f=true;
+					mailMsg.setFrom("admin@watflix.com");
+					//번호 가져와서 인서트
+					ser_no = cer_service.maxNo()+1;
+					CertificationVo vo = new CertificationVo(ser_no, pass);
+					int row=cer_service.insert(vo);
+					if(row>0) {
+						mailSender.send(mailMsg);
+						map.put("sertification", ser_no);
+						f=true;
+					}else {
+						f=false;
+					}
 				}catch(Exception e) {
 					System.out.println(e.getMessage());
 					f=false;
 				}
 		}
 		map.put("success", f);
-		map.put("sertification", ser_no+1);
 		return map;
 	}
 	
 	
 	//logout
-	@RequestMapping(value = "/Logout")
+	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return ".main";

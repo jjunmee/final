@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.UserMapper">
 	<select id="login" resultType="user" parameterType="String">
-		select id,pwd,pwd2,sts from users where id=#{id}
+		select users_num,id,pwd,pwd2,sts from users where id=#{id}
 	</select>
 	<insert id="defaultJoin" parameterType="user">
 		insert into users values(0,#{id},#{pwd},#{birth},0,#{sts},#{pwd2})
