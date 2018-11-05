@@ -102,6 +102,8 @@ public class UserController {
 			session.setAttribute("id",vo.getId());
 			session.setAttribute("sts", UserStatus.TRUE_USER);
 			
+			//insert into profile values(0,select users_num from users where id=#id,
+			
 			//유저 번호가 있어야 프로필을 가져올 수 있다.1
 			//최초 가입시 프로필이 없다. 2
 			//선택 1 가입시 프로필 디펄트로 인서트를 넣는다.

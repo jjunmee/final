@@ -9,7 +9,8 @@
 			<input type="text" id="id" name="id" class="form-control" tabindex="" alt="아이디" placeholder="이메일" onchange="email_check();">
 			<form:errors path="id"/>
 			<input type="button" class="btn btn-default" id="check" onclick="email_check_id();" value="메일전송">
-			<input type="text" id="passCheck" name="passCheck" class="form-control"><form:errors path="passCheck"/><br>
+			<input type="text" id="passCheck" name="passCheck" class="form-control">
+			<form:errors path="passCheck"/><br>
 			
 			<form:errors path="email_boolean"/>
 			<input type="hidden" id="email_boolean" name="email_boolean" value="false">
