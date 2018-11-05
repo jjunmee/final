@@ -59,13 +59,15 @@ public class SurveyDao {
 	public List<SurveyAnswerVo> surveyAnswerSelect(int sqNum) {
 		return session.selectList(NAMESPACE+".surveyAnswerSelect",sqNum);
 	}
-	public List<SurveyVo> surveyListSelect(String state){
-		return session.selectList(NAMESPACE+".surveyListSelect",state);
+	public List<SurveyVo> surveyListSelect(Map<String, Object> map){
+		return session.selectList(NAMESPACE+".surveyListSelect",map);
 	}
 	public List<SurveyVo> mySurveyListSelect(Map<String, Object> map){
 		return session.selectList(NAMESPACE+".mySurveyListSelect",map);
 	}
-	
+	public int listCountSelect(Map<String, Object> map) {
+		return session.selectOne(NAMESPACE+".listCountSelect",map);
+	}
 	
 	
 	
