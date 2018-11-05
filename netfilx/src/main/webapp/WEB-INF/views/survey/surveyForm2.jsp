@@ -4,7 +4,7 @@
 	
 	var cloneCnt=-1;//그냥 질문 구분하려는 용도
 	var choiceType=0;//객관식그리드인지 복합질문형인지 구분하려는 용도
-	var opNum=-1;//복합질문형의 몇번타입을 선택했는지 구분하려는 용도
+	var opNum=-1;//객관식그리드의 경우엔 옵션갯수세는용도,복합질문형의 경우엔 옵션타입구분하는용도
 	var exist=0;//질문몇개인가 세려는 용도
 	var arrayStore='';//div순서리스트
 	
@@ -92,11 +92,24 @@
 		}			
 			
 		function appendRow(){//객관식그리드의 질문추가	
+			exist++;
+			var box=document.createElement("div");
+			box.setAttribute("id","box"+(++cloneCnt));
+			box.setAttribute("name","box"+cloneCnt);	
+			box.setAttribute("data-order",cloneCnt);
+			
 			var sqTitle=document.createElement("input");
 			sqTitle.setAttribute("type","text");
-			sqTitle.setAttribute("name","sqlist["+(++cloneCnt)+"].sqTitle");
-			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");					
-			$("#rowBox").append(sqTitle);		
+			sqTitle.setAttribute("name","sqlist["+cloneCnt+"].sqTitle");
+			sqTitle.setAttribute("placeholder","질문내용을 입력하세요");
+			box.appendChild(sqTitle);
+			var delBtn=document.createElement("input");
+			delBtn.setAttribute("type","button");
+			delBtn.setAttribute("value","X");
+			delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");			
+			box.appendChild(delBtn);
+			$("#rowBox").append(box);
+			
 			var sqType=document.createElement("input");
 			sqType.setAttribute("type","hidden");
 			sqType.setAttribute("name","sqlist["+cloneCnt+"].sqType");
@@ -105,12 +118,22 @@
 			$("#things").append(sqType);
 		}		
 		
-		function appendCol(){//객관식그리드의 옵션추가		
+		function appendCol(){//객관식그리드의 옵션추가	
+			var opBox=document.createElement("div");
+			opBox.setAttribute("id","opBox"+(++opNum));
+			
 			var op=document.createElement("input");
 			op.setAttribute("type","text");
-			op.setAttribute("name","ssalist["+(++opNum)+"].alist");
-			op.setAttribute("placeholder","옵션을 입력하세요");					
-			$("#colBox").append(op);			
+			op.setAttribute("name","ssalist["+opNum+"].alist");
+			op.setAttribute("placeholder","옵션을 입력하세요");
+			opBox.appendChild(op);
+			
+			var delBtn=document.createElement("input");
+			delBtn.setAttribute("type","button");
+			delBtn.onclick=opDel;
+			delBtn.setAttribute("value","X");
+			opBox.appendChild(delBtn);
+			$("#colBox").append(opBox);
 		}
 		$("#rowBox").sortable({
 			axis: "y",
@@ -332,16 +355,22 @@
 		$("#qPlusBox").css("display","block");
 	}
 	
-	function delDiv(n){//복합질문형에서 질문박스지우기	
-		var mainSurvey=document.getElementById("mainSurvey"+choiceType);
+	
+	function delDiv(n){//질문박스지우기	
 		var delBox=document.getElementById("box"+n);
-		var qBox=document.getElementById("box"+n);		
 		if(exist!=1){
-			mainSurvey.removeChild(delBox);
-			exist--;	
-			$("#opDiv").hide();
-			$("#qPlusBox").show();
-		}
+			if(choiceType==1){//객관식그리드에서
+				var rowBox=document.getElementById("rowBox");
+				rowBox.removeChild(delBox);
+				exist--;
+			}else{//복합질문형에서
+				var mainSurvey=document.getElementById("mainSurvey"+choiceType);
+				mainSurvey.removeChild(delBox);
+				exist--;
+				$("#opDiv").hide();
+				$("#qPlusBox").show();	
+			}	
+		}			
 	}
 	
 	function makeOpBox(n,cnt){
@@ -385,9 +414,13 @@
 	}	
 	
 	function opDel(){//옵션지우기(br지우고 옵션지우고 버튼지우기)
-		$(this).prev().prev().remove();
-		$(this).prev().remove();
-		$(this).remove();
+		if(choiceType==1){
+			$(this).parent().remove();
+		}else{
+			$(this).prev().prev().remove();
+			$(this).prev().remove();
+			$(this).remove();			
+		}
 	}
 		
 	function submitOk(n){
@@ -397,25 +430,41 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
-		if(arrayStore!='' && arrayStore!=null){
-			var len=arrayStore.length;
-			console.log(len);
+		if(arrayStore!='' && arrayStore!=null){//div순서변경시
 			for(i=0;i<=len;i++){
 				var num=arrayStore[i];
 				$("input[name='sqlist["+num+"].sqType']").attr("class","save");			
 				$("input[name='sqlist["+num+"].sqType']").attr("name","qlist["+i+"].sqType");			
 				$("input[name='sqlist["+num+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
 				$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
-			}			
+			}			 
 			$("#things").find(".org").remove();
-		}else{
+		}else{//div 순서변경없을때
+			var signNum=0;
 			for(i=0;i<=cloneCnt;i++){
-				$("input[name='sqlist["+i+"].sqType']").attr("class","save");			
-				$("input[name='sqlist["+i+"].sqType']").attr("name","qlist["+i+"].sqType");			
-				$("input[name='sqlist["+i+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
-				$("input[name='ssalist["+i+"].alist']").attr("name","salist["+i+"].alist");
+				var st="box"+i;
+				if(document.getElementById(st)!=null){
+					$("input[name='sqlist["+i+"].sqType']").attr("class","save");			
+					$("input[name='sqlist["+i+"].sqType']").attr("name","qlist["+signNum+"].sqType");			
+					$("input[name='sqlist["+i+"].sqTitle']").attr("name","qlist["+signNum+"].sqTitle");
+					if(choiceType==2){
+						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");						
+					}
+					signNum++;
+				}
 			}
-		}	
+			if(choiceType==1){
+				var signNum1=0;
+				for(i=0;i<=opNum;i++){
+					var st="opBox"+i;
+					if(document.getElementById(st)!=null){
+						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum1+"].alist");
+						signNum1++;
+					}
+				}
+			}
+		}
+		
 		
 		var stateBox=document.createElement("input");
 		stateBox.setAttribute("type","hidden");

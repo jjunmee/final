@@ -16,9 +16,11 @@
 				dataType:"json",
 				data : {"id":ck_id},
 				success : function(data){
-					if(!data.success){
-						$("#email_ck").html("사용가능");
+					if(data.success){
+						$("#email_ck").html("메일이 전송되었습니다.");
+						var cer_no = data.sertification;
 						$("#email_boolean").val("true");
+						$("#passNum").val(cer_no);
 					}else{
 						$("#email_ck").html("사용중인 이메일 또는 잘못된 이메일 입니다.");
 					}
@@ -36,7 +38,7 @@
 		var birth = $("#birth").val();
 		if(b=="false"){
 			$("#id").focus();
-			$("#email_ck").html("중복확인");
+			$("#email_ck").html("이메일을 확인해 주세요");
 			return false;
 		}else if(!email.test($("#id").val())){
 			$("#id").focus();

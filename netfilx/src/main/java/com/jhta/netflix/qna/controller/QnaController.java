@@ -65,18 +65,38 @@ public class QnaController {
 			//유저가 남긴 글중 답변이 완료된것은 같이 보내기
 			if(vo.getQna_state().equals("답변완료")) {
 				Qna_userVo a_vo = service.a_detail(qna_num);
-				System.out.println("답글이 있을때// a_vo.qna_num === " + a_vo.getQna_num());
 				mv.addObject("a_qna_num",a_vo.getQna_num());
 				mv.addObject("a_qna_content",a_vo.getQna_content());
 				mv.addObject("a_qna_regdate",a_vo.getQna_regdate());
-			}else {
-				System.out.println("답글이 없어여 ");
 			}
 		}else {
 			//답글일때
 			//user가 쓴 글 같이 보내기
 			Qna_userVo u_vo = service.detail(vo.getLev());
-			System.out.println("이건 되는건가?" + u_vo.getQna_content());
+			mv.addObject("u_qna_content",u_vo.getQna_content());
+			mv.addObject("u_qna_num",u_vo.getQna_num());
+		}
+		mv.setViewName(result);
+		return mv;
+	}
+	
+	//글수정폼으로 보내기
+	@RequestMapping(value="/qna/update",method=RequestMethod.GET)
+	public ModelAndView update(int qna_num,boolean qna_open) {
+		ModelAndView mv = new ModelAndView();
+		String result = ".qna.update";
+		Qna_userVo vo = service.detail(qna_num);
+		mv.addObject("qna_num",vo.getQna_num());
+		mv.addObject("qna_title",vo.getQna_title());
+		mv.addObject("qna_content",vo.getQna_content());
+		mv.addObject("qna_regdate",vo.getQna_regdate());
+		mv.addObject("qna_open",vo.getQna_open());
+		mv.addObject("step",vo.getStep());
+		mv.addObject("id",vo.getId());
+		mv.addObject("qna_state",vo.getQna_state());
+		if(vo.getStep() != 0) {
+			//답글이라면 같이 보낼 문의 글
+			Qna_userVo u_vo = service.detail(vo.getLev());
 			mv.addObject("u_qna_content",u_vo.getQna_content());
 			mv.addObject("u_qna_num",u_vo.getQna_num());
 		}
@@ -143,26 +163,51 @@ public class QnaController {
 		return mv;
 	}
 	
+	//수정DB에 저장
+	@RequestMapping(value="/qna/update",method=RequestMethod.POST)
+	public ModelAndView update(String qna_title,String qna_content,Boolean qna_open,String id,int qna_num) {
+		//String id는 로그인되면 세션에서 가져와서 users_num찾아서 넣어줄꺼야
+		int users_num = 1;
+		ModelAndView mv = new ModelAndView();
+		QnaVo vo = new QnaVo();
+		String result = "";
+		vo = new QnaVo(qna_num,qna_title,qna_content,null,qna_open,null,null,users_num,null);
+		int n = service.update(vo);
+		if(n>0) {
+			result = "redirect:/qna/list";
+		}else {
+			mv.addObject("code","등록실패");
+			result = "redirect:/qna/update";
+		}
+		mv.setViewName(result);
+		return mv;
+	}
+	
+	//글 삭제
 	@RequestMapping(value="/qna/delete",method=RequestMethod.GET)
 	public ModelAndView delete(int qna_num, int step) {
 		ModelAndView mv = new ModelAndView();
 		String result = "";
+		int n = 0;
+		Qna_userVo vo = service.detail(qna_num);
 		if(step != 1) {
 			//새글 삭제
-			Qna_userVo vo = service.a_detail(qna_num);
-			if(vo.getQna_num() > 0) {
+			if(vo.getQna_state().equals("답변완료")) {
 				//답글이 있을때
+				Qna_userVo a_vo = service.a_detail(qna_num);
 				int n1 = service.delete(qna_num);
-				int n2 = service.delete(vo.getQna_num());
+				int n2 = service.delete(a_vo.getQna_num());
 				if(n1 > 0 && n2 > 0) {
 					result = "redirect:/qna/list";
 				}else {
 					mv.addObject("code","삭제실패");
 					result = "redirect:/qna/list";
 				}
+				mv.setViewName(result);
+				return mv;
 			}else {
 				//답글이 없을때
-				int n = service.delete(qna_num);
+				n = service.delete(qna_num);
 				if(n > 0) {
 					result = "redirect:/qna/list";
 				}else {
@@ -172,7 +217,13 @@ public class QnaController {
 			}
 		}else {
 			//답변 삭제
-			int n = service.delete(qna_num);
+			Qna_userVo a_vo = service.detail(qna_num);
+			int lev = vo.getLev();
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("qna_num", lev);
+			map.put("qna_state", "답변대기");
+			service.update(map);
+			n = service.delete(qna_num);
 			if(n > 0) {
 				result = "redirect:/qna/list";
 			}else {
