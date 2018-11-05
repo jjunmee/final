@@ -38,8 +38,7 @@
 						<c:when test="${code==2 }">
 							<th>종료일</th>
 						</c:when>
-					</c:choose>
-					
+					</c:choose>					
 				</tr>
 				<c:forEach var="vo" items="${list }">
 					<tr> 
