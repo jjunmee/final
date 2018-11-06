@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.SurveyMapper">
+	<sql id="search">
+		<if test="field!=null and field!=''">
+			and ${field} like CONCAT('%',#{keyword},'%')
+		</if>
+	</sql>
+
 	<insert id="surveyInsert" parameterType="survey">
 		insert into survey(userNum,spoint,joinNum,state) values(#{userNum},#{spoint},#{joinNum},"결제완료")
 	</insert>
@@ -44,16 +50,22 @@
 	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
 		select * from survey_question where survey_num=#{surveyNum}
 	</select>
-	<select id="surveyListSelect" parameterType="String" resultType="survey">
-		select * from survey where state=#{state}		
+	<select id="listCountSelect" parameterType="hashmap" resultType="int">
+		select count(*) from survey where state=#{state}
+		<include refid="search"/>
+	</select>
+	<select id="surveyListSelect" parameterType="hashmap" resultType="survey">
+		select * from survey where state=#{state}
+		<include refid="search"></include>	
 		<choose>
-			<when test="value=='등록완료'">
+			<when test="state=='등록완료'">
 				order by surveyEnd desc
 			</when>			
-			<when test="value=='설문종료'">
+			<when test="state=='설문종료'">
 				order by surveyStart desc
 			</when>
 		</choose>
+		limit #{startRow},#{rowBlockCount}
 	</select>
 	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">
 		select * from survey where userNum=#{userNum} and state=#{state} order by surveyStart desc

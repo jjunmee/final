@@ -20,8 +20,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.survey.service.SurveyService;
 import com.jhta.netflix.survey.vo.SurveyAnswerDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
@@ -34,18 +36,29 @@ import com.jhta.netflix.survey.vo.SurveyVo;
 public class SurveyController {
 	@Autowired private SurveyService service;
 	
-	@RequestMapping(value="/survey/list", method=RequestMethod.GET)
-	public String surveyList(int code,Model model) {
-		String state="";
-		
+	@RequestMapping(value="/survey/list")
+	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,Model model) {
+		String state="";		
 		if(code==1) {//현재진행중인설문
 			state="등록완료";			
 		}else if(code==2){//종료된 설문
 			state="설문종료";
-		}			
-		List<SurveyVo> list= service.surveyListSelect(state);
+		}		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("state", state);
+		map.put("field", field);
+		map.put("keyword", keyword);
+		int totalRowCount=service.listCountSelect(map);
+		PageUtil pageUtil=new PageUtil(pageNum, totalRowCount, 10, 10);
+		map.put("startRow", pageUtil.getMysqlStartRow());
+		map.put("rowBlockCount", pageUtil.getRowBlockCount());
+		
+		List<SurveyVo> list= service.surveyListSelect(map);
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
+		model.addAttribute("pageUtil",pageUtil);
+		model.addAttribute("field",field);
+		model.addAttribute("keyword",keyword);
 		return ".survey.surveyList";
 	}
 	@RequestMapping(value="/survey/mySurvey",method=RequestMethod.GET)
