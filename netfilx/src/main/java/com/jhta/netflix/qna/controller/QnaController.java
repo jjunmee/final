@@ -235,4 +235,15 @@ public class QnaController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/qna/chat",method=RequestMethod.GET)
+	public ModelAndView chat() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(".qna.chat");
+		
+		//유저 아이디 넘기기
+		//mv.addObject("userid", user.getUsername())
+		
+		return mv;
+	}
+	
 }
