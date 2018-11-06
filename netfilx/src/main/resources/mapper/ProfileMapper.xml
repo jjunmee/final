@@ -19,7 +19,7 @@
 	<delete id="proImgDel" parameterType="int">
 		delete from profile_img where pimg_num = #{pimg_num}
 	</delete>
-	<select id="proImgList" resultType="profile" parameterMap="int">
+	<select id="proImgList" resultType="profile" parameterType="int">
 		select * from profile_img where pro_gourp_no = #{pro_group_no}
 	</select>
 </mapper>
