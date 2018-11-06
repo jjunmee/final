@@ -42,13 +42,13 @@ public class Content_commentController {
 		for(Content_commentVo vo : list) {
 			JSONObject json = new JSONObject();
 			json.put("comment_num", vo.getComment_num());
-			json.put("comment", vo.getComment_num());
-			json.put("c_lev", vo.getComment_num());
-			json.put("c_step", vo.getComment_num());
-			json.put("content_num", vo.getComment_num());
-			json.put("profile_num", vo.getComment_num());
-			json.put("comment_open", vo.getComment_num());
-			json.put("bookmark", vo.getComment_num());
+			json.put("comment", vo.getComment());
+			json.put("c_lev", vo.getC_lev());
+			json.put("c_step", vo.getC_step());
+			json.put("content_num", vo.getContent_num());
+			json.put("profile_num", vo.getProfile_num());
+			json.put("comment_open", vo.isComment_open());
+			json.put("bookmark", vo.isBookmark());
 			arr.put(json);
 		}
 		return arr.toString();

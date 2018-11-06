@@ -8,22 +8,25 @@
 	<title>Insert title here</title>
 	<style type="text/css">
 		video{width: 100%;}
-		#block{width: 70%;padding: 20px;background-color: red;}
+		#block{width: 70%;padding: 20px;}
 		#block ul{list-style: none;}
 		#block li{float: right;margin-right: 10px;}
 		
-		#info{height: 80px;background-color: orange;}
+		#info{height: 80px;}
 		
-		#commentDiv{background-color: yellow;padding: 10px;}
+		#commentDiv{padding: 10px;}
 		#commentDiv>h4{display: inline;}
 		#commentDiv>select{background-color: lightgray;}
 		#comment{width: 80%;float: right;resize: none;background-color: lightgray;}
-		#btnDiv{display: none;text-align: right;}
-		#commentList>div{border: 1px solid red;}
+		#btnDiv{display: none;text-align: right;padding: 10px;}
+		#commentList>div{border: 1px solid red;padding: 10px;}
 		#commentList>div>div{text-align: right;}
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
+		$(function() {
+			printList();
+		});
 		function showBtn(){
 			$("#btnDiv").show();
 		}
@@ -47,18 +50,19 @@
 			$.get('<c:url value="/comment/list"/>',
 					{"content_num":${vo.content_num }},
 					function(data) {
-						data.each(function(i, json) {
+						$(data).each(function(i, json) {
 							var str = 
 								"<div>"
 									+"<h5>"+json.profile_num+"</h5>"
-									+"<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>"
+									+"<p>"+json.comment+"</p>"
 									+"<div>"
 										+"<input type=\"button\" value=\"좋아요 129\">"
-										+"<a href="">답글</a>"
+										+"<a href=\"\">답글</a>"
 										+"<br>"
-										+"<a href="">답글 보기</a>"
+										+"<a href=\"\">답글 보기</a>"
 									+"</div>"
 								+"</div>";
+							$("#commentList").append(str);
 						});
 			});
 		}
@@ -76,15 +80,12 @@
 					<input type="button" value="신고">
 				</li>
 				<li>
-					<input type="button" value="좋아요">
-				</li>
-				<li>
-					<input type="button" value="찜">
+					<input type="button" value="찜1,024">
 				</li>
 			</ul>
 		</div>
 		<div id="commentDiv">
-			<h4>댓글 00,000개</h4>
+			<h4>댓글 10,000개</h4>
 			<select name="sort">
 				<option value="new">최신순</option>
 				<option value="like">좋아요순</option>
@@ -109,6 +110,7 @@
 				</div>
 			</form>
 			<div id="commentList">
+			<!-- 
 				<div>
 					<h5>프로필명</h5>
 					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
@@ -116,9 +118,25 @@
 						<input type="button" value="좋아요 129">
 						<a href="">답글</a>
 						<br>
+						<div style="padding: 10px;">
+							<form id="insertForm" onsubmit="insertComment()" action="javascript:false;">
+								<div style="width: 20%;float: left;text-align: center;">
+									프로필명 
+								</div>
+								<textarea rows="1" placeholder="공개 답글 추가..." name="comment" id="comment" 
+								onfocus="showBtn()"></textarea>
+								<input type="hidden" name="content_num" value="${vo.content_num }">
+								<input type="hidden" name="profile_num" value="1">
+								<br><br>
+								<input type="button" value="취소" onclick="hideBtn()">
+								<input type="submit" value="입력">
+							</form>
+							<br>
+						</div>
 						<a href="">답글 보기</a>
 					</div>
 				</div>
+			 -->
 			</div>
 		</div>
 	</div>
