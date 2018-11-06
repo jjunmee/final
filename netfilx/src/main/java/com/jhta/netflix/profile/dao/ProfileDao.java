@@ -1,5 +1,7 @@
 package com.jhta.netflix.profile.dao;
 
-public interface ProfileDao {
+import com.jhta.netflix.profile.vo.ProfileVo;
 
+public interface ProfileDao {
+	public int insert(ProfileVo vo);
 }
