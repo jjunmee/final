@@ -56,9 +56,4 @@ public class ProfileVo {
 	public void setPimg_src(String pimg_src) {
 		this.pimg_src = pimg_src;
 	}
-	
-	
-	
-	
-	
 }
