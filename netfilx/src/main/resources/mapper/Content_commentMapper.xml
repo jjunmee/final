@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Content_commentMapper">
+	<insert id="insert" parameterType="ccomment">
+		insert into content_comment values(#{comment_num},#{comment},#{c_lev},#{c_step},#{content_num},
+			#{profile_num},#{comment_open},#{bookmark})
+	</insert>
+	<update id="update" parameterType="ccomment">
+		update content_comment set comment=#{comment},c_lev=#{c_lev},c_step=#{c_step},
+		content_num=#{content_num},profile_num=#{profile_num},comment_open=#{comment_open},
+		bookmark=#{bookmark} where comment_num=#{comment_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from content_comment where comment_num=#{comment_num}
+	</delete>
+	<select id="list" parameterType="int" resultType="ccomment">
+		select * from content_comment where content_num=#{value}
+	</select>
+	<select id="find" parameterType="int" resultType="ccomment">
+		select * from content_comment where comment_num=#{value}
+	</select>
+</mapper>
+  
