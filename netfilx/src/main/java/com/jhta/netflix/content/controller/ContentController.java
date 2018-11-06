@@ -297,6 +297,12 @@ public class ContentController {
 		model.addAttribute("list", contentService.list(map));
 		return ".user_content.list";
 	}
+	@RequestMapping(value="/content/contentPlay",method=RequestMethod.GET)
+	public String contentPlay(Model model,int content_num) {
+		ContentVo vo = contentService.find(content_num);
+		model.addAttribute("vo", vo);
+		return ".user_content.play";
+	}
 }
 
 

@@ -24,6 +24,7 @@
 		<typeAlias type="com.jhta.netflix.content_staff.vo.Content_staffVo" alias="cstaff"/>		
 		<typeAlias type="com.jhta.netflix.qna.vo.QnaVo" alias="qna"/>		
 		<typeAlias type="com.jhta.netflix.qna_user.vo.Qna_userVo" alias="qnauser"/>
+		<typeAlias type="com.jhta.netflix.content_comment.vo.Content_commentVo" alias="ccomment"/>
 	</typeAliases>
 	
 	<mappers>
@@ -39,5 +40,6 @@
 		<mapper resource="mapper/Content_genreMapper.xml"/>
 		<mapper resource="mapper/Content_staffMapper.xml"/>
 		<mapper resource="mapper/QnaMapper.xml"/>
+		<mapper resource="mapper/Content_commentMapper.xml"/>
 	</mappers>
 </configuration>
