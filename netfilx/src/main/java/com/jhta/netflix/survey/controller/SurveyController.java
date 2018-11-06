@@ -54,6 +54,7 @@ public class SurveyController {
 		map.put("rowBlockCount", pageUtil.getRowBlockCount());
 		
 		List<SurveyVo> list= service.surveyListSelect(map);
+		
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
 		model.addAttribute("pageUtil",pageUtil);
@@ -80,32 +81,28 @@ public class SurveyController {
 		
 		return ".survey.mySurvey";
 	}
-	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
+	@RequestMapping(value="/survey/surveyDetail",method=RequestMethod.GET)
 	public String detail1(int surveyNum, Model model) {
-		SurveyVo surveyVo=service.surveySelect(surveyNum);
-		List<SurveyQuestionVo> sqList= service.surveyQuestionSelect(surveyNum);
-		//질문번호만 배열에 담기
-		int[] sqNumList=null;
-		int i=0;
-		for(SurveyQuestionVo sqVo:sqList) {
-			sqNumList[i]=sqVo.getSqNum();
-			i++;
-		}
-		//질문번호 돌려서 리스트에 담기
-		List<SurveyAnswerVo> saVoList=null;
-		String[] aList=null;
-		List<String[]> saList=null;		
-		for(int j=0;j<sqNumList.length;j++) {			
-			saVoList=service.surveyAnswerSelect(sqNumList[i]);
-			for(SurveyAnswerVo vo:saVoList) {
-				aList[j]=vo.getSaAnswer();
-			}
-			saList.add(aList);
-		}		
-		model.addAttribute("surveyVo",surveyVo);
-		model.addAttribute("sqList",sqList);
-		model.addAttribute("saList",saList);
-		return ".survey.myDetail";
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return ".survey.surveyDetail";
 	}
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(Model model,HttpServletRequest request) {

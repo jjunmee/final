@@ -43,7 +43,7 @@
 				<c:forEach var="vo" items="${list }">
 					<tr> 
 						<td>${vo.surveyNum }</td>
-						<td><a href="<c:url value='/survey/'/>">${vo.surveyName }</a></td>
+						<td><a href="<c:url value='/survey/surveyDetail?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
 						<td>${Math.round(vo.spoint/vo.joinNum) }포인트</td>
 						<td>${vo.surveyStart }</td>

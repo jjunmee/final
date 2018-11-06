@@ -21,7 +21,17 @@
 	</div>
 	
 	<div id="box" class="centerBox">			
-		
+		<div id="surveyName">${surveyVo.surveyName }</div>
+		<c:if test="${videoVo!=null }">
+			<div id="video">${videoVo.svSaveSrc }</div>
+		</c:if>
+		<div id="surveyDescription">${surveyVo.surveyDescription }</div>
+		<div id="surveyStart">${surveyVo.surveyStart }</div>
+		<div id="surveyEnd">${surveyVo.surveyEnd }</div>
+		<br><br>
+		<div id="question">
+			
+		</div>
 	
 	</div>
 </div>
