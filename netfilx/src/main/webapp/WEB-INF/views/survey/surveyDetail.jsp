@@ -30,7 +30,13 @@
 		<div id="surveyEnd">${surveyVo.surveyEnd }</div>
 		<br><br>
 		<div id="question">
-			
+			<c:forEach var="i" begin="0" end="${fn:length(sqVoList) }">
+				${sqVoList[i].sqTitle }
+				<c:forEach var="j" begin="0" end="${fn:length(saList[i]) }">
+					${saList[i][j].saAnswer }
+				</c:forEach>
+				<br>
+			</c:forEach>
 		</div>
 	
 	</div>
