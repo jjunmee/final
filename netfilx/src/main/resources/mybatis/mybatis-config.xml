@@ -26,20 +26,4 @@
 		<typeAlias type="com.jhta.netflix.qna_user.vo.Qna_userVo" alias="qnauser"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Content_commentVo" alias="ccomment"/>
 	</typeAliases>
-	
-	<mappers>
-		<mapper resource="mapper/UserMapper.xml"/>
-		<mapper resource="mapper/CertificationMapper.xml"/>
-		<mapper resource="mapper/ProfileMapper.xml"/>
-		<mapper resource="mapper/ContentMapper.xml"/>
-		<mapper resource="mapper/CategoryMapper.xml"/>
-		<mapper resource="mapper/GenreMapper.xml"/>
-		<mapper resource="mapper/StaffMapper.xml"/>
-		<mapper resource="mapper/SurveyMapper.xml"/>
-		<mapper resource="mapper/SeriesMapper.xml"/>
-		<mapper resource="mapper/Content_genreMapper.xml"/>
-		<mapper resource="mapper/Content_staffMapper.xml"/>
-		<mapper resource="mapper/QnaMapper.xml"/>
-		<mapper resource="mapper/Content_commentMapper.xml"/>
-	</mappers>
 </configuration>
