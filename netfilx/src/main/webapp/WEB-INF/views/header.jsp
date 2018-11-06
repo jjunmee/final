@@ -26,6 +26,7 @@
             <ul class="dropdown-menu">
 	          <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
               <li><a href="<c:url value='/qna/list'/>">문의게시판</a></li>
+              <li><a href="<c:url value='/qna/chat'/>">채팅</a></li>
             </ul>
           </li>
         </ul>
