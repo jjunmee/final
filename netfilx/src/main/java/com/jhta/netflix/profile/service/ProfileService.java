@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.profile.dao.ProfileDao;
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 import com.jhta.netflix.profile.vo.ProfileVo;
 
 @Service
@@ -33,5 +34,9 @@ public class ProfileService {
 		}
 		public List<ProfileVo> proImgList(int no){
 			return profileDao.proImgList(no);
+		}
+		
+		public ProfileUserVo find(int num) {
+			return profileDao.find(num);
 		}
 }

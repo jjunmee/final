@@ -2,6 +2,7 @@ package com.jhta.netflix.profile.dao;
 
 import java.util.List;
 
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 import com.jhta.netflix.profile.vo.ProfileVo;
 
 public interface ProfileDao {
@@ -14,4 +15,6 @@ public interface ProfileDao {
 	public int proImgInsert(ProfileVo vo);
 	public int proImgDel(int no);
 	public List<ProfileVo> proImgList(int no);
+	
+	public ProfileUserVo find(int num);
 }

@@ -22,5 +22,9 @@
 	<select id="proImgList" resultType="profile" parameterType="int">
 		select * from profile_img where pro_gourp_no = #{pro_group_no}
 	</select>
+	
+	<select id="find" parameterType="int" resultType="profileUser">
+		select * from profile where profile_num=#{profile_num}
+	</select>
 </mapper>
  

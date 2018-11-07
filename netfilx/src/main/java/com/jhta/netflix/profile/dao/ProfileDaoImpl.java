@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 import com.jhta.netflix.profile.vo.ProfileVo;
 
 @Repository
@@ -36,5 +37,9 @@ public class ProfileDaoImpl implements ProfileDao{
 	@Override
 	public List<ProfileVo> proImgList(int no) {
 		return sqlSession.selectList(NAMESPACE+".proImgList", no);
+	}
+	@Override
+	public ProfileUserVo find(int num) {
+		return sqlSession.selectOne(NAMESPACE+".find", num);
 	}
 }
