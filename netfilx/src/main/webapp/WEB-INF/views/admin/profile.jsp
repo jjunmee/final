@@ -29,7 +29,8 @@
 	<div class="row col-sm-4">
 		<form method="post" action="<c:url value='/admin/profile/imgInput'/>" enctype="multipart/form-data">
 			<input type="file" name="file1" id="file1">
-			<a href="#" class="btn btn-default">추가</a>
+			<input type="hidden" name="pro_group_no" id="pro_group_no" value="${pro_group_no }" >
+			<input type="submit"  class="btn btn-default" value="추가">
 			<p>추가시 변경 불가능 삭제 후 재등록 바랍니다.</p>
 		</form>
 	</div>

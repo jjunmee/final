@@ -1,8 +1,11 @@
 package com.jhta.netflix.profile.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,5 +45,14 @@ public class ProfileController {
 		map.put("profile_group_img", list);
 		return map;
 	}
-	
+	///admin/profile/imgInput
+	@RequestMapping(value="/admin/profile/imgInput",method=RequestMethod.POST)
+	public String adminGroupImgInput(@RequestParam("file1") File file1,@RequestParam("pro_group_no") int pro_group_no,HttpServletRequest req) {
+		
+				File file = new File("");
+				
+				
+				
+		return "redirect:/admin/profile";
+	}
 }
