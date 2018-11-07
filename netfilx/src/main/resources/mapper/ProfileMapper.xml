@@ -20,7 +20,7 @@
 		delete from profile_img where pimg_num = #{pimg_num}
 	</delete>
 	<select id="proImgList" resultType="profile" parameterType="int">
-		select * from profile_img where pro_gourp_no = #{pro_group_no}
+		select * from profile_img where pro_group_no = #{pro_group_no}
 	</select>
 	
 	<select id="find" parameterType="int" resultType="profileUser">
