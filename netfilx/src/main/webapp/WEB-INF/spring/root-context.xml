@@ -17,13 +17,7 @@
 	<!-- <context:property-placeholder location="*.properties"/> -->
 	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-			<value>/WEB-INF/database.properties</value>
-			<value>/WEB-INF/social.properties</value>
-			<value>/WEB-INF/email.properties</value>
-			</list>
-		</property>
+		<property name="locations" value="/WEB-INF/*.properties"/>
 	</bean>	
    
    <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -93,6 +87,14 @@
 				<prop key="mail.smtps.ssl.trust">*</prop>
 			</props>
 		</property>
+	</bean>
+	
+	<!-- FTP -->
+	<bean id="ftpInformation" class="com.jhta.netflix.lib.FTP">
+		<property name="url" value="${ftp.url}"/>
+		<property name="id" value="${ftp.id}"/>
+		<property name="pwd" value="${ftp.pwd}"/>
+		<property name="port" value="${ftp.port}"/>
 	</bean>
 	
 </beans>
