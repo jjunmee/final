@@ -212,7 +212,7 @@
 		<input type="text" name="category_name">
 		<input type="submit" value="추가">
 	</form>
-		<table border="1" id="categorylist" width="800">
+		<table id="categorylist">
 		</table>
 <h1>장르</h1>
 	<form method="post" action='<c:url value="/genre/insert"/>'>
@@ -223,6 +223,6 @@
 		<input type="submit" value="추가">
 	</form>
 		<div id="gcate_check_div"></div>
-		<table border="1" id="genrelist" width="800">
+		<table id="genrelist">
 		</table>
 </div>

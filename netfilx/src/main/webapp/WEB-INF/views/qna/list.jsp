@@ -50,12 +50,18 @@
 				<c:when test="${vo.step == 0 }">
 					<td>${vo.qna_state }</td>
 				</c:when>
+				<c:otherwise>
+					<td></td>
+				</c:otherwise>
 			</c:choose>
 			<!-- 관리자일 때만 답글 남기기 -->
 			<c:choose>
 				<c:when test="${vo.qna_state == '답변대기' && userSts == 1}">
 					<td><a href='<c:url value="/qna/insert?qna_num=${vo.qna_num }"/>'>답글남기기</a></td>
 				</c:when>
+				<c:otherwise>
+					<td></td>
+				</c:otherwise>
 			</c:choose>
 		</tr>
 		</c:forEach>
