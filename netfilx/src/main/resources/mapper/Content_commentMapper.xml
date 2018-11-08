@@ -22,7 +22,7 @@
 			from good
 			group by comment_num) g
 		on cc.comment_num=g.comment_num
-		where content_num=#{content_num}
+		where content_num=#{content_num} and comment_open=true and c_lev=0
 		order by 
 		<if test="sort == 'new'">
 			comment_num desc
@@ -30,6 +30,13 @@
 		<if test="sort == 'good'">
 			cnt desc
 		</if>
+		limit #{rowNum},5
+	</select>
+	<select id="subList" parameterType="int" resultType="ccomment">
+		select *
+		from content_comment
+		where c_lev=#{value}
+		order by comment_num
 	</select>
 	<select id="find" parameterType="int" resultType="ccomment">
 		select * from content_comment where comment_num=#{value}

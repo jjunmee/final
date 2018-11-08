@@ -33,4 +33,7 @@ public class Content_commentDao {
 	public int count(int num) {
 		return sqlSession.selectOne(NAMESPACE+".count", num);
 	}
+	public List<Content_commentVo> subList(int num){
+		return sqlSession.selectList(NAMESPACE+".subList", num);
+	}
 }
