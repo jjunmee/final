@@ -20,7 +20,14 @@
 		#comment{width: 80%;float: right;resize: none;background-color: lightgray;}
 		#btnDiv{display: none;text-align: right;padding: 10px;}
 		#commentList>div{border: 1px solid red;padding: 10px;}
-		#commentList>div>div{text-align: right;}
+		.goodBox{text-align: right;}
+		.goodBox h5,p{text-align: left;}
+		
+		div[id^="subList"]>div{border: 1px solid orange;padding: 10px;}
+		
+		div[id^="subDiv"]{padding: 10px;display: none;}
+		form[id^="subForm"]>div{width: 20%;float: left;text-align: center;}
+		#subComment{width: 80%;float: right;resize: none;background-color: lightgray;}
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
@@ -41,11 +48,6 @@
 							}
 				});
 			});
-			$.get("<c:url value='/comment/count'/>",
-					{"content_num":${vo.content_num }},
-					function(data) {
-						$("#commentDiv>h4").html("댓글 "+data.count+"개");
-			});
 		});
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
@@ -56,6 +58,12 @@
 		}
 		function hideBtn(){
 			$("#btnDiv").hide();
+		}
+		function showSub(num){
+			$("#subDiv"+num).show();
+		}
+		function hideSub(num){
+			$("#subDiv"+num).hide();
 		}
 		function insertComment(){
 			var params = $("#insertForm").serialize();
@@ -71,32 +79,99 @@
 						}
 			});
 		}
-		function printList(){
+		function commentSub(num){
+			var params = $("#subForm"+num).serialize();
+			$.post('<c:url value="/comment/insert"/>',
+					params,
+					function(data) {
+						if(data.result){
+							$("#subForm"+num+">textarea").val("");
+							hideSub(num);
+						}else{
+							alert("오류로 인해 데이터 등록 실패!!");
+						}
+			});
+		}
+		function printList(rowNum){
 			$("#commentList").empty();
 			var sort = $("#sort").val();
 			$.get('<c:url value="/comment/list"/>',
-					{"content_num":${vo.content_num },"profile_num":1,"sort":sort},
+					{"content_num":${vo.content_num },"profile_num":1,"sort":sort,"rowNum":rowNum},
 					function(data) {
 						$(data).each(function(i, json) {
 							var str = 
 								"<div>"
 									+"<h5>"+json.nickname+"</h5>"
 									+"<p>"+json.comment+"</p>"
-									+"<div>"
+									+"<div class=\"goodBox\">"
 										+"<input type=\"button\" value=\"좋아요 "+json.good_count
 											+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
 										if(json.good_check){
 											str+="disabled=\"disabled\"";
 										}
 										str+=">"
-										+"<a href=\"\">답글</a>"
+										+"<a href=\"javascript:showSub("+json.comment_num+");\">답글</a>"
 										+"<br>"
-										+"<a href=\"\">답글 보기</a>"
+										+"<div id=\"subDiv"+json.comment_num+"\">"
+											+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"commentSub("+json.comment_num+")\" "
+											+"action=\"javascript:false;\">"
+												+"<div>"
+													+"프로필명" 
+												+"</div>"
+												+"<textarea rows=\"1\" placeholder=\"공개 답글 추가...\" name=\"comment\" id=\"subComment\"></textarea>"
+												+"<input type=\"hidden\" name=\"content_num\" value=\"${vo.content_num }\">"
+												+"<input type=\"hidden\" name=\"profile_num\" value=\"1\">"
+												+"<input type=\"hidden\" name=\"comment_open\" value=\"true\">"
+												+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
+												+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
+												+"<br><br>"
+												+"<input type=\"button\" value=\"취소\" onclick=\"hideSub("+json.comment_num+")\">"
+												+"<input type=\"submit\" value=\"입력\">"
+											+"</form>"
+											+"<br>"
+										+"</div>"
+										+"<a href=\"javascript:false;\" onclick=\"printSubList(event,"+json.comment_num+")\">답글 보기</a>"
+										+"<div id=\"subList"+json.comment_num+"\">"
+										+"</div>"
 									+"</div>"
 								+"</div>";
 							$("#commentList").append(str);
 						});
+				$.get("<c:url value='/comment/count'/>",
+						{"content_num":${vo.content_num }},
+						function(data) {
+							$("#commentDiv>h4").html("댓글 "+data.count+"개");
+				});
 			});
+		}
+		function printSubList(event,num){
+			if($(event.target).html() == '답글 숨기기'){
+				$("#subList"+num).empty();
+				$(event.target).html("답글 보기");
+			}else{
+				$("#subList"+num).empty();
+				$.get('<c:url value="/comment/subList"/>',
+						{"comment_num":num,"profile_num":1},
+						function(data) {
+							$(data).each(function(i, json) {
+								var str =
+									"<div>"
+										+"<h5>"+json.nickname+"</h5>"
+										+"<p>"+json.comment+"</p>"
+										+"<div class=\"goodBox\">"
+											+"<input type=\"button\" value=\"좋아요 "+json.good_count
+												+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
+											if(json.good_check){
+												str+="disabled=\"disabled\"";
+											}
+											str+=">"
+										+"</div>"
+									+"</div>";
+								$("#subList"+num).append(str);
+								$(event.target).html("답글 숨기기");
+							});
+				});
+			}
 		}
 		function clickGood(event,comment_num){
 			$.get('<c:url value="/good/insert"/>',
@@ -140,7 +215,7 @@
 					프로필명 
 				</div>
 				<textarea rows="1" placeholder="댓글 추가..." name="comment" id="comment" 
-				onfocus="showBtn()"></textarea>
+					onfocus="showBtn()"></textarea>
 				<input type="hidden" name="content_num" value="${vo.content_num }">
 				<input type="hidden" name="profile_num" value="1">
 				<br><br>
@@ -160,19 +235,18 @@
 					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
 					<div>
 						<input type="button" value="좋아요 0" onclick="clickGood()" disabled="disabled">
-						<a href="">답글</a>
+						<a href="javascript:showSub(50);">답글</a>
 						<br>
-						<div style="padding: 10px;">
-							<form id="insertForm" onsubmit="insertComment()" action="javascript:false;">
-								<div style="width: 20%;float: left;text-align: center;">
+						<div id="subDiv50">
+							<form id="subForm50" onsubmit="subComment()" action="javascript:false;">
+								<div>
 									프로필명 
 								</div>
-								<textarea rows="1" placeholder="공개 답글 추가..." name="comment" id="comment" 
-								onfocus="showBtn()"></textarea>
+								<textarea rows="1" placeholder="공개 답글 추가..." name="comment" id="subComment"></textarea>
 								<input type="hidden" name="content_num" value="${vo.content_num }">
 								<input type="hidden" name="profile_num" value="1">
 								<br><br>
-								<input type="button" value="취소" onclick="hideBtn()">
+								<input type="button" value="취소" onclick="hideSub(50)">
 								<input type="submit" value="입력">
 							</form>
 							<br>
@@ -184,5 +258,5 @@
 			</div>
 		</div>
 	</div>
-</body>
+
 </html>

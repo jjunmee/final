@@ -32,4 +32,7 @@ public class Content_commentService {
 	public int count(int num) {
 		return dao.count(num);
 	}
+	public List<Content_commentVo> subList(int num){
+		return dao.subList(num);
+	}
 }

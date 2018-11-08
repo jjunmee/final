@@ -48,11 +48,44 @@ public class Content_commentController {
 	@RequestMapping(value="/comment/list",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String list(int content_num,int profile_num,
-			@RequestParam(value="sort",defaultValue="new")String sort) {
+			@RequestParam(value="sort",defaultValue="new")String sort,
+			@RequestParam(value="rowNum",defaultValue="0")int rowNum) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("content_num", content_num);
 		map.put("sort", sort);
+		map.put("rowNum", rowNum);
 		List<Content_commentVo> list= service.list(map);
+		JSONArray arr = new JSONArray();
+		for(Content_commentVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("comment_num", vo.getComment_num());
+			json.put("comment", vo.getComment());
+			json.put("c_lev", vo.getC_lev());
+			json.put("c_step", vo.getC_step());
+			json.put("content_num", vo.getContent_num());
+			json.put("profile_num", vo.getProfile_num());
+			ProfileUserVo pvo = profileService.find(vo.getProfile_num());
+			json.put("nickname", pvo.getNickname());
+			json.put("comment_open", vo.isComment_open());
+			json.put("bookmark", vo.isBookmark());
+			json.put("good_count", goodService.count(vo.getComment_num()));
+			HashMap<String, Object> subMap = new HashMap<String, Object>();
+			subMap.put("comment_num", vo.getComment_num());
+			subMap.put("profile_num", profile_num);
+			GoodVo gvo = goodService.find(subMap);
+			if(gvo != null) {
+				json.put("good_check", true);
+			}else {
+				json.put("good_check", false);
+			}
+			arr.put(json);
+		}
+		return arr.toString();
+	}
+	@RequestMapping(value="/comment/subList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String subList(int comment_num,int profile_num) {
+		List<Content_commentVo> list= service.subList(comment_num);
 		JSONArray arr = new JSONArray();
 		for(Content_commentVo vo : list) {
 			JSONObject json = new JSONObject();

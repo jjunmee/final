@@ -3,6 +3,8 @@ package com.jhta.netflix.qna.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +16,30 @@ import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.qna.service.QnaService;
 import com.jhta.netflix.qna.vo.QnaVo;
 import com.jhta.netflix.qna_user.vo.Qna_userVo;
+import com.jhta.netflix.user.service.UserService;
+import com.jhta.netflix.user.vo.UserVo;
 
 @Controller
 public class QnaController {
 	@Autowired
 	private QnaService service;
+	@Autowired
+	private UserService uservice;
 	
 	//리스트 뿌리기
 	@RequestMapping("/qna/list")
 	public ModelAndView list(@RequestParam(value="pageNum",defaultValue="1")int pageNum,
-			String field,String keyword) {
+			String field,String keyword,HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		UserVo vo = new UserVo();
+		ModelAndView mv = new ModelAndView();
+		if(id != null && !(id.equals(""))) {
+			vo = uservice.login(id);
+			mv.addObject("userSts",vo.getSts());
+		}else {
+			mv.addObject("userSts",0);
+		}
+		System.out.println((String)session.getAttribute("id"));
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String result = ".qna.list";
 		map.put("field", field);
@@ -37,7 +53,6 @@ public class QnaController {
 		map.put("rowBlockCount", pu.getRowBlockCount());
 		List<Qna_userVo> list = service.list(map);
 		//mv에 리스트 뿌려주기
-		ModelAndView mv = new ModelAndView();
 		mv.addObject("list",list);
 		mv.addObject("pu",pu);
 		mv.addObject("field", field);

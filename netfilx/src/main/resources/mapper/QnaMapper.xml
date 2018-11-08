@@ -46,7 +46,7 @@
 	<update id="update" parameterType="qna">
 		update qna set qna_title = #{qna_title}, qna_content = #{qna_content}, qna_open = #{qna_open} where qna_num = #{qna_num}
 	</update>
-	<!-- state 변경 -->
+	<!-- 답글 state 변경 -->
 	<update id="s_update" parameterType="hashmap">
 		update qna set qna_state = #{qna_state} where qna_num = #{qna_num}
 	</update>
