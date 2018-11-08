@@ -31,8 +31,11 @@
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
+		var rowPage = 1;
+
 		$(function() {
-			printList();
+			rowPage = 1;
+			printList(0,true);
 			$.get("<c:url value='/interasts/count'/>",
 					{"content_num":${vo.content_num },"profile_num":1},
 					clickJj
@@ -73,7 +76,8 @@
 						if(data.result){
 							$("#insertForm>textarea").val("");
 							hideBtn();
-							printList();
+							rowPage = 1;
+							printList(0,true);
 						}else{
 							alert("오류로 인해 데이터 등록 실패!!");
 						}
@@ -92,51 +96,58 @@
 						}
 			});
 		}
-		function printList(rowNum){
-			$("#commentList").empty();
+		function printList(rowNum,clear){
+			if(clear){
+				$("#commentList").empty();
+			}
 			var sort = $("#sort").val();
 			$.get('<c:url value="/comment/list"/>',
-					{"content_num":${vo.content_num },"profile_num":1,"sort":sort,"rowNum":rowNum},
-					function(data) {
-						$(data).each(function(i, json) {
-							var str = 
-								"<div>"
-									+"<h5>"+json.nickname+"</h5>"
-									+"<p>"+json.comment+"</p>"
-									+"<div class=\"goodBox\">"
-										+"<input type=\"button\" value=\"좋아요 "+json.good_count
-											+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
-										if(json.good_check){
-											str+="disabled=\"disabled\"";
-										}
-										str+=">"
-										+"<a href=\"javascript:showSub("+json.comment_num+");\">답글</a>"
+				{"content_num":${vo.content_num },"profile_num":1,"sort":sort,"rowNum":rowNum},
+				function(data) {
+					$(data).each(function(i, json) {
+						var str = 
+							"<div>"
+								+"<h5>"+json.nickname+"</h5>"
+								+"<p>"+json.comment+"</p>"
+								+"<div class=\"goodBox\">"
+									+"<input type=\"button\" value=\"좋아요 "+json.good_count
+										+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
+									if(json.good_check){
+										str+="disabled=\"disabled\"";
+									}
+									str+=">"
+									+"<a href=\"javascript:showSub("+json.comment_num+");\">답글</a>"
+									+"<br>"
+									+"<div id=\"subDiv"+json.comment_num+"\">"
+										+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"commentSub("+json.comment_num+")\" "
+										+"action=\"javascript:false;\">"
+											+"<div>"
+												+"프로필명" 
+											+"</div>"
+											+"<textarea rows=\"1\" placeholder=\"공개 답글 추가...\" name=\"comment\" id=\"subComment\"></textarea>"
+											+"<input type=\"hidden\" name=\"content_num\" value=\"${vo.content_num }\">"
+											+"<input type=\"hidden\" name=\"profile_num\" value=\"1\">"
+											+"<input type=\"hidden\" name=\"comment_open\" value=\"true\">"
+											+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
+											+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
+											+"<br><br>"
+											+"<input type=\"button\" value=\"취소\" onclick=\"hideSub("+json.comment_num+")\">"
+											+"<input type=\"submit\" value=\"입력\">"
+										+"</form>"
 										+"<br>"
-										+"<div id=\"subDiv"+json.comment_num+"\">"
-											+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"commentSub("+json.comment_num+")\" "
-											+"action=\"javascript:false;\">"
-												+"<div>"
-													+"프로필명" 
-												+"</div>"
-												+"<textarea rows=\"1\" placeholder=\"공개 답글 추가...\" name=\"comment\" id=\"subComment\"></textarea>"
-												+"<input type=\"hidden\" name=\"content_num\" value=\"${vo.content_num }\">"
-												+"<input type=\"hidden\" name=\"profile_num\" value=\"1\">"
-												+"<input type=\"hidden\" name=\"comment_open\" value=\"true\">"
-												+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
-												+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
-												+"<br><br>"
-												+"<input type=\"button\" value=\"취소\" onclick=\"hideSub("+json.comment_num+")\">"
-												+"<input type=\"submit\" value=\"입력\">"
-											+"</form>"
-											+"<br>"
-										+"</div>"
-										+"<a href=\"javascript:false;\" onclick=\"printSubList(event,"+json.comment_num+")\">답글 보기</a>"
-										+"<div id=\"subList"+json.comment_num+"\">"
-										+"</div>"
 									+"</div>"
-								+"</div>";
-							$("#commentList").append(str);
-						});
+									+"<a href=\"javascript:false;\" onclick=\"printSubList(event,"+json.comment_num+")\">답글 전체 보기</a>"
+									+"<div id=\"subList"+json.comment_num+"\">"
+									+"</div>"
+								+"</div>"
+							+"</div>";
+						$("#commentList").append(str);
+					});
+				if(data.length == 5){
+					$("#moreBtn").show();
+				}else{
+					$("#moreBtn").hide();
+				}
 				$.get("<c:url value='/comment/count'/>",
 						{"content_num":${vo.content_num }},
 						function(data) {
@@ -173,6 +184,9 @@
 				});
 			}
 		}
+		function moreList(){
+			printList(rowPage++,false);
+		}
 		function clickGood(event,comment_num){
 			$.get('<c:url value="/good/insert"/>',
 					{"comment_num":comment_num,"profile_num":1},
@@ -205,7 +219,7 @@
 		</div>
 		<div id="commentDiv">
 			<h4>댓글 0개</h4>
-			<select id="sort" onchange="printList()">
+			<select id="sort" onchange="printList(0,true)">
 				<option value="new">최신순</option>
 				<option value="good">좋아요순</option>
 			</select>
@@ -256,6 +270,8 @@
 				</div>
 			 -->
 			</div>
+			<input type="button" value="더보기" onclick="moreList()" id="moreBtn"
+				style="width: 100%;display: none;">
 		</div>
 	</div>
 

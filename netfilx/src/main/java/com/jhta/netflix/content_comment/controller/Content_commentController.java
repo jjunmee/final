@@ -53,7 +53,7 @@ public class Content_commentController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("content_num", content_num);
 		map.put("sort", sort);
-		map.put("rowNum", rowNum);
+		map.put("rowNum", rowNum*5);
 		List<Content_commentVo> list= service.list(map);
 		JSONArray arr = new JSONArray();
 		for(Content_commentVo vo : list) {
