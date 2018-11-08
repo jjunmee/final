@@ -211,7 +211,7 @@
 		}
 
 		$("#qPlus1").click(function(){//질문추가버튼누르면!
-			if(opNum!=4){
+			if(opNum!=3 && opNum!=4){
 				$("#opPlusBox").show();				
 			}
 			$("#qPlusBox").css("display","none");
@@ -220,7 +220,7 @@
 			appendDiv(0);
 		});
 		$("#qPlus2").click(function(){//같은질문추가버튼누르면!
-			if(opNum!=4){
+			if(opNum!=3 && opNum!=4){
 				$("#opPlusBox").show();				
 			}
 			$("#qPlusBox").css("display","none");
@@ -300,33 +300,101 @@
 	function checktype3(){//직선단계선택시
 		opNum=3;
 		makeOpBox(3,cloneCnt);
+		
 		var br=document.createElement("br");
 		var sqType=document.createElement("input");
 		sqType.setAttribute("type","hidden");
 		sqType.setAttribute("name","sqlist["+cloneCnt+"].sqType");
 		sqType.setAttribute("class","org");
 		sqType.setAttribute("value","3");
-		$("#things").append(sqType);
+		$("#things").append(sqType);		
 		
-		var op3=document.createElement("input");
-		op3.setAttribute("type","text");
-		op3.setAttribute("name","ssalist["+cloneCnt+"].alist");
-		op3.setAttribute("placeholder","옵션을 입력하세요");
+		var selDiv=document.createElement("div");
+		selDiv.setAttribute("id","selDiv");
+		var sel1box=document.createElement("select");
+		sel1box.setAttribute("id","sel1box"+cloneCnt);
+		sel1box.setAttribute("n",1);
+		sel1box.setAttribute("cnt",cloneCnt);
+		sel1box.onchange=putInf;
+		var sel2box=document.createElement("select");
+		sel2box.setAttribute("id","sel2box"+cloneCnt);
+		sel2box.setAttribute("n",2);
+		sel2box.setAttribute("cnt",cloneCnt);
+		sel2box.onchange=putInf;
+		
+		selOpArray1=["0","1"];
+		selOpArray2=["2","3","4","5","6","7","8","9","10"]; 
+		for(var i=0;i<selOpArray1.length;i++){
+			var option=document.createElement("option");
+			option.text=selOpArray1[i];
+			option.setAttribute("value",selOpArray1[i]);
+			sel1box.add(option);
+		}
+		for(var i=0;i<selOpArray2.length;i++){
+			var option=document.createElement("option");
+			option.text=selOpArray2[i];
+			option.setAttribute("value",selOpArray2[i]);
+			sel2box.add(option);
+		}
+		var strSpan=document.createElement("span");
+		strSpan.innerHTML=" ~ ";
+		selDiv.appendChild(sel1box);
+		selDiv.appendChild(strSpan);
+		selDiv.appendChild(sel2box);
 		$("#opDiv").css("display","none");
-		var opDelBtn=document.createElement("input");
-		opDelBtn.setAttribute("type","button");
-		opDelBtn.setAttribute("value","X");
-		opDelBtn.onclick=opDel;
+		
+		var op3=document.createElement("div");
+		var span1op=document.createElement("span");
+		span1op.innerHTML=0;
+		span1op.setAttribute("id","span1op"+cloneCnt);
+		var input1op=document.createElement("input");
+		input1op.setAttribute("type","text");
+		input1op.setAttribute("placeholder","옵션을 입력하세요");
+		input1op.setAttribute("id","input1op"+cloneCnt);
+		var hidden1Input=document.createElement("input");
+		hidden1Input.setAttribute("id","hidden1Input"+cloneCnt);
+		hidden1Input.setAttribute("type","hidden");
+		hidden1Input.setAttribute("name","ssalist["+cloneCnt+"].alist");
+		op3.appendChild(hidden1Input);
+		
+		var span2op=document.createElement("span");
+		span2op.innerHTML=2;
+		span2op.setAttribute("id","span2op"+cloneCnt);
+		var input2op=document.createElement("input");
+		input2op.setAttribute("type","text");
+		input2op.setAttribute("placeholder","옵션을 입력하세요");
+		input2op.setAttribute("id","input2op"+cloneCnt);
+		var hidden2Input=document.createElement("input");
+		hidden2Input.setAttribute("id","hidden2Input"+cloneCnt);
+		hidden2Input.setAttribute("type","hidden");
+		hidden2Input.setAttribute("name","ssalist["+cloneCnt+"].alist");
+		op3.appendChild(hidden2Input);
+		
+		op3.appendChild(span1op);
+		op3.appendChild(input1op);
+		op3.appendChild(document.createElement("br"));
+		op3.appendChild(span2op);
+		op3.appendChild(input2op);
 		
 		var box="opBox"+cloneCnt;
 		var opBox=document.getElementById(box);
 		opBox.setAttribute("class","opBox");
 		opBox.append(br);
-		opBox.append(op3);		
-		opBox.append(opDelBtn);
+		opBox.append(selDiv);					
+		opBox.append(op3);
 		$("#qPlusBox").css("display","block");	
-		var opPlusBox=document.getElementById("opPlusBox"+cloneCnt);
-		opPlusBox.setAttribute("style","display:block");
+		
+		//hidden1Input.setAttribute("value",document.getElementById("sel1box0").value);
+		//hidden2Input.setAttribute("value", document.getElementById("sel2box0").value);
+	}
+	
+	function putInf(){
+		var n=$(this).attr("n");
+		var cnt=$(this).attr("cnt");
+		var span=document.getElementById("span"+n+"op"+cnt);
+		span.textContent=$(this).val();	
+		
+		
 	}
 	
 	function checktype4(){//주관식답안선택시
@@ -378,7 +446,7 @@
 		var opPlusBox=document.createElement("div");
 		opPlusBox.setAttribute("id","opPlusBox"+cnt);
 		opPlusBox.setAttribute("class","opPlusBox");
-		if(n!=4){
+		if(n!=3 && n!=4){
 			var opPlus=document.createElement("input");
 			opPlus.setAttribute("type","button");
 			opPlus.setAttribute("id","opPlus"+cnt);
@@ -430,7 +498,25 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
+		for(var i=1;i<=2;i++){
+			for(var j=0;j<=cloneCnt;j++){
+				var st="box"+j;
+				if(document.getElementById(st)!=null){
+					if($("input[name='sqlist["+j+"].sqType']").val()=="3" || $("input[name='sqlist["+j+"].sqType']").val()==3){
+						var selbox=document.getElementById("sel"+i+"box"+j);
+						var inputop=document.getElementById("input"+i+"op"+j);
+						var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
+						console.log(selbox.value);
+						console.log(inputop.value);						
+						hiddenInput.value=selbox.value+"!@#$"+inputop.value;
+					}					
+				}
+			}
+		}
+		
+		
 		if(arrayStore!='' && arrayStore!=null){//div순서변경시
+			var len=arrayStore.length;
 			for(i=0;i<=len;i++){
 				var num=arrayStore[i];
 				$("input[name='sqlist["+num+"].sqType']").attr("class","save");			
