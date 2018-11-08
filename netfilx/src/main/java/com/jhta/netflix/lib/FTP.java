@@ -4,11 +4,11 @@ public class FTP {
 	private String url;
 	private String id;
 	private String pwd;
-	private String port;
+	private int port;
 	
 	public FTP() {}
 	
-	public FTP(String url, String id, String pwd, String port) {
+	public FTP(String url, String id, String pwd, int port) {
 		this.url = url;
 		this.id = id;
 		this.pwd = pwd;
@@ -39,11 +39,11 @@ public class FTP {
 		this.pwd = pwd;
 	}
 
-	public String getPort() {
+	public int getPort() {
 		return port;
 	}
 
-	public void setPort(String port) {
+	public void setPort(int port) {
 		this.port = port;
 	}
 	

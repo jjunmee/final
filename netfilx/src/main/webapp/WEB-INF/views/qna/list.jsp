@@ -1,21 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="http://cdn.sockjs.org/sockjs-0.3.4.js"></script>
-<style type="text/css">
-	input[type=text], select, textarea {
-	    background-color:  ;
-	    color: #fff;
-	}
-	
-	input[type=submit] {
-	    background-color: #ddd;
-	    color: white;
-	}
-	
-	input[type=submit]:hover {
-	    background-color: #000;
-	}
-</style>
 <script type="text/javascript">
 	$(function(){
 		var code = '${code}';
@@ -27,7 +12,7 @@
 <div>
 	<h1>리스트</h1>
 	<a href="<c:url value="/qna/insert"/>"> 글 등록 </a>
-	<table width="800" border="1">
+	<table>
 		<tr>
 			<th></th>
 			<th>TITLE</th>
@@ -68,7 +53,7 @@
 			</c:choose>
 			<!-- 관리자일 때만 답글 남기기 -->
 			<c:choose>
-				<c:when test="${vo.qna_state == '답변대기' }">
+				<c:when test="${vo.qna_state == '답변대기' && userSts == 1}">
 					<td><a href='<c:url value="/qna/insert?qna_num=${vo.qna_num }"/>'>답글남기기</a></td>
 				</c:when>
 			</c:choose>
