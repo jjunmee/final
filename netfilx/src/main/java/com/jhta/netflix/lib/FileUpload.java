@@ -5,21 +5,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.omg.Messaging.SyncScopeHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
 
-
-
+@Component
 public class FileUpload {
-	@Autowired private FTP ftp = new FTP();
+	@Autowired private FTP ftp;
 	 
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
@@ -33,7 +35,6 @@ public class FileUpload {
  		String pwd = ftp.getPwd();
  		int port = ftp.getPort();
          
-        System.out.println(url); 
         //JSch 객체 생성
         JSch jsch = new JSch();
         try {
@@ -67,10 +68,26 @@ public class FileUpload {
     // 단일 파일 업로드 
     public void upload( String dir , File file){
         FileInputStream in = null;
-         
+        String path_url = "/docker/tomcat8/watflix"+dir;
+        SftpATTRS attrs = null;
+        try {
+			attrs = channelSftp.stat(path_url);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+        if(attrs==null) {
+        	try {
+				channelSftp.mkdir(path_url);
+			} catch (SftpException e) {
+				System.out.println(e.getMessage());
+			}
+        }
         try{ //파일을 가져와서 inputStream에 넣고 저장경로를 찾아 put 
             in = new FileInputStream(file);
-            channelSftp.cd(dir);
+            if(channelSftp.stat(path_url)==null) {
+            	channelSftp.mkdir(path_url);
+            }
+            channelSftp.cd(path_url);
             channelSftp.put(in,file.getName());
         }catch(SftpException se){
             se.printStackTrace();

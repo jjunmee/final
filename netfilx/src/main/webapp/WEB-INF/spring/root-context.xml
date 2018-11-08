@@ -46,10 +46,6 @@
    		<constructor-arg index="0" ref="sqlSessionFactory"/>
    </bean>  	
 	
-   <context:component-scan base-package="com.jhta.netflix">
-   		<context:exclude-filter type="annotation" 
-   		        expression="org.springframework.stereotype.Controller"/>
-   </context:component-scan>
    <!-- Google 소셜 로그인 계정 설정 -->
 	<bean id = "googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
 	<constructor-arg value="${google_key_id}"/>
@@ -97,4 +93,8 @@
 		<property name="port" value="${ftp.port}"/>
 	</bean>
 	
+   <context:component-scan base-package="com.jhta.netflix">
+   		<context:exclude-filter type="annotation" 
+   		        expression="org.springframework.stereotype.Controller"/>
+   </context:component-scan>
 </beans>
