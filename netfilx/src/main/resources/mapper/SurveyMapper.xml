@@ -25,7 +25,7 @@
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
 			surveyStart=now(),surveyEnd=#{surveyEnd},state=#{state}
-		where survey_num=#{surveyNum}
+		where surveyNum=#{surveyNum}
 	</update>
 	<update id="userPointUpdate" parameterType="hashmap">
 		update users set point=point-#{point} where users_num=#{userNum}
@@ -33,22 +33,27 @@
 	
 	
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
-		select survey_num from survey
+		select surveyNum from survey
 		where userNum=#{userNum} and state=#{state} 
 	</select>
 	<select id="sqNumSelect" parameterType="hashmap" resultType="int">
-		select sq_num from survey_question
-		where survey_num=#{surveyNum} and sq_title=#{sqTitle}
+		select sqNum from survey_question
+		where surveyNum=#{surveyNum} and sqTitle=#{sqTitle}
 	</select>
 	<select id="userSelect" parameterType="String" resultType="user">
 		select * from users where id=#{userId}
-	</select>
-	
+	</select>	
 	<select id="surveySelect" parameterType="int" resultType="survey">
-		select * from survey where survey_num=#{surveyNum}
+		select * from survey where surveyNum=#{surveyNum}
+	</select>
+	<select id="surveyVideoSelect" parameterType="int" resultType="surveyVideo">
+		select * from survey_video where surveyNum=#{surveyNum}
 	</select>
 	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
-		select * from survey_question where survey_num=#{surveyNum}
+		select * from survey_question where surveyNum=#{surveyNum}
+	</select>
+	<select id="surveyAnswerSelect" parameterType="int" resultType="surveyAnswer">
+		select * from survey_answer where sqNum=#{sqNum}
 	</select>
 	<select id="listCountSelect" parameterType="hashmap" resultType="int">
 		select count(*) from survey where state=#{state}

@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-#content .survey1{width:70%;height:100%;padding-top:100px;margin:auto;border:2px solid black;}
+#content .survey1{width:70%;height:100%;padding-top:100px;margin:auto;}
 
-#content .survey2{width:70%;height:100%;padding-top:100px; margin:auto;border: 2px solid black;}
+#content .survey2{width:70%;height:100%;padding-top:100px; margin:auto;}
 #content .survey2 table{width: 70%;border-collapse: collapse;}
 #content .survey2 th, td {padding-top : 10px;}
 #content .survey2 input[type=button]{color:black;}
@@ -21,7 +21,7 @@
 #content .survey2 .opDiv{padding-left:100px;}
 #content .survey2 .qPlusBox{padding-left:100px;}
 
-#content .surveyList{width:90%;height:100%;padding-top:100px;margin:auto;border:2px solid black;}
+#content .surveyList{width:90%;height:100%;padding-top:100px;margin:auto;}
 #content .surveyList table{width:100%;border-collapse: collapse;}
 #content .surveyList th,td{}
 #content .surveyList .leftBox{width:15%;float:left;}

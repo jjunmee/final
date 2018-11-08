@@ -3,6 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.ProfileMapper">
+	<insert id="groupInsert" parameterType="profile">
+		insert into profile_group values(0,#{pro_group_name})
+	</insert>
+	<delete id="groupDel" parameterType="int">
+		delete from profile_group where pro_group_no = #{pro_group_no}
+	</delete>
+	<select id="groupList" resultType="profile">
+		select * from profile_group
+	</select>
 	
+	<insert id="proImgInsert" parameterType="profile">
+		insert into profile_img values(0,#{pro_group_no},#{pimg_src})
+	</insert>
+	<delete id="proImgDel" parameterType="int">
+		delete from profile_img where pimg_num = #{pimg_num}
+	</delete>
+	<select id="proImgList" resultType="profile" parameterType="int">
+		select * from profile_img where pro_group_no = #{pro_group_no}
+	</select>
+	
+	<select id="find" parameterType="int" resultType="profileUser">
+		select * from profile where profile_num=#{profile_num}
+	</select>
 </mapper>
  

@@ -139,6 +139,21 @@
 							$("#tb_genre").append("<tr><td>"+json.genre_name+"</td></tr>");
 						});
 			});
+			$.get("<c:url value='/interasts/count'/>",
+					{"content_num":vo.content_num,"profile_num":1},
+					clickJj
+			);
+			$("#jjBtn").click(function() {
+				$.get("<c:url value='/interasts/insert'/>",
+						{"content_num":vo.content_num,"profile_num":1},
+						function(data) {
+							if(data.result){
+								clickJj(data);
+							}else{
+								alert("오류로 인해 찜에 실패했습니다!!");
+							}
+				});
+			});
 			$("#playBtn").click(function() {
 				location.href = "<c:url value='/content/contentPlay?content_num="+vo.content_num+"'/>";
 			});
@@ -147,6 +162,10 @@
 				$(event.target.previousElementSibling.previousElementSibling).clone()
 					.removeAttr("style").prependTo(".detail");
 			});
+		}
+		function clickJj(data) {
+			$("#jjBtn").val("찜 "+data.count);
+			$("#jjBtn").prop("disabled", data.check);
 		}
 		function closeDetail(event) {
 			$(".detail>video").remove();
@@ -229,8 +248,7 @@
 			<br><br>
 			<h5 id="detail_summary"></h5>
 			<input type="button" value="재생" id="playBtn">
-			<input type="button" value="찜">
-			<input type="button" value="좋아요">
+			<input type="button" value="찜" id="jjBtn">
 			<br>
 			<div class="detail_menu">
 				<a href="javascript:detailView(1);">컨텐츠 정보</a>

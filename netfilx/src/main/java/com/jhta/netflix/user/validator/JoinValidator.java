@@ -1,12 +1,7 @@
 package com.jhta.netflix.user.validator;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
 import com.jhta.netflix.lib.Valid;
 import com.jhta.netflix.user.vo.DefaultJoinVo;

@@ -1,5 +1,6 @@
 package com.jhta.netflix.content_comment.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,13 @@ public class Content_commentService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<Content_commentVo> list(int num){
-		return dao.list(num);
+	public List<Content_commentVo> list(HashMap<String, Object> map){
+		return dao.list(map);
 	}
 	public Content_commentVo find(int num) {
 		return dao.find(num);
+	}
+	public int count(int num) {
+		return dao.count(num);
 	}
 }

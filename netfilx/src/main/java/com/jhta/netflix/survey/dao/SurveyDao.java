@@ -53,6 +53,9 @@ public class SurveyDao {
 	public SurveyVo surveySelect(int surveyNum) {
 		return session.selectOne(NAMESPACE+".surveySelect",surveyNum);
 	}
+	public SurveyVideoVo surveyVideoSelect(int surveyNum) {
+		return session.selectOne(NAMESPACE+".surveyVideoSelect",surveyNum);
+	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return session.selectList(NAMESPACE+".surveyQuestionSelect",surveyNum);
 	}

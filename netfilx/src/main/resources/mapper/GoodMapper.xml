@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.GoodMapper">
+	<insert id="insert" parameterType="good">
+		insert into good values(0,#{comment_num},#{profile_num})
+	</insert>
+	<update id="update" parameterType="good">
+		update good set comment_num=#{comment_num},profile_num=#{profile_num} where good_num=#{good_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from good where good_num=#{value}
+	</delete>
+	<select id="list" resultType="good">
+		select * from good
+	</select>
+	<select id="find" parameterType="hashmap" resultType="good">
+		select * from good where comment_num=#{comment_num} and profile_num=#{profile_num}
+	</select>
+	<select id="count" parameterType="int" resultType="int">
+		select count(*) from good where comment_num=#{value}
+	</select>
+ </mapper>

@@ -21,7 +21,45 @@
 	</div>
 	
 	<div id="box" class="centerBox">			
+		<div id="surveyName">${surveyVo.surveyName }</div>
+		<c:if test="${videoVo!=null }">
+			<div id="video">${videoVo.svSaveSrc }</div>
+		</c:if>
+		<div id="surveyDescription">${surveyVo.surveyDescription }</div>
+		<div id="surveyStart">${surveyVo.surveyStart }</div>
+		<div id="surveyEnd">${surveyVo.surveyEnd }</div>
+		<br><br>
 		
-	
+		<form id="qstFrm">
+		<div id="question">
+			<c:forEach var="i" begin="0" end="${fn:length(sqVoList) }">
+				${sqVoList[i].sqTitle }<br>
+				<c:if test="${sqVoList[i].sqType==1 }">
+					<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
+						<input type="radio" name="${sqVoList[i].sqNum }" value="${saList[i][j].saAnswer }">
+						${saList[i][j].saAnswer }
+					</c:forEach>
+				</c:if>
+				<c:if test="${sqVoList[i].sqType==2 }">
+					<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
+						<input type="checkbox" name="${sqVoList[i].sqNum }" value="${saList[i][j].saAnswer }">
+						${saList[i][j].saAnswer }
+					</c:forEach>			
+				</c:if>
+				<c:if test="${sqVoList[i].sqType==3 }">
+					<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
+						${saList[i][j].saAnswer }
+					</c:forEach>			
+				</c:if>
+				<c:if test="${sqVoList[i].sqType==4 }">
+					<input type="text" name="${sqVoList[i].sqNum }">
+				</c:if>
+				<br>
+			</c:forEach>			
+		</div>
+		<div id="things">
+			<input type="submit" value="참가">
+		</div>
+		</form>
 	</div>
 </div>

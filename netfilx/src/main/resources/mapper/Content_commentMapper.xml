@@ -15,11 +15,27 @@
 	<delete id="delete" parameterType="int">
 		delete from content_comment where comment_num=#{comment_num}
 	</delete>
-	<select id="list" parameterType="int" resultType="ccomment">
-		select * from content_comment where content_num=#{value}
+	<select id="list" parameterType="hashmap" resultType="ccomment">
+		select cc.* 
+		from content_comment cc left join 
+			(select comment_num,count(*) cnt
+			from good
+			group by comment_num) g
+		on cc.comment_num=g.comment_num
+		where content_num=#{content_num}
+		order by 
+		<if test="sort == 'new'">
+			comment_num desc
+		</if>
+		<if test="sort == 'good'">
+			cnt desc
+		</if>
 	</select>
 	<select id="find" parameterType="int" resultType="ccomment">
 		select * from content_comment where comment_num=#{value}
+	</select>
+	<select id="count" parameterType="int" resultType="int">
+		select count(*) from content_comment where content_num=#{value}
 	</select>
 </mapper>
   

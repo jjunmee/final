@@ -54,6 +54,7 @@ public class SurveyController {
 		map.put("rowBlockCount", pageUtil.getRowBlockCount());
 		
 		List<SurveyVo> list= service.surveyListSelect(map);
+		
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
 		model.addAttribute("pageUtil",pageUtil);
@@ -80,32 +81,25 @@ public class SurveyController {
 		
 		return ".survey.mySurvey";
 	}
-	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
+	@RequestMapping(value="/survey/surveyDetail",method=RequestMethod.GET)
 	public String detail1(int surveyNum, Model model) {
-		SurveyVo surveyVo=service.surveySelect(surveyNum);
-		List<SurveyQuestionVo> sqList= service.surveyQuestionSelect(surveyNum);
-		//질문번호만 배열에 담기
-		int[] sqNumList=null;
-		int i=0;
-		for(SurveyQuestionVo sqVo:sqList) {
-			sqNumList[i]=sqVo.getSqNum();
-			i++;
-		}
-		//질문번호 돌려서 리스트에 담기
-		List<SurveyAnswerVo> saVoList=null;
-		String[] aList=null;
-		List<String[]> saList=null;		
-		for(int j=0;j<sqNumList.length;j++) {			
-			saVoList=service.surveyAnswerSelect(sqNumList[i]);
-			for(SurveyAnswerVo vo:saVoList) {
-				aList[j]=vo.getSaAnswer();
-			}
+		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
+		SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);//설문번호로 영상정보가져오기
+		List<SurveyQuestionVo> sqVoList=service.surveyQuestionSelect(surveyNum);//해당 설문번호갖는 질문리스트가져오기
+		List<List<SurveyAnswerVo>> saList=new ArrayList<List<SurveyAnswerVo>>();//질문에대한답안리스트들을 담는리스트
+		for(SurveyQuestionVo sqVo:sqVoList) {//해당 질문에 대한 답안보기들 가져오려고함
+			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
 			saList.add(aList);
-		}		
+		}
 		model.addAttribute("surveyVo",surveyVo);
-		model.addAttribute("sqList",sqList);
-		model.addAttribute("saList",saList);
-		return ".survey.myDetail";
+		model.addAttribute("videoVo",videoVo);
+		model.addAttribute("sqVoList",sqVoList);
+		model.addAttribute("saList",saList);		
+		
+		
+		
+		
+		return ".survey.surveyDetail";
 	}
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(Model model,HttpServletRequest request) {

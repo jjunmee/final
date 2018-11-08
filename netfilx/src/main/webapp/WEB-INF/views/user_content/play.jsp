@@ -26,7 +26,31 @@
 	<script type="text/javascript">
 		$(function() {
 			printList();
+			$.get("<c:url value='/interasts/count'/>",
+					{"content_num":${vo.content_num },"profile_num":1},
+					clickJj
+			);
+			$("#jjBtn").click(function() {
+				$.get("<c:url value='/interasts/insert'/>",
+						{"content_num":${vo.content_num },"profile_num":1},
+						function(data) {
+							if(data.result){
+								clickJj(data);
+							}else{
+								alert("오류로 인해 찜에 실패했습니다!!");
+							}
+				});
+			});
+			$.get("<c:url value='/comment/count'/>",
+					{"content_num":${vo.content_num }},
+					function(data) {
+						$("#commentDiv>h4").html("댓글 "+data.count+"개");
+			});
 		});
+		function clickJj(data) {
+			$("#jjBtn").val("찜 "+data.count);
+			$("#jjBtn").prop("disabled", data.check);
+		}
 		function showBtn(){
 			$("#btnDiv").show();
 		}
@@ -41,22 +65,30 @@
 						if(data.result){
 							$("#insertForm>textarea").val("");
 							hideBtn();
+							printList();
 						}else{
 							alert("오류로 인해 데이터 등록 실패!!");
 						}
 			});
 		}
 		function printList(){
+			$("#commentList").empty();
+			var sort = $("#sort").val();
 			$.get('<c:url value="/comment/list"/>',
-					{"content_num":${vo.content_num }},
+					{"content_num":${vo.content_num },"profile_num":1,"sort":sort},
 					function(data) {
 						$(data).each(function(i, json) {
 							var str = 
 								"<div>"
-									+"<h5>"+json.profile_num+"</h5>"
+									+"<h5>"+json.nickname+"</h5>"
 									+"<p>"+json.comment+"</p>"
 									+"<div>"
-										+"<input type=\"button\" value=\"좋아요 129\">"
+										+"<input type=\"button\" value=\"좋아요 "+json.good_count
+											+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
+										if(json.good_check){
+											str+="disabled=\"disabled\"";
+										}
+										str+=">"
 										+"<a href=\"\">답글</a>"
 										+"<br>"
 										+"<a href=\"\">답글 보기</a>"
@@ -64,6 +96,18 @@
 								+"</div>";
 							$("#commentList").append(str);
 						});
+			});
+		}
+		function clickGood(event,comment_num){
+			$.get('<c:url value="/good/insert"/>',
+					{"comment_num":comment_num,"profile_num":1},
+					function(data) {
+						if(data.result){
+							$(event.target).val("좋아요 "+data.count);
+							$(event.target).prop("disabled", true);
+						}else{
+							alert("오류로 인해 좋아요를 실패했습니다!!");
+						}
 			});
 		}
 	</script>
@@ -80,15 +124,15 @@
 					<input type="button" value="신고">
 				</li>
 				<li>
-					<input type="button" value="찜1,024">
+					<input type="button" value="찜" id="jjBtn">
 				</li>
 			</ul>
 		</div>
 		<div id="commentDiv">
-			<h4>댓글 10,000개</h4>
-			<select name="sort">
+			<h4>댓글 0개</h4>
+			<select id="sort" onchange="printList()">
 				<option value="new">최신순</option>
-				<option value="like">좋아요순</option>
+				<option value="good">좋아요순</option>
 			</select>
 			<br><br>
 			<form id="insertForm" onsubmit="insertComment()" action="javascript:false;">
@@ -115,7 +159,7 @@
 					<h5>프로필명</h5>
 					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
 					<div>
-						<input type="button" value="좋아요 129">
+						<input type="button" value="좋아요 0" onclick="clickGood()" disabled="disabled">
 						<a href="">답글</a>
 						<br>
 						<div style="padding: 10px;">

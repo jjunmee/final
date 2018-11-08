@@ -54,6 +54,9 @@ public class SurveyService {
 	public SurveyVo surveySelect(int surveyNum) {
 		return dao.surveySelect(surveyNum);
 	}
+	public SurveyVideoVo surveyVideoSelect(int surveyNum) {
+		return dao.surveyVideoSelect(surveyNum);
+	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return dao.surveyQuestionSelect(surveyNum);
 	}

@@ -1,33 +1,32 @@
-package com.jhta.netflix.content_comment.dao;
+package com.jhta.netflix.interasts.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.jhta.netflix.content_comment.vo.Content_commentVo;
+import com.jhta.netflix.interasts.vo.InterastsVo;
 
 @Repository
-public class Content_commentDao {
+public class InterastsDao {
 	@Autowired
 	private SqlSession sqlSession;
-	private final String NAMESPACE = "mapper.Content_commentMapper";
+	private final String NAMESPACE="mapper.InterastsMapper";
 	
-	public int insert(Content_commentVo vo) {
+	public int insert(InterastsVo vo) {
 		return sqlSession.insert(NAMESPACE+".insert", vo);
 	}
-	public int update(Content_commentVo vo) {
+	public int update(InterastsVo vo) {
 		return sqlSession.update(NAMESPACE+".update", vo);
 	}
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
-	public List<Content_commentVo> list(HashMap<String, Object> map){
-		return sqlSession.selectList(NAMESPACE+".list", map);
+	public List<InterastsVo> list(){
+		return sqlSession.selectList(NAMESPACE+".list");
 	}
-	public Content_commentVo find(int num) {
+	public InterastsVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE+".find", num);
 	}
 	public int count(int num) {
