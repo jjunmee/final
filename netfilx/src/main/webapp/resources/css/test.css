@@ -5,7 +5,7 @@ body {
 }
 #content {padding-top:50px;color: #fff; background-color: #424242;}
 #footer {padding-top:50px;height:200px;color: #fff; background-color: #424242;}
-input[type=text], textarea {
+input[type=text], textarea, input[type=date]{
     background-color: #2E2E2E;
     color: #fff;
     padding: 8px;
