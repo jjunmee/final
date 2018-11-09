@@ -1,20 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<style type="text/css">
-	input[type=text], select, textarea {
-	    background-color: #999;
-	    color: #fff;
-	}
-	
-	input[type=submit] {
-	    background-color: #ddd;
-	    color: white;
-	}
-	
-	input[type=submit]:hover {
-	    background-color: #000;
-	}
-</style>
 <script type="text/javascript">
 	$(function(){
 		var code = '${code}';
@@ -65,6 +50,14 @@
 							CLOSED<input type="radio" name="qna_open" value="false">
 						</c:when>
 						<c:otherwise>
+							<c:choose>
+								<c:when test="${qna_open == true}">
+									OPEN
+								</c:when>
+								<c:otherwise>
+									CLOSED
+								</c:otherwise>
+							</c:choose>
 							<input type="hidden" name="qna_open" value="${qna_open }">
 						</c:otherwise>
 					</c:choose>

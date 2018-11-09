@@ -1,21 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="http://cdn.sockjs.org/sockjs-0.3.4.js"></script>
-<style type="text/css">
-	input[type=text], select, textarea {
-	    background-color: #999;
-	    color: #fff;
-	}
-	
-	input[type=submit] {
-	    background-color: #ddd;
-	    color: white;
-	}
-	
-	input[type=submit]:hover {
-	    background-color: #000;
-	}
-</style>
 <div>
 	<input type="text" id="message" />
 	<input type="button" id="sendBtn" value="전송" />
