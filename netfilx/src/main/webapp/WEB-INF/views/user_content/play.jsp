@@ -28,6 +28,30 @@
 		div[id^="subDiv"]{padding: 10px;display: none;}
 		form[id^="subForm"]>div{width: 20%;float: left;text-align: center;}
 		#subComment{width: 80%;float: right;resize: none;background-color: lightgray;}
+		
+		#rateBox{width: 20%;height: 20%;position: fixed;top: 40%;left: 40%;background-color: white;
+			border: 5px solid yellow;}
+		#starBox{background-color: orange;width: 500px;height: 400px;}
+		.starR1{
+		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
+		    background-size: auto 100%;
+		    width: 15px;
+		    height: 30px;
+		    float:left;
+		    text-indent: -9999px;
+		    cursor: pointer;
+		}
+		.starR2{
+		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+		    background-size: auto 100%;
+		    width: 15px;
+		    height: 30px;
+		    float:left;
+		    text-indent: -9999px;
+		    cursor: pointer;
+		}
+		.starR1.on{background-position:0 0;}
+		.starR2.on{background-position:-15px 0;}
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
@@ -50,6 +74,11 @@
 								alert("오류로 인해 찜에 실패했습니다!!");
 							}
 				});
+			});
+			$('.starRev span').click(function(){
+				$(this).parent().children('span').removeClass('on');
+				$(this).addClass('on').prevAll('span').addClass('on');
+				return false;
 			});
 		});
 		function clickJj(data) {
@@ -210,7 +239,7 @@
 			<h3>${vo.content_name }</h3>
 			<ul>
 				<li>
-					<input type="button" value="신고">
+					<input type="button" value="평점 0.25">
 				</li>
 				<li>
 					<input type="button" value="찜" id="jjBtn">
@@ -274,5 +303,21 @@
 				style="width: 100%;display: none;">
 		</div>
 	</div>
-
+	<div id="rateBox">
+		<div id="starBox">
+			<div class="starRev">
+				<span class="starR1 on">별1_왼쪽</span>
+				<span class="starR2">별1_오른쪽</span>
+				<span class="starR1">별2_왼쪽</span>
+				<span class="starR2">별2_오른쪽</span>
+				<span class="starR1">별3_왼쪽</span>
+				<span class="starR2">별3_오른쪽</span>
+				<span class="starR1">별4_왼쪽</span>
+				<span class="starR2">별4_오른쪽</span>
+				<span class="starR1">별5_왼쪽</span>
+				<span class="starR2">별5_오른쪽</span>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

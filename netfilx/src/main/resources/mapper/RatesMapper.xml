@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RatesMapper">
+	<insert id="insert" parameterType="rates">
+		insert into rates values(#{rates_num},#{rates_score},#{profile_num},#{content_num})
+	</insert>
+	<update id="update" parameterType="rates">
+		update rates set rates_score=#{rates_score},profile_num=#{profile_num},content_num=#{content_num}
+		where rates_num=#{rates_num}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete form rates where rates_num=#{rates_num}
+	</delete>
+	<select id="list" resultType="rates">
+		select * from rates
+	</select>
+	<select id="find" parameterType="int" resultType="rates">
+		select * from rates where rates_num=#{rates_num}
+	</select>
+ </mapper>
