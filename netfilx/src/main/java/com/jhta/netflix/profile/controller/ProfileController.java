@@ -55,7 +55,6 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/imgInput",method=RequestMethod.POST)
 	public String adminGroupImgInput(@RequestParam("file1") MultipartFile file1,@RequestParam("pro_group_no") String pro_group_no,HttpServletRequest req) {
 		String fileName = file1.getOriginalFilename();
-		System.out.println(">>>>>>>>>>>>>>>>>>."+pro_group_no+"<<<<<<<<<<<<<<<<<<<<<");
 		try {
 			InputStream is = file1.getInputStream();
 			String file_path = req.getSession().getServletContext().getRealPath("/resources/")+fileName;
@@ -79,4 +78,21 @@ public class ProfileController {
 		}
 		return "redirect:/admin/profile";
 	}
+	
+	//group delete
+	@RequestMapping(value="/admin/profile/group/del",method=RequestMethod.GET)
+	public String adminProfileGroupDel(@RequestParam("group_no") String group_no) {
+		int no = Integer.parseInt(group_no);
+		service.groupDel(no);
+		return "redirect:/admin/profile";
+	}
+	
+	//profile img delete
+	@RequestMapping(value="/admin/profile/img/del",method=RequestMethod.GET)
+	public String adminProfileImgDel(@RequestParam("pimg_no") String pimg_no) {
+		int no = Integer.parseInt(pimg_no);
+		service.proImgDel(no);
+		return "redirect:/admin/profile";
+	}
+	
 }

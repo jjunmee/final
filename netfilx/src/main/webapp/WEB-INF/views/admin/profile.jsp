@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/dist/jquery.vm-carousel.css'/>">
 <script src="<c:url value='/resources/js/profile/admin-profile.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/resources/js/dist/jquery.vm-carousel.js'/>"></script>
+
 <div class="container">
 	<div class="row col-sm-6">
 		<select class="" id="pro_group_sel" onchange="sel_group(this.value);">
@@ -9,7 +12,7 @@
 			<option value="${list.pro_group_no }">${list.pro_group_name }</option>	
 			</c:forEach>
 		</select>
-		<button  class="btn btn-default sm-4" onclick="">삭제</button>
+		<button  class="btn btn-default sm-4" onclick="pro_group_del()">삭제</button>
 		<input type="hidden" id="path" name="path" value="${pageContext.request.contextPath }">
 	</div>
 	<div class="row col-sm-6">
@@ -22,9 +25,10 @@
 	</div>
 	
 	<div class="row col-sm-8">
-		<button class="btn btn-default">선택 삭제</button>
+		<button class="btn btn-default" onclick="pimg_del()">선택 삭제</button>
+		<input type="hidden" id="pimg_no">
 		<!-- 슬라이드 -->
-		<div id="proImg-slide" class=""></div>
+		<div id="proImg-slide"></div>
 	</div>
 	<div class="row col-sm-4">
 		<form method="post" action="<c:url value='/admin/profile/imgInput'/>" enctype="multipart/form-data">
