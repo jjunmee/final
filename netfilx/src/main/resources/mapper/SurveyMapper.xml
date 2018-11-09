@@ -21,16 +21,27 @@
 	<insert id="surveyVideoInsert" parameterType="surveyVideo">
 		insert into survey_video values(0,#{surveyNum},#{svOrgSrc},#{svSaveSrc})
 	</insert>
+	<insert id="resultInsert" parameterType="surveyResult">
+		insert into survey_result values(0,#{sqNum},#{srAnswer})
+	</insert>
+	<insert id="surveyInInsert" parameterType="surveyIn">
+		insert into survey_in values(0,#{userNum},#{surveyNum})
+	</insert>
 	
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
 			surveyStart=now(),surveyEnd=#{surveyEnd},state=#{state}
 		where surveyNum=#{surveyNum}
 	</update>
+	<update id="surveyStateUpdate" parameterType="hashmap">
+		update survey set state=#{state} where surveyNum=#{surveyNum}
+	</update>
 	<update id="userPointUpdate" parameterType="hashmap">
 		update users set point=point-#{point} where users_num=#{userNum}
 	</update>
-	
+	<update id="userPointUpdate1" parameterType="hashmap">
+		update users set point=point+#{point} where users_num=#{userNum}
+	</update>
 	
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
 		select surveyNum from survey
@@ -40,6 +51,9 @@
 		select sqNum from survey_question
 		where surveyNum=#{surveyNum} and sqTitle=#{sqTitle}
 	</select>
+	<select id="joinCntSelect" parameterType="int" resultType="int">
+		select count(*) from survey_in where surveyNum=#{surveyNum}
+	</select>
 	<select id="userSelect" parameterType="String" resultType="user">
 		select * from users where id=#{userId}
 	</select>	
@@ -48,6 +62,9 @@
 	</select>
 	<select id="surveyVideoSelect" parameterType="int" resultType="surveyVideo">
 		select * from survey_video where surveyNum=#{surveyNum}
+	</select>
+	<select id="surveyInSelect" parameterType="int" resultType="surveyIn">
+		select * from survey_in where userNum=#{userNum}
 	</select>
 	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
 		select * from survey_question where surveyNum=#{surveyNum}

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,16 +31,17 @@ public class QnaController {
 	@RequestMapping("/qna/list")
 	public ModelAndView list(@RequestParam(value="pageNum",defaultValue="1")int pageNum,
 			String field,String keyword,HttpSession session) {
-		String id = (String)session.getAttribute("id");
-		UserVo vo = new UserVo();
 		ModelAndView mv = new ModelAndView();
+		UserVo vo = new UserVo();
+		String id = (String)session.getAttribute("id");
+		String code = (String)session.getAttribute("code");
+		session.removeAttribute("code");
 		if(id != null && !(id.equals(""))) {
 			vo = uservice.login(id);
 			mv.addObject("userSts",vo.getSts());
 		}else {
 			mv.addObject("userSts",0);
 		}
-		System.out.println((String)session.getAttribute("id"));
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String result = ".qna.list";
 		map.put("field", field);
@@ -53,6 +55,7 @@ public class QnaController {
 		map.put("rowBlockCount", pu.getRowBlockCount());
 		List<Qna_userVo> list = service.list(map);
 		//mv에 리스트 뿌려주기
+		mv.addObject("code",code);
 		mv.addObject("list",list);
 		mv.addObject("pu",pu);
 		mv.addObject("field", field);
@@ -63,18 +66,45 @@ public class QnaController {
 	
 	//글 상세보기
 	@RequestMapping(value="/qna/detail",method=RequestMethod.GET)
-	public ModelAndView detail(int qna_num,boolean qna_open) {
+	public ModelAndView detail(int qna_num,boolean qna_open,HttpSession session) {
+		Qna_userVo vo = service.detail(qna_num);
+		String id = (String)session.getAttribute("id");
 		ModelAndView mv = new ModelAndView();
+		UserVo uvo = uservice.login(id);
+		Qna_userVo u_vo = new Qna_userVo();
+		if(vo.getStep() != 0) {
+			//답글일때 답글에 대한 문의 글을 불러와서
+			u_vo = service.detail(vo.getLev());
+			//문의를 쓴 사람과 같지 않을때
+			if(qna_open == false && (id == null  || !(id.equals(u_vo.getId())) && uvo.getSts() != 1)) {
+				session.setAttribute("code", "비공개");
+				System.out.println("비공개 입니다");
+				mv.setViewName("redirect:/qna/list");
+				return mv;
+			}
+		} else if(qna_open == false && (id == null  || !(id.equals(vo.getId())) && uvo.getSts() != 1)) {
+			//새글이 비공개일때
+			session.setAttribute("code", "비공개");
+			System.out.println("비공개 입니다");
+			mv.setViewName("redirect:/qna/list");
+			return mv;
+		}
+		if(id != null && !(id.equals(""))) {
+			uvo = uservice.login(id);
+			mv.addObject("userSts",uvo.getSts());
+			mv.addObject("userId",id);
+		}else {
+			mv.addObject("userSts",0);
+		}
 		String result = ".qna.detail";
 		//내가 쓴 글
-		Qna_userVo vo = service.detail(qna_num);
 		mv.addObject("qna_num",vo.getQna_num());
 		mv.addObject("qna_title",vo.getQna_title());
 		mv.addObject("qna_content",vo.getQna_content());
 		mv.addObject("qna_regdate",vo.getQna_regdate());
 		mv.addObject("qna_open",vo.getQna_open());
 		mv.addObject("step",vo.getStep());
-		mv.addObject("id",vo.getId());
+		mv.addObject("qna_id",vo.getId());
 		mv.addObject("qna_state",vo.getQna_state());
 		if(vo.getStep() == 0) {
 			//유저가 남긴 글중 답변이 완료된것은 같이 보내기
@@ -87,7 +117,7 @@ public class QnaController {
 		}else {
 			//답글일때
 			//user가 쓴 글 같이 보내기
-			Qna_userVo u_vo = service.detail(vo.getLev());
+			u_vo = service.detail(vo.getLev());
 			mv.addObject("u_qna_content",u_vo.getQna_content());
 			mv.addObject("u_qna_num",u_vo.getQna_num());
 		}
@@ -144,9 +174,11 @@ public class QnaController {
 	
 	//DB에 글 저장하기
 	@RequestMapping(value="/qna/insert",method=RequestMethod.POST)
-	public ModelAndView insert(String qna_title,String qna_content,Boolean qna_open,String id,int qna_num) {
+	public ModelAndView insert(String qna_title,String qna_content,Boolean qna_open,int qna_num,HttpSession session) {
 		//String id는 로그인되면 세션에서 가져와서 users_num찾아서 넣어줄꺼야
-		int users_num = 1;
+		String id = (String)session.getAttribute("id");
+		UserVo uvo = uservice.login(id);
+		int users_num = uvo.getUsersNum();
 		ModelAndView mv = new ModelAndView();
 		QnaVo vo = new QnaVo();
 		String result = "";

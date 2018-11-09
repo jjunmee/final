@@ -27,8 +27,11 @@ import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.survey.service.SurveyService;
 import com.jhta.netflix.survey.vo.SurveyAnswerDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
+import com.jhta.netflix.survey.vo.SurveyInVo;
 import com.jhta.netflix.survey.vo.SurveyQuestionDto;
 import com.jhta.netflix.survey.vo.SurveyQuestionVo;
+import com.jhta.netflix.survey.vo.SurveyResultDto;
+import com.jhta.netflix.survey.vo.SurveyResultVo;
 import com.jhta.netflix.survey.vo.SurveyVideoVo;
 import com.jhta.netflix.survey.vo.SurveyVo;
 
@@ -201,5 +204,42 @@ public class SurveyController {
 			}
 		}
 		return "redirect:/survey/list?code=1";
-	}	
+	}
+	
+	@RequestMapping(value="/survey/resultInsert",method=RequestMethod.POST)
+	public String resultInsert(int surveyNum,@ModelAttribute SurveyResultDto resultDto, Model model) {
+		//SurveyIn테이블에 userId가 없으면 insert 시키기
+		//String userId=(String)session.getAttribute("userId");
+		String userId="alsl";
+		int userNum=service.userSelect(userId).getUsersNum();
+		if(service.surveyInSelect(userNum)==null) {
+			return "redirect:/survey/list?code=1";
+		}		
+		SurveyInVo siVo=new SurveyInVo(0, userNum, surveyNum);
+		service.surveyInInsert(siVo);
+		//SurveyResult테이블에 insert시키기
+		List<SurveyResultDto> resultList= resultDto.getResultList();
+		for(int i=0;i<resultList.size();i++) {
+			SurveyResultDto srDto=resultList.get(i);
+			SurveyResultVo srVo=new SurveyResultVo(0,srDto.getSqNum(),srDto.getSrAnswer());
+			service.resultInsert(srVo);
+		}
+		//users테이블에서 해당 유저id에 포인트넣어주기
+		SurveyVo surveyVo=service.surveySelect(surveyNum);
+		int point=(int)Math.floor(surveyVo.getSpoint()/surveyVo.getJoinNum());
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userNum", userNum);
+		map.put("point", point);
+		service.userPointUpdate1(map);
+		//참여인원수가 다찼으면 설문상태를 '설문종료'로 만들기!
+		int surveyCnt=service.joinCntSelect(surveyNum);
+		if(surveyCnt==surveyVo.getJoinNum()) {
+			Map<String, Object> map1=new HashMap<String, Object>();
+			map1.put("surveyNum", surveyNum);
+			map1.put("state", "설문종료");
+			service.surveyStateUpdate(map);
+		}
+		
+		return "redirect:/survey/list?code=1";
+	}
 }

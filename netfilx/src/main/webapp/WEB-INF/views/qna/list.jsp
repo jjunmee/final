@@ -11,7 +11,14 @@
 </script>
 <div>
 	<h1>리스트</h1>
-	<a href="<c:url value="/qna/insert"/>"> 글 등록 </a>
+	<c:choose>
+		<c:when test="${id != null}">
+			<a href="<c:url value="/qna/insert"/>"> 글 등록 </a>
+		</c:when>
+		<c:otherwise>
+			
+		</c:otherwise>
+	</c:choose>
 	<table>
 		<tr>
 			<th></th>
@@ -30,7 +37,7 @@
 					<td>문의.${vo.qna_num }</td>
 				</c:when>
 				<c:otherwise>
-					<td>답변</td>
+					<td>ㄴ</td>
 				</c:otherwise>
 			</c:choose>
 			<!-- 비공개라면 등록한 users_num과 등록한사람의 users_num이 같을경우에만 볼 수 있게 -->
@@ -44,13 +51,14 @@
 					<td>비공개</td>
 				</c:otherwise>
 			</c:choose>
-			<td>${vo.id }</td>
 			<!-- 답글 상태(유저의 글에만 상태 보이기) -->
 			<c:choose>
 				<c:when test="${vo.step == 0 }">
+					<td>${vo.id }</td>
 					<td>${vo.qna_state }</td>
 				</c:when>
 				<c:otherwise>
+					<td>관리자</td>
 					<td></td>
 				</c:otherwise>
 			</c:choose>

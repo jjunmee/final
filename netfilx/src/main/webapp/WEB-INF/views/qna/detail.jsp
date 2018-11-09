@@ -1,20 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<style type="text/css">
-	input[type=text], select, textarea {
-	    background-color: #999;
-	    color: #fff;
-	}
-	
-	input[type=submit] {
-	    background-color: #ddd;
-	    color: white;
-	}
-	
-	input[type=submit]:hover {
-	    background-color: #000;
-	}
-</style>
 <div>
 	<h1>DETAIL</h1> 
 	<table width="800" border="1">
@@ -90,19 +75,14 @@
 		<tr>
 			<td colspan="2">
 				<c:choose>
-					<c:when test="${qna_state == '답변완료'}">
+					<c:when test="${(qna_state != '답변완료' && userId == qna_id) || userSts == 1}">
+						<a href='<c:url value="/qna/update?qna_num=${qna_num }&step=${step }"/>'>수정</a>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${userId == qna_id || userSts == 1}">
 						<a href='<c:url value="/qna/delete?qna_num=${qna_num }&step=${step }"/>'>삭제</a>
 					</c:when>
-					<%-- 답변이고 관리자일때 --%>
-					<c:when test="${qna_state == '답변'}">
-						<a href='<c:url value="/qna/update?qna_num=${qna_num }&step=${step }"/>'>수정</a>
-					<%-- 답변이고 관리자일때 삭제할때 --%>
-						<a href='<c:url value="/qna/delete?qna_num=${qna_num }&step=${step }"/>'>삭제</a>
-					</c:when>
-					<c:otherwise>
-						<a href='<c:url value="/qna/update?qna_num=${qna_num }&step=${step }"/>'>수정</a>
-						<a href='<c:url value="/qna/delete?qna_num=${qna_num }&step=${step }"/>'>삭제</a>
-					</c:otherwise>
 				</c:choose>
 			</td>
 		</tr>

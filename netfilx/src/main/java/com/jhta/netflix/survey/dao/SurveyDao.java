@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
+import com.jhta.netflix.survey.vo.SurveyInVo;
 import com.jhta.netflix.survey.vo.SurveyQuestionVo;
+import com.jhta.netflix.survey.vo.SurveyResultVo;
 import com.jhta.netflix.survey.vo.SurveyVideoVo;
 import com.jhta.netflix.survey.vo.SurveyVo;
 import com.jhta.netflix.user.vo.UserVo;
@@ -30,12 +32,24 @@ public class SurveyDao {
 	public int surveyVideoInsert(SurveyVideoVo vo) {
 		return session.insert(NAMESPACE+".surveyVideoInsert",vo);
 	}
+	public int resultInsert(SurveyResultVo vo) {
+		return session.insert(NAMESPACE+".resultInsert",vo);
+	}
+	public int surveyInInsert(SurveyInVo vo) {
+		return session.insert(NAMESPACE+".surveyInInsert",vo);
+	}
 	//////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
 		return session.update(NAMESPACE+".surveyUpdate",vo);
 	}
+	public int surveyStateUpdate(Map<String, Object> map) {
+		return session.update(NAMESPACE+".surveyStateUpdate",map);
+	}
 	public int userPointUpdate(Map<String, Object> map) {
 		return session.update(NAMESPACE+".userPointUpdate",map);
+	}
+	public int userPointUpdate1(Map<String, Object> map) {
+		return session.update(NAMESPACE+".userPointUpdate1",map);
 	}
 	///////////////////////////////////////////////////////////////////
 	
@@ -44,6 +58,9 @@ public class SurveyDao {
 	}
 	public int sqNumSelect(Map<String, Object> map) {
 		return session.selectOne(NAMESPACE+".sqNumSelect",map);
+	}
+	public int joinCntSelect(int surveyNum) {
+		return session.selectOne(NAMESPACE+".joinCntSelect",surveyNum);
 	}
 	public UserVo userSelect(String userId) {
 		return session.selectOne(NAMESPACE+".userSelect",userId);
@@ -55,6 +72,9 @@ public class SurveyDao {
 	}
 	public SurveyVideoVo surveyVideoSelect(int surveyNum) {
 		return session.selectOne(NAMESPACE+".surveyVideoSelect",surveyNum);
+	}
+	public SurveyInVo surveyInSelect(int userNum) {
+		return session.selectOne(NAMESPACE+".surveyInSelect",userNum);
 	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return session.selectList(NAMESPACE+".surveyQuestionSelect",surveyNum);
