@@ -4,7 +4,6 @@
 
 <script type="text/javascript">
 	
-  
 </script>
 <div><input type="button" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
 <div class="surveyList">
@@ -16,7 +15,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">설문등록하러가기</a>
+			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
 		</div>
 	</div>
 	
@@ -35,24 +34,24 @@
 		
 		<form id="qstFrm" action="<c:url value='/survey/resultInsert'/>" method="post">
 			<div id="question">
-				<c:forEach var="i" begin="0" end="${fn:length(sqVoList) }">
+				<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
 					${sqVoList[i].sqTitle }<br>
 					<input type="hidden" name="resultList[${i }].sqNum" value="${sqVoList[i].sqNum }">
 					<c:if test="${sqVoList[i].sqType==1 }">
 						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="radio" name="resultList[${i }].srAnswer" value="${saList[i][j].saAnswer }">
+							<input type="radio" name="resultList[${i }].srAnswer" value="${j }">
 							${saList[i][j].saAnswer }
 						</c:forEach>
 					</c:if>
 					<c:if test="${sqVoList[i].sqType==2 }">
 						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="checkbox" name="resultList[${i }].srAnswer" value="${saList[i][j].saAnswer }">
+							<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
 							${saList[i][j].saAnswer }
 						</c:forEach>			
 					</c:if>
 					<c:if test="${sqVoList[i].sqType==3 }">
 						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="checkbox" name="resultList[${i }].srAnswer" value="${saList[i][j].saAnswer }">
+							<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
 							${saList[i][j].saAnswer }
 						</c:forEach>			
 					</c:if>

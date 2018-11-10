@@ -6,6 +6,7 @@ public class SurveyResultDto {
 	private int sqNum;
 	private String srAnswer;
 	private List<SurveyResultDto> resultList;
+	
 	public int getSqNum() {
 		return sqNum;
 	}
