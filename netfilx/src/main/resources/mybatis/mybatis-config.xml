@@ -31,5 +31,7 @@
 		<typeAlias type="com.jhta.netflix.good.vo.GoodVo" alias="good"/>
 		<typeAlias type="com.jhta.netflix.profile.vo.ProfileUserVo" alias="profileUser"/>
 		<typeAlias type="com.jhta.netflix.rates.vo.RatesVo" alias="rates"/>
+		<typeAlias type="com.jhta.netflix.rates.vo.RatesAvgVo" alias="ratesAvg"/>
+		<typeAlias type="com.jhta.netflix.record.vo.RecordVo" alias="record"/>
 	</typeAliases>
 </configuration>

@@ -1,4 +1,4 @@
-package com.jhta.netflix.rates.dao;
+package com.jhta.netflix.record.dao;
 
 import java.util.List;
 
@@ -6,34 +6,27 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.jhta.netflix.rates.vo.RatesAvgVo;
-import com.jhta.netflix.rates.vo.RatesVo;
+import com.jhta.netflix.record.vo.RecordVo;
 
 @Repository
-public class RatesDao {
+public class RecordDao {
 	@Autowired
 	private SqlSession sqlSession;
-	private final String NAMESPACE="mapper.RatesMapper";
+	private final String NAMESPACE="mapper.RecordMapper";
 	
-	public int insert(RatesVo vo) {
+	public int insert(RecordVo vo) {
 		return sqlSession.insert(NAMESPACE+".insert", vo);
 	}
-	public int update(RatesVo vo) {
+	public int update(RecordVo vo) {
 		return sqlSession.update(NAMESPACE+".update", vo);
 	}
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
-	public List<RatesVo> list(){
+	public List<RecordVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}
-	public RatesVo find(int num) {
+	public RecordVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE+".find", num);
-	}
-	public RatesVo findRecord(RatesVo vo) {
-		return sqlSession.selectOne(NAMESPACE+".findRecord", vo);
-	}
-	public RatesAvgVo getAvg(int num) {
-		return sqlSession.selectOne(NAMESPACE+".getAvg", num);
 	}
 }
