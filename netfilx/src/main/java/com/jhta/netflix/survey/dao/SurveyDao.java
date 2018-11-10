@@ -62,6 +62,9 @@ public class SurveyDao {
 	public int joinCntSelect(int surveyNum) {
 		return session.selectOne(NAMESPACE+".joinCntSelect",surveyNum);
 	}
+	public int getTypeSelect(int sqNum) {
+		return session.selectOne(NAMESPACE+".getTypeSelect",sqNum);
+	}
 	public UserVo userSelect(String userId) {
 		return session.selectOne(NAMESPACE+".userSelect",userId);
 	}
@@ -73,8 +76,8 @@ public class SurveyDao {
 	public SurveyVideoVo surveyVideoSelect(int surveyNum) {
 		return session.selectOne(NAMESPACE+".surveyVideoSelect",surveyNum);
 	}
-	public SurveyInVo surveyInSelect(int userNum) {
-		return session.selectOne(NAMESPACE+".surveyInSelect",userNum);
+	public SurveyInVo surveyInSelect(Map<String, Object> map) {
+		return session.selectOne(NAMESPACE+".surveyInSelect",map);
 	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return session.selectList(NAMESPACE+".surveyQuestionSelect",surveyNum);

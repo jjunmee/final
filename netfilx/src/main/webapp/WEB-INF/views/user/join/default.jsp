@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <script src="<c:url value='/resources/js/lib/lib.js'/>"></script>
-<script src="<c:url value='/resources/js/join/join.js'/>"></script>
+<script src="<c:url value='/resources/js/user/join.js'/>"></script>
 <form:form method="post" name="joinFrm" action="${pageContext.request.contextPath }/join/default" onsubmit="return joinFormCheck();"  commandName="DefaultJoinVo">
 	<div class="body">
 		<div class="form-group col-sm-3">
