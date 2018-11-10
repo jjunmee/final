@@ -256,4 +256,19 @@ public class SurveyController {
 		
 		return "redirect:/survey/list?code=1";
 	}
+	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
+	public String stats(int surveyNum, Model model) {
+		
+		return ".survey.stats";
+	}
+	@RequestMapping(value="/survey/delete")
+	public String delete(String delNum,Model model) {
+		String[] numArr=delNum.split(",");
+		for(int n=0;n<numArr.length;n++) {
+			int surveyNum=Integer.parseInt(numArr[n]);
+			service.surveyDelete(surveyNum);
+		}
+		
+		return "redirect:/survey/mySurvey";
+	}
 }

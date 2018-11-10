@@ -37,6 +37,13 @@ public class SurveyService {
 	public int surveyInInsert(SurveyInVo vo) {
 		return dao.surveyInInsert(vo);
 	}
+	////////////////////////////////////////////////////////////////////////////
+	public int surveyDelete(int surveyNum) {
+		return dao.surveyDelete(surveyNum);
+	}
+	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
 		return dao.surveyUpdate(vo);

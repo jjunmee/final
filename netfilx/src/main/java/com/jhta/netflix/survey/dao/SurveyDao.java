@@ -39,6 +39,10 @@ public class SurveyDao {
 		return session.insert(NAMESPACE+".surveyInInsert",vo);
 	}
 	//////////////////////////////////////////////////////////////////
+	public int surveyDelete(int surveyNum) {
+		return session.delete(NAMESPACE+".surveyDelete",surveyNum);
+	}
+	//////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
 		return session.update(NAMESPACE+".surveyUpdate",vo);
 	}

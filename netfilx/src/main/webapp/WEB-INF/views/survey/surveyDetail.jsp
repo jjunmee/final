@@ -5,7 +5,11 @@
 <script type="text/javascript">
 	
 </script>
-<div><input type="button" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
+<style type="text/css">
+	.surveyList{padding-left: 80px;padding-top: 100px;height:700px;}
+	.surveyList .leftBox{width:14%;height:100%;float: left} 
+	.surveyList .centerBox{width:78%;float:left}
+</style>
 <div class="surveyList">
 	<div id="tab" class="leftBox">
 		<div class="leftDivBox">
