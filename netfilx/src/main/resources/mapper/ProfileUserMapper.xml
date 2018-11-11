@@ -7,6 +7,13 @@
  	<select id="UserProfileList" resultType="profileUser" parameterType="String">
  		select A.users_num,A.point,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_pwd,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and A.id=#{id}
  	</select>
- 	
- 
+ 	<insert id="UserProfileInsert" parameterType="profileUser">
+ 		insert into profile values(0,#{nickname},(select users_num from users where id = #{id}),#{pimg_num},#{profile_age},#{profile_pwd},#{profile_first},now())
+ 	</insert>	
+ 	<update id="UserProfileUpdate" parameterType="profileUser">
+ 		update profile set nickname=#{nickname}, pimg_num=#{pimg_num}, profile_pwd=#{profile_pwd}, profile_first=#{profile_first} where profile_num = #{profile_num}
+ 	</update>
+ 	<delete id="UserProfileDelete" parameterType="int">
+ 		delete from profile where profile_num = #{profile_num}
+ 	</delete>
  </mapper>
