@@ -78,7 +78,7 @@
 				</div>
 				<div id="descriptionBox">
 					이 설문조사 폼은 ~~~~~설명!
-				</div>
+				</div>				
 				<input type="button" id="submitBtn" value="결제하고 설문등록하러가기">
 			</div>
 		</form>		

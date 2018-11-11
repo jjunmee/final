@@ -10,7 +10,10 @@
 	</sql>
 
 	<insert id="surveyInsert" parameterType="survey">
-		insert into survey(userNum,spoint,joinNum,state) values(#{userNum},#{spoint},#{joinNum},"결제완료")
+		insert into survey(userNum,surveyStart,spoint,joinNum,state) values(#{userNum},now(),#{spoint},#{joinNum},"결제완료")
+		<selectKey  keyProperty="surveyNum" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
 		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})
@@ -49,7 +52,7 @@
 	
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
 		select surveyNum from survey
-		where userNum=#{userNum} and state=#{state} 
+		where userNum=#{userNum} and surveyStart=#{surveyStart} 
 	</select>
 	<select id="sqNumSelect" parameterType="hashmap" resultType="int">
 		select sqNum from survey_question

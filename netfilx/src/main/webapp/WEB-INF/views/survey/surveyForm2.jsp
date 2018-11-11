@@ -525,7 +525,7 @@
 				$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
 			}			 
 			$("#things").find(".org").remove();
-		}else{//div 순서변경없을때
+		}else if(len==null || len==0 || len==''){//div 순서변경없을때
 			var signNum=0;
 			for(i=0;i<=cloneCnt;i++){
 				var st="box"+i;
@@ -549,6 +549,8 @@
 					}
 				}
 			}
+		}else{//div 순서변경 후 div를  추가하거나 삭제했을 때
+			
 		}
 		
 		
@@ -633,6 +635,7 @@
 					<input type="button" id="qPlus2" value="같은질문추가">
 				</div>
 				<div id="things" class="things">
+					<input type="hidden" name="surveyNum" value="${surveyNum }">
 					<input type="button" id="submitBtn1" onclick="submitOk(1)" value="저장하기">
 					<input type="button" id="submitBtn2" onclick="submitOk(2)" value="등록하기" style="display: none">
 				</div>

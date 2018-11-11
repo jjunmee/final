@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,12 +71,15 @@ public class SurveyController {
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
-		map.put("state", "저장중");
+		map.put("state","결제완료");
+		List<SurveyVo> list0=service.mySurveyListSelect(map);		
+		map.replace("state", "저장중");
 		List<SurveyVo> list1= service.mySurveyListSelect(map);
 		map.replace("state", "등록완료");
 		List<SurveyVo> list2= service.mySurveyListSelect(map);
 		map.replace("state", "설문종료");
 		List<SurveyVo> list3= service.mySurveyListSelect(map);
+		model.addAttribute("list0",list0);
 		model.addAttribute("list1",list1);
 		model.addAttribute("list2",list2);
 		model.addAttribute("list3",list3);
@@ -90,7 +92,11 @@ public class SurveyController {
 		SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);//설문번호로 영상정보가져오기
 		List<SurveyQuestionVo> sqVoList=service.surveyQuestionSelect(surveyNum);//해당 설문번호갖는 질문리스트가져오기
 		List<List<SurveyAnswerVo>> saList=new ArrayList<List<SurveyAnswerVo>>();//질문에대한답안리스트들을 담는리스트
+		String choiceType="2";//복합질문형일경우
 		for(SurveyQuestionVo sqVo:sqVoList) {//해당 질문에 대한 답안보기들 가져오려고함
+			if(sqVo.getSqType()=="0") {//객관식그리드로 들어온경우
+				choiceType="1";
+			}
 			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
 			saList.add(aList);
 		}
@@ -98,7 +104,7 @@ public class SurveyController {
 		model.addAttribute("videoVo",videoVo);
 		model.addAttribute("sqVoList",sqVoList);
 		model.addAttribute("saList",saList);		
-		
+		model.addAttribute("choiceType",choiceType);
 		
 		
 		
@@ -119,13 +125,15 @@ public class SurveyController {
 		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		vo.setUserNum(userNum);
-		if(service.surveyInsert(vo)>0) {
-			//�������̺� �μ�Ʈ�����ϸ� �������̺��� ����Ʈ ������Ű��
+		int surveyNum=service.surveyInsert(vo);//surveyNum이 넘어오나 확인해야함!!!!!!!!!!!!
+		if(surveyNum>0) {
+			//surveyTb에 insert되면 userTb에서 포인트 차감
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("userNum", userNum);
 			map.put("point", vo.getSpoint());
 			service.userPointUpdate(map);
-		}
+		}		
+		model.addAttribute("surveyNum",surveyNum);
 		return ".survey.surveyForm2";
 	}
 	
@@ -135,15 +143,15 @@ public class SurveyController {
 		//설문테이블 insert
 		String userId=(String)session.getAttribute("id");
 		//String userId="alsl";
-		int userNum=service.userSelect(userId).getUsersNum();
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("userNum", userNum);
-		//설문번호 가져와서 설문테이블 업데이트하기
-		map.put("state", "결제완료");
-		int surveyNum=service.surveyNumSelect(map);
-		surveyVo.setSurveyNum(surveyNum);
+		//설문번호 가져와서 설문테이블 업데이트하기 ====> 아예 설문폼1저장할때 설문번호를 가져와서 계속 파라미터 넘기는걸로 바꿨음
+		//int userNum=service.userSelect(userId).getUsersNum();
+		//Map<String, Object> map=new HashMap<String, Object>();
+		//map.put("userNum", userNum);
+		//map.put("state", "결제완료");
+		//int surveyNum=service.surveyNumSelect(map);
+		//surveyVo.setSurveyNum(surveyNum);
 		service.surveyUpdate(surveyVo);
-		
+		int surveyNum=surveyVo.getSurveyNum();
 		//설문영상테이블 insert
 		try {
 			if(!file1.isEmpty()) {//파일이 넘어오면
@@ -250,7 +258,7 @@ public class SurveyController {
 		if(surveyCnt==surveyVo.getJoinNum()) {
 			Map<String, Object> map2=new HashMap<String, Object>();
 			map2.put("surveyNum", surveyNum);
-			map2.put("state", "설문종료");
+			map2.put("state", "설문종료"); 
 			service.surveyStateUpdate(map2);
 		}
 		

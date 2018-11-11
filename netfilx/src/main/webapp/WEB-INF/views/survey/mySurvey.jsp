@@ -42,39 +42,50 @@
 				<th>설문현황</th>				
 			</tr>
 			<c:set var="num" value="1"/>
-			<c:forEach var="vo" items="${list1 }">
-				<tr>
-					<td><input type="checkbox" value="${vo.surveyNum }"></td>
-					<td>${num }</td>
-					<td><a href="<c:url value='/survey/update?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
-					<td>${vo.joinNum }</td>
-					<td>${vo.spoint }포인트</td>
-					<td>${vo.state }</td>								
-				</tr>
-				<c:set var="num" value="${num+1 }"/>
-			</c:forEach>	
-			<c:forEach var="vo" items="${list2 }">
-				<tr>
-					<td><input type="checkbox" value="${vo.surveyNum }"></td>
-					<td>${num }</td>
-					<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</td>
-					<td>${vo.joinNum }</td>
-					<td>${vo.spoint }포인트</td>
-					<td>${vo.state }</td>								
-				</tr>
-				<c:set var="num" value="${num+1 }"/>
-			</c:forEach>	
-			<c:forEach var="vo" items="${list3 }">
-				<tr>
-					<td><input type="checkbox" value="${vo.surveyNum }"></td>
-					<td>${num }</td>
-					<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</td>
-					<td>${vo.joinNum }</td>
-					<td>${vo.spoint }포인트</td>
-					<td>${vo.state }</td>								
-				</tr>
-				<c:set var="num" value="${num+1 }"/>
-			</c:forEach>	
+				<c:forEach var="vo" items="${list0 }">
+					<tr>
+						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td>${num }</td>
+						<td><a href="<c:url value='/survey/update?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
+						<td>${vo.joinNum }</td>
+						<td>${vo.spoint }포인트</td>
+						<td>${vo.state }</td>								
+					</tr>
+					<c:set var="num" value="${num+1 }"/>
+				</c:forEach>	
+				<c:forEach var="vo" items="${list1 }">
+					<tr>
+						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td>${num }</td>
+						<td><a href="<c:url value='/survey/update?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
+						<td>${vo.joinNum }</td>
+						<td>${vo.spoint }포인트</td>
+						<td>${vo.state }</td>								
+					</tr>
+					<c:set var="num" value="${num+1 }"/>
+				</c:forEach>	
+				<c:forEach var="vo" items="${list2 }">
+					<tr>
+						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td>${num }</td>
+						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
+						<td>${vo.joinNum }</td>
+						<td>${vo.spoint }포인트</td>
+						<td>${vo.state }</td>								
+					</tr>
+					<c:set var="num" value="${num+1 }"/>
+				</c:forEach>	
+				<c:forEach var="vo" items="${list3 }">
+					<tr>
+						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td>${num }</td>
+						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
+						<td>${vo.joinNum }</td>
+						<td>${vo.spoint }포인트</td>
+						<td>${vo.state }</td>								
+					</tr>
+					<c:set var="num" value="${num+1 }"/>
+				</c:forEach>	
 		</table>
 			
 	

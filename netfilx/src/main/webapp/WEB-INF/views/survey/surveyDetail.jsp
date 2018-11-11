@@ -36,34 +36,63 @@
 		<div id="surveyStart">${surveyVo.surveyStart }</div>
 		<div id="surveyEnd">${surveyVo.surveyEnd }</div>
 		
-		<form id="qstFrm" action="<c:url value='/survey/resultInsert'/>" method="post">
+		<form id="qstFrm" action="<c:url value='/survey/resultInsert'/>" method="post">			
 			<div id="question">
-				<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
-					${sqVoList[i].sqTitle }<br>
-					<input type="hidden" name="resultList[${i }].sqNum" value="${sqVoList[i].sqNum }">
-					<c:if test="${sqVoList[i].sqType==1 }">
-						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="radio" name="resultList[${i }].srAnswer" value="${j }">
-							${saList[i][j].saAnswer }
-						</c:forEach>
-					</c:if>
-					<c:if test="${sqVoList[i].sqType==2 }">
-						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
-							${saList[i][j].saAnswer }
-						</c:forEach>			
-					</c:if>
-					<c:if test="${sqVoList[i].sqType==3 }">
-						<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
-							<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
-							${saList[i][j].saAnswer }
-						</c:forEach>			
-					</c:if>
-					<c:if test="${sqVoList[i].sqType==4 }">
-						<input type="text" name="resultList[${i }].srAnswer">
-					</c:if>
-					<br>
-				</c:forEach>			
+				<c:if test="${choiceType=='1' }">
+					<table>
+						<tr>
+							<th></th>
+							<c:forEach var="i" begin="0" end="${fn:length(saList[0])-1 }">
+								<th>${saList[0].saAnswer }</th>
+							</c:forEach>
+						</tr>
+						<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
+							<tr>
+								<th>
+									${sqVoList[i].sqTitle }
+									<input type="hidden" name="resultList[${i }].sqNum" value="${sqVoList[i].sqNum }">
+								</th>
+								<c:forEach var="j" begin="0" end="${fn:length(saList[0])-1 }">
+									<td><input type="radio" name="resultList[${i }].srAnswer" value="${j }"></td>
+								</c:forEach>
+							</tr>
+						</c:forEach>						
+					</table>				
+				</c:if>		
+			
+				<c:if test="${choiceType=='2' }">
+					<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
+						${sqVoList[i].sqTitle }<br>
+						<input type="hidden" name="resultList[${i }].sqNum" value="${sqVoList[i].sqNum }">
+						<c:if test="${sqVoList[i].sqType==1 }">
+							<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
+								<input type="radio" name="resultList[${i }].srAnswer" value="${j }">
+								${saList[i][j].saAnswer }
+							</c:forEach>
+						</c:if>
+						<c:if test="${sqVoList[i].sqType==2 }">
+							<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
+								<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
+								${saList[i][j].saAnswer }
+							</c:forEach>			
+						</c:if>
+						<c:if test="${sqVoList[i].sqType==3 }">
+							<c:set var="n1" value="${fn:split(saList[i][0],'!@#$')[0] }"/>
+							<c:set var="n2" value="${fn:split(saList[i][1],'!@#$')[0] }"/>
+							<c:set var="ans1" value="${fn:split(saList[i][0],'!@#$')[1] }"/>
+							<c:set var="ans2" value="${fn:split(saList[i][1],'!@#$')[1] }"/>
+							${ans1 }
+							<c:forEach var="j" begin="${n1 }" end="${n2 }">								
+								<input type="radio" name="resultList[${i }].srAnswer" value="${j }">								
+							</c:forEach>
+							${ans2 }
+						</c:if>
+						<c:if test="${sqVoList[i].sqType==4 }">
+							<input type="text" name="resultList[${i }].srAnswer">
+						</c:if>
+						<br>
+					</c:forEach>	
+				</c:if>		
 			</div>
 			<div id="things">
 				<input type="hidden" name="surveyNum" value="${surveyVo.surveyNum }">
