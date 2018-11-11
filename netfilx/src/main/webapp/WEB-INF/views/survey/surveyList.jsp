@@ -8,8 +8,14 @@
 	}
 
 </script>
-
+<style type="text/css">
+	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;}
+	.surveyList .surBtn{padding-left: 73%;padding-bottom: 10px;}
+	.surveyList .leftBox{width:14%;float: left} 
+	.surveyList .centerBox{width:78%;float:left} 
+</style>
 <div class="surveyList">
+	<div class="surBtn"><input type="button" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
 	<div id="tab" class="leftBox">
 		<div class="leftDivBox">
 			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
@@ -18,7 +24,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">설문등록하러가기</a>
+			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
 		</div>
 	</div>
 	

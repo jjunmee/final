@@ -19,4 +19,12 @@
 	<select id="find" parameterType="int" resultType="rates">
 		select * from rates where rates_num=#{rates_num}
 	</select>
+	<select id="findRecord" parameterType="rates" resultType="rates">
+		select * from rates where profile_num=#{profile_num} and content_num=#{content_num}
+	</select>
+	<select id="getAvg" parameterType="int" resultType="ratesAvg">
+		select avg(rates_score) avg, count(*) cnt 
+		from rates 
+		where content_num=#{value}
+	</select>
  </mapper>

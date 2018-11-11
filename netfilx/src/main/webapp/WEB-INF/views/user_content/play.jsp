@@ -9,10 +9,9 @@
 	<style type="text/css">
 		video{width: 100%;}
 		#block{width: 70%;padding: 20px;}
-		#block ul{list-style: none;}
-		#block li{float: right;margin-right: 10px;}
 		
-		#info{height: 80px;}
+		#info{text-align: right;padding: 5px;}
+		#info>h2{text-align: left;}
 		
 		#commentDiv{padding: 10px;}
 		#commentDiv>h4{display: inline;}
@@ -29,9 +28,10 @@
 		form[id^="subForm"]>div{width: 20%;float: left;text-align: center;}
 		#subComment{width: 80%;float: right;resize: none;background-color: lightgray;}
 		
-		#rateBox{width: 20%;height: 20%;position: fixed;top: 40%;left: 40%;background-color: white;
-			border: 5px solid yellow;}
-		#starBox{background-color: orange;width: 500px;height: 400px;}
+		#rateBox{width:220px;height: 40px;display: inline;}
+		#rateBox>*{text-align: center;}
+		#score{color: red;display: inline;}
+		.starRev{width: 150px;height: 30px;display: inline-block;}
 		.starR1{
 		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
 		    background-size: auto 100%;
@@ -55,15 +55,22 @@
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
+		$(window).on("beforeunload", function(){
+			alert();
+	    });
+
 		var rowPage = 1;
 
 		$(function() {
+			$("#score").hide();
 			rowPage = 1;
 			printList(0,true);
+			setAvg();
 			$.get("<c:url value='/interasts/count'/>",
 					{"content_num":${vo.content_num },"profile_num":1},
 					clickJj
 			);
+			
 			$("#jjBtn").click(function() {
 				$.get("<c:url value='/interasts/insert'/>",
 						{"content_num":${vo.content_num },"profile_num":1},
@@ -75,12 +82,49 @@
 							}
 				});
 			});
-			$('.starRev span').click(function(){
-				$(this).parent().children('span').removeClass('on');
-				$(this).addClass('on').prevAll('span').addClass('on');
-				return false;
+			$('.starRev span').click(function(event){
+				var rates_score = $(this).html();
+				$.get("<c:url value='/rates/setScore'/>",
+						{"content_num":${vo.content_num },"profile_num":1,"rates_score":rates_score},
+						function(data) {
+							if(data.result){
+								$(event.target).parent().children('span').removeClass('on');
+								$(event.target).addClass('on').prevAll('span').addClass('on');
+								$("#score").show();
+								$("#score").html(rates_score);
+								setAvg();
+							}else{
+								alert("오류로 인해 평점등록에 실패했습니다!!");
+							}
+				});
 			});
+			setStar();
 		});
+		function setAvg(){
+			$.get("<c:url value='/rates/getAvg'/>",
+					{"content_num":${vo.content_num }},
+					function(data) {
+						$("#rateAvg").val("평점 "+data.avg);
+						$("#rateAvg").prop("title", "총 " + data.cnt + "명 참여");
+			});
+		}
+		function setStar(){
+			$.get("<c:url value='/rates/record'/>",
+					{"content_num":${vo.content_num },"profile_num":1},
+					function(data) {
+						if(data.result != undefined){
+							var spans = $(".starRev").children();
+							for(var i = 0;i<spans.length;i++){
+								if($(spans[i]).html() == data.result){
+									$(spans[i]).trigger('click');
+									break;
+								}
+							}
+							$("#score").show();
+							$("#score").html(data.result);
+						}
+			});
+		}
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
 			$("#jjBtn").prop("disabled", data.check);
@@ -182,6 +226,11 @@
 						function(data) {
 							$("#commentDiv>h4").html("댓글 "+data.count+"개");
 				});
+				$("#player").on(
+				"timeupdate", 
+				function(event){
+					onTrackedVideoFrame(this.currentTime, this.duration);
+				});
 			});
 		}
 		function printSubList(event,num){
@@ -228,23 +277,38 @@
 						}
 			});
 		}
+		function onTrackedVideoFrame(currentTime, duration){
+		    $("#current").text(currentTime);
+		    $("#duration").text(duration)
+		}
 	</script>
 </head>
 <body>
 	<div id="block">
-		<video controls autoplay>
+		<video controls autoplay id="player">
 			<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 		</video>
 		<div id="info">
-			<h3>${vo.content_name }</h3>
-			<ul>
-				<li>
-					<input type="button" value="평점 0.25">
-				</li>
-				<li>
-					<input type="button" value="찜" id="jjBtn">
-				</li>
-			</ul>
+			<h2>${vo.content_name }</h2>
+			<div id="rateBox">
+				<h2 id="score">0.0</h2>
+				<div class="starRev">
+					<span class="starR1">0.5</span>
+					<span class="starR2">1.0</span>
+					<span class="starR1">1.5</span>
+					<span class="starR2">2.0</span>
+					<span class="starR1">2.5</span>
+					<span class="starR2">3.0</span>
+					<span class="starR1">3.5</span>
+					<span class="starR2">4.0</span>
+					<span class="starR1">4.5</span>
+					<span class="starR2">5.0</span>
+				</div>
+			</div>
+			<input type="button" value="평점 0.0" id="rateAvg" disabled="disabled" title="asd">
+			<input type="button" value="찜" id="jjBtn">
+			<div id="current">0:00</div>
+			<div id="duration">0:00</div>
 		</div>
 		<div id="commentDiv">
 			<h4>댓글 0개</h4>
@@ -301,22 +365,6 @@
 			</div>
 			<input type="button" value="더보기" onclick="moreList()" id="moreBtn"
 				style="width: 100%;display: none;">
-		</div>
-	</div>
-	<div id="rateBox">
-		<div id="starBox">
-			<div class="starRev">
-				<span class="starR1 on">별1_왼쪽</span>
-				<span class="starR2">별1_오른쪽</span>
-				<span class="starR1">별2_왼쪽</span>
-				<span class="starR2">별2_오른쪽</span>
-				<span class="starR1">별3_왼쪽</span>
-				<span class="starR2">별3_오른쪽</span>
-				<span class="starR1">별4_왼쪽</span>
-				<span class="starR2">별4_오른쪽</span>
-				<span class="starR1">별5_왼쪽</span>
-				<span class="starR2">별5_오른쪽</span>
-			</div>
 		</div>
 	</div>
 </body>

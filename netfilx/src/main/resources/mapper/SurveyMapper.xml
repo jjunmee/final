@@ -28,6 +28,10 @@
 		insert into survey_in values(0,#{userNum},#{surveyNum})
 	</insert>
 	
+	<delete id="surveyDelete" parameterType="survey">
+		delete from survey where surveyNum=#{surveyNum}
+	</delete>
+	
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
 			surveyStart=now(),surveyEnd=#{surveyEnd},state=#{state}
@@ -54,6 +58,9 @@
 	<select id="joinCntSelect" parameterType="int" resultType="int">
 		select count(*) from survey_in where surveyNum=#{surveyNum}
 	</select>
+	<select id="getTypeSelect" parameterType="int" resultType="int">
+		select sqType from survey_question where sqNum=#{sqNum}
+	</select>
 	<select id="userSelect" parameterType="String" resultType="user">
 		select * from users where id=#{userId}
 	</select>	
@@ -63,8 +70,8 @@
 	<select id="surveyVideoSelect" parameterType="int" resultType="surveyVideo">
 		select * from survey_video where surveyNum=#{surveyNum}
 	</select>
-	<select id="surveyInSelect" parameterType="int" resultType="surveyIn">
-		select * from survey_in where userNum=#{userNum}
+	<select id="surveyInSelect" parameterType="hashmap" resultType="surveyIn">
+		select * from survey_in where userNum=#{userNum} and surveyNum=#{surveyNum}
 	</select>
 	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
 		select * from survey_question where surveyNum=#{surveyNum}

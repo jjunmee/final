@@ -66,9 +66,9 @@ public class SurveyController {
 		return ".survey.surveyList";
 	}
 	@RequestMapping(value="/survey/mySurvey",method=RequestMethod.GET)
-	public String mySurvey(Model model) {
-		//String userId=(String)request.getSession().getAttribute("userId");
-		String userId="alsl";
+	public String mySurvey(HttpSession session,Model model) {
+		String userId=(String)session.getAttribute("id");
+		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
@@ -105,18 +105,18 @@ public class SurveyController {
 		return ".survey.surveyDetail";
 	}
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
-	public String surveyForm1(Model model,HttpServletRequest request) {
-		//String userId=(String)request.getSession().getAttribute("userId");
-		String userId="alsl";
+	public String surveyForm1(HttpSession session,Model model) {
+		String userId=(String)session.getAttribute("id");
+		//String userId="alsl";
 		int point=service.userSelect(userId).getPoint();
 		model.addAttribute("userId",userId);
 		model.addAttribute("userPoint",point);
 		return ".survey.surveyForm1";
 	}
 	@RequestMapping(value="/survey/surveyInsert1",method=RequestMethod.POST)
-	public String surveyForm1ok(SurveyVo vo,HttpServletRequest request,Model model) {
-		//String userId=(String)request.getSession().getAttribute("userId");
-		String userId="alsl";
+	public String surveyForm1ok(SurveyVo vo,HttpSession session,Model model) {
+		String userId=(String)session.getAttribute("id");
+		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		vo.setUserNum(userNum);
 		if(service.surveyInsert(vo)>0) {
@@ -133,8 +133,8 @@ public class SurveyController {
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
 		//설문테이블 insert
-		//String userId=(String)session.getAttribute("userId");
-		String userId="alsl";
+		String userId=(String)session.getAttribute("id");
+		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
@@ -207,39 +207,68 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/resultInsert",method=RequestMethod.POST)
-	public String resultInsert(int surveyNum,@ModelAttribute SurveyResultDto resultDto, Model model) {
+	public String resultInsert(HttpSession session,int surveyNum,@ModelAttribute SurveyResultDto resultDto, Model model) {
 		//SurveyIn테이블에 userId가 없으면 insert 시키기
-		//String userId=(String)session.getAttribute("userId");
-		String userId="alsl";
+		String userId=(String)session.getAttribute("id");
+		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
-		if(service.surveyInSelect(userNum)==null) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userNum", userNum);
+		map.put("surveyNum", surveyNum);
+		if(service.surveyInSelect(map)!=null) {
 			return "redirect:/survey/list?code=1";
-		}		
+		}	
 		SurveyInVo siVo=new SurveyInVo(0, userNum, surveyNum);
 		service.surveyInInsert(siVo);
 		//SurveyResult테이블에 insert시키기
 		List<SurveyResultDto> resultList= resultDto.getResultList();
 		for(int i=0;i<resultList.size();i++) {
 			SurveyResultDto srDto=resultList.get(i);
-			SurveyResultVo srVo=new SurveyResultVo(0,srDto.getSqNum(),srDto.getSrAnswer());
-			service.resultInsert(srVo);
+			int sqNum=srDto.getSqNum();
+			int typeNum=service.getTypeSelect(sqNum);
+			if(typeNum==2) {
+				String answer=srDto.getSrAnswer();
+				String[] answerArr=answer.split(",");
+				for(int j=0;j<answerArr.length;j++) {					
+					SurveyResultVo srVo=new SurveyResultVo(0,sqNum,answerArr[j]);
+					service.resultInsert(srVo);
+				}
+			}else {				
+				SurveyResultVo srVo=new SurveyResultVo(0,srDto.getSqNum(),srDto.getSrAnswer());
+				service.resultInsert(srVo);
+			}			
 		}
 		//users테이블에서 해당 유저id에 포인트넣어주기
 		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		int point=(int)Math.floor(surveyVo.getSpoint()/surveyVo.getJoinNum());
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("userNum", userNum);
-		map.put("point", point);
-		service.userPointUpdate1(map);
+		Map<String, Object> map1=new HashMap<String, Object>();
+		map1.put("userNum", userNum);
+		map1.put("point", point);
+		service.userPointUpdate1(map1);
 		//참여인원수가 다찼으면 설문상태를 '설문종료'로 만들기!
 		int surveyCnt=service.joinCntSelect(surveyNum);
 		if(surveyCnt==surveyVo.getJoinNum()) {
-			Map<String, Object> map1=new HashMap<String, Object>();
-			map1.put("surveyNum", surveyNum);
-			map1.put("state", "설문종료");
-			service.surveyStateUpdate(map);
+			Map<String, Object> map2=new HashMap<String, Object>();
+			map2.put("surveyNum", surveyNum);
+			map2.put("state", "설문종료");
+			service.surveyStateUpdate(map2);
 		}
 		
 		return "redirect:/survey/list?code=1";
+	}
+	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
+	public String stats(int surveyNum, Model model) {
+		
+		return ".survey.stats";
+	}
+	@RequestMapping(value="/survey/delete")
+	public String delete(String delNum,Model model) {
+		String[] numArr=delNum.split(",");
+		for(int n=0;n<numArr.length;n++) {
+			int surveyNum=Integer.parseInt(numArr[n]);
+			service.surveyDelete(surveyNum);
+		}
+		
+		return "redirect:/survey/mySurvey";
 	}
 }

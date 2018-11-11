@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.rates.dao.RatesDao;
+import com.jhta.netflix.rates.vo.RatesAvgVo;
 import com.jhta.netflix.rates.vo.RatesVo;
 
 @Service
@@ -27,5 +28,11 @@ public class RatesService {
 	}
 	public RatesVo find(int num) {
 		return dao.find(num);
+	}
+	public RatesVo findRecord(RatesVo vo) {
+		return dao.findRecord(vo);
+	}
+	public RatesAvgVo getAvg(int num) {
+		return dao.getAvg(num);
 	}
 }

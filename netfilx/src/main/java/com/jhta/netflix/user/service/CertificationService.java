@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.user.dao.CertificationDao;
+import com.jhta.netflix.user.dao.CertificationDaoImpl;
 import com.jhta.netflix.user.vo.CertificationVo;
 
 @Service
 public class CertificationService {
 	@Autowired
-	private CertificationDao dao;
+	private CertificationDaoImpl dao;
 	
 	public int maxNo() {
 		return dao.maxNo();

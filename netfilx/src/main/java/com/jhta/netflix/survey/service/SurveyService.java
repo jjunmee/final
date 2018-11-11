@@ -37,6 +37,13 @@ public class SurveyService {
 	public int surveyInInsert(SurveyInVo vo) {
 		return dao.surveyInInsert(vo);
 	}
+	////////////////////////////////////////////////////////////////////////////
+	public int surveyDelete(int surveyNum) {
+		return dao.surveyDelete(surveyNum);
+	}
+	
+	
+	
 	///////////////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
 		return dao.surveyUpdate(vo);
@@ -63,6 +70,9 @@ public class SurveyService {
 	public int joinCntSelect(int surveyNum) {
 		return dao.joinCntSelect(surveyNum);
 	}
+	public int getTypeSelect(int sqNum) {
+		return dao.getTypeSelect(sqNum);
+	}	
 	public UserVo userSelect(String userId) {
 		return dao.userSelect(userId);
 	}
@@ -74,8 +84,8 @@ public class SurveyService {
 	public SurveyVideoVo surveyVideoSelect(int surveyNum) {
 		return dao.surveyVideoSelect(surveyNum);
 	}
-	public SurveyInVo surveyInSelect(int userNum) {
-		return dao.surveyInSelect(userNum);
+	public SurveyInVo surveyInSelect(Map<String, Object> map) {
+		return dao.surveyInSelect(map);
 	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return dao.surveyQuestionSelect(surveyNum);
