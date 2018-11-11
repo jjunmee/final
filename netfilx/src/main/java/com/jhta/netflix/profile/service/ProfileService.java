@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.profile.dao.ProfileDao;
+import com.jhta.netflix.profile.dao.ProfileDaoImpl;
 import com.jhta.netflix.profile.vo.ProfileUserVo;
 import com.jhta.netflix.profile.vo.ProfileVo;
 
 @Service
 public class ProfileService {
 	@Autowired
-	private ProfileDao profileDao;
+	private ProfileDaoImpl profileDao;
 	
 	
 		public int groupInsert(ProfileVo vo) {

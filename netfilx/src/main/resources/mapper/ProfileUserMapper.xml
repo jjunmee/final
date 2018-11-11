@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="mapper.ProfileUserMapper">
+ 	<!-- 해당 유저 프로필 전체 가져오기 -->
+ 	<select id="UserProfileList" resultType="profileUser" parameterType="String">
+ 		select A.users_num,A.point,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_pwd,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and A.id=#{id}
+ 	</select>
+ 	
+ 
+ </mapper>
