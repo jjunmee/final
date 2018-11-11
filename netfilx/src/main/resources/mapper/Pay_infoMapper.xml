@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Pay_infoMapper">
+	<insert id="insert" parameterType="payInfo">
+		insert into pay_info (pay_start,pay_end,payment,users_num,grade_num) values(#{pay_start},#{pay_end},#{payment},#{users_num},#{grade_num})
+	</insert>
+	<select id="list" resultType="payInfo">
+		select * from pay_info
+	</select>
+	<select id="selectone" resultType="payInfo">
+		select * from pay_info where pay_num = #{pay_num}
+	</select>
+	<delete id="delete">
+		delete from pay_info where pay_num = #{pay_num}
+	</delete>
+</mapper>

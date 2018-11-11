@@ -171,6 +171,7 @@
 		});
 	}
 	
+	//장르리스트 조건별 리스트 뿌리기
 	function checkcheck(){
 		$("#genrelist").empty();
 		var arraycate = new Array();

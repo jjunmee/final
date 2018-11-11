@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Point_infoMapper">
+	<insert id="insert" parameterType="pointInfo">
+		insert into point_info (point_date,usage,point_payment,users_num) values(#{point_date},#{usage},#{point_payment},#{users_num})
+	</insert>
+	<select id="list" resultType="pointInfo">
+		select * from point_info
+	</select>
+	<select id="selectone" resultType="pointInfo">
+		select * from point_info where point_num = #{point_num}
+	</select>
+	<delete id="delete">
+		delete from point_info where point_num = #{point_num}
+	</delete>
+</mapper>

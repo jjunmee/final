@@ -6,7 +6,7 @@
 	<h2>계정</h2>
 	<table>
 		<tr>
-			<td>${id }</td>
+			<td>이메일 : ${id }</td>
 			<td><a href="">이메일주소변경</a></td>
 		</tr>
 		<tr>
@@ -17,6 +17,7 @@
 			<td>생년월일 : ${birth }</td>
 			<td><a href="">생년월일변경</a></td>
 		</tr>
+		<!-- 없으면 안보이게 처리 -->
 		<tr>
 			<td>포인트 : ${point }</td>
 			<td><a href="">포인트충전</a></td>

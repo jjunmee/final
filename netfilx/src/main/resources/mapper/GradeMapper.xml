@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.GradeMapper">
+	<insert id="insert" parameterType="grade">
+		insert into grade (grade_name,grade_price) values(#{grade_name},#{grade_price})
+	</insert>
+	<select id="list" resultType="grade">
+		select * from grade
+	</select>
+	<select id="selectone" resultType="grade">
+		select * from grade where grade_num = #{grade_num}
+	</select>
+	<update id="update" parameterType="grade">
+		update grade set grade_name = #{grade_name}, grade_price = #{grade_price} where grade_num = #{grade_num}
+	</update>
+	<delete id="delete">
+		delete from grade where grade_num = #{grade_num}
+	</delete>
+</mapper>
+  
