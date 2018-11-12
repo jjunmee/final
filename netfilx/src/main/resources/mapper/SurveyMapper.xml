@@ -8,12 +8,12 @@
 			and ${field} like CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
-
+	
 	<insert id="surveyInsert" parameterType="survey">
 		insert into survey(userNum,surveyStart,spoint,joinNum,state) values(#{userNum},now(),#{spoint},#{joinNum},"결제완료")
-		<selectKey  keyProperty="surveyNum" resultType="int">
+		<selectKey keyProperty="surveyNum" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
-		</selectKey>
+		</selectKey>	
 	</insert>
 	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
 		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})

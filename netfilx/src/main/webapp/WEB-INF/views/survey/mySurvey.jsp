@@ -3,20 +3,56 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
-	
+	function checkAll(){
+		var chk=document.getElementsByName("check");
+		if(chk[0].checked==true){
+			for(var i=1;i<chk.length;i++){
+				chk[i].checked=true;
+			}
+		}else{
+			for(var i=1;i<chk.length;i++){
+				chk[i].checked=false;
+			}
+		}
+	} 
+	function check1(){
+		var chk=document.getElementsByName("check");
+		for(var i=1;i<chk.length;i++){
+			if(chk[i].checked==false){
+				chk[0].checked=false;
+			}
+		}
+	}
+	function delete1(){
+		var delNumArr="";
+		var chk=document.getElementsByName("check");
+		for(var i=1;i<chk.length;i++){
+			if(chk[i].checked==true){
+				delNumArr+=chk[i].value+",";
+			}
+		}
+		delNumArr=delNumArr.substring(0, delNumArr.lastIndexOf(","));//맨끝 콤마 지우기
+		if(delNumArr==''){
+			alert("삭제할 대상을 선택하세요");
+			return false;
+		}
+		if(confirm("삭제하시겠습니까?")){
+			location.href="<c:url value='/survey/delete?delNumArr="+delNumArr+"'/>";
+		}
+	}
 
 </script>
 <style type="text/css">
 	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;}
 	.surveyList .topBox{padding-left: 14%;padding-bottom: 10px;}
-	.surveyList .topBox .delBox{float:left;margin-top: 15px;}
+	.surveyList .topBox .delBox{float:left;margin-top: 0px;}
 	.surveyList .topBox .surBtn{float:auto;margin-left: 425px;}
 	.surveyList .leftBox{width:14%;height:100%;float: left} 
 	.surveyList .centerBox{width:78%;float:left}
 </style>
 <div class="surveyList">
 	<div class="topBox">
-		<div class="delBox"><a href="<c:url value='/survey/delete'/>">삭제</a></div>
+		<div class="delBox"><input type="button" value="삭제" onclick="delete1()"></div>
 		<div class="surBtn"><input type="button" class="surBtn" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
 	</div>
 	<div id="tab" class="leftBox">
@@ -34,7 +70,7 @@
 	<div id="myListBox" class="centerBox">			
 		<table>
 			<tr>
-				<th><input type="checkbox"></th>
+				<th><input type="checkbox" name="check" onclick="checkAll()"></th>
 				<th>번호</th>
 				<th>설문제목</th>
 				<th>조사인원</th>
@@ -44,7 +80,7 @@
 			<c:set var="num" value="1"/>
 				<c:forEach var="vo" items="${list0 }">
 					<tr>
-						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
 						<td><a href="<c:url value='/survey/update?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
@@ -55,7 +91,7 @@
 				</c:forEach>	
 				<c:forEach var="vo" items="${list1 }">
 					<tr>
-						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
 						<td><a href="<c:url value='/survey/update?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
@@ -66,7 +102,7 @@
 				</c:forEach>	
 				<c:forEach var="vo" items="${list2 }">
 					<tr>
-						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
 						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
@@ -77,7 +113,7 @@
 				</c:forEach>	
 				<c:forEach var="vo" items="${list3 }">
 					<tr>
-						<td><input type="checkbox" value="${vo.surveyNum }"></td>
+						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
 						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>

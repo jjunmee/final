@@ -95,7 +95,8 @@
 			exist++;
 			var box=document.createElement("div");
 			box.setAttribute("id","box"+(++cloneCnt));
-			box.setAttribute("name","box"+cloneCnt);	
+			box.setAttribute("name","box"+cloneCnt);
+			box.setAttribute("class","appendingBox");
 			box.setAttribute("data-order",cloneCnt);
 			
 			var sqTitle=document.createElement("input");
@@ -164,6 +165,7 @@
 			var qBox=document.createElement("div");			
 			qBox.setAttribute("id","box"+ (++cloneCnt));
 			qBox.setAttribute("name","box"+cloneCnt);	
+			qBox.setAttribute("class","appendingBox");	
 			qBox.setAttribute("data-order",cloneCnt);
 			qBox.onclick=showOption;
 			qBox.style='border:2px solid black';			
@@ -498,6 +500,7 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
+		//type3인 경우(직선단계) value값 정리하기
 		for(var i=1;i<=2;i++){
 			for(var j=0;j<=cloneCnt;j++){
 				var st="box"+j;
@@ -513,8 +516,32 @@
 				}
 			}
 		}
+		//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
+		var appStr="mainSurvey"+choiceType;
+		var appendingBoxArr=$(appStr).find(".appendingBox");
+		for(var i=0;i<appendingBoxArr.length;i++){
+			var appendingBox=appendingBoxArr.get(i);
+			var qbox=appendingBox.getAttribute("id");
+			var cnt=qbox.split("box")[1];
+			$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
+			$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
+			$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+			if(choiceType==2){
+				$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
+			}			
+		}
+		if(choiceType==1){
+			var signNum=0;
+			for(i=0;i<=opNum;i++){
+				var st="opBox"+i;
+				if(document.getElementById(st)!=null){
+					$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
+					signNum++;
+				}
+			}
+		}
 		
-		
+		/*
 		if(arrayStore!='' && arrayStore!=null){//div순서변경시
 			var len=arrayStore.length;
 			for(i=0;i<=len;i++){
@@ -552,7 +579,7 @@
 		}else{//div 순서변경 후 div를  추가하거나 삭제했을 때
 			
 		}
-		
+		*/
 		
 		var stateBox=document.createElement("input");
 		stateBox.setAttribute("type","hidden");

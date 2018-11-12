@@ -94,7 +94,7 @@ public class SurveyController {
 		List<List<SurveyAnswerVo>> saList=new ArrayList<List<SurveyAnswerVo>>();//질문에대한답안리스트들을 담는리스트
 		String choiceType="2";//복합질문형일경우
 		for(SurveyQuestionVo sqVo:sqVoList) {//해당 질문에 대한 답안보기들 가져오려고함
-			if(sqVo.getSqType()=="0") {//객관식그리드로 들어온경우
+			if(sqVo.getSqType().equals("0") ) {//객관식그리드로 들어온경우
 				choiceType="1";
 			}
 			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
@@ -125,7 +125,8 @@ public class SurveyController {
 		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
 		vo.setUserNum(userNum);
-		int surveyNum=service.surveyInsert(vo);//surveyNum이 넘어오나 확인해야함!!!!!!!!!!!!
+		service.surveyInsert(vo);//surveyNum이 넘어오나 확인해야함!!!!!!!!!!!!
+		int surveyNum=vo.getSurveyNum();
 		if(surveyNum>0) {
 			//surveyTb에 insert되면 userTb에서 포인트 차감
 			Map<String, Object> map=new HashMap<String, Object>();
@@ -152,6 +153,7 @@ public class SurveyController {
 		//surveyVo.setSurveyNum(surveyNum);
 		service.surveyUpdate(surveyVo);
 		int surveyNum=surveyVo.getSurveyNum();
+		System.out.println("surveyNum : "+surveyNum);
 		//설문영상테이블 insert
 		try {
 			if(!file1.isEmpty()) {//파일이 넘어오면
@@ -270,8 +272,9 @@ public class SurveyController {
 		return ".survey.stats";
 	}
 	@RequestMapping(value="/survey/delete")
-	public String delete(String delNum,Model model) {
-		String[] numArr=delNum.split(",");
+	public String delete(String delNumArr,Model model) {
+		System.out.println(delNumArr);
+		String[] numArr=delNumArr.split(",");
 		for(int n=0;n<numArr.length;n++) {
 			int surveyNum=Integer.parseInt(numArr[n]);
 			service.surveyDelete(surveyNum);

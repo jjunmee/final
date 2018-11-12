@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
-	
+	$(function(){
+		alert(${choiceType});
+	});
 </script>
 <style type="text/css">
 	.surveyList{padding-left: 80px;padding-top: 100px;height:700px;}
@@ -43,7 +46,7 @@
 						<tr>
 							<th></th>
 							<c:forEach var="i" begin="0" end="${fn:length(saList[0])-1 }">
-								<th>${saList[0].saAnswer }</th>
+								<th>${saList[0][i].saAnswer }</th>
 							</c:forEach>
 						</tr>
 						<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
@@ -77,10 +80,12 @@
 							</c:forEach>			
 						</c:if>
 						<c:if test="${sqVoList[i].sqType==3 }">
-							<c:set var="n1" value="${fn:split(saList[i][0],'!@#$')[0] }"/>
-							<c:set var="n2" value="${fn:split(saList[i][1],'!@#$')[0] }"/>
-							<c:set var="ans1" value="${fn:split(saList[i][0],'!@#$')[1] }"/>
-							<c:set var="ans2" value="${fn:split(saList[i][1],'!@#$')[1] }"/>
+							<c:set var="num1" value="${fn:split(saList[i][0].saAnswer,'!@#$')[0] }"/>
+							<fmt:formatNumber value="${num1 }" type="number" var="n1"/>
+							<c:set var="num2" value="${fn:split(saList[i][1].saAnswer,'!@#$')[0] }"/>
+							<fmt:formatNumber value="${num2 }" type="number" var="n2"/>
+							<c:set var="ans1" value="${fn:split(saList[i][0].saAnswer,'!@#$')[1] }"/>
+							<c:set var="ans2" value="${fn:split(saList[i][1].saAnswer,'!@#$')[1] }"/>
 							${ans1 }
 							<c:forEach var="j" begin="${n1 }" end="${n2 }">								
 								<input type="radio" name="resultList[${i }].srAnswer" value="${j }">								
