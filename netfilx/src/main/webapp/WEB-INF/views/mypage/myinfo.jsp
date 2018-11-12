@@ -10,7 +10,7 @@
 			<td><a href="">이메일주소변경</a></td>
 		</tr>
 		<tr>
-			<td>비밀번호 : ${pwd }</td>
+			<td>비밀번호 : ******</td>
 			<td><a href="">비밀번호변경</a></td>
 		</tr>
 		<tr>
@@ -20,11 +20,11 @@
 		<!-- 없으면 안보이게 처리 -->
 		<tr>
 			<td>포인트 : ${point }</td>
-			<td><a href="">포인트충전</a></td>
+			<td><a href="<c:url value='/point/fill'/>">포인트충전</a>/<a href="<c:url value='/point/lsit'/>">사용내역</a></td>
 		</tr>
 	</table>
 	<hr>
-	<h2>걸제정보</h2>
+	<h2>결제정보</h2>
 	<table>
 		<tr>
 			<td>${payment }</td>

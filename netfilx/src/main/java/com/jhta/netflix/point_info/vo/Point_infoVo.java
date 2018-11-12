@@ -1,4 +1,4 @@
-package com.jhta.netflix.point_info;
+package com.jhta.netflix.point_info.vo;
 
 import java.sql.Date;
 

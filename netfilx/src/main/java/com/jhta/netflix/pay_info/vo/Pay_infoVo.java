@@ -1,4 +1,4 @@
-package com.jhta.netflix.pay_info;
+package com.jhta.netflix.pay_info.vo;
 
 import java.sql.Date;
 

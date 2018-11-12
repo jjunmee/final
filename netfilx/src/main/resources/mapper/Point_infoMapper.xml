@@ -3,8 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.Point_infoMapper">
+	<sql id="search">
+		<if test="field!=null and field!=''">
+			and ${field} like CONCAT('%',#{keyword},'%')
+		</if>
+	</sql>
+	<!-- usage는 "내용-사용&적립&충전-금액" ex) "포인트충전-충전-50000" -->
 	<insert id="insert" parameterType="pointInfo">
-		insert into point_info (point_date,usage,point_payment,users_num) values(#{point_date},#{usage},#{point_payment},#{users_num})
+		insert into point_info values(0,now(),#{usage},#{point_payment},#{users_num})
 	</insert>
 	<select id="list" resultType="pointInfo">
 		select * from point_info
@@ -12,7 +18,18 @@
 	<select id="selectone" resultType="pointInfo">
 		select * from point_info where point_num = #{point_num}
 	</select>
+	<select id="userpoint" resultType="UserPointInfo">
+		select p.users_num, p.point_num, p.point_date, p.usage, p.point_payment, u.point
+		from point_info p, users u
+		where p.users_num = u.users_num and p.users_num = #{users_num}
+	</select>
 	<delete id="delete">
 		delete from point_info where point_num = #{point_num}
 	</delete>
+	<select id="listCount" resultType="int" parameterType="hashmap">
+		select count(*)
+		from point_info p, users u
+		where p.users_num = u.users_num and p.users_num = #{users_num}
+		<include refid="search"/>
+	</select>
 </mapper>

@@ -37,7 +37,7 @@ public class QnaController {
 		String code = (String)session.getAttribute("code");
 		session.removeAttribute("code");
 		if(id != null && !(id.equals(""))) {
-			vo = uservice.login(id);
+			vo = uservice.userInfo(id);
 			mv.addObject("userSts",vo.getSts());
 		}else {
 			mv.addObject("userSts",0);
