@@ -4,9 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
-	$(function(){
-		alert(${choiceType});
-	});
+	function idCheck(){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			location.href="<c:url value='/survey/mySurvey'/>";
+		}
+	}
 </script>
 <style type="text/css">
 	.surveyList{padding-left: 80px;padding-top: 100px;height:700px;}
@@ -22,7 +27,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			<a href="javascript:idCheck();">나의 설문지</a>
 		</div>
 	</div>
 	
@@ -100,6 +105,7 @@
 				</c:if>		
 			</div>
 			<div id="things">
+				<input type="hidden" id="userId" value="${sessionScope.id }">
 				<input type="hidden" name="surveyNum" value="${surveyVo.surveyNum }">
 				<input type="submit" value="참가">
 			</div>

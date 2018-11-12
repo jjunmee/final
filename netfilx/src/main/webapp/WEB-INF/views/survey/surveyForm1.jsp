@@ -46,7 +46,16 @@
 		})
 		
 	});
-	
+	function idCheck(n){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			if(n==0){//나의설문지
+				location.href="<c:url value='/survey/mySurvey'/>";
+			}
+		}
+	}
 
 </script>
 <div class="surveyList">	
@@ -58,7 +67,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			<a href="javascript:idCheck(0)">나의 설문지</a>
 		</div>
 	</div>
 	<div id="box" class="centerBox">	

@@ -6,6 +6,26 @@
 		$("#pageNum").val(pageNum);
 		$("#listForm").submit();
 	}
+	function idCheck(n){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			if(n==0){//나의설문지
+				location.href="<c:url value='/survey/mySurvey'/>";
+			}else if(n==1){//설문구매
+				location.href="<c:url value='/survey/surveyInsert1'/>";
+			}
+		}
+	}
+	function idCheckAndSurveyIn(num){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			location.href="<c:url value='/survey/surveyDetail?surveyNum="+num+"'/>";
+		}
+	}
 
 </script>
 <style type="text/css">
@@ -15,7 +35,7 @@
 	.surveyList .centerBox{width:78%;float:left} 
 </style>
 <div class="surveyList">
-	<div class="surBtn"><input type="button" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
+	<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 	<div id="tab" class="leftBox">
 		<div class="leftDivBox">
 			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
@@ -24,7 +44,7 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			<a href="javascript:idCheck(0);">나의 설문지</a>
 		</div>
 	</div>
 	
@@ -50,7 +70,7 @@
 					<tr> 
 						<td>${vo.surveyNum }</td>
 					<c:if test="${code==1 }">
-						<td><a href="<c:url value='/survey/surveyDetail?surveyNum=${vo.surveyNum }'/>">${vo.surveyName }</a></td>
+						<td><a href="javascript:idCheckAndSurveyIn(${vo.surveyNum })">${vo.surveyName }</a></td>
 					</c:if>
 					<c:if test="${code==2 }">
 						<td>${vo.surveyName }</td>
@@ -102,6 +122,7 @@
 					<option value=""></option>
 					<option value=""></option>
 				</select>
+				<input type="hidden" id="userId" value="${sessionScope.id }">
 				<input type="text" name="keyword" value="${keyword }">
 				<input type="submit" value="검색">
 			</form>

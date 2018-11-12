@@ -40,7 +40,19 @@
 			location.href="<c:url value='/survey/delete?delNumArr="+delNumArr+"'/>";
 		}
 	}
-
+	function idCheck(n){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			if(n==0){//나의설문지
+				location.href="<c:url value='/survey/mySurvey'/>";
+			}else if(n==1){//설문구매
+				location.href="<c:url value='/survey/surveyInsert1'/>";
+			}
+		}
+	}
+	
 </script>
 <style type="text/css">
 	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;}
@@ -53,7 +65,7 @@
 <div class="surveyList">
 	<div class="topBox">
 		<div class="delBox"><input type="button" value="삭제" onclick="delete1()"></div>
-		<div class="surBtn"><input type="button" class="surBtn" onclick="location='<c:url value="/survey/surveyInsert1"/>'" value="설문구매하러가기"></div>
+		<div class="surBtn"><input type="button" class="surBtn" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 	</div>
 	<div id="tab" class="leftBox">
 		<div class="leftDivBox">
@@ -63,7 +75,8 @@
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			<a href="javascript:idCheck(0);">나의 설문지</a>
+			<input type="hidden" id="userId" value="${sessionScope.id }">
 		</div>
 	</div>
 	
