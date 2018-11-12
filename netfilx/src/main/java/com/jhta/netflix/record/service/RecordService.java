@@ -25,7 +25,7 @@ public class RecordService {
 	public List<RecordVo> list(){
 		return dao.list();
 	}
-	public RecordVo find(int num) {
-		return dao.find(num);
+	public RecordVo find(RecordVo vo) {
+		return dao.find(vo);
 	}
 }

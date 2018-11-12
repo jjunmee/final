@@ -16,7 +16,9 @@
 	<select id="list" resultType="record">
 		select * from record
 	</select>
-	<select id="find" parameterType="int" resultType="record">
-		select * from record where record_num=#{record_num}
+	<select id="find" parameterType="record" resultType="record">
+		select * 
+		from record 
+		where profile_num=#{profile_num} and content_num=#{content_num}
 	</select>
  </mapper>

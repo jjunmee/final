@@ -55,11 +55,19 @@
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
-		$(window).on("beforeunload", function(){
-			alert();
-	    });
-
 		var rowPage = 1;
+		var playTime = 0;
+		var temp = 0;
+
+		$(window).on("beforeunload", function(){
+			var next_watch = $("#current").text();
+			$.get("<c:url value='/record/record'/>",
+					{"content_num":${vo.content_num },"profile_num":1,
+						"next_watch":Number(next_watch),"total_time":Number(playTime)},
+					function(data) {
+						
+			});
+	    });
 
 		$(function() {
 			$("#score").hide();
@@ -99,7 +107,27 @@
 				});
 			});
 			setStar();
+			$("#player").on(
+			"timeupdate", 
+			function(event){
+				if(!this.paused){
+					onTrackedVideoFrame(Math.round(this.currentTime), Math.round(this.duration));
+				}
+			});
+			$("#player").on(
+			"play", 
+			function(event){
+				temp = Math.round(this.currentTime);
+			});
+			$.get(
+			"<c:url value='/record/getInfo'/>", 
+			{"content_num":${vo.content_num },"profile_num":1}, 
+			function(data) {
+				var player = document.getElementById("player");
+				player.currentTime=data.next_watch;
+			});
 		});
+		
 		function setAvg(){
 			$.get("<c:url value='/rates/getAvg'/>",
 					{"content_num":${vo.content_num }},
@@ -226,11 +254,6 @@
 						function(data) {
 							$("#commentDiv>h4").html("댓글 "+data.count+"개");
 				});
-				$("#player").on(
-				"timeupdate", 
-				function(event){
-					onTrackedVideoFrame(this.currentTime, this.duration);
-				});
 			});
 		}
 		function printSubList(event,num){
@@ -278,18 +301,22 @@
 			});
 		}
 		function onTrackedVideoFrame(currentTime, duration){
+			playTime += currentTime - temp;
+			temp = currentTime;
 		    $("#current").text(currentTime);
+		    $("#total").text(playTime);
 		    $("#duration").text(duration)
 		}
 	</script>
 </head>
 <body>
 	<div id="block">
-		<video controls autoplay id="player">
+		<video controls id="player">
 			<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 		</video>
 		<div id="info">
 			<h2>${vo.content_name }</h2>
+			<!-- http://miuus.tistory.com/2 -->
 			<div id="rateBox">
 				<h2 id="score">0.0</h2>
 				<div class="starRev">
@@ -308,6 +335,7 @@
 			<input type="button" value="평점 0.0" id="rateAvg" disabled="disabled" title="asd">
 			<input type="button" value="찜" id="jjBtn">
 			<div id="current">0:00</div>
+			<div id="total">0:00</div>
 			<div id="duration">0:00</div>
 		</div>
 		<div id="commentDiv">

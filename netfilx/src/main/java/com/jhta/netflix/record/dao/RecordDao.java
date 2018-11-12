@@ -26,7 +26,7 @@ public class RecordDao {
 	public List<RecordVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}
-	public RecordVo find(int num) {
-		return sqlSession.selectOne(NAMESPACE+".find", num);
+	public RecordVo find(RecordVo vo) {
+		return sqlSession.selectOne(NAMESPACE+".find", vo);
 	}
 }
