@@ -1,5 +1,7 @@
 package com.jhta.netflix.user.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,11 @@ public class UserService {
 	}
 	public int id_check(String id) {
 		return dao.id_check(id);
+	}
+	public int pointUpdate(HashMap<String, Object> map) {
+		return dao.pointUpdate(map);
+	}
+	public UserVo userInfo(String id){
+		return dao.userInfo(id);
 	}
 }

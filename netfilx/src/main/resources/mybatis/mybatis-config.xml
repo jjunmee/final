@@ -13,6 +13,7 @@
 		<typeAlias type="com.jhta.netflix.user.vo.UserVo" alias="user"/>
 		<typeAlias type="com.jhta.netflix.user.vo.CertificationVo" alias="certifi"/>
 		<typeAlias type="com.jhta.netflix.profile.vo.ProfileVo" alias="profile"/>
+		<typeAlias type="com.jhta.netflix.profile.vo.ProfileUserVo" alias="profileUser"/>
 		<typeAlias type="com.jhta.netflix.genre.vo.GenreVo" alias="genre"/>
 		<typeAlias type="com.jhta.netflix.staff.vo.StaffVo" alias="staff"/>
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVo" alias="survey"/>		
@@ -31,6 +32,10 @@
 		<typeAlias type="com.jhta.netflix.good.vo.GoodVo" alias="good"/>
 		<typeAlias type="com.jhta.netflix.profile.vo.ProfileUserVo" alias="profileUser"/>
 		<typeAlias type="com.jhta.netflix.rates.vo.RatesVo" alias="rates"/>
+		<typeAlias type="com.jhta.netflix.grade.vo.GradeVo" alias="grade"/>
+		<typeAlias type="com.jhta.netflix.pay_info.vo.Pay_infoVo" alias="payInfo"/>
+		<typeAlias type="com.jhta.netflix.point_info.vo.Point_infoVo" alias="pointInfo"/>
+		<typeAlias type="com.jhta.netflix.point_info.vo.User_pointVo" alias="UserPointInfo"/>
 		<typeAlias type="com.jhta.netflix.rates.vo.RatesAvgVo" alias="ratesAvg"/>
 		<typeAlias type="com.jhta.netflix.record.vo.RecordVo" alias="record"/>
 	</typeAliases>

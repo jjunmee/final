@@ -171,6 +171,7 @@
 		});
 	}
 	
+	//장르리스트 조건별 리스트 뿌리기
 	function checkcheck(){
 		$("#genrelist").empty();
 		var arraycate = new Array();
@@ -216,7 +217,7 @@
 		</table>
 <h1>장르</h1>
 	<form method="post" action='<c:url value="/genre/insert"/>'>
-		장르 
+		장르
 		<select name="category_num" id="category">
 		</select>
 		<input type="text" name="genre_name">

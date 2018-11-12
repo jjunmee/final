@@ -59,6 +59,7 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey1").show();
+			$(".tablehide").hide();
 			
 			appendBtnBox();
 			appendRow();
@@ -69,9 +70,10 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
+			$(".tablehide").hide();		
+			
 			appendDiv(0);			
 		});
-		
 		
 		function appendBtnBox(){//객관식그리드의 추가버튼박스...?
 			var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
@@ -95,7 +97,8 @@
 			exist++;
 			var box=document.createElement("div");
 			box.setAttribute("id","box"+(++cloneCnt));
-			box.setAttribute("name","box"+cloneCnt);	
+			box.setAttribute("name","box"+cloneCnt);
+			box.setAttribute("class","appendingBox");
 			box.setAttribute("data-order",cloneCnt);
 			
 			var sqTitle=document.createElement("input");
@@ -164,6 +167,7 @@
 			var qBox=document.createElement("div");			
 			qBox.setAttribute("id","box"+ (++cloneCnt));
 			qBox.setAttribute("name","box"+cloneCnt);	
+			qBox.setAttribute("class","appendingBox");	
 			qBox.setAttribute("data-order",cloneCnt);
 			qBox.onclick=showOption;
 			qBox.style='border:2px solid black';			
@@ -201,8 +205,18 @@
 				checktype3();
 			}else if(n==4){
 				checktype4();
-			}			
+			}	
 		}
+		$(".tableshow").click(function(){
+			if($(".tablehide").css("display")=="none"){
+				$(".tablehide").show();
+			}else{
+				$(".tablehide").hide();
+			}
+		});
+		
+		
+		
 		
 		function showOption(){//질문Div눌렀을때 해당 질문의 입력했던 옵션들과 옵션추가버튼보이게!다른Div는 숨겨지고!
 			$("#surveyForm").find(".opBox").hide();		
@@ -227,8 +241,10 @@
 			$("#surveyForm").find(".opBox").hide();		
 			$("#surveyForm").find(".opPlusBox").hide();		
 			appendDiv(opNum);
-		});		 
+		});	
+		
 	});
+	
 	
 	
 	
@@ -498,6 +514,7 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
+		//type3인 경우(직선단계) value값 정리하기
 		for(var i=1;i<=2;i++){
 			for(var j=0;j<=cloneCnt;j++){
 				var st="box"+j;
@@ -513,8 +530,32 @@
 				}
 			}
 		}
+		//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
+		var appStr="mainSurvey"+choiceType;
+		var appendingBoxArr=$(appStr).find(".appendingBox");
+		for(var i=0;i<appendingBoxArr.length;i++){
+			var appendingBox=appendingBoxArr.get(i);
+			var qbox=appendingBox.getAttribute("id");
+			var cnt=qbox.split("box")[1];
+			$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
+			$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
+			$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+			if(choiceType==2){
+				$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
+			}			
+		}
+		if(choiceType==1){
+			var signNum=0;
+			for(i=0;i<=opNum;i++){
+				var st="opBox"+i;
+				if(document.getElementById(st)!=null){
+					$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
+					signNum++;
+				}
+			}
+		}
 		
-		
+		/*
 		if(arrayStore!='' && arrayStore!=null){//div순서변경시
 			var len=arrayStore.length;
 			for(i=0;i<=len;i++){
@@ -525,7 +566,7 @@
 				$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
 			}			 
 			$("#things").find(".org").remove();
-		}else{//div 순서변경없을때
+		}else if(len==null || len==0 || len==''){//div 순서변경없을때
 			var signNum=0;
 			for(i=0;i<=cloneCnt;i++){
 				var st="box"+i;
@@ -549,8 +590,10 @@
 					}
 				}
 			}
+		}else{//div 순서변경 후 div를  추가하거나 삭제했을 때
+			
 		}
-		
+		*/
 		
 		var stateBox=document.createElement("input");
 		stateBox.setAttribute("type","hidden");
@@ -569,56 +612,75 @@
 	
 
 </script>
+<style type="text/css">
+	.surveyList{padding-left: 80px;padding-top: 100px;height:700px;}
+	.surveyList .leftBox{width:14%;float: left} 
+	.surveyList .rightBox{width:80%;float: left} 
+</style>
 <div id="surveyForm">
-	<div class="survey2">
-		<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
-			<div id="surveyOverall">
-				<div class="overall">
-					<table>
-						<tr>
-							<th><label for="surveyName">설문제목</label></th>
-							<td><input type="text" id="surveyName" name="surveyName" placeholder="설문제목을 입력하세요"></td>
-						</tr>
-						<tr>
-							<th><label for="surveyDescription">설문내용</label></th>
-							<td><textarea rows="5" cols="cols" id="surveyDescription" name="surveyDescription" placeholder="설문내용을 입력하세요"></textarea></td>
-						</tr>
-						<tr>
-							<th><label for="videoCheck"><input type="checkbox" id="videoCheck">영상첨부</label></th>
-							<td><span id="file"></span></td>
-						</tr>
-						<tr>
-							<th>설문종료일</th>
-							<td><input type="text" id="surveyEnd" name="surveyEnd" readonly="readonly"></td>
-						</tr>
-					</table>
+	<div class="surveyList">
+		<div id="tab" class="leftBox">
+			<div class="leftDivBox">
+				<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
+			</div>
+			<div class="leftDivBox">
+				<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
+			</div>
+			<div class="leftDivBox">
+				<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			</div>
+		</div>
+		<div id="box" class="rightBox">	
+			<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
+				<div id="surveyOverall">
+					<div class="overall">
+						<table>
+							<tr class="tableshow">
+								<th><label for="surveyName">설문제목</label></th>
+								<td><input type="text" id="surveyName" name="surveyName" placeholder="설문제목을 입력하세요"></td>
+							</tr>
+							<tr class="tablehide">
+								<th><label for="surveyDescription">설문내용</label></th>
+								<td><textarea rows="5" cols="cols" id="surveyDescription" name="surveyDescription" placeholder="설문내용을 입력하세요"></textarea></td>
+							</tr>
+							<tr class="tablehide">
+								<th><label for="videoCheck"><input type="checkbox" id="videoCheck">영상첨부</label></th>
+								<td><span id="file"></span></td>
+							</tr>
+							<tr class="tablehide">
+								<th>설문종료일</th>
+								<td><input type="text" id="surveyEnd" name="surveyEnd" readonly="readonly"></td>
+							</tr>
+						</table>
+					</div>	
+				</div>
+				<div id="typeChoice" class="typeChoice">
+					<input type="button" id="choice1" value="객관식그리드">
+					<input type="button" id="choice2" value="복합질문타입">
+				</div>
+				<div id="mainSurvey1" class="mainSurvey1" style="display: none">			
+					
+				</div>
+				<div id="mainSurvey2" class="mainSurvey2" style="display: none">
+								
 				</div>	
-			</div>
-			<div id="typeChoice" class="typeChoice">
-				<input type="button" id="choice1" value="객관식그리드">
-				<input type="button" id="choice2" value="복합질문타입">
-			</div>
-			<div id="mainSurvey1" class="mainSurvey1" style="display: none">			
+				<div id="opDiv" class="opDiv" style="display: none">
+					<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
+					<input type="button" id="type2" onclick="checktype2()" value="중복체크">
+					<input type="button" id="type3" onclick="checktype3()" value="직선단계">
+					<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
+				</div>
 				
-			</div>
-			<div id="mainSurvey2" class="mainSurvey2" style="display: none">
-							
-			</div>	
-			<div id="opDiv" class="opDiv" style="display: none">
-				<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
-				<input type="button" id="type2" onclick="checktype2()" value="중복체크">
-				<input type="button" id="type3" onclick="checktype3()" value="직선단계">
-				<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
-			</div>
-			
-			<div id="qPlusBox" class="qPlusBox" style="display: none">				
-				<input type="button" id="qPlus1" value="질문추가">
-				<input type="button" id="qPlus2" value="같은질문추가">
-			</div>
-			<div id="things" class="things">
-				<input type="button" id="submitBtn1" onclick="submitOk(1)" value="저장하기">
-				<input type="button" id="submitBtn2" onclick="submitOk(2)" value="등록하기" style="display: none">
-			</div>
-		</form>
+				<div id="qPlusBox" class="qPlusBox" style="display: none">				
+					<input type="button" id="qPlus1" value="질문추가">
+					<input type="button" id="qPlus2" value="같은질문추가">
+				</div>
+				<div id="things" class="things">
+					<input type="hidden" name="surveyNum" value="${surveyNum }">
+					<input type="button" id="submitBtn1" onclick="submitOk(1)" value="저장하기">
+					<input type="button" id="submitBtn2" onclick="submitOk(2)" value="등록하기" style="display: none">
+				</div>
+			</form>
+		</div>
 	</div>
 </div>

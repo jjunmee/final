@@ -12,4 +12,12 @@
 	<select id="id_check" resultType="int" parameterType="String">
 		select count(*) from users where id=#{id}
 	</select>
+	
+	<!-- 포인트 업데이트 -->
+	<update id="pointUpdate" parameterType="hashmap">
+		update users set point = #{point} where users_num = #{users_num}
+	</update>
+	<select id="userInfo" resultType="user" parameterType="String">
+		select * from users where id = #{id}
+	</select>
  </mapper>

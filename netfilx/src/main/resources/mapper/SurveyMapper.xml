@@ -8,9 +8,12 @@
 			and ${field} like CONCAT('%',#{keyword},'%')
 		</if>
 	</sql>
-
+	
 	<insert id="surveyInsert" parameterType="survey">
-		insert into survey(userNum,spoint,joinNum,state) values(#{userNum},#{spoint},#{joinNum},"결제완료")
+		insert into survey(userNum,surveyStart,spoint,joinNum,state) values(#{userNum},now(),#{spoint},#{joinNum},"결제완료")
+		<selectKey keyProperty="surveyNum" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
 	</insert>
 	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
 		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})
@@ -27,6 +30,10 @@
 	<insert id="surveyInInsert" parameterType="surveyIn">
 		insert into survey_in values(0,#{userNum},#{surveyNum})
 	</insert>
+	
+	<delete id="surveyDelete" parameterType="survey">
+		delete from survey where surveyNum=#{surveyNum}
+	</delete>
 	
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
@@ -45,7 +52,7 @@
 	
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
 		select surveyNum from survey
-		where userNum=#{userNum} and state=#{state} 
+		where userNum=#{userNum} and surveyStart=#{surveyStart} 
 	</select>
 	<select id="sqNumSelect" parameterType="hashmap" resultType="int">
 		select sqNum from survey_question
