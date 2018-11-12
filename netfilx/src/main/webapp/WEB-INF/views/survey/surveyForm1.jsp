@@ -73,22 +73,32 @@
 	<div id="box" class="centerBox">	
 		<form id="frm" action="<c:url value='/survey/surveyInsert1'/>" method="post">
 			<div id="box">
-				<h2> ${userId }님이 현재 보유하고 있는 포인트는 ${userPoint }입니다. </h2>
-				<div id="payBox">
-					결제포인트
-					<input type="number" id="spoint" name="spoint" min="1000" max="9999000" step="1000" value="1000">
-					<span id="spointSpan"></span>
-					<br>
-					인원
-					<input type="number" id="joinNum" name="joinNum" min="10" max="9999000" step="10" value="10">
-					<span id="joinNumSpan"></span>
-					<br>
-					<input type="button" id="nthing" class="btnStyle"  value="배당금확인하기">						
-				</div>
-				<div id="descriptionBox">
-					이 설문조사 폼은 ~~~~~설명!
-				</div>				
-				<input type="button" id="submitBtn" value="결제하고 설문등록하러가기">
+				<h2> ${userId }님이 현재 보유하고 있는 포인트는 ${userPoint }입니다. </h2>				
+				<table>
+					<tr>
+						<th>결제포인트</th>
+						<td>
+							<input type="number" id="spoint" name="spoint" min="1000" max="9999000" step="1000" value="1000">
+							<span id="spointSpan"></span>
+						</td>
+					</tr>
+					<tr>
+						<th>인원</th>
+						<td>
+							<input type="number" id="joinNum" name="joinNum" min="10" max="9999000" step="10" value="10">
+							<span id="joinNumSpan"></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="button" id="nthing" class="btnStyle"  value="배당금확인하기"></td>
+					</tr>	
+					<tr>
+						<td colspan="2">이 설문조사 폼은 !~~~~~~!!설명!!!</td>	
+					</tr>
+					<tr>
+						<td colspan="2"><input type="button" id="submitBtn" value="결제하고 설문등록하러가기"></td>
+					</tr>
+				</table>	
 			</div>
 		</form>		
 	</div>

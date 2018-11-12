@@ -59,6 +59,7 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey1").show();
+			$(".tablehide").hide();
 			
 			appendBtnBox();
 			appendRow();
@@ -69,9 +70,10 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
+			$(".tablehide").hide();		
+			
 			appendDiv(0);			
 		});
-		
 		
 		function appendBtnBox(){//객관식그리드의 추가버튼박스...?
 			var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
@@ -203,8 +205,18 @@
 				checktype3();
 			}else if(n==4){
 				checktype4();
-			}			
+			}	
 		}
+		$(".tableshow").click(function(){
+			if($(".tablehide").css("display")=="none"){
+				$(".tablehide").show();
+			}else{
+				$(".tablehide").hide();
+			}
+		});
+		
+		
+		
 		
 		function showOption(){//질문Div눌렀을때 해당 질문의 입력했던 옵션들과 옵션추가버튼보이게!다른Div는 숨겨지고!
 			$("#surveyForm").find(".opBox").hide();		
@@ -229,8 +241,10 @@
 			$("#surveyForm").find(".opBox").hide();		
 			$("#surveyForm").find(".opPlusBox").hide();		
 			appendDiv(opNum);
-		});		 
+		});	
+		
 	});
+	
 	
 	
 	
@@ -621,19 +635,19 @@
 				<div id="surveyOverall">
 					<div class="overall">
 						<table>
-							<tr>
+							<tr class="tableshow">
 								<th><label for="surveyName">설문제목</label></th>
 								<td><input type="text" id="surveyName" name="surveyName" placeholder="설문제목을 입력하세요"></td>
 							</tr>
-							<tr>
+							<tr class="tablehide">
 								<th><label for="surveyDescription">설문내용</label></th>
 								<td><textarea rows="5" cols="cols" id="surveyDescription" name="surveyDescription" placeholder="설문내용을 입력하세요"></textarea></td>
 							</tr>
-							<tr>
+							<tr class="tablehide">
 								<th><label for="videoCheck"><input type="checkbox" id="videoCheck">영상첨부</label></th>
 								<td><span id="file"></span></td>
 							</tr>
-							<tr>
+							<tr class="tablehide">
 								<th>설문종료일</th>
 								<td><input type="text" id="surveyEnd" name="surveyEnd" readonly="readonly"></td>
 							</tr>
