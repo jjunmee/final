@@ -51,20 +51,17 @@ public class GoogleLoginController {
         Person profile = plusOperations.getGoogleProfile();
         String id = profile.getAccountEmail();
         UserVo vo= service.login(id);
-        String path = "";
         if(vo==null) {
-        	System.out.println(UserStatus.TRUE_USER);
 	    	vo=new UserVo(0,id,accessToken,null,0,UserStatus.TRUE_USER, null);
 	    	service.defaultJoin(vo);
 	    	session.setAttribute("sts", UserStatus.TRUE_USER);
-	    	path=".main";
 	    }else {
 	    	session.setAttribute("sts", vo.getSts());
-	    	path=".main";
+	    	session.setAttribute("users_num", vo.getUsersNum());
 	    }
 	    session.setAttribute("id", id);
 	    session.setAttribute("sns", "google");
 	    session.setAttribute("accessToken", accessToken);
-	    return path;
+	    return "redirect:/profile/user/index";
 	}
 }

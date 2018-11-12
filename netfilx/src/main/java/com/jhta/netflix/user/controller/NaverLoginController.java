@@ -56,7 +56,7 @@ public class NaverLoginController {
 
 	//네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/user/naver", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView callback(@RequestParam String code, @RequestParam String state, HttpSession session)
+	public String callback(@RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException {
 		//collback 구분을 위한 설정
 		OAuth2AccessToken oauthToken;
@@ -66,7 +66,6 @@ public class NaverLoginController {
 	    JSONObject json = new JSONObject(apiResult);
 	    JSONObject json1 = new JSONObject(oauthToken);
 	    String id = (String)json.getJSONObject("response").getString("email");
-	    ModelAndView mv=null;
 	    //아이디 조회
 	    UserVo vo=service.login(id);
 	    if(vo==null) {
@@ -75,15 +74,15 @@ public class NaverLoginController {
 	    	session.setAttribute("sts", UserStatus.TRUE_USER);
 	    }else {
 	    	session.setAttribute("sts", vo.getSts());
+	    	session.setAttribute("users_num", vo.getUsersNum());
 	    }
 	    session.setAttribute("id", id);
 	    session.setAttribute("sns", "naver");
 	    session.setAttribute("accessToken", json1.getString("accessToken").toString());
 	    session.setAttribute("tokenType", json1.getString("tokenType").toString());
 	    session.setAttribute("refreshToken", json1.getString("refreshToken").toString());
-	    mv= new ModelAndView(".main");
-        /* 네이버 로그인 성공 페이지 View 호출 */
-		return mv;
+	    
+		return "redirect:/profile/user/index";
 	}
 	
 }

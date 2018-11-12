@@ -54,9 +54,10 @@ public class UserController {
 		if(vo1!=null) {
 			String pw = SHA512.get_SHA_512_SecurePassword(vo.getPwd(), vo1.getPwd2());
 			if(vo1.getPwd().equals(pw)) {
+				session.setAttribute("users_num", vo1.getUsersNum());
 				session.setAttribute("id", vo.getId());
 				session.setAttribute("sts", vo1.getSts());
-				return ".main";
+				return "redirect:/profile/user/index";
 			}else {
 				return ".user.login";
 			}
@@ -73,17 +74,17 @@ public class UserController {
 	
 	//일반사용자 회원가입완료
 	@RequestMapping(value = "/join/default", method = RequestMethod.POST)
-	public ModelAndView defaultJoin(@Valid @ModelAttribute("DefaultJoinVo")DefaultJoinVo vo,
+	public String defaultJoin(@Valid @ModelAttribute("DefaultJoinVo")DefaultJoinVo vo,
 			BindingResult result,HttpServletRequest req,HttpSession session) {
 		JoinValidator validator=new JoinValidator();
 		validator.validate(vo,result);
 		if(result.hasErrors()) {
-			return new ModelAndView(".user.join.default");
+			return ".user.join.default";
 		}
 		String pass_key = cer_service.getInfo(Integer.parseInt(req.getParameter("passNum")));
 		String pass_check = req.getParameter("passCheck");
 		if(!pass_key.equals(pass_check)) {
-			return new ModelAndView(".user.join.default");
+			return ".user.join.default";
 		}
 		String pwd2= SHA512.generateSalt();
 		String pw=SHA512.get_SHA_512_SecurePassword(vo.getPwd(), pwd2);
@@ -96,26 +97,13 @@ public class UserController {
 		}
 		UserVo vo1=new UserVo(0,vo.getId(),pw,birth,0,UserStatus.TRUE_USER,pwd2);
 		int n=service.defaultJoin(vo1);
-		String redirect="";
 		if(n>=0) {
-			redirect=".main";//변경
 			session.setAttribute("id",vo.getId());
 			session.setAttribute("sts", UserStatus.TRUE_USER);
-			
-			//insert into profile values(0,select users_num from users where id=#id,
-			
-			//유저 번호가 있어야 프로필을 가져올 수 있다.1
-			//최초 가입시 프로필이 없다. 2
-			//선택 1 가입시 프로필 디펄트로 인서트를 넣는다.
-			//2 프로필 창으로넘겨 생성시 아이디 조회 후 넣는다 젠장
-			//배먼저 배꼽먼저
-			
+			return "redirect:/profile/user/index";
 		}else {
-			redirect=".user.join.default";
+			return ".user.join.default";
 		}
-		ModelAndView mv=new ModelAndView(redirect);
-		mv.addObject("vo", vo1);
-		return mv;
 	}
 	
 	
@@ -155,8 +143,6 @@ public class UserController {
 		map.put("success", f);
 		return map;
 	}
-	
-	
 	//logout
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
