@@ -24,6 +24,7 @@ public class ProfileUserVo {
 		this.profile_first = profile_first;
 		this.profile_regdate = profile_regdate;
 	}
+	
 	public int getProfile_num() {
 		return profile_num;
 	}

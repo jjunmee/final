@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,25 +22,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.netflix.lib.FileUpload;
 import com.jhta.netflix.profile.service.ProfileService;
+import com.jhta.netflix.profile.service.ProfileUserService;
+import com.jhta.netflix.profile.vo.ProfileUserListVo;
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 import com.jhta.netflix.profile.vo.ProfileVo;
 
 @Controller
 public class ProfileController {
-	@Autowired private ProfileService service;
+	@Autowired private ProfileService admin_service;
+	@Autowired private ProfileUserService user_service;
 	@Autowired FileUpload ftp;
 	//amin profile 페이지 이동 
 	@RequestMapping(value="/admin/profile")
 	public ModelAndView adminProfileView() {
 		ModelAndView mv =new ModelAndView(".admin.profile");
-		List<ProfileVo> pro_grop_list = service.groupList(); 
-		mv.addObject("profile_group", pro_grop_list);
+		List<ProfileVo> pro_group_list = admin_service.groupList(); 
+		mv.addObject("profile_group", pro_group_list);
 		return mv;
 	}
 	//그룹 추가
 	@RequestMapping(value="/admin/profile/groupInput",method=RequestMethod.POST)
 	public String adminProfileInsert(@RequestParam("pro_group_name") String pro_group_name) {
 		ProfileVo vo= new ProfileVo(0,pro_group_name);
-		service.groupInsert(vo);
+		admin_service.groupInsert(vo);
 		return "redirect:/admin/profile";
 	}
 	
@@ -47,7 +52,7 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/group-img",method=RequestMethod.GET)
 	public @ResponseBody Map<String, Object> adminGroupImg(@RequestParam("group_no") int group_no) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<ProfileVo> list = service.proImgList(group_no);
+		List<ProfileVo> list = admin_service.proImgList(group_no);
 		map.put("profile_group_img", list);
 		return map;
 	}
@@ -72,7 +77,7 @@ public class ProfileController {
 			int group_no = Integer.parseInt(pro_group_no);
 			String url = "http://dmszone.com:8080/watflix/profile/"+pro_group_no+"/"+fileName;
 			ProfileVo vo = new ProfileVo(0, group_no, url);
-			int no = service.proImgInsert(vo);
+			admin_service.proImgInsert(vo);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -83,7 +88,7 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/group/del",method=RequestMethod.GET)
 	public String adminProfileGroupDel(@RequestParam("group_no") String group_no) {
 		int no = Integer.parseInt(group_no);
-		service.groupDel(no);
+		admin_service.groupDel(no);
 		return "redirect:/admin/profile";
 	}
 	
@@ -91,8 +96,53 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/img/del",method=RequestMethod.GET)
 	public String adminProfileImgDel(@RequestParam("pimg_no") String pimg_no) {
 		int no = Integer.parseInt(pimg_no);
-		service.proImgDel(no);
+		admin_service.proImgDel(no);
 		return "redirect:/admin/profile";
+	}
+	
+	//profile choice view
+	@RequestMapping(value="/profile/user/index")
+	public ModelAndView profileChoiceView(HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		List<ProfileUserListVo> list = user_service.userProfileList(id);
+		if(list!=null) {//등록된 프로필이 있을 때 세션에 유저번호 저장
+			ProfileUserListVo vo = list.get(0);
+			session.setAttribute("users_num", vo.getUsers_num());
+		}
+		ModelAndView mv = new ModelAndView(".profile.index");
+		mv.addObject("list",list);
+		return mv;
+	}
+	
+	//profile user insert form move
+	@RequestMapping(value="/profile/user/insertForm",method=RequestMethod.GET)
+	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first) {
+		ModelAndView mv = new ModelAndView(".profile.insertForm");
+		mv.addObject("first",first);
+		return mv;
+	}
+	
+	//profile user insertOk
+	@RequestMapping(value="/profile/user/insert",method=RequestMethod.POST)
+	public String profileUserInsertOk(@RequestParam("nickname")String nickname,@RequestParam("pimg_num")String pimg_num,@RequestParam("profile_pwd")String profile_pwd,@RequestParam("child")String child,@RequestParam("profile_first")String profile_first,HttpSession session) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String id = (String)session.getAttribute("id");
+		int img_no = Integer.parseInt(pimg_num);
+		int age;
+		if(child.equals("false")) {
+			age=19;
+		}else {
+			age=7;
+		}
+		boolean first=false;
+		if(profile_first.equals("true")) {
+			first=true;
+		}
+		ProfileUserVo vo = new ProfileUserVo(0, nickname, 0, img_no, age, profile_pwd, first, null);
+		map.put("vo", vo);
+		map.put("id", id);
+		user_service.userProfileInsert(map);
+		return "redirect:/profile/user/index";
 	}
 	
 }
