@@ -69,7 +69,7 @@
 		$(window).on("beforeunload", function(){
 			var next_watch = $("#current").text();
 			$.get("<c:url value='/record/record'/>",
-					{"content_num":${vo.content_num },"profile_num":1,
+					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },
 						"next_watch":Number(next_watch),"total_time":Number(playTime)},
 					function(data) {
 						
@@ -83,13 +83,13 @@
 			printList(0,true);
 			setAvg();
 			$.get("<c:url value='/interasts/count'/>",
-					{"content_num":${vo.content_num },"profile_num":1},
+					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num }},
 					clickJj
 			);
 			
 			$("#jjBtn").click(function() {
 				$.get("<c:url value='/interasts/insert'/>",
-						{"content_num":${vo.content_num },"profile_num":1},
+						{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num }},
 						function(data) {
 							if(data.result){
 								clickJj(data);
@@ -101,7 +101,7 @@
 			$('.starRev span').click(function(event){
 				var rates_score = $(this).html();
 				$.get("<c:url value='/rates/setScore'/>",
-						{"content_num":${vo.content_num },"profile_num":1,"rates_score":rates_score},
+						{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },"rates_score":rates_score},
 						function(data) {
 							if(data.result){
 								$(event.target).parent().children('span').removeClass('on');
@@ -129,7 +129,7 @@
 			});
 			$.get(
 			"<c:url value='/record/getInfo'/>", 
-			{"content_num":${vo.content_num },"profile_num":1}, 
+			{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num }}, 
 			function(data) {
 				var player = document.getElementById("player");
 				player.currentTime=data.next_watch;
@@ -146,7 +146,7 @@
 		}
 		function setStar(){
 			$.get("<c:url value='/rates/record'/>",
-					{"content_num":${vo.content_num },"profile_num":1},
+					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num }},
 					function(data) {
 						if(data.result != undefined){
 							var spans = $(".starRev").children();
@@ -219,7 +219,7 @@
 			}
 			var sort = $("#sort").val();
 			$.get('<c:url value="/comment/list"/>',
-				{"content_num":${vo.content_num },"profile_num":1,"sort":sort,"rowNum":rowNum},
+				{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },"sort":sort,"rowNum":rowNum},
 				function(data) {
 					$(data).each(function(i, json) {
 						var str = 
@@ -250,7 +250,7 @@
 											+"</div>"
 											+"<textarea rows=\"1\" placeholder=\"공개 답글 추가...\" name=\"comment\" id=\"subComment\"></textarea>"
 											+"<input type=\"hidden\" name=\"content_num\" value=\"${vo.content_num }\">"
-											+"<input type=\"hidden\" name=\"profile_num\" value=\"1\">"
+											+"<input type=\"hidden\" name=\"profile_num\" value=\"${sessionScope.profile_num }\">"
 											+"<input type=\"hidden\" name=\"comment_open\" value=\"true\">"
 											+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
 											+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
@@ -282,11 +282,11 @@
 		function printSubList(event,num){
 			if($(event.target).html() == '답글 숨기기'){
 				$("#subList"+num).empty();
-				$(event.target).html("답글 보기");
+				$(event.target).html("답글 전체 보기");
 			}else{
 				$("#subList"+num).empty();
 				$.get('<c:url value="/comment/subList"/>',
-						{"comment_num":num,"profile_num":1},
+						{"comment_num":num,"profile_num":${sessionScope.profile_num }},
 						function(data) {
 							$(data).each(function(i, json) {
 								var str =
@@ -313,7 +313,7 @@
 		}
 		function clickGood(event,comment_num){
 			$.get('<c:url value="/good/insert"/>',
-					{"comment_num":comment_num,"profile_num":1},
+					{"comment_num":comment_num,"profile_num":${sessionScope.profile_num }},
 					function(data) {
 						if(data.result){
 							$(event.target).val("좋아요 "+data.count);
@@ -351,7 +351,7 @@
 					</div>
 					<textarea rows="1" placeholder="책갈피 추가..." name="comment" id="comment"></textarea>
 					<input type="hidden" name="content_num" value="${vo.content_num }">
-					<input type="hidden" name="profile_num" value="1">
+					<input type="hidden" name="profile_num" value="${sessionScope.profile_num }">
 					<br><br>
 					<div>
 						<span id="timeSpan"></span>
@@ -406,7 +406,7 @@
 				<textarea rows="1" placeholder="댓글 추가..." name="comment" id="comment" 
 					onfocus="showBtn('btnDiv')"></textarea>
 				<input type="hidden" name="content_num" value="${vo.content_num }">
-				<input type="hidden" name="profile_num" value="1">
+				<input type="hidden" name="profile_num" value="${sessionScope.profile_num }">
 				<br><br>
 				<div id="btnDiv">
 					<select name="comment_open" style="background-color: lightgray;">
