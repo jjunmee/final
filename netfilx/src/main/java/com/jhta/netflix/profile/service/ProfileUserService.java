@@ -19,4 +19,7 @@ public class ProfileUserService {
 	public int userProfileInsert(HashMap<String, Object> map) {
 		return dao.userProfileInsert(map);
 	}
+	public ProfileUserListVo userProfileInfo(int no) {
+		return dao.userProfileInfo(no);
+	}
 }

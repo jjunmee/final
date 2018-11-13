@@ -22,4 +22,8 @@ public class ProfileUserDaoImpl implements ProfileUserDao{
 	public int userProfileInsert(HashMap<String, Object> map) {
 		return sqlSession.insert(NAMESPACE+".userProfileInsert", map);
 	}
+	@Override
+	public ProfileUserListVo userProfileInfo(int no) {
+		return sqlSession.selectOne(NAMESPACE+".getInfo", no);
+	}
 }

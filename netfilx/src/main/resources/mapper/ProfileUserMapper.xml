@@ -16,4 +16,7 @@
  	<delete id="userProfileDelete" parameterType="int">
  		delete from profile where profile_num = #{profile_num}
  	</delete>
+ 	<select id="getInfo" parameterType="int" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
+ 		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num}
+ 	</select>
  </mapper>

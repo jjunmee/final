@@ -144,4 +144,17 @@ public class ProfileController {
 		return "redirect:/profile/user/index";
 	}
 	
+	///profile/user/getInfo?
+	@RequestMapping(value="/profile/user/getInfo",method=RequestMethod.GET)
+	public String userProfileSelect(@RequestParam("profile_num")String profile_num,HttpSession session) {
+		int no=Integer.parseInt(profile_num);
+		ProfileUserListVo vo = user_service.userProfileInfo(no);
+		if(vo!=null) {
+		session.setAttribute("users_num", vo.getUsers_num());
+		session.setAttribute("profile_num", vo.getProfile_num());
+		session.setAttribute("nickname", vo.getNickname());
+		session.setAttribute("pimg_src", vo.getPimg_src());
+		}
+		return ".main";
+	}
 }
