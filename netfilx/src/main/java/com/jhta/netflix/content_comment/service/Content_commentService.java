@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.content_comment.dao.Content_commentDao;
+import com.jhta.netflix.content_comment.vo.Comment_bookmarkVo;
 import com.jhta.netflix.content_comment.vo.Content_commentVo;
 
 @Service
@@ -23,7 +24,7 @@ public class Content_commentService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<Content_commentVo> list(HashMap<String, Object> map){
+	public List<Comment_bookmarkVo> list(HashMap<String, Object> map){
 		return dao.list(map);
 	}
 	public Content_commentVo find(int num) {
@@ -31,6 +32,9 @@ public class Content_commentService {
 	}
 	public int count(int num) {
 		return dao.count(num);
+	}
+	public int getMax() {
+		return dao.getMax();
 	}
 	public List<Content_commentVo> subList(int num){
 		return dao.subList(num);

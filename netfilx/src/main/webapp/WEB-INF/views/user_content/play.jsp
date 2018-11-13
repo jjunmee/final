@@ -10,6 +10,13 @@
 		video{width: 100%;}
 		#block{width: 70%;padding: 20px;}
 		
+		#bookmarkDiv{width: 100%;text-align: right}
+		#bookmarkBox{width: 100%;}
+		#bookmarkBox>form>*{margin-top: 10px;}
+		#bookmark_time{width: 70px;}
+		
+		.profile_name{width: 20%;float: left;text-align: center;}
+		
 		#info{text-align: right;padding: 5px;}
 		#info>h2{text-align: left;}
 		
@@ -71,6 +78,7 @@
 
 		$(function() {
 			$("#score").hide();
+			$("#bookmarkBox").hide();
 			rowPage = 1;
 			printList(0,true);
 			setAvg();
@@ -153,45 +161,53 @@
 						}
 			});
 		}
+		function setTime(){
+			var time = $("#bookmark_time").val();
+			var duration = parseInt(document.getElementById("player").duration);
+			if(time > duration){
+				time = duration;
+				$("#bookmark_time").val(time);
+			}else if(time < 0){
+				time = 0;
+				$("#bookmark_time").val(time);
+			}
+			var s = time % 60;
+			var m = parseInt(time / 60);
+			$("#timeSpan").text(m + " : " + s);
+		}
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
 			$("#jjBtn").prop("disabled", data.check);
 		}
-		function showBtn(){
-			$("#btnDiv").show();
+		function showBtn(id){
+			if(id == 'bookmarkBox'){
+				var time = parseInt(document.getElementById("player").currentTime);
+				$("#bookmark_time").val(time);
+				setTime();
+			}
+			$("#"+id).slideDown();
 		}
-		function hideBtn(){
-			$("#btnDiv").hide();
+		function hideBtn(id){
+			$("#"+id).hide();
 		}
-		function showSub(num){
-			$("#subDiv"+num).show();
-		}
-		function hideSub(num){
-			$("#subDiv"+num).hide();
-		}
-		function insertComment(){
-			var params = $("#insertForm").serialize();
+		function insertComment(id){
+			var params = $("#"+id).serialize();
 			$.post('<c:url value="/comment/insert"/>',
 					params,
 					function(data) {
 						if(data.result){
-							$("#insertForm>textarea").val("");
-							hideBtn();
-							rowPage = 1;
-							printList(0,true);
-						}else{
-							alert("오류로 인해 데이터 등록 실패!!");
-						}
-			});
-		}
-		function commentSub(num){
-			var params = $("#subForm"+num).serialize();
-			$.post('<c:url value="/comment/insert"/>',
-					params,
-					function(data) {
-						if(data.result){
-							$("#subForm"+num+">textarea").val("");
-							hideSub(num);
+							$("#"+id+">textarea").val("");
+							if(id == 'insertForm'){
+								hideBtn('btnDiv');
+								rowPage = 1;
+								printList(0,true);
+							}else if(id == 'bookmarkForm'){
+								hideBtn('bookmarkBox');
+								rowPage = 1;
+								printList(0,true);
+							}else{
+								hideBtn(id.replace("Form", "Div"));
+							}
 						}else{
 							alert("오류로 인해 데이터 등록 실패!!");
 						}
@@ -209,7 +225,14 @@
 						var str = 
 							"<div>"
 								+"<h5>"+json.nickname+"</h5>"
-								+"<p>"+json.comment+"</p>"
+								+"<p>";
+								if(json.bookmark){
+									var t = json.bookmark_time;
+									var s = t%60;
+									var m = parseInt(t/60);
+									str+="<a href='javascript:playBookmark("+t+")'>"+m+" : "+s+"</a> "
+								}
+								str+=json.comment+"</p>"
 								+"<div class=\"goodBox\">"
 									+"<input type=\"button\" value=\"좋아요 "+json.good_count
 										+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
@@ -217,10 +240,10 @@
 										str+="disabled=\"disabled\"";
 									}
 									str+=">"
-									+"<a href=\"javascript:showSub("+json.comment_num+");\">답글</a>"
+									+"<a href=\"javascript:showBtn('subDiv'+"+json.comment_num+");\">답글</a>"
 									+"<br>"
 									+"<div id=\"subDiv"+json.comment_num+"\">"
-										+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"commentSub("+json.comment_num+")\" "
+										+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"insertComment('subForm'+"+json.comment_num+")\" "
 										+"action=\"javascript:false;\">"
 											+"<div>"
 												+"프로필명" 
@@ -232,7 +255,7 @@
 											+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
 											+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
 											+"<br><br>"
-											+"<input type=\"button\" value=\"취소\" onclick=\"hideSub("+json.comment_num+")\">"
+											+"<input type=\"button\" value=\"취소\" onclick=\"hideBtn('subDiv'+"+json.comment_num+")\">"
 											+"<input type=\"submit\" value=\"입력\">"
 										+"</form>"
 										+"<br>"
@@ -307,6 +330,11 @@
 		    $("#total").text(playTime);
 		    $("#duration").text(duration)
 		}
+		function playBookmark(time) {
+			var player = document.getElementById("player");
+			player.currentTime = time;
+			player.play();
+		}
 	</script>
 </head>
 <body>
@@ -314,6 +342,32 @@
 		<video controls id="player">
 			<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 		</video>
+		<div id="bookmarkDiv">
+			<input type="button" value="책갈피" id="bookmark" onclick="showBtn('bookmarkBox')">
+			<div id="bookmarkBox">
+				<form id="bookmarkForm" onsubmit="insertComment('bookmarkForm')" action="javascript:false;">
+					<div class="profile_name">
+						프로필명 
+					</div>
+					<textarea rows="1" placeholder="책갈피 추가..." name="comment" id="comment"></textarea>
+					<input type="hidden" name="content_num" value="${vo.content_num }">
+					<input type="hidden" name="profile_num" value="1">
+					<br><br>
+					<div>
+						<span id="timeSpan"></span>
+						<input type="number" name="bookmark_time" id="bookmark_time" 
+							onclick="setTime()" onchange="setTime()">
+					</div>
+					<select name="comment_open" style="background-color: lightgray;">
+						<option value="true">공개</option>
+						<option value="false">비공개</option>
+					</select>
+					<input type="hidden" name="bookmark" value="true">
+					<input type="button" value="취소" onclick="hideBtn('bookmarkBox')">
+					<input type="submit" value="입력">
+				</form>
+			</div>
+		</div>
 		<div id="info">
 			<h2>${vo.content_name }</h2>
 			<!-- http://miuus.tistory.com/2 -->
@@ -345,12 +399,12 @@
 				<option value="good">좋아요순</option>
 			</select>
 			<br><br>
-			<form id="insertForm" onsubmit="insertComment()" action="javascript:false;">
-				<div style="width: 20%;float: left;text-align: center;">
+			<form id="insertForm" onsubmit="insertComment('insertForm')" action="javascript:false;">
+				<div class="profile_name">
 					프로필명 
 				</div>
 				<textarea rows="1" placeholder="댓글 추가..." name="comment" id="comment" 
-					onfocus="showBtn()"></textarea>
+					onfocus="showBtn('btnDiv')"></textarea>
 				<input type="hidden" name="content_num" value="${vo.content_num }">
 				<input type="hidden" name="profile_num" value="1">
 				<br><br>
@@ -359,37 +413,11 @@
 						<option value="true">공개</option>
 						<option value="false">비공개</option>
 					</select>
-					<input type="button" value="취소" onclick="hideBtn()">
+					<input type="button" value="취소" onclick="hideBtn('btnDiv')">
 					<input type="submit" value="입력">
 				</div>
 			</form>
 			<div id="commentList">
-			<!-- 
-				<div>
-					<h5>프로필명</h5>
-					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</p>
-					<div>
-						<input type="button" value="좋아요 0" onclick="clickGood()" disabled="disabled">
-						<a href="javascript:showSub(50);">답글</a>
-						<br>
-						<div id="subDiv50">
-							<form id="subForm50" onsubmit="subComment()" action="javascript:false;">
-								<div>
-									프로필명 
-								</div>
-								<textarea rows="1" placeholder="공개 답글 추가..." name="comment" id="subComment"></textarea>
-								<input type="hidden" name="content_num" value="${vo.content_num }">
-								<input type="hidden" name="profile_num" value="1">
-								<br><br>
-								<input type="button" value="취소" onclick="hideSub(50)">
-								<input type="submit" value="입력">
-							</form>
-							<br>
-						</div>
-						<a href="">답글 보기</a>
-					</div>
-				</div>
-			 -->
 			</div>
 			<input type="button" value="더보기" onclick="moreList()" id="moreBtn"
 				style="width: 100%;display: none;">

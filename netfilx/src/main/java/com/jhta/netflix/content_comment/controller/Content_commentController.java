@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jhta.netflix.bookmark.service.BookmarkService;
+import com.jhta.netflix.bookmark.vo.BookmarkVo;
 import com.jhta.netflix.content_comment.service.Content_commentService;
+import com.jhta.netflix.content_comment.vo.Comment_bookmarkVo;
 import com.jhta.netflix.content_comment.vo.Content_commentVo;
 import com.jhta.netflix.good.service.GoodService;
 import com.jhta.netflix.good.vo.GoodVo;
@@ -27,15 +30,29 @@ public class Content_commentController {
 	private GoodService goodService;
 	@Autowired
 	private ProfileService profileService;
+	@Autowired
+	private BookmarkService bookmarkService;
 	
 	@RequestMapping(value="/comment/insert",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public String insert(Content_commentVo vo) {
+	public String insert(Content_commentVo vo,
+			@RequestParam(value="bookmark_time",defaultValue="0")int bookmark_time) {
 		JSONObject json = new JSONObject();
 		try {
+			int comment_num = service.getMax() + 1;
+			vo.setComment_num(comment_num);
 			int n = service.insert(vo);
 			if(n>0) {
-				json.put("result", true);
+				if (vo.isBookmark()) {
+					int n2 = bookmarkService.insert(new BookmarkVo(0, comment_num, bookmark_time));
+					if(n2>0) {
+						json.put("result", true);
+					}else {
+						json.put("result", false);
+					}
+				}else {
+					json.put("result", true);
+				}
 			}else {
 				json.put("result", false);
 			}
@@ -54,9 +71,9 @@ public class Content_commentController {
 		map.put("content_num", content_num);
 		map.put("sort", sort);
 		map.put("rowNum", rowNum*5);
-		List<Content_commentVo> list= service.list(map);
+		List<Comment_bookmarkVo> list= service.list(map);
 		JSONArray arr = new JSONArray();
-		for(Content_commentVo vo : list) {
+		for(Comment_bookmarkVo vo : list) {
 			JSONObject json = new JSONObject();
 			json.put("comment_num", vo.getComment_num());
 			json.put("comment", vo.getComment());
@@ -68,6 +85,7 @@ public class Content_commentController {
 			json.put("nickname", pvo.getNickname());
 			json.put("comment_open", vo.isComment_open());
 			json.put("bookmark", vo.isBookmark());
+			json.put("bookmark_time", vo.getBookmark_time());
 			json.put("good_count", goodService.count(vo.getComment_num()));
 			HashMap<String, Object> subMap = new HashMap<String, Object>();
 			subMap.put("comment_num", vo.getComment_num());

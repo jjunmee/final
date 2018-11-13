@@ -15,13 +15,14 @@
 	<delete id="delete" parameterType="int">
 		delete from content_comment where comment_num=#{comment_num}
 	</delete>
-	<select id="list" parameterType="hashmap" resultType="ccomment">
-		select cc.* 
-		from content_comment cc left join 
+	<select id="list" parameterType="hashmap" resultType="cbookmark">
+		select cc.*, b.bookmark_time 
+		from (content_comment cc left join 
 			(select comment_num,count(*) cnt
 			from good
 			group by comment_num) g
-		on cc.comment_num=g.comment_num
+			on cc.comment_num=g.comment_num) left join bookmark b
+    		on cc.comment_num=b.comment_num
 		where content_num=#{content_num} and comment_open=true and c_lev=0
 		order by 
 		<if test="sort == 'new'">
@@ -43,6 +44,9 @@
 	</select>
 	<select id="count" parameterType="int" resultType="int">
 		select count(*) from content_comment where content_num=#{value}
+	</select>
+	<select id="getMax" resultType="int">
+		select max(comment_num) from content_comment
 	</select>
 </mapper>
   
