@@ -105,12 +105,11 @@ public class ProfileController {
 	public ModelAndView profileChoiceView(HttpSession session) {
 		String id = (String)session.getAttribute("id");
 		List<ProfileUserListVo> list = user_service.userProfileList(id);
-		if(list!=null) {//등록된 프로필이 있을 때 세션에 유저번호 저장
-			ProfileUserListVo vo = list.get(0);
-			session.setAttribute("users_num", vo.getUsers_num());
-		}
 		ModelAndView mv = new ModelAndView(".profile.index");
-		mv.addObject("list",list);
+		if(!list.isEmpty()) {
+			session.setAttribute("users_num",list.get(0).getUsers_num());
+			mv.addObject("list",list);
+		}
 		return mv;
 	}
 	

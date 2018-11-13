@@ -8,18 +8,18 @@ function sel_group(group_no){
 		dataType:"json",
 		data : {"group_no":group_no},
 		success : function(data){
-			var rs ="<ul class='vmcarousel-normal vmcarousel'>";
+			var rs ="<ul class='vmcarousel-normal'>";
 			$.each(data.profile_group_img,function(index, item){
-				rs += "<li><img src='"+item.pimg_src+"' width='200' id='"+item.pimg_num+"' onclick='sel_pimg("+item.pimg_num+")'></li>";
+				rs += "<li><img src='"+item.pimg_src+"' width='200' id='"+item.pimg_num+"'></li>";
 			});
 			rs+="</ul>";
 			$("#proImg-slide").html(rs);
-			$('.vmcarousel-normal').vmcarousel({
-		         centered: false,
-		         start_item: 0,
-		         autoplay: false,
-		         infinite: false
-			});
+			      $('.vmcarousel-normal').vmcarousel({
+			         centered: false,
+			         start_item: 0,
+			         autoplay: false,
+			         infinite: false
+			      });
 		}
 	});
 };
@@ -30,12 +30,21 @@ function pro_group_del(){
 	location.href=path+group_no;
 }
 
-function sel_img(no){
-	$("#pimg_no").val(no);
-}
 function pimg_del(){
 	var pimg_no = $("#pimg_no").val();
 	var path = $("#path").val()+"/admin/profile/img/del?pimg_no=";
 	location.href=path+pimg_no;
 }
 
+jQuery(function($){
+    $('.vmcarousel-normal').vmcarousel({
+       centered: false,
+       start_item: 0,
+       autoplay: false,
+       infinite: false
+    });
+ });
+
+function sel_pimg(no){
+	$("#pimg_no").val(no);
+}
