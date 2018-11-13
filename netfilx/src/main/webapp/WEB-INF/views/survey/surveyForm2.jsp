@@ -6,7 +6,6 @@
 	var choiceType=0;//객관식그리드인지 복합질문형인지 구분하려는 용도
 	var opNum=-1;//객관식그리드의 경우엔 옵션갯수세는용도,복합질문형의 경우엔 옵션타입구분하는용도
 	var exist=0;//질문몇개인가 세려는 용도
-	var arrayStore='';//div순서리스트
 	
 	$(document).ready(function(){
 		$("#videoCheck").click(function(){//영상
@@ -59,7 +58,6 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey1").show();
-			$(".tablehide").hide();
 			
 			appendBtnBox();
 			appendRow();
@@ -70,7 +68,6 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
-			$(".tablehide").hide();		
 			
 			appendDiv(0);			
 		});
@@ -145,8 +142,6 @@
 				var order = $(this).sortable('toArray', {
 					attribute: 'data-order'
 				});
-				arrayStore=order;
-				console.log("arrayStore : " + arrayStore);
 			}
 		});
 		$("#mainSurvey2").sortable({//div순서바꾸기
@@ -156,8 +151,6 @@
 				var order = $(this).sortable('toArray', {
 					attribute: 'data-order'
 				});
-				arrayStore=order;
-				console.log("arrayStore : " + arrayStore);
 			}
 		});
 		
@@ -531,8 +524,12 @@
 			}
 		}
 		//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
-		var appStr="mainSurvey"+choiceType;
-		var appendingBoxArr=$(appStr).find(".appendingBox");
+		var appendingBoxArr='';
+		if(choiceType=="2"|| choiceType==2){
+			appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
+		}else if(choiceType="1"||choiceType==1){
+			appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
+		}
 		for(var i=0;i<appendingBoxArr.length;i++){
 			var appendingBox=appendingBoxArr.get(i);
 			var qbox=appendingBox.getAttribute("id");
@@ -554,46 +551,6 @@
 				}
 			}
 		}
-		
-		/*
-		if(arrayStore!='' && arrayStore!=null){//div순서변경시
-			var len=arrayStore.length;
-			for(i=0;i<=len;i++){
-				var num=arrayStore[i];
-				$("input[name='sqlist["+num+"].sqType']").attr("class","save");			
-				$("input[name='sqlist["+num+"].sqType']").attr("name","qlist["+i+"].sqType");			
-				$("input[name='sqlist["+num+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
-				$("input[name='ssalist["+num+"].alist']").attr("name","salist["+i+"].alist");
-			}			 
-			$("#things").find(".org").remove();
-		}else if(len==null || len==0 || len==''){//div 순서변경없을때
-			var signNum=0;
-			for(i=0;i<=cloneCnt;i++){
-				var st="box"+i;
-				if(document.getElementById(st)!=null){
-					$("input[name='sqlist["+i+"].sqType']").attr("class","save");			
-					$("input[name='sqlist["+i+"].sqType']").attr("name","qlist["+signNum+"].sqType");			
-					$("input[name='sqlist["+i+"].sqTitle']").attr("name","qlist["+signNum+"].sqTitle");
-					if(choiceType==2){
-						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");						
-					}
-					signNum++;
-				}
-			}
-			if(choiceType==1){
-				var signNum1=0;
-				for(i=0;i<=opNum;i++){
-					var st="opBox"+i;
-					if(document.getElementById(st)!=null){
-						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum1+"].alist");
-						signNum1++;
-					}
-				}
-			}
-		}else{//div 순서변경 후 div를  추가하거나 삭제했을 때
-			
-		}
-		*/
 		
 		var stateBox=document.createElement("input");
 		stateBox.setAttribute("type","hidden");

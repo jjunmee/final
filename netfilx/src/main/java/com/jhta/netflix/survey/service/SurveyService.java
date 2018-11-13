@@ -87,6 +87,9 @@ public class SurveyService {
 	public SurveyInVo surveyInSelect(Map<String, Object> map) {
 		return dao.surveyInSelect(map);
 	}
+	public List<Integer> surveyInSelect1(int userNum){
+		return dao.surveyInSelect1(userNum);
+	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return dao.surveyQuestionSelect(surveyNum);
 	}

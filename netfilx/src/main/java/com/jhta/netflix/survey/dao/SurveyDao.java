@@ -83,6 +83,9 @@ public class SurveyDao {
 	public SurveyInVo surveyInSelect(Map<String, Object> map) {
 		return session.selectOne(NAMESPACE+".surveyInSelect",map);
 	}
+	public List<Integer> surveyInSelect1(int userNum){
+		return session.selectList(NAMESPACE+".surveyInSelect1",userNum);
+	}
 	public List<SurveyQuestionVo> surveyQuestionSelect(int surveyNum) {
 		return session.selectList(NAMESPACE+".surveyQuestionSelect",surveyNum);
 	}

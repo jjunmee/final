@@ -2,6 +2,33 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
+	$(function(){
+		var user=document.getElementById("userId");
+		if(user.getAttribute("value")!=null && user.getAttribute("value")!=''){
+			var userId=user.getAttribute("value");
+			$.ajax({				
+				url:"<c:url value='/survey/surveyInCheck?userId="+userId+"'/>",
+				dataType:"json",
+				success:function(data){
+					$(data).each(function(i,json){
+						var sNum=json;
+						var spanId="surveyInSpan"+sNum;
+						var aTagId="aTag"+sNum;
+						if(document.getElementById(spanId)!=null){							
+							var surveySpan=document.getElementById(spanId);
+							surveySpan.innerHTML="참여";
+							var aTag=document.getElementById(aTagId);
+							aTag.onclick=function(){
+								alert("이미 참여한 설문입니다.");
+							}
+							aTag.removeAttribute("href");
+						}
+					});
+				}
+			});
+		}
+		
+	});
 	function setPageNum(pageNum){
 		$("#pageNum").val(pageNum);
 		$("#listForm").submit();
@@ -18,14 +45,7 @@
 			}
 		}
 	}
-	function idCheckAndSurveyIn(num){
-		var userId=document.getElementById("userId");
-		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
-			alert('먼저 로그인을 해주세요');
-		}else{
-			location.href="<c:url value='/survey/surveyDetail?surveyNum="+num+"'/>";
-		}
-	}
+	
 
 </script>
 <style type="text/css">
@@ -60,6 +80,7 @@
 					<c:choose>
 						<c:when test="${code==1 }">						
 							<th>마감기한</th>
+							<th>참여여부</th>
 						</c:when>
 						<c:when test="${code==2 }">
 							<th>종료일</th>
@@ -70,7 +91,7 @@
 					<tr> 
 						<td>${vo.surveyNum }</td>
 					<c:if test="${code==1 }">
-						<td><a href="javascript:idCheckAndSurveyIn(${vo.surveyNum })">${vo.surveyName }</a></td>
+						<td><a href="javascript:idCheck(2)" id="aTag${vo.surveyNum }">${vo.surveyName }</a></td>						
 					</c:if>
 					<c:if test="${code==2 }">
 						<td>${vo.surveyName }</td>
@@ -79,6 +100,9 @@
 						<td>${Math.round(vo.spoint/vo.joinNum) }포인트</td>
 						<td>${vo.surveyStart }</td>
 						<td>${vo.surveyEnd }</td>	
+					<c:if test="${code==1 }">
+						<td><span id="surveyInSpan${vo.surveyNum }">미참여</span></td>
+					</c:if>
 					</tr>
 				</c:forEach>	
 			</table>

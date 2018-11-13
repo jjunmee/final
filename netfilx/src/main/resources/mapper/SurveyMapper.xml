@@ -76,6 +76,9 @@
 	<select id="surveyInSelect" parameterType="hashmap" resultType="surveyIn">
 		select * from survey_in where userNum=#{userNum} and surveyNum=#{surveyNum}
 	</select>
+	<select id="surveyInSelect1" parameterType="int" resultType="int">
+		select surveyNum from survey_in where userNum=#{userNum}
+	</select>
 	<select id="surveyQuestionSelect" parameterType="int" resultType="surveyQuestion">
 		select * from survey_question where surveyNum=#{surveyNum}
 	</select>

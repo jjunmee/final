@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jhta.netflix.lib.PageUtil;
+import com.jhta.netflix.point_info.service.Point_infoService;
+import com.jhta.netflix.point_info.vo.Point_infoVo;
 import com.jhta.netflix.survey.service.SurveyService;
 import com.jhta.netflix.survey.vo.SurveyAnswerDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
@@ -37,6 +40,7 @@ import com.jhta.netflix.survey.vo.SurveyVo;
 @Controller
 public class SurveyController {
 	@Autowired private SurveyService service;
+	@Autowired private Point_infoService pointService;
 	
 	@RequestMapping(value="/survey/list")
 	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,Model model) {
@@ -86,6 +90,15 @@ public class SurveyController {
 		
 		return ".survey.mySurvey";
 	}
+	
+	@RequestMapping("/survey/surveyInCheck")
+	@ResponseBody
+	public List<Integer> surveyInCheck(String userId) {
+		int userNum=service.userSelect(userId).getUsersNum();
+		List<Integer> surveyNumList=service.surveyInSelect1(userNum);
+		return surveyNumList;
+	}
+	
 	@RequestMapping(value="/survey/surveyDetail",method=RequestMethod.GET)
 	public String detail1(int surveyNum, Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
@@ -133,6 +146,11 @@ public class SurveyController {
 			map.put("userNum", userNum);
 			map.put("point", vo.getSpoint());
 			service.userPointUpdate(map);
+			//pointInfo 테이블에 사용내역인서트
+			String usage="설문구매-사용-"+vo.getSpoint();
+			Point_infoVo pointVo=new Point_infoVo(0, null, usage, "point", userNum);
+			pointService.insert(pointVo);
+			
 		}		
 		model.addAttribute("surveyNum",surveyNum);
 		return ".survey.surveyForm2";
@@ -222,12 +240,14 @@ public class SurveyController {
 		String userId=(String)session.getAttribute("id");
 		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
+		/*surveyIn에 해당 user의 참여여부 확인
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
 		map.put("surveyNum", surveyNum);
 		if(service.surveyInSelect(map)!=null) {
 			return "redirect:/survey/list?code=1";
-		}	
+		}
+		*/	
 		SurveyInVo siVo=new SurveyInVo(0, userNum, surveyNum);
 		service.surveyInInsert(siVo);
 		//SurveyResult테이블에 insert시키기
@@ -255,6 +275,12 @@ public class SurveyController {
 		map1.put("userNum", userNum);
 		map1.put("point", point);
 		service.userPointUpdate1(map1);
+		
+		//pointInfo 테이블에 설문참여 insert
+		String usage="설문참여-적립-"+point;
+		Point_infoVo pointVo=new Point_infoVo(0, null, usage, "point", userNum);
+		pointService.insert(pointVo);
+		
 		//참여인원수가 다찼으면 설문상태를 '설문종료'로 만들기!
 		int surveyCnt=service.joinCntSelect(surveyNum);
 		if(surveyCnt==surveyVo.getJoinNum()) {
