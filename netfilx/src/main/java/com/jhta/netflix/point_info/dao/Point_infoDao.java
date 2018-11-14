@@ -32,8 +32,8 @@ public class Point_infoDao {
 		return sqlSession.delete(NAMESPACE + ".delete", num);
 	}
 	
-	public List<User_pointVo> userpoint(int num) {
-		return sqlSession.selectList(NAMESPACE + ".userpoint",num);
+	public List<User_pointVo> userpoint(HashMap<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE + ".userpoint",map);
 	}
 	
 	public int listCount(HashMap<String, Object> map) {

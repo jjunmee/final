@@ -1,7 +1,6 @@
 @charset "UTF-8";
-
 body {
-	position: relative; padding: 0px; margin: 0px;
+	position: relative; padding: 0px; margin: 0px;background-color: #424242;
 }
 #content {padding-top:50px;color: #fff; background-color: #424242; width: 100%; margin: auto;}
 #footer {padding-top:50px;height:200px;color: #fff; background-color: #424242;}

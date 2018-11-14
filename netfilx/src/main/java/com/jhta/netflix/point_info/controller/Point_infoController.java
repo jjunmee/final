@@ -58,12 +58,12 @@ public class Point_infoController {
 	}
 	
 	@RequestMapping("/point/userInfo")
-	public ModelAndView infolist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,HttpSession session) {
+	public ModelAndView infolist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String keyword,HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.userInfo(id);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("field", field);
+		map.put("users_num", uvo.getUsersNum());
 		map.put("keyword", keyword);
 		// V 인덱스 갯수 가져오기
 		int totalRowCount = service.listCount(map);
@@ -72,11 +72,11 @@ public class Point_infoController {
 		//pageUtil에서 넘어온값 가져와서 넣어주기
 		map.put("startRow", pu.getMysqlStartRow());
 		map.put("rowBlockCount", pu.getRowBlockCount());
-		List<User_pointVo> list = service.userpoint(uvo.getUsersNum());
+		List<User_pointVo> list = service.userpoint(map);
 		mv.addObject("list", list);
 		mv.addObject("pu", pu);
-		mv.addObject("field", field);
 		mv.addObject("keyword", keyword);
+		mv.setViewName(".point.userInfo");
 		return mv;
 	}
 }
