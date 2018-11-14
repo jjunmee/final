@@ -8,7 +8,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="<c:url value='/'/>">WATFLIX</a>
+      <a class="navbar-brand" href="<c:url value='/'/>">
+      	<img src='<c:url value="/resources/images/mainlogo.png"/>' style="width: 80px;">
+      </a>
     </div>
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
@@ -19,6 +21,7 @@
 	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
 	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
 	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
+	          <li><a href="<c:url value='/series/list'/>">시리즈 관리</a></li>
 	          <li><a href="<c:url value='/content/userView'/>">컨텐츠 뷰</a></li>
             </ul>
           </li>
@@ -44,7 +47,7 @@
 		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
 		          </c:when>
 		          <c:otherwise>
-			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>
+			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" id="test" href="javascript:profile(${pageContext.request.contextPath });">마이페이지<span class="caret"></span></a>
 			            <ul class="dropdown-menu">
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
@@ -54,13 +57,9 @@
 			          </li>
 		          </c:otherwise>
 	          </c:choose>
-          
         </ul>
       </div>
     </div>
-    
-    	
-   
   </div>
 </nav>    
 

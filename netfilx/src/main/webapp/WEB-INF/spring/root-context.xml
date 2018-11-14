@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 	
@@ -95,6 +97,12 @@
 		<property name="pwd" value="${ftp.pwd}"/>
 		<property name="port" value="${ftp.port}"/>
 	</bean>
+	
+	<bean id="surScheduler" class="com.jhta.netflix.survey.controller.SurveyScheduler"/>
+		<task:scheduler id="surveyScheduler" pool-size="10"/>
+		<task:executor id="schedulerExecutor" pool-size="10"/>
+		<task:annotation-driven executor="schedulerExecutor" scheduler="surveyScheduler"/>
+	
 	
    <context:component-scan base-package="com.jhta.netflix">
    		<context:exclude-filter type="annotation" 

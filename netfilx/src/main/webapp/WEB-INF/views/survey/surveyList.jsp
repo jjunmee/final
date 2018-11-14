@@ -33,7 +33,7 @@
 		$("#pageNum").val(pageNum);
 		$("#listForm").submit();
 	}
-	function idCheck(n){
+	function idCheck(n,snum){
 		var userId=document.getElementById("userId");
 		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
 			alert('먼저 로그인을 해주세요');
@@ -42,6 +42,8 @@
 				location.href="<c:url value='/survey/mySurvey'/>";
 			}else if(n==1){//설문구매
 				location.href="<c:url value='/survey/surveyInsert1'/>";
+			}else if(n==2){
+				location.href="<c:url value='/survey/surveyDetail?surveyNum="+snum+"'/>";
 			}
 		}
 	}
@@ -91,7 +93,7 @@
 					<tr> 
 						<td>${vo.surveyNum }</td>
 					<c:if test="${code==1 }">
-						<td><a href="javascript:idCheck(2)" id="aTag${vo.surveyNum }">${vo.surveyName }</a></td>						
+						<td><a href="javascript:idCheck(2,${vo.surveyNum })" id="aTag${vo.surveyNum }">${vo.surveyName }</a></td>						
 					</c:if>
 					<c:if test="${code==2 }">
 						<td>${vo.surveyName }</td>

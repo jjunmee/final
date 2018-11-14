@@ -1,0 +1,11 @@
+#backImg{width: 1800px;}
+#logoImg{width: 300px;position: absolute;top:50px;left: 50%;transform:translate(-50%, 0%);}
+#loginBox{width: 400px;height: 600px;position: absolute;top: 30%;left: 50%;
+	transform:translate(-50%, -30%);}
+#loginBack{width: 100%;height: 100%;background-color: black;opacity: 0.6;
+	position: absolute;top: 0px;left: 0px;}
+#loginInfo{width: 400px;height: 600px;position: absolute;top: 0px;left: 0px;padding: 30px;}
+#loginInfo>h1{color: white;}
+#loginSns{width:100%;margin-top: 200px;}
+#loginSns a{width:100%;margin-top: 10px;}
+#JoinInfo{width:100%;margin: 10px auto;}

@@ -51,7 +51,7 @@ public class NaverLoginController {
 		String google_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
 		model.addAttribute("google_url", google_url);
 		/* 생성한 인증 URL을 View로 전달 */
-		return ".user.login";
+		return "/user/login";
 	}
 
 	//네이버 로그인 성공시 callback호출 메소드

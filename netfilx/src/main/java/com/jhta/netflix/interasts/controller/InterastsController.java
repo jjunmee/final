@@ -1,5 +1,7 @@
 package com.jhta.netflix.interasts.controller;
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +42,11 @@ public class InterastsController {
 		return json.toString();
 	}
 	private void count_check(JSONObject json,int content_num,int profile_num) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("content_num", content_num);
+		map.put("profile_num", profile_num);
 		json.put("count", service.count(content_num));
-		if(service.find(profile_num) != null) {
+		if(service.find(map) != null) {
 			json.put("check", true);
 		}else {
 			json.put("check", false);

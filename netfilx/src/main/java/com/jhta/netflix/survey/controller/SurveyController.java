@@ -236,18 +236,9 @@ public class SurveyController {
 	
 	@RequestMapping(value="/survey/resultInsert",method=RequestMethod.POST)
 	public String resultInsert(HttpSession session,int surveyNum,@ModelAttribute SurveyResultDto resultDto, Model model) {
-		//SurveyIn테이블에 userId가 없으면 insert 시키기
+		//SurveyIn테이블에 userId가 없으면 insert 시키기==>jsp에서 ajax로 걸러주기때문에 안해도될듯해서 수정함.
 		String userId=(String)session.getAttribute("id");
-		//String userId="alsl";
 		int userNum=service.userSelect(userId).getUsersNum();
-		/*surveyIn에 해당 user의 참여여부 확인
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("userNum", userNum);
-		map.put("surveyNum", surveyNum);
-		if(service.surveyInSelect(map)!=null) {
-			return "redirect:/survey/list?code=1";
-		}
-		*/	
 		SurveyInVo siVo=new SurveyInVo(0, userNum, surveyNum);
 		service.surveyInInsert(siVo);
 		//SurveyResult테이블에 insert시키기
@@ -288,6 +279,16 @@ public class SurveyController {
 			map2.put("surveyNum", surveyNum);
 			map2.put("state", "설문종료"); 
 			service.surveyStateUpdate(map2);
+			//설문이 종료되면 해당설문의 유저번호가져와서 point반환시켜주고 pointinfo테이블에 insert
+			int leftPoint=service.leftPoint(surveyNum);			
+			int surUserNum=surveyVo.getUserNum();
+			Map<String, Object> map3=new HashMap<String, Object>();
+			map3.put("point", leftPoint);
+			map3.put("userNum", surUserNum);
+			service.userPointUpdate1(map3);
+			Point_infoVo pointVo1=new Point_infoVo(0, null, "설문종료반환금-반환-"+leftPoint, "point", surUserNum);
+			pointService.insert(pointVo1);	
+			
 		}
 		
 		return "redirect:/survey/list?code=1";

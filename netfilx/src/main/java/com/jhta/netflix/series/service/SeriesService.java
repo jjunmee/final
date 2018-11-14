@@ -1,5 +1,6 @@
 package com.jhta.netflix.series.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,13 @@ public class SeriesService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
-	public List<SeriesVo> list(String name){
-		return dao.list(name);
+	public List<SeriesVo> list(HashMap<String, Object> map){
+		return dao.list(map);
 	}
 	public SeriesVo find(int num) {
 		return dao.find(num);
+	}
+	public int count(String keyword) {
+		return dao.count(keyword);
 	}
 }

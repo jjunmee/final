@@ -1,5 +1,6 @@
 package com.jhta.netflix.series.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,10 +24,13 @@ public class SeriesDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE + ".delete", num);
 	}
-	public List<SeriesVo> list(String name){
-		return sqlSession.selectList(NAMESPACE + ".list", name);
+	public List<SeriesVo> list(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".list", map);
 	}
 	public SeriesVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE + ".find", num);
+	}
+	public int count(String keyword) {
+		return sqlSession.selectOne(NAMESPACE+".count", keyword);
 	}
 }

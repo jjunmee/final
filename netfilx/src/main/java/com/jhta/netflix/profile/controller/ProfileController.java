@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,7 +97,11 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/img/del",method=RequestMethod.GET)
 	public String adminProfileImgDel(@RequestParam("pimg_no") String pimg_no) {
 		int no = Integer.parseInt(pimg_no);
-		admin_service.proImgDel(no);
+		try {
+			admin_service.proImgDel(no);
+		}catch(DataIntegrityViolationException e) {
+			return "redirect:/admin/profile";
+		}
 		return "redirect:/admin/profile";
 	}
 	
@@ -111,6 +116,21 @@ public class ProfileController {
 			mv.addObject("list",list);
 		}
 		return mv;
+	}
+	
+	//head json profile get list
+	@RequestMapping(value="/profile/user/json")
+	public HashMap<String, Object> profileUsergetList(HttpSession session) {
+		int profile_num = (Integer)session.getAttribute("profile_num");
+		int users_num = (Integer)session.getAttribute("users_num");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(profile_num>0 && users_num>0) {
+			map.put("users_num", users_num);
+			map.put("profile_num", profile_num);
+			List<ProfileUserListVo> list = user_service.userProfileList(map);
+			map.put("profileList", list);
+		}
+		return map;	
 	}
 	
 	//profile user insert form move

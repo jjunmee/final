@@ -14,11 +14,24 @@
 	<delete id="delete" parameterType="int">
 		delete from series where series_num=#{value}
 	</delete>
-	<select id="list" parameterType="string" resultType="series">
-		select * from series where series_name like CONCAT('%',#{value},'%')
+	<select id="list" parameterType="hashmap" resultType="series">
+		select * 
+		from series 
+		<if test="keyword != null">
+			where series_name like CONCAT('%',#{keyword},'%')
+		</if>
+		<if test="startRow != null">
+			limit #{startRow}, #{rowBlockCount}
+		</if>
 	</select>
 	<select id="find" parameterType="int" resultType="series">
 		select * from series where series_num=#{value}
+	</select>
+	<select id="count" parameterType="string" resultType="int">
+		select count(*) from series
+		<if test="value != null">
+			where series_name like CONCAT('%',#{value},'%')
+		</if>
 	</select>
 </mapper>
   

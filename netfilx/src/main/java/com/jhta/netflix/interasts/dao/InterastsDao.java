@@ -1,5 +1,6 @@
 package com.jhta.netflix.interasts.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,8 +27,8 @@ public class InterastsDao {
 	public List<InterastsVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}
-	public InterastsVo find(int num) {
-		return sqlSession.selectOne(NAMESPACE+".find", num);
+	public InterastsVo find(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE+".find", map);
 	}
 	public int count(int num) {
 		return sqlSession.selectOne(NAMESPACE+".count", num);
