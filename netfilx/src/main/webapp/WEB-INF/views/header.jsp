@@ -44,7 +44,7 @@
 		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
 		          </c:when>
 		          <c:otherwise>
-			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지 <span class="caret"></span></a>
+			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:profile()">마이페이지<span class="caret"></span></a>
 			            <ul class="dropdown-menu">
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
@@ -58,9 +58,6 @@
         </ul>
       </div>
     </div>
-    
-    	
-   
   </div>
 </nav>    
 

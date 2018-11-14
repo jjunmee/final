@@ -21,19 +21,20 @@
 <script src="<c:url value='/resources/js/jquery-3.3.1.min.js'/>"></script>
 <script src="<c:url value='/resources/js/slick.min.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
+<script src="<c:url value='/resources/js/header.js'/>"></script>
 <title>WATFLIX!</title>
 </head>
 <body>
-<div id="wrap">
-	<div id="header">
-		<tiles:insertAttribute name="header"/>
+	<div id="wrap">
+		<div id="header">
+			<tiles:insertAttribute name="header"/>
+		</div>
+		<div id="content">
+			<tiles:insertAttribute name="content"/>
+		</div>
+		<div id="footer">
+			<tiles:insertAttribute name="footer"/>
+		</div>
 	</div>
-	<div id="content">
-		<tiles:insertAttribute name="content"/>
-	</div>
-	<div id="footer">
-		<tiles:insertAttribute name="footer"/>
-	</div>
-</div>
 </body>
 </html>

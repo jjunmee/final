@@ -20,7 +20,6 @@
 			<input type="text" name="pro_group_name" id="pro_group_name">
 			<input type="submit"  class="btn btn-default" value="추가">
 			<p>추가시 변경 불가능 삭제 후 재등록 바랍니다.</p>
-			<p>PS. 등록된 프로필도 같이 삭제 됩니다.</p>
 		</form>
 	</div>
 	
@@ -35,7 +34,7 @@
 			<input type="file" name="file1" id="file1">
 			<input type="hidden" name="pro_group_no" id="pro_group_no" value="${pro_group_no }" >
 			<input type="submit"  class="btn btn-default" value="추가">
-			<p>추가시 변경 불가능 삭제 후 재등록 바랍니다.</p>
+			<p>추가시 변경, 삭제 불가(사용중인 사람이 있을 시) 관리자에게 문의 바랍니다.</p>
 		</form>
 	</div>
 </div>

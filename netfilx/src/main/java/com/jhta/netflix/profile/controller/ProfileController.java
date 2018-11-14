@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,7 +97,11 @@ public class ProfileController {
 	@RequestMapping(value="/admin/profile/img/del",method=RequestMethod.GET)
 	public String adminProfileImgDel(@RequestParam("pimg_no") String pimg_no) {
 		int no = Integer.parseInt(pimg_no);
-		admin_service.proImgDel(no);
+		try {
+			admin_service.proImgDel(no);
+		}catch(DataIntegrityViolationException e) {
+			return "redirect:/admin/profile";
+		}
 		return "redirect:/admin/profile";
 	}
 	
@@ -111,6 +116,19 @@ public class ProfileController {
 			mv.addObject("list",list);
 		}
 		return mv;
+	}
+	
+	//head json profile get list
+	@RequestMapping(value="/profile/user/json")
+	public ModelAndView profileUsergetList(HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		List<ProfileUserListVo> list = user_service.userProfileList(id);
+		ModelAndView mv = new ModelAndView(".profile.index");
+		if(!list.isEmpty()) {
+			session.setAttribute("users_num",list.get(0).getUsers_num());
+			mv.addObject("list",list);
+		}
+		return mv;	
 	}
 	
 	//profile user insert form move
