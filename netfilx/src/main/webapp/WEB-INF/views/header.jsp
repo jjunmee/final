@@ -16,7 +16,6 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
-          <li><a href="<c:url value='/main'/>">메인</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">민성작업 <span class="caret"></span></a>
             <ul class="dropdown-menu">
 	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
@@ -57,7 +56,6 @@
 			          </li>
 		          </c:otherwise>
 	          </c:choose>
-          
         </ul>
       </div>
     </div>

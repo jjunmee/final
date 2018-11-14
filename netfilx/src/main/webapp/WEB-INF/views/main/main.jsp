@@ -8,7 +8,7 @@
 	<title>Insert title here</title>
 	<style type="text/css">
 		*{margin: 0px;padding: 0px;}
-		#backImg{width: 2000px;}
+		#backImg{width: 1800px;}
 		#logoImg{width: 300px;position: absolute;top:50px;left: 50%;transform:translate(-50%, 0%);}
 		#loginBox{width: 400px;height: 600px;position: absolute;top: 50%;left: 50%;
 			transform:translate(-50%, -30%);}
