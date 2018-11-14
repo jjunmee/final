@@ -120,15 +120,17 @@ public class ProfileController {
 	
 	//head json profile get list
 	@RequestMapping(value="/profile/user/json")
-	public ModelAndView profileUsergetList(HttpSession session) {
-		String id = (String)session.getAttribute("id");
-		List<ProfileUserListVo> list = user_service.userProfileList(id);
-		ModelAndView mv = new ModelAndView(".profile.index");
-		if(!list.isEmpty()) {
-			session.setAttribute("users_num",list.get(0).getUsers_num());
-			mv.addObject("list",list);
+	public HashMap<String, Object> profileUsergetList(HttpSession session) {
+		int profile_num = (Integer)session.getAttribute("profile_num");
+		int users_num = (Integer)session.getAttribute("users_num");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(profile_num>0 && users_num>0) {
+			map.put("users_num", users_num);
+			map.put("profile_num", profile_num);
+			List<ProfileUserListVo> list = user_service.userProfileList(map);
+			map.put("profileList", list);
 		}
-		return mv;	
+		return map;	
 	}
 	
 	//profile user insert form move

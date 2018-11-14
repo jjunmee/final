@@ -1,6 +1,6 @@
-#backImg{width: 100%;}
+#backImg{width: 1800px;}
 #logoImg{width: 300px;position: absolute;top:50px;left: 50%;transform:translate(-50%, 0%);}
-#loginBox{width: 400px;height: 600px;position: absolute;top: 350px;left: 50%;
+#loginBox{width: 400px;height: 600px;position: absolute;top: 30%;left: 50%;
 	transform:translate(-50%, -30%);}
 #loginBack{width: 100%;height: 100%;background-color: black;opacity: 0.6;
 	position: absolute;top: 0px;left: 0px;}

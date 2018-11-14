@@ -22,4 +22,7 @@ public class ProfileUserService {
 	public ProfileUserListVo userProfileInfo(int no) {
 		return dao.userProfileInfo(no);
 	}
+	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
+		return dao.userProfileList(map);
+	}
 }
