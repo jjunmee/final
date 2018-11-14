@@ -42,7 +42,7 @@
 	</update>
 	<update id="surveyStateUpdate" parameterType="hashmap">
 		update survey set state=#{state} where surveyNum=#{surveyNum}
-	</update>
+	</update>	
 	<update id="userPointUpdate" parameterType="hashmap">
 		update users set point=point-#{point} where users_num=#{userNum}
 	</update>
@@ -50,6 +50,14 @@
 		update users set point=point+#{point} where users_num=#{userNum}
 	</update>
 	
+	<select id="leftPoint" parameterType="int" resultType="int">
+		select A.spoint-floor(A.spoint/A.joinNum)*(select count(*) from survey_in where surveyNum=#{surveyNum})
+		from (select spoint,joinNum from survey where surveyNum=#{surveyNum}) A
+	</select>
+	<select id="toUpdateSurveyVoSelect" resultType="survey">
+		select * from survey 
+		where state="등록완료" and date(surveyEnd)=date(subdate(now(),interval 1 day))
+	</select>
 	<select id="surveyNumSelect" parameterType="hashmap" resultType="int">
 		select surveyNum from survey
 		where userNum=#{userNum} and surveyStart=#{surveyStart} 
@@ -105,7 +113,6 @@
 	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">
 		select * from survey where userNum=#{userNum} and state=#{state} order by surveyStart desc
 	</select>
-	
 	
 	
 	

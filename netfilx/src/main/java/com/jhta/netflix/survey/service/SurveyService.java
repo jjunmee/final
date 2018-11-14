@@ -76,7 +76,9 @@ public class SurveyService {
 	public UserVo userSelect(String userId) {
 		return dao.userSelect(userId);
 	}
-	
+	public int leftPoint(int surveyNum) {
+		return dao.leftPoint(surveyNum);
+	}
 	//////////////////////////////////////////////////////////////////////////////
 	public SurveyVo surveySelect(int surveyNum) {
 		return dao.surveySelect(surveyNum);
@@ -104,6 +106,9 @@ public class SurveyService {
 	}
 	public int listCountSelect(Map<String, Object> map) {
 		return dao.listCountSelect(map);
+	}
+	public List<SurveyVo> toUpdateSurveyVoSelect(){
+		return dao.toUpdateSurveyVoSelect();
 	}
 	
 	
