@@ -26,4 +26,8 @@ public class ProfileUserDaoImpl implements ProfileUserDao{
 	public ProfileUserListVo userProfileInfo(int no) {
 		return sqlSession.selectOne(NAMESPACE+".getInfo", no);
 	}
+	@Override
+	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
+		return sqlSession.selectList(NAMESPACE+".profileList", map);
+	}
 }

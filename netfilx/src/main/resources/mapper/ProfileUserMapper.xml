@@ -19,4 +19,8 @@
  	<select id="getInfo" parameterType="int" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
  		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num}
  	</select>
+ 	<select id="profileList" parameterType="hashmap" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
+ 		select A.users_num, A.profile_num, A.nickname, A.proifle_age, A.sts,
+			A.profile_first, B.pimg_src from profile A, profile_img B where A.pimg_num = B.pimg_num and A.users_num = #{users_num} and A.profile_num != #{profile_num}
+ 	</select>
  </mapper>
