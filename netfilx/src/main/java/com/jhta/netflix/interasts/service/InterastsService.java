@@ -1,5 +1,6 @@
 package com.jhta.netflix.interasts.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class InterastsService {
 	public List<InterastsVo> list(){
 		return dao.list();
 	}
-	public InterastsVo find(int num) {
-		return dao.find(num);
+	public InterastsVo find(HashMap<String, Object> map) {
+		return dao.find(map);
 	}
 	public int count(int num) {
 		return dao.count(num);

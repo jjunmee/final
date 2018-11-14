@@ -7,13 +7,14 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style type="text/css">
+		#content{padding: 20px;margin-top: 50px;}
 		.carousel-cell{width: 18%;height: 100%;}
-		.carousel-cell>img{width: 200px;height: 150px;margin-top: 25px;
+		.carousel-cell>img{width: 200px;height: 150px;margin-top: 25px;background-color: black;
 			position:absolute;z-index: 2;}
-		.carousel-cell>video{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
-			background-color: black;position:absolute;z-index: 3;display: none;}
-		.carousel-cell>div{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
-			position:absolute;z-index: 4;display: none;cursor: pointer;}
+		.carousel-cell>video{width: 300px;height: 200px;margin-left: -50px;background-color: black;
+			position:absolute;z-index: 1;display: none;}
+		.carousel-cell>div{width: 300px;height: 200px;margin-left: -50px;
+			position:absolute;z-index: 1;display: none;cursor: pointer;}
 		.carousel-cell>div>*{padding-left: 20px;}
 		.main-carousel{height: 200px;}
 		.detail{width: 100%;height: 500px;margin: auto;background-color: black;display: none;}
@@ -39,7 +40,8 @@
 				  draggable:false,
 				  groupCells:5,
 				  setGallerySize: false,
-				  resize: false
+				  resize: false,
+				  wrapAround: true
 			});
 			$(".carousel-cell>img").mouseover(function(event) {
 				$(this).delay(500).animate({
@@ -47,25 +49,61 @@
 					'margin-left':-50,
 					'width': 300,
 					'height': 200,
+					'z-index': 5
 				},200, function() {
-					event.target.nextElementSibling.play();
-					$(event.target.nextElementSibling).show();
-					$(event.target.nextElementSibling.nextElementSibling).show();
-					$(event.target.nextElementSibling.nextElementSibling.nextElementSibling).show();
-				});
+					$(event.target.nextElementSibling).css({
+						'margin-top':0,
+						'margin-left':-50,
+						'width': 300,
+						'height': 200,
+						'z-index': 3
+					}).show();
+					$(event.target.nextElementSibling.nextElementSibling).css({
+						'margin-top':0,
+						'margin-left':-50,
+						'width': 300,
+						'height': 200,
+						'z-index': 4
+					}).show();
+					$(event.target.nextElementSibling.nextElementSibling.nextElementSibling).css({
+						'margin-top':0,
+						'margin-left':-50,
+						'width': 300,
+						'height': 200,
+						'z-index': 5
+					}).show();
+				}).fadeOut();
 			});
 			$(".carousel-cell>div").mouseout(function(event) {
-				$(event.target.previousElementSibling.previousElementSibling.previousElementSibling).animate({
+				$(event.target.previousElementSibling.previousElementSibling).animate({
 					'margin-top':25,
 					'margin-left':0,
 					'width': 200,
 					'height': 150,
-					'z-index': 2
-				},200);
-				event.target.previousElementSibling.previousElementSibling.pause();
-				$(event.target.previousElementSibling.previousElementSibling).hide();
-				$(event.target.previousElementSibling).hide();
-				$(this).hide();
+					'z-index': 1
+				},200, function() {
+					$(event.target.previousElementSibling.previousElementSibling.previousElementSibling).css({
+						'margin-top':25,
+						'margin-left':0,
+						'width': 200,
+						'height': 150,
+						'z-index': 2
+					}).show();
+				}).fadeOut();
+				$(event.target.previousElementSibling).css({
+					'margin-top':25,
+					'margin-left':0,
+					'width': 200,
+					'height': 150,
+					'z-index': 1
+				}).hide();
+				$(this).css({
+					'margin-top':25,
+					'margin-left':0,
+					'width': 200,
+					'height': 150,
+					'z-index': 1
+				}).hide();
 			});
 		});
 		function contentDetail(event,vo) {
@@ -124,7 +162,7 @@
 			$(".detail").slideDown(function() {
 				detailView(1);
 				$(event.target.previousElementSibling.previousElementSibling).clone()
-					.removeAttr("style").prop("autoplay", "autoplay").prependTo(".detail");
+					.removeAttr("style").prependTo(".detail");
 			});
 		}
 		function clickJj(data) {
@@ -158,8 +196,8 @@
 	<div class="main-carousel">
 		<c:forEach items="${list }" var="vo">
 		  <div class="carousel-cell">
-		  	<img src='<c:url value="/resources/upload/stillcut/${vo.content_post2 }"/>'>
-		  	<video loop>
+	  		<img src='<c:url value="/resources/upload/stillcut/${vo.content_post2 }"/>'>
+		  	<video loop autoplay>
 				<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 			</video>
 			<div>

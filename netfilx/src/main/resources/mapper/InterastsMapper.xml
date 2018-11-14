@@ -18,8 +18,8 @@
 	<select id="list" resultType="interasts">
 		select * from interasts
 	</select>
-	<select id="find" parameterType="int" resultType="interasts">
-		select * from interasts where profile_num=#{profile_num}
+	<select id="find" parameterType="hashmap" resultType="interasts">
+		select * from interasts where profile_num=#{profile_num} and content_num=#{content_num}
 	</select>
 	<select id="count" parameterType="int" resultType="int">
 		select count(*) from interasts where content_num=#{content_num}
