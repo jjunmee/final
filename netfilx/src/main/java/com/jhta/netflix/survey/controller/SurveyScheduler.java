@@ -18,7 +18,7 @@ public class SurveyScheduler {
 	@Autowired SurveyService service;	
 	@Autowired Point_infoService pointService;
 	//매일 오전12:00에 호출되는 스케쥴러
-	@Scheduled(cron="10 45 12 * * *")
+	@Scheduled(cron="0 0 0 * * *")
 	public void scheduler() {
 		System.out.println("스케쥴러 레고!!!!!!!!!!!!!!!");
 		try {		
