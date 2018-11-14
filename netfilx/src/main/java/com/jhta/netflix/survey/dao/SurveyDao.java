@@ -55,6 +55,7 @@ public class SurveyDao {
 	public int userPointUpdate1(Map<String, Object> map) {
 		return session.update(NAMESPACE+".userPointUpdate1",map);
 	}
+	
 	///////////////////////////////////////////////////////////////////
 	
 	public int surveyNumSelect(Map<String, Object> map) {
@@ -72,7 +73,9 @@ public class SurveyDao {
 	public UserVo userSelect(String userId) {
 		return session.selectOne(NAMESPACE+".userSelect",userId);
 	}
-	
+	public int leftPoint(int surveyNum) {
+		return session.selectOne(NAMESPACE+".leftPoint",surveyNum);
+	}
 	///////////////////////////////////////////////////////////////////////
 	public SurveyVo surveySelect(int surveyNum) {
 		return session.selectOne(NAMESPACE+".surveySelect",surveyNum);
@@ -101,7 +104,9 @@ public class SurveyDao {
 	public int listCountSelect(Map<String, Object> map) {
 		return session.selectOne(NAMESPACE+".listCountSelect",map);
 	}
-	
+	public List<SurveyVo> toUpdateSurveyVoSelect(){
+		return session.selectList(NAMESPACE+".toUpdateSurveyVoSelect");
+	}
 	
 	
 	
