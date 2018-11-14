@@ -140,12 +140,12 @@
 						});
 			});
 			$.get("<c:url value='/interasts/count'/>",
-					{"content_num":vo.content_num,"profile_num":1},
+					{"content_num":vo.content_num,"profile_num":${sessionScope.profile_num }},
 					clickJj
 			);
 			$("#jjBtn").click(function() {
 				$.get("<c:url value='/interasts/insert'/>",
-						{"content_num":vo.content_num,"profile_num":1},
+						{"content_num":vo.content_num,"profile_num":${sessionScope.profile_num }},
 						function(data) {
 							if(data.result){
 								clickJj(data);
