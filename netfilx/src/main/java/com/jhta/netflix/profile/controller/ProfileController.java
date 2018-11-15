@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,17 +121,24 @@ public class ProfileController {
 	
 	//head json profile get list
 	@RequestMapping(value="/profile/user/json")
-	public HashMap<String, Object> profileUsergetList(HttpSession session) {
-		int profile_num = (Integer)session.getAttribute("profile_num");
-		int users_num = (Integer)session.getAttribute("users_num");
+	public @ResponseBody HashMap<String, Object> profileUsergetList(HttpSession session) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(profile_num>0 && users_num>0) {
-			map.put("users_num", users_num);
-			map.put("profile_num", profile_num);
-			List<ProfileUserListVo> list = user_service.userProfileList(map);
+		try {
+			int profile_num = (Integer)session.getAttribute("profile_num");
+			int users_num = (Integer)session.getAttribute("users_num");
+			if(profile_num>0 && users_num>0) {
+				map.put("users_num", users_num);
+				map.put("profile_num", profile_num);
+				List<ProfileUserListVo> list = user_service.userProfileList(map);
+				map.put("profileList", list);
+			}
+			return map;
+		}catch (NullPointerException e) {
+			String id = (String)session.getAttribute("id");
+			List<ProfileUserListVo> list = user_service.userProfileList(id);
 			map.put("profileList", list);
+			return map;
 		}
-		return map;	
 	}
 	
 	//profile user insert form move

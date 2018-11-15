@@ -25,5 +25,5 @@
 	</c:if>	
 </div>
 <div class="container">
-	<a href="c:url vlaue=''/>" class="">프로필 관리</a>
+	<a href="c:url value=''/>" class="">프로필 관리</a>
 </div>
