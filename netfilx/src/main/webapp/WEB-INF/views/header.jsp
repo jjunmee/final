@@ -60,14 +60,14 @@
 	          </c:choose>
         </ul>
         <c:if test="${!empty(profile_num) }">
-        <ul class="nav navbar-nav" style="float: right;">
-        	<li>
-        		<a href="">
-        			<img alt="profile" src="${pimg_src }" width="3">
-        			<span>${nickname }</span>
-        		</a>
-        	</li>
-        </ul>
+	        <ul class="nav navbar-nav" style="float: right;">
+	        	<li>
+	        		<a href="">
+	        			<img alt="profile" src="${pimg_src }" width="3">
+	        			<span>${nickname }</span>
+	        		</a>
+	        	</li>
+	        </ul>
         </c:if>
       </div>
     </div>
