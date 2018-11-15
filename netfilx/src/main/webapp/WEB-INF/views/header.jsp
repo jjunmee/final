@@ -21,6 +21,7 @@
 	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
 	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
 	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
+	          <li><a href="<c:url value='/series/list'/>">시리즈 관리</a></li>
 	          <li><a href="<c:url value='/content/userView'/>">컨텐츠 뷰</a></li>
             </ul>
           </li>

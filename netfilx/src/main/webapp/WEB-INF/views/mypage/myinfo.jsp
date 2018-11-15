@@ -20,7 +20,7 @@
 		<!-- 없으면 안보이게 처리 -->
 		<tr>
 			<td>포인트 : ${point }</td>
-			<td><a href="<c:url value='/point/fill'/>">포인트충전</a>/<a href="<c:url value='/point/lsit'/>">사용내역</a></td>
+			<td><a href="<c:url value='/point/fill'/>">포인트충전</a>/<a href="<c:url value='/point/userInfo'/>">사용내역</a></td>
 		</tr>
 	</table>
 	<hr>
@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td>${grade_name }</td>
-			<td><a href="">멤버쉽 변경</a></td>
+			<td><a href="<c:url value='/pay/payform'/>">멤버쉽 변경</a></td>
 		</tr>
 	</table>
 	<hr>

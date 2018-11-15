@@ -32,6 +32,9 @@
 		release_date=#{release_date},watch_age=#{watch_age}
 		where content_num=#{content_num}
 	</update>
+	<update id="deleteSeries" parameterType="int">
+		update content set series_num=0 where series_num=#{value}
+	</update>
 	<delete id="delete" parameterType="int">
 		delete from content where content_num=#{value}
 	</delete>

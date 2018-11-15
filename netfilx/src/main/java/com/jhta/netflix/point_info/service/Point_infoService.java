@@ -31,8 +31,8 @@ public class Point_infoService {
 		return dao.delete(num);
 	}
 	
-	public List<User_pointVo> userpoint(int num){
-		return dao.userpoint(num);
+	public List<User_pointVo> userpoint(HashMap<String, Object> map){
+		return dao.userpoint(map);
 	}
 	
 	public int listCount(HashMap<String, Object> map) {
