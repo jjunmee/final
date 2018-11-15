@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,7 +121,7 @@ public class ProfileController {
 	
 	//head json profile get list
 	@RequestMapping(value="/profile/user/json")
-	public HashMap<String, Object> profileUsergetList(HttpSession session) {
+	public @ResponseBody HashMap<String, Object> profileUsergetList(HttpSession session) {
 		int profile_num = (Integer)session.getAttribute("profile_num");
 		int users_num = (Integer)session.getAttribute("users_num");
 		HashMap<String, Object> map = new HashMap<String, Object>();

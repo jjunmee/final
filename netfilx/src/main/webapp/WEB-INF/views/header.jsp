@@ -40,14 +40,15 @@
           </li>
           </c:if>
         </ul>
+        
         <ul class="nav navbar-nav" style="float: right;">
 	          <c:choose>
 		          <c:when test="${id eq null }">
 		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
 		          </c:when>
 		          <c:otherwise>
-			          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" id="test" href="javascript:profile(${pageContext.request.contextPath });">마이페이지<span class="caret"></span></a>
-			            <ul class="dropdown-menu">
+			          <li class="dropdown" onclick="profile('${pageContext.request.contextPath }')"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지<span class="caret"></span></a>
+			            <ul class="dropdown-menu" id="profile_row">				
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
 			              <li><a href="#">고객센터</a></li>
@@ -57,6 +58,16 @@
 		          </c:otherwise>
 	          </c:choose>
         </ul>
+        <c:if test="${!empty(profile_num) }">
+        <ul class="nav navbar-nav" style="float: right;">
+        	<li>
+        		<a href="">
+        			<img alt="profile" src="${pimg_src }" width="3">
+        			<span>${nickname }</span>
+        		</a>
+        	</li>
+        </ul>
+        </c:if>
       </div>
     </div>
   </div>
