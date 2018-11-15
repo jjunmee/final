@@ -43,4 +43,7 @@ public class ContentDao {
 	public int maxNum() {
 		return sqlSession.selectOne(NAMESPACE + ".maxNum");
 	}
+	public int deleteSeries(int num) {
+		return sqlSession.update(NAMESPACE+".deleteSeries", num);
+	}
 }

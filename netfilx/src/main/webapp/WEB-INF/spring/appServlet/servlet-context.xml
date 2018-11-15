@@ -49,4 +49,24 @@
     </beans:bean>
     
 	<context:component-scan base-package="com.jhta.netflix" />
+	
+	<!-- Intercepter -->
+	<beans:bean id="LoginIntercepter" class="com.jhta.netflix.LoginIntercepter"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			
+			<!-- 로그인관련 요청 제외 -->
+			<exclude-mapping path="/loginForm"/>
+			<exclude-mapping path="/join/default"/>
+			<exclude-mapping path="/login"/>
+			<exclude-mapping path="/user/google"/>
+			<exclude-mapping path="/user/naver"/>
+			<!-- 프로필관련 요청 제외 -->
+			<exclude-mapping path="/profile/user/index"/>
+			<exclude-mapping path="/profile/user/getInfo"/>
+			
+			<beans:ref bean="LoginIntercepter"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>

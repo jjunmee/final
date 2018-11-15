@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jhta.netflix.content.service.ContentService;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.series.service.SeriesService;
 import com.jhta.netflix.series.vo.SeriesVo;
@@ -22,6 +23,8 @@ import com.jhta.netflix.staff.vo.StaffVo;
 public class SeriesController {
 	@Autowired
 	private SeriesService service;
+	@Autowired
+	private ContentService contentService;
 	
 	@RequestMapping(value="/series/list")
 	public String list(Model model,@RequestParam(value="pageNum",defaultValue="1")int pageNum,
@@ -70,6 +73,37 @@ public class SeriesController {
 			json.put("code", "success");
 		}else {
 			json.put("code", "fail");
+		}
+		return json.toString();
+	}
+	@RequestMapping(value="/series/delete",method=RequestMethod.GET)
+	public String delete(@RequestParam(value="pageNum",defaultValue="1")int pageNum,
+			String keyword,int num) {
+		int n = service.delete(num);
+		if(n>0) {
+			contentService.deleteSeries(num);
+		}
+		return "redirect:/series/list?pageNum="+pageNum+"&keyword="+keyword;
+	}
+	@RequestMapping(value="/series/find",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String find(int num) {
+		SeriesVo vo = service.find(num);
+		JSONObject json = new JSONObject();
+		json.put("series_num", vo.getSeries_num());
+		json.put("series_name", vo.getSeries_name());
+		json.put("season", vo.getSeason());
+		return json.toString();
+	}
+	@RequestMapping(value="/series/update",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String update(SeriesVo vo) {
+		int n = service.update(vo);
+		JSONObject json = new JSONObject();
+		if(n>0) {
+			json.put("result", true);
+		}else{
+			json.put("result", false);
 		}
 		return json.toString();
 	}

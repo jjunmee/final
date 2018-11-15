@@ -38,4 +38,7 @@ public class ContentService {
 	public int maxNum() {
 		return dao.maxNum();
 	}
+	public int deleteSeries(int num) {
+		return dao.deleteSeries(num);
+	}
 }

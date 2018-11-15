@@ -87,6 +87,10 @@
 			$.get("<c:url value='/staff/detailList'/>",
 					{"content_num":vo.content_num},
 					function(data) {
+						$("#tb_director").empty();
+						$("#tb_director").append("<tr><th>감독/연출</th></tr>");
+						$("#tb_actor").empty();
+						$("#tb_actor").append("<tr><th>출연</th></tr>");
 						$(data).each(function(i, json) {
 							if(json.staff_position == 1){
 								$("#tb_director").append("<tr><td>"+json.staff_name+"</td></tr>");
@@ -98,6 +102,8 @@
 			$.get("<c:url value='/genre/detailList'/>",
 					{"content_num":vo.content_num},
 					function(data) {
+						$("#tb_genre").empty();
+						$("#tb_genre").append("<tr><th>장르</th></tr>");
 						$(data).each(function(i, json) {
 							$("#tb_genre").append("<tr><td>"+json.genre_name+"</td></tr>");
 						});
@@ -227,22 +233,13 @@
 			<br><br>
 			<div>
 				<table id="tb_director">
-					<tr>
-						<th>감독/연출</th>
-					</tr>
 				</table>
 				<br>
 				<table id="tb_actor">
-					<tr>
-						<th>출연</th>
-					</tr>
 				</table>
 			</div>
 			<div>
 				<table id="tb_genre">
-					<tr>
-						<th>장르</th>
-					</tr>
 				</table>
 				<br>
 				<table id="tb_feature">

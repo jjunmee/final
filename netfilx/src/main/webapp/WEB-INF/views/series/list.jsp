@@ -16,41 +16,23 @@
 			$("#pageNum").val(pageNum);
 			$("#listForm").submit();
 		}
-		function deleteStaff(num) {
+		function deleteSeries(num) {
 			var pageNum = $("#pageNum").val();
-			var position = $("#position").val();
 			var keyword = $("#keyword").val();
-			location.href='<c:url value="/staff/delete'
-			+'?pageNum='+pageNum+'&position='+position
-			+'&keyword='+keyword+'&num='+num+'"/>';
+			location.href='<c:url value="/series/delete'
+			+'?pageNum='+pageNum+'&keyword='+keyword+'&num='+num+'"/>';
 		}
 		function updateForm(num) {
-			$.get("<c:url value='/staff/find'/>",
+			$.get("<c:url value='/series/find'/>",
 					{'num':num},
 					function(data) {
 				$("#tr"+num).empty();
 				var str = 
-					"<td>"
-						+"<select name=\"staff_position\">"
-							+"<option value=\"false\"";
-							if(data.staff_position == false){
-								str+="selected=\"selected\"";
-							}
-								str+=">배우</option>"
-							+"<option value=\"true\"";
-							if(data.staff_position == true){
-								str+="selected=\"selected\"";
-							}
-								str+=">감독</option>"
-						+"</select>"
-						+"<input type=\"hidden\" name=\"staff_num\" value=\""+data.staff_num+"\">"
-					+"</td>"
-					+"<td><input type=\"text\" name=\"staff_name\" value=\""+data.staff_name+"\"></td>"
-					+"<td><input type=\"text\" name=\"staff_age\" value=\""+data.staff_age+"\"></td>"
-					+"<td><input type=\"text\" name=\"staff_gender\" value=\""+data.staff_gender+"\"></td>"
-					+"<td><input type=\"text\" name=\"staff_debut\" value=\""+data.staff_debut+"\"></td>"
+					"<td><input type=\"text\" name=\"series_num\" value=\""+data.series_num+"\"  readonly=\"readonly\"></td>"
+					+"<td><input type=\"text\" name=\"series_name\" value=\""+data.series_name+"\"></td>"
+					+"<td><input type=\"text\" name=\"season\" value=\""+data.season+"\"></td>"
 					+"<td>"
-						+"<a href='javascript:updateStaff();'>확인</a>"
+						+"<a href='javascript:updateSeries();'>확인</a>"
 					+"</td>"
 					+"<td>"
 						+"<a href='javascript:cancelFunction();'>취소</a>"
@@ -67,9 +49,9 @@
 		function removeForm() {
 			$("#insertBox").css("display", "none");
 		}
-		function updateStaff() {
+		function updateSeries() {
 			var params = $("#updateForm").serialize();
-			$.post("<c:url value='/staff/update'/>", params, function(data) {
+			$.post("<c:url value='/series/update'/>", params, function(data) {
 				if(data.result){
 					$("#listForm").submit();
 				}else{
@@ -77,9 +59,9 @@
 				}
 			});
 		}
-		function insertStaff() {
+		function insertSeries() {
 			var params = $("#insertForm").serialize();
-			$.post("<c:url value='/content/insertStaff'/>", params, function(data) {
+			$.post("<c:url value='/content/insertSeries'/>", params, function(data) {
 				if(data.code == 'success'){
 					$("#listForm").submit();
 				}else{
@@ -94,7 +76,7 @@
 	<input type="button" value="등록" onclick="showForm()">
 	<form id="updateForm" action='<c:url value="/staff/update"/>' method="post">
 		<table>
-			<tr id="tr${vo.series_num }">
+			<tr>
 				<th>시리즈 번호</th>
 				<th>시리즈 명</th>
 				<th>시즌</th>
@@ -102,7 +84,7 @@
 				<th>삭제</th>
 			</tr>
 			<c:forEach items="${list }" var="vo">
-				<tr>
+				<tr id="tr${vo.series_num }">
 					<td>${vo.series_num }</td>
 					<td>${vo.series_name }</td>
 					<td>${vo.season }</td>
@@ -110,7 +92,7 @@
 						<a href='javascript:updateForm(${vo.series_num });'>수정</a>
 					</td>
 					<td>
-						<a href='javascript:deleteStaff(${vo.series_num });'>삭제</a>
+						<a href='javascript:deleteSeries(${vo.series_num });'>삭제</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -155,15 +137,15 @@
 	<div id="insertBox" style="background-color: gray;position: absolute;
 							border: 1px solid red;top: 200px;left: 100px;display: none;">
 		<form id="insertForm" action="javascript:false;" method="post" 
-			onsubmit="insertStaff()">
+			onsubmit="insertSeries()">
 			<table>
 				<tr>
 					<th>시리즈 명</th>
-					<td><input type="text" name="staff_name"> </td>
+					<td><input type="text" name="series_name"> </td>
 				</tr>
 				<tr>
 					<th>시즌</th>
-					<td><input type="text" name="staff_age"> </td>
+					<td><input type="text" name="season"> </td>
 				</tr>
 				<tr>
 					<td colspan="2">

@@ -26,7 +26,7 @@
 			});
 			$("#category").change(genrelist);
 			if(${vo.series_num } != 0){
-				selectInfo('series',${seriesVo.series_num},"${seriesVo.series_name}");
+				selectInfo('series',"${seriesVo.series_num}","${seriesVo.series_name}");
 			}
 			<c:forEach items="${slist}" var="item">
 				selectInfo(${item.staff_position},${item.staff_num},"${item.staff_name}");
