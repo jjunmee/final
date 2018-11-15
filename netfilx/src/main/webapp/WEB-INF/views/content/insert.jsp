@@ -6,6 +6,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style type="text/css">
+		#content,#btnBox{text-align: center;}
+		form{width:800px;margin: auto;}
+		
+		#sForm{position: absolute;top:600px;left: 250px;width: 800px;
+			border: 1px solid red;background-color: lightgray}
+		#insertTable{width: 800px;}
+		#insertTable th{width: 100px;}
+		#insertTable input[type="text"],textarea{width: 680px;resize: none;}
+	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -22,7 +32,6 @@
 				}
 			});
 			$("#category").change(genrelist);
-			
 		});
 		function genrelist(data){
 			$("#genre").empty();
@@ -44,8 +53,7 @@
 		}
 		function selectForm(position){
 			$("#sForm").remove();
-			var str = "<div id=\"sForm\" style=\"position: absolute;top: 200px;left: 200px;"
-				+"width: 400px;border: 1px solid red;background-color: lightgray\">";
+			var str = "<div id=\"sForm\">";
 			if(position==0){
 				str += "배우이름"
 			}else if(position==1){
@@ -245,7 +253,7 @@
 	<h1>컨텐츠등록</h1>
 	<form action='<c:url value="/content/insert"/>' method="post"
 	enctype="multipart/form-data">
-		<table>
+		<table id="insertTable" class="table-bordered">
 			<tr>
 				<th>컨텐츠 명</th>
 				<td><input type="text" name="content_name"></td>
@@ -295,10 +303,6 @@
 					<a href="javascript:false;" onclick="selectForm(0)">+</a>
 				</th>
 				<td id="actor">
-					<!-- 
-					<span id="staff1">한지민 <input type="hidden" name="actor1" value="한지민"></span>
-					<a href="javascript:false;" onclick="removeInfo(event,0,1)">-</a>
-					 -->
 				</td>
 			</tr>
 			<tr>
@@ -326,9 +330,9 @@
 				<td><input type="file" name="org"></td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<input type="submit" value="등록">
-					<input type="reset" value="취소">
+				<td id="btnBox" colspan="2">
+					<input type="submit" value="등록" class="btn btn-default btn-sm">
+					<input type="reset" value="취소" class="btn btn btn-sm">
 				</td>
 			</tr>
 		</table>
