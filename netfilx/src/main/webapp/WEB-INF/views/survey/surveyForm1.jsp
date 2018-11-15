@@ -2,15 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
 
-<!-- Page styles -->
 <link type='text/css' href="<c:url value='/resources/css/demo.css'/>" rel='stylesheet' media='screen' />
 
-<!-- Confirm CSS files -->
 <link type='text/css' href="<c:url value='/resources/css/confirm.css'/>" rel='stylesheet' media='screen' />
 
 </head>
 <style type="text/css">
-	.btnStyle{width: 150px;}
+	.btnStyle{width: 164.23px;}
 	
 	.surveyList{padding-left: 80px;padding-top: 100px;height:700px;}
 	.surveyList .leftBox{width:14%;height:100%;float: left;padding-top: 34px;} 
@@ -52,7 +50,8 @@
 					//modal사용해서 결제를 진행할껀지 // 모달 창 여는 버튼에 이벤트 걸기
 					e.preventDefault();
 					confirm("결제하시겠습니까?", function () {
-						window.location.href = 'http://simplemodal.com';
+						//window.location.href = "<c:url value='/survey/'/>";
+						$("#frm").submit();
 					});											
 				}
 			}
@@ -114,12 +113,12 @@
 							* 설문이 완료되었을 때 인원참여자의 수가 남게 되었을 경우 그만큼의 포인트는 설문구매자에게 반환됩니다.<br><br>
 						</td>	
 					</tr>
-					<tr>
-						<td><input type="button" id="nthing" value="배당금확인하기"></td>
-						<td>
+					<tr>						
+						<td colspan="2">
 							<div id='container'>
 								<div id='content'>
 									<div id='confirm-dialog'>
+										<input type="button" id="nthing" class="btnStyle" value="배당금확인하기">
 										<input type='button' id="submitBtn" name='confirm' class='confirm' value='결제하고 설문등록하러가기'/>
 									</div>
 									<!-- modal content -->
