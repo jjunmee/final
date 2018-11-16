@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/dist/jquery.vm-carousel.css'/>">
 <script src="<c:url value='/resources/js/profile/admin-profile.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/dist/jquery.vm-carousel.js'/>"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 <div class="container">
 	<div class="row col-sm-6">
 		<select class="" id="pro_group_sel" onchange="sel_group(this.value);">

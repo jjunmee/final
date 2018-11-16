@@ -42,4 +42,8 @@ public class ProfileDaoImpl implements ProfileDao{
 	public ProfileUserVo find(int num) {
 		return sqlSession.selectOne(NAMESPACE+".find", num);
 	}
+	@Override
+	public List<ProfileVo> imgAllList() {
+		return sqlSession.selectList(NAMESPACE+".imgAllList");
+	}
 }

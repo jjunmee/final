@@ -24,6 +24,13 @@ public class ProfileVo {
 		this.pro_group_name = pro_group_name;
 		this.pimg_src = pimg_src;
 	}
+	
+	public ProfileVo(int pro_group_no, int pimg_num, String pro_group_name, String pimg_src) {
+		this.pro_group_no = pro_group_no;
+		this.pimg_num = pimg_num;
+		this.pro_group_name = pro_group_name;
+		this.pimg_src = pimg_src;
+	}
 
 	public int getPro_group_no() {
 		return pro_group_no;

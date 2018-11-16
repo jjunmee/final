@@ -36,6 +36,9 @@ public class ProfileService {
 		public List<ProfileVo> proImgList(int no){
 			return profileDao.proImgList(no);
 		}
+		public List<ProfileVo> imgAllList(){
+			return profileDao.imgAllList();
+		}
 		
 		public ProfileUserVo find(int num) {
 			return profileDao.find(num);
