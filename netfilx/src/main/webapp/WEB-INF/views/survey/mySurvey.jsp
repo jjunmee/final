@@ -55,12 +55,12 @@
 	
 </script>
 <style type="text/css">
-	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;}
+	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;overflow: auto;}
 	.surveyList .topBox{padding-left: 14%;padding-bottom: 10px;}
 	.surveyList .topBox .delBox{float:left;margin-top: 0px;}
 	.surveyList .topBox .surBtn{float:auto;margin-left: 425px;}
 	.surveyList .leftBox{width:14%;height:100%;float: left} 
-	.surveyList .centerBox{width:78%;float:left}
+	.surveyList .centerBox{width:78%;float:left;}
 </style>
 <div class="surveyList">
 	<div class="topBox">
