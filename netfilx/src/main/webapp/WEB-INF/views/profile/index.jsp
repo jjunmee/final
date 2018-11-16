@@ -17,7 +17,7 @@
 	<c:if test="${!empty(list) }">
 		<div class="container">
 			<c:forEach var="vo" items="${list }" >
-					<a href="<c:url value='/profile/user/getInfo?profile_num=${vo.profile_num }'/>">
+					<a data-toggle="modal" data-target="#myModal" class="modalProfileNum" data-profile_num="${vo.profile_num }" data-row="${pageContext.request.contextPath }/profile/user/getInfo">
 						<img src="${vo.pimg_src }" width="200" id="profile_num" name="profile_num">
 					</a>
 			</c:forEach>
@@ -26,6 +26,6 @@
 </div>
 <c:if test="${profile_first eq true }">
 	<div class="container">
-		<a href="c:url value=''/>" class="">프로필 관리</a>
+		<a href="c:url value='/profile/user/info/admin'/>" class="">프로필 관리</a>
 	</div>
 </c:if>

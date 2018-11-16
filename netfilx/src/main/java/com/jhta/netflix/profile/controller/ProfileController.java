@@ -175,10 +175,13 @@ public class ProfileController {
 	}
 	
 	///profile/user/getInfo?
-	@RequestMapping(value="/profile/user/getInfo",method=RequestMethod.GET)
-	public String userProfileSelect(@RequestParam("profile_num")String profile_num,HttpSession session) {
+	@RequestMapping(value="/profile/user/getInfo",method=RequestMethod.POST)
+	public String userProfileSelect(@RequestParam("profile_num")String profile_num,@RequestParam("p_password")String p_password,HttpSession session) {
 		int no=Integer.parseInt(profile_num);
-		ProfileUserListVo vo = user_service.userProfileInfo(no);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("profile_num", no);
+		map.put("profile_pwd", p_password);
+		ProfileUserListVo vo = user_service.userProfileInfo(map);
 		if(vo!=null) {
 		session.setAttribute("users_num", vo.getUsers_num());
 		session.setAttribute("profile_num", vo.getProfile_num());

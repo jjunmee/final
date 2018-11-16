@@ -23,8 +23,8 @@ public class ProfileUserDaoImpl implements ProfileUserDao{
 		return sqlSession.insert(NAMESPACE+".userProfileInsert", map);
 	}
 	@Override
-	public ProfileUserListVo userProfileInfo(int no) {
-		return sqlSession.selectOne(NAMESPACE+".getInfo", no);
+	public ProfileUserListVo userProfileInfo(HashMap<String, Object>map) {
+		return sqlSession.selectOne(NAMESPACE+".getInfo", map);
 	}
 	@Override
 	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {

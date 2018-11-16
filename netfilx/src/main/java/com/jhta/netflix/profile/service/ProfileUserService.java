@@ -19,8 +19,8 @@ public class ProfileUserService {
 	public int userProfileInsert(HashMap<String, Object> map) {
 		return dao.userProfileInsert(map);
 	}
-	public ProfileUserListVo userProfileInfo(int no) {
-		return dao.userProfileInfo(no);
+	public ProfileUserListVo userProfileInfo(HashMap<String,Object>map) {
+		return dao.userProfileInfo(map);
 	}
 	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
 		return dao.userProfileList(map);

@@ -1,28 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script type="text/javascript">
-
-</script>
-<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+ <!-- Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+   <div class="modal-dialog">
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title">Profile Password</h4>
+       </div>
+       <form method="post" id="modalProfile" action="">
+       <div class="modal-body">
+         <input type="text" id="p_password" name="p_password" min="4" max="4" placeholder="비밀번호입력">
+         <input type="hidden" id="profile_num" name="profile_num" value=""/>
+       </div>
+       <div class="modal-footer">
+       	 <input type="submit" class="btn btn-default" value="전환">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+       </form>
+     </div>
+   </div>
+ </div>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -73,7 +72,6 @@
 		          <c:otherwise>
 			          <li class="dropdown" onclick="profile('${pageContext.request.contextPath }')"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지<span class="caret"></span></a>
 			            <ul class="dropdown-menu" id="profile_row">	
-			              <li><a data-togle="modal" href="#myModal">모달창</a>
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
 			              <li><a href="#">고객센터</a></li>
