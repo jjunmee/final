@@ -6,6 +6,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<style type="text/css">
+		#content,#btnBox{text-align: center;}
+		form{width:800px;margin: auto;}
+		h1{text-align: left;}
+		a{color: tomato;}
+		
+		#sForm{position: absolute;top:40%;left: 51%;transform:translate(-50%, 0%);width: 816px;
+			border: 5px solid white;background-color: gray;padding: 3px;border-radius: 8px;}
+		#sForm table{width: 800px;}
+		#sForm>div{display: inline-block;}
+		#sFormBox1{width: 80%;}
+		#searchName{width: 400px;}
+		#sFormBox2{width: 20%;text-align: right;}
+		
+		
+		#updateTable{width: 800px;}
+		#updateTable th{width: 120px;}
+		#updateTable input[type="text"],textarea{width: 680px;resize: none;}
+		
+		#insertForm input[type="text"]{width: 100%;}
+	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -61,8 +82,9 @@
 		}
 		function selectForm(position){
 			$("#sForm").remove();
-			var str = "<div id=\"sForm\" style=\"position: absolute;top: 200px;left: 200px;"
-				+"width: 400px;border: 1px solid red;background-color: lightgray\">";
+			var str = 
+				"<div id=\"sForm\">"
+					+"<div id=\"sFormBox1\">";
 			if(position==0){
 				str += "배우이름"
 			}else if(position==1){
@@ -70,10 +92,14 @@
 			}else{
 				str += "시리즈"
 			}
-			str += " : <input type=\"text\" id=\"searchName\" size=\"20\" onkeyup=\"searchInfo(event,'"+position+"')\">"
-				+"<table border=\"1\" width=\"400\" id=\"searchTable\">"
-				+"<input type=\"button\" value=\"등록\" onclick=\"insertForm('"+position+"')\">"
-				+"<input type=\"button\" value=\"취소\" onclick=\"removeForm()\">"
+			str += 
+					" : <input type=\"text\" id=\"searchName\" size=\"20\" onkeyup=\"searchInfo(event,'"+position+"')\">"
+				+"</div>"
+				+"<div id=\"sFormBox2\">"
+					+"<input type=\"button\" value=\"등록\" onclick=\"insertForm('"+position+"')\" class=\"btn btn-default btn-sm\">"
+					+"<input type=\"button\" value=\"취소\" onclick=\"removeForm()\" class=\"btn btn-default btn-sm\">"
+				+"</div>"
+				+"<table border=\"1\" width=\"400\" id=\"searchTable\"></table>"
 			+"</div>";
 			$("body").append(str);
 			$("#searchName").focus();
@@ -181,8 +207,8 @@
 							+"<td><input type=\"text\" size=\"8\" id=\"season\"></td>"
 						+"</tr>"
 						+"<tr>"
-							+"<td colspan=\"2\">"
-								+"<input type=\"submit\" value=\"등록\">"
+							+"<td colspan=\"2\" style=\"text-align: right;\">"
+								+"<input type=\"submit\" value=\"등록\" class=\"btn btn-default btn-sm\">"
 							+"</td>"
 						+"</tr>"
 					+"</table>"
@@ -204,8 +230,8 @@
 							+"<td><input type=\"text\" size=\"8\" id=\"staff_debut\"></td>"
 						+"</tr>"
 						+"<tr>"
-							+"<td colspan=\"4\">"
-								+"<input type=\"submit\" value=\"등록\">"
+							+"<td colspan=\"4\" style=\"text-align: right;\">"
+								+"<input type=\"submit\" value=\"등록\" class=\"btn btn-default btn-sm\">"
 							+"</td>"
 						+"</tr>"
 					+"</table>"
@@ -259,10 +285,10 @@
 	</script>
 </head>
 <body>
-	<h1>컨텐츠수정</h1>
 	<form action='<c:url value="/content/update"/>' method="post"
 	enctype="multipart/form-data">
-		<table>
+		<h1>컨텐츠수정</h1>
+		<table id="updateTable" class="table">
 			<tr>
 				<th>컨텐츠 번호</th>
 				<td>${vo.content_num }<input type="hidden" name="content_num" value="${vo.content_num }"></td>
@@ -351,9 +377,9 @@
 				<td><input type="file" name="org"></td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<input type="submit" value="수정">
-					<input type="reset" value="취소">
+				<td colspan="2" id="btnBox">
+					<input type="submit" value="수정" class="btn btn-default btn-sm">
+					<input type="reset" value="취소" class="btn btn btn-sm">
 				</td>
 			</tr>
 		</table>
