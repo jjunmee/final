@@ -136,6 +136,11 @@
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
 			$("#jjBtn").prop("disabled", data.check);
+			if(data.check){
+				$("#jjBtn").prop("class","btn btn-danger");
+			}else{
+				$("#jjBtn").prop("class","btn btn-default");
+			}
 		}
 		function closeDetail(event) {
 			$(".detail>video").remove();
@@ -144,12 +149,14 @@
 		}
 		function detailView(num) {
 			$(".detail>div").hide();
+			$(".detail_menu>a").css("color", "white");
+			$(".a"+num).css("color","red");
 			if(num == 1){
 				$("#info_div").show();
 			}else if(num == 2){
-				
+				$("#info_div").show();
 			}else if(num == 3){
-				
+				$("#info_div").show();
 			}else if(num == 4){
 				$("#detail_div").show();
 			}
@@ -217,14 +224,14 @@
 			<h4 id="detail_info"></h4>
 			<br><br>
 			<h5 id="detail_summary"></h5>
-			<input type="button" value="재생" id="playBtn">
+			<input type="button" value="재생" id="playBtn" class="btn btn-info">
 			<input type="button" value="찜" id="jjBtn">
 			<br>
 			<div class="detail_menu">
-				<a href="javascript:detailView(1);">컨텐츠 정보</a>
-				<a href="javascript:false;">회차 정보</a>
-				<a href="javascript:false;">비슷한 컨텐츠</a>
-				<a href="javascript:detailView(4);">상세 정보</a>
+				<a class="a1" href="javascript:detailView(1);">콘텐츠 정보</a>
+				<a class="a2" href="javascript:detailView(2);">회차 정보</a>
+				<a class="a3" href="javascript:detailView(3);">비슷한 컨텐츠</a>
+				<a class="a4" href="javascript:detailView(4);">상세 정보</a>
 			</div>
 			<input class="closeBtn" type="button" value="x" onclick="closeDetail()">
 		</div>
@@ -249,10 +256,10 @@
 				</table>
 			</div>
 			<div class="detail_menu">
-				<a href="javascript:detailView(1);">콘텐츠 정보</a>
-				<a href="javascript:detailView(2);">회차 정보</a>
-				<a href="javascript:detailView(3);">비슷한 컨텐츠</a>
-				<a href="javascript:detailView(4);">상세 정보</a>
+				<a class="a1" href="javascript:detailView(1);">콘텐츠 정보</a>
+				<a class="a2" href="javascript:detailView(2);">회차 정보</a>
+				<a class="a3" href="javascript:detailView(3);">비슷한 컨텐츠</a>
+				<a class="a4" href="javascript:detailView(4);">상세 정보</a>
 			</div>
 			<input class="closeBtn" type="button" value="x" onclick="closeDetail()">
 		</div>

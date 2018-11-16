@@ -47,21 +47,21 @@ input[type=button]:hover{
     padding: 8px;
     border-radius: 4px;
 }
-*/
 
 table{
     border-collapse: collapse;
     width: 1000px;
 }
 
-th, td{
-    text-align: left;
-    padding: 8px;
-}
 
 tr:nth-child(even){background-color: #4e4e4e}
 
 th {
     background-color: #2E2E2E;
     color: white;
+}
+*/
+th, td{
+    text-align: left;
+    padding: 8px;
 }
