@@ -123,6 +123,30 @@ public class SurveyController {
 		
 		return ".survey.surveyDetail";
 	}
+	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
+	public String update(int surveyNum,Model model) {
+		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
+		SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);//설문번호로 영상정보가져오기
+		List<SurveyQuestionVo> sqVoList=service.surveyQuestionSelect(surveyNum);//해당 설문번호갖는 질문리스트가져오기
+		List<List<SurveyAnswerVo>> saList=new ArrayList<List<SurveyAnswerVo>>();//질문에대한답안리스트들을 담는리스트
+		String choiceType="2";//복합질문형일경우
+		for(SurveyQuestionVo sqVo:sqVoList) {//해당 질문에 대한 답안보기들 가져오려고함
+			if(sqVo.getSqType().equals("0") ) {//객관식그리드로 들어온경우
+				choiceType="1";
+			}
+			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
+			saList.add(aList);
+		}
+		model.addAttribute("surveyVo",surveyVo);
+		model.addAttribute("videoVo",videoVo);
+		model.addAttribute("sqVoList",sqVoList);
+		model.addAttribute("salist",saList);		
+		model.addAttribute("choiceType",choiceType);
+		
+		return ".survey.surveyUpdate";
+	}
+	
+	
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(HttpSession session,Model model) {
 		String userId=(String)session.getAttribute("id");
