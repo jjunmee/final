@@ -1,6 +1,9 @@
 function profile(row){
 	var path=row+"/profile/user/json";
 	var result="";
+	$('#myModal').on('shown.bs.modal', function () {
+		  $('#myInput').focus()
+	});
 	$.ajax({
 		url : path,
 		type : "get",

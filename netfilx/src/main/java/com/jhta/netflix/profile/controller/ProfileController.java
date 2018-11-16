@@ -143,9 +143,11 @@ public class ProfileController {
 	
 	//profile user insert form move
 	@RequestMapping(value="/profile/user/insertForm",method=RequestMethod.GET)
-	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first) {
+	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first,@RequestParam("pimg_src")String pimg_src,@RequestParam("pimg_num")String pimg_num) {
 		ModelAndView mv = new ModelAndView(".profile.insertForm");
 		mv.addObject("first",first);
+		mv.addObject("pimg_src",pimg_src);
+		mv.addObject("pimg_num",pimg_num);
 		return mv;
 	}
 	
@@ -182,7 +184,20 @@ public class ProfileController {
 		session.setAttribute("profile_num", vo.getProfile_num());
 		session.setAttribute("nickname", vo.getNickname());
 		session.setAttribute("pimg_src", vo.getPimg_src());
+		session.setAttribute("profile_first", vo.isProfile_first());
 		}
 		return ".main";
+	}
+	
+	//profile img All list execute
+	@RequestMapping(value="/profile/user/img/listForm")
+	public ModelAndView ProfileAllList(@RequestParam("first")String first,HttpSession session) {
+		ModelAndView mv = new ModelAndView(".profile.imgListForm");
+		List<ProfileVo> group_list = admin_service.groupList();
+		List<ProfileVo> pro_list = admin_service.imgAllList();
+		mv.addObject("group_list", group_list);
+		mv.addObject("pro_list", pro_list);
+		mv.addObject("first", first);
+		return mv;
 	}
 }

@@ -26,5 +26,9 @@
 	<select id="find" parameterType="int" resultType="profileUser">
 		select * from profile where profile_num=#{profile_num}
 	</select>
+	
+	<select id="imgAllList" resultType="profile">
+		select A.pro_group_no, A.pro_group_name, B.pimg_num,B.pimg_src from profile_group A, profile_img B where A.pro_group_no = B.pro_group_no;
+	</select>
 </mapper>
  

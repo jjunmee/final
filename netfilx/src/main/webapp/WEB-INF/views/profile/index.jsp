@@ -6,24 +6,26 @@
 <div class="container">
 	<c:choose>
 		<c:when test="${empty(list) }">
-			<a href="<c:url value='/profile/user/insertForm?first=true'/>" class="btn btn-default" >프로필 추가</a>
+			<a href="<c:url value='/profile/user/img/listForm?first=true'/>" class="btn btn-default" >프로필 추가</a>
 		</c:when>	
 		<c:otherwise>
 			<c:if test="${fn:length(list) < 4 }">
-				<a href="<c:url value='/profile/user/insertForm?first=false'/>" class="btn btn-default" >프로필 추가</a>
+				<a href="<c:url value='/profile/user/img/listForm?first=false'/>" class="btn btn-default" >프로필 추가</a>
 			</c:if>
 		</c:otherwise>
 	</c:choose>
 	<c:if test="${!empty(list) }">
-	<c:forEach var="vo" items="${list }" >
 		<div class="container">
-			<a href="<c:url value='/profile/user/getInfo?profile_num=${vo.profile_num }'/>">
-				<img src="${vo.pimg_src }" width="200" id="profile_num" name="profile_num">
-			</a>
+			<c:forEach var="vo" items="${list }" >
+					<a href="<c:url value='/profile/user/getInfo?profile_num=${vo.profile_num }'/>">
+						<img src="${vo.pimg_src }" width="200" id="profile_num" name="profile_num">
+					</a>
+			</c:forEach>
 		</div>
-	</c:forEach>
 	</c:if>	
 </div>
-<div class="container">
-	<a href="c:url value=''/>" class="">프로필 관리</a>
-</div>
+<c:if test="${profile_first eq true }">
+	<div class="container">
+		<a href="c:url value=''/>" class="">프로필 관리</a>
+	</div>
+</c:if>

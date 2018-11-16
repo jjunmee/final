@@ -10,11 +10,12 @@ public interface ProfileDao {
 	public int groupInsert(ProfileVo vo);
 	public int groupDel(int no);
 	public List<ProfileVo> groupList();
-	
 	//profile img
 	public int proImgInsert(ProfileVo vo);
 	public int proImgDel(int no);
 	public List<ProfileVo> proImgList(int no);
+	public List<ProfileVo> imgAllList();
 	
 	public ProfileUserVo find(int num);
+	
 }

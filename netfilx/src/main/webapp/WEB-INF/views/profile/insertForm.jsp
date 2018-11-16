@@ -8,12 +8,12 @@
 		<table class="col-sm-8" style="margin: 0 auto;">
 			<tr>
 				<th rowspan="3" class="col-sm-4">
-					<img src="http://dmszone.com:8080/watflix/profile/3/3.png" width="200">
-					<input type="hidden" name="pimg_num" value="14">
+					<img src="${pimg_src }" width="150">
+					<input type="hidden" name="pimg_num" value="${pimg_num }">
 				</th>
-				<td class="col-sm-4"><input type="text" name="nickname" placeholder=""></td>
-				<td class="col-sm-4"><input type="password" name="profile_pwd" id="pwd" min="4" placeholder=""></td>
-				<td class="col-sm-4"><input type="password" id="pwd1" min="4" placeholder=""></td>
+				<td class="col-sm-4"><input type="text" name="nickname" placeholder="닉네임을 적어주세요"></td>
+				<td class="col-sm-4"><input type="password" name="profile_pwd" id="pwd" min="4" max="4" placeholder="4자리 비밀번호"></td>
+				<td class="col-sm-4"><input type="password" id="pwd1" min="4" max="4" placeholder="4자리 비밀번호 확인"></td>
 			</tr>
 			<tr>
 				<td colspan="2">
