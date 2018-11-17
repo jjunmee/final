@@ -3,8 +3,8 @@
 <head>
 
 <link type='text/css' href="<c:url value='/resources/css/demo.css'/>" rel='stylesheet' media='screen' />
-
 <link type='text/css' href="<c:url value='/resources/css/confirm.css'/>" rel='stylesheet' media='screen' />
+<link type='text/css' href="<c:url value='/resources/css/survey.css'/>" rel='stylesheet' media='screen' />
 
 </head>
 <style type="text/css">
