@@ -30,4 +30,9 @@ public class ProfileUserDaoImpl implements ProfileUserDao{
 	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE+".profileList", map);
 	}
+	@Override
+	public ProfileUserListVo profileInfo(int profile_num) {
+		return sqlSession.selectOne(NAMESPACE+".profileInfo", profile_num);
+	}
+	
 }

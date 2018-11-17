@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -143,13 +142,34 @@ public class ProfileController {
 	
 	//profile user insert form move
 	@RequestMapping(value="/profile/user/insertForm",method=RequestMethod.GET)
-	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first,@RequestParam("pimg_src")String pimg_src,@RequestParam("pimg_num")String pimg_num) {
+	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first,@RequestParam("pimg_src")String pimg_src,@RequestParam("pimg_num")String pimg_num){
 		ModelAndView mv = new ModelAndView(".profile.insertForm");
+			  mv.addObject("action", "/profile/user/insert");
 		mv.addObject("first",first);
 		mv.addObject("pimg_src",pimg_src);
 		mv.addObject("pimg_num",pimg_num);
 		return mv;
 	}
+	
+	//profile user insert form move
+		@RequestMapping(value="/profile/user/updateFormView",method=RequestMethod.GET)
+		public ModelAndView profilUserUpdateFormView(@RequestParam("profile_num")String profile_num){
+			ModelAndView mv = new ModelAndView(".profile.insertForm");
+			int profile;
+			try {
+				profile=Integer.parseInt(profile_num);
+			}catch(NullPointerException e) {
+				profile=0;
+			}
+			if(profile>0) {
+			  ProfileUserListVo vo = user_service.profileInfo(profile);
+			  if(vo!=null) {
+				  mv.addObject("vo", vo);
+				  mv.addObject("action", "/nsofhsdfhs");
+			  }
+			}
+			return mv;
+		}
 	
 	//profile user insertOk
 	@RequestMapping(value="/profile/user/insert",method=RequestMethod.POST)
@@ -201,6 +221,18 @@ public class ProfileController {
 		mv.addObject("group_list", group_list);
 		mv.addObject("pro_list", pro_list);
 		mv.addObject("first", first);
+		return mv;
+	}
+	
+	//유저프로필관리
+	@RequestMapping(value="/profile/manageProfiles")
+	public ModelAndView profileUserInfoAdmin(HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		List<ProfileUserListVo> list = user_service.userProfileList(id);
+		ModelAndView mv = new ModelAndView(".profile.manageProfiles");
+		if(!list.isEmpty()) {
+			mv.addObject("list",list);
+		}
 		return mv;
 	}
 }
