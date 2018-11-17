@@ -11,7 +11,11 @@
  		insert into profile values(0,#{vo.nickname},(select users_num from users where id = #{id}),#{vo.pimg_num},#{vo.profile_age},#{vo.profile_pwd},#{vo.profile_first}, now())
  	</insert>	
  	<update id="userProfileUpdate" parameterType="profileUser">
- 		update profile set nickname=#{nickname}, pimg_num=#{pimg_num}, profile_pwd=#{profile_pwd}, profile_age=#{profile_age} where profile_num = #{profile_num}
+ 		update profile set nickname=#{nickname}, pimg_num=#{pimg_num}, 
+ 		<if test="profile_pwd != null">
+ 		profile_pwd=#{profile_pwd}, 
+ 		</if>
+ 		profile_age=#{profile_age} where profile_num = #{profile_num}
  	</update>
  	<update id="userProfileDelete" parameterType="int">
  		update profile set profile_first=2 where profile_num = #{profile_num}

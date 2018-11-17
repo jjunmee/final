@@ -24,7 +24,7 @@
 					</div>
 					<div class="profile_nickname">
 						<a href="<c:url value='/profile/user/updateFormView?profile_num=${vo.profile_num }'/>">
-						<p>${vo.nickname }</p>
+						${vo.nickname }
 						</a>
 					</div>
 				</div>
@@ -33,6 +33,5 @@
 	</c:if>	
 </div>
 <div class="container">
-	<a href="c:url value='/profile/user/index'/>" class="btn btn-primary">완료</a>
-	<input type="button" class="btn btn-danger" value="취소" onclick="javascript:history.go(-1)">
+	<a href="<c:url value='/profile/user/index'/>" class="btn btn-primary">완료</a>
 </div>

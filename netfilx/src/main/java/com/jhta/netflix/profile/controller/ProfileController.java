@@ -237,7 +237,7 @@ public class ProfileController {
 		List<ProfileVo> pro_list = admin_service.imgAllList();
 		mv.addObject("group_list", group_list);
 		mv.addObject("pro_list", pro_list);
-		mv.addObject("profile_num", profile_num);
+		mv.addObject("s_profile_num", profile_num);
 		return mv;
 	}
 	//유저프로필관리

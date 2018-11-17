@@ -14,7 +14,7 @@ jQuery(function($){
 	 });
 });
 </script>
-<c:if test="${!empty(profile_num) }">
+<c:if test="${!empty(s_profile_num) }">
 	<div class="container">
 		<table>
 		<tr>
@@ -42,13 +42,13 @@ jQuery(function($){
 		<c:forEach var="I_list" items="${pro_list }">
 			<c:if test="${G_list.pro_group_no eq I_list.pro_group_no }">
 				<c:choose>
-					<c:when test="${empty(profile_num) }">
+					<c:when test="${empty(s_profile_num) }">
 						<a href="<c:url value='/profile/user/insertForm?first=${first }&pimg_src=${I_list.pimg_src }&pimg_num=${I_list.pimg_num }'/>">
 							<img src="${I_list.pimg_src }" width="120">
 						</a>					
 					</c:when>
 					<c:otherwise>
-						<a href="<c:url value='/profile/user/updateFormView?profile_num=${profile_num }&n_pimg_src=${I_list.pimg_src }&n_pimg_num=${I_list.pimg_num }'/>">
+						<a href="<c:url value='/profile/user/updateFormView?profile_num=${s_profile_num }&n_pimg_src=${I_list.pimg_src }&n_pimg_num=${I_list.pimg_num }'/>">
 							<img src="${I_list.pimg_src }" width="120">
 						</a>
 					</c:otherwise>

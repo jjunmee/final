@@ -36,7 +36,7 @@
 						</c:otherwise>
 					</c:choose>
 				</th>
-				<td class="col-sm-4"><input type="text" name="nickname" placeholder="닉네임을 적어주세요" value="${c_nickname }"></td>
+				<td class="col-sm-4"><input type="text" id="nickname" name="nickname" placeholder="닉네임을 적어주세요" value="${c_nickname }"></td>
 				<td class="col-sm-4"><input type="password" name="profile_pwd" id="pwd" min="4" max="4" placeholder="4자리 비밀번호"></td>
 				<td class="col-sm-4"><input type="password" id="pwd1" min="4" max="4" placeholder="4자리 비밀번호 확인"></td>
 			</tr>
