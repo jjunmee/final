@@ -15,10 +15,20 @@
 				<th rowspan="3" class="col-sm-4">
 					<c:choose>
 						<c:when test="${!empty(vo) }">
-							<a href="<c:url value='/profile/user/img/listForm?first=${vo.profile_first }'/>">
-								<img src="${vo.pimg_src }" width="150">
-							</a>
-							<input type="hidden" name="pimg_num" value="${vo.pimg_num }">
+							<c:choose>
+								<c:when test="${!empty(n_pimg_num) }">
+									<a href="<c:url value='/profile/user/img/change?profile_num=${vo.profile_num }'/>">
+										<img src="${n_pimg_src }" width="150">
+									</a>
+									<input type="hidden" name="pimg_num" value="${n_pimg_num }">
+								</c:when>
+								<c:otherwise>
+									<a href="<c:url value='/profile/user/img/change?profile_num=${vo.profile_num }'/>">
+										<img src="${vo.pimg_src }" width="150">
+									</a>
+									<input type="hidden" name="pimg_num" value="${vo.pimg_num }">
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 						<c:otherwise>
 							<img src="${pimg_src }" width="150">
@@ -44,6 +54,7 @@
 						</c:otherwise>
 					</c:choose>
 					<input type="hidden" value="${first }" name="profile_first">
+					<input type="hidden" value="${c_profile_num }" name="profile_num">
 				</td>	
 			</tr>
 			<tr>
@@ -51,13 +62,16 @@
 					<c:choose>
 						<c:when test="${!empty(vo) }">
 							<input type="submit" class="btn btn-primary" value="저장하기">
-							<input type="button" class="btn btn-danger" value="삭제하기">
+							<c:if test="${vo.profile_first ne true}">
+								<a href="<c:url value='/profile/manageProfiles/del?profile_num=${c_profile_num }'/>" class="btn btn-danger">삭제하기</a>
+							</c:if>
+							<a href="<c:url value='/profile/manageProfiles'/>" class="btn btn-default">취소</a>
 						</c:when>
 						<c:otherwise>
 							<input type="submit" class="btn btn-primary" value="추가하기">
+							<a href="<c:url value='/profile/user/index'/>" class="btn btn-danger">취소</a>
 						</c:otherwise>
 					</c:choose>
-							<input type="button" class="btn btn-default" value="취소" onclick="javascript:history.go(-1)">
 				</td>				
 			</tr>
 		</table>

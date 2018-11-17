@@ -1,10 +1,11 @@
 function pwdCk(){
 	var pwd = $("#pwd").val();
 	var pwd1 = $("#pwd1").val();
-	if(pwd != pwd1){
-		return false;
+	if(pwd != null || pwd1 !=null){
+		if(pwd != pwd1){
+			return false;
+		}
 	}
-	
 }
 
 function change_child(row){

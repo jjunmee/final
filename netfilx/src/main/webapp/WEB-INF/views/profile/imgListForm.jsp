@@ -14,16 +14,45 @@ jQuery(function($){
 	 });
 });
 </script>
+<c:if test="${!empty(profile_num) }">
+	<div class="container">
+		<table>
+		<tr>
+			<td class="col-sm-1">
+				<a href="javascript:history.go(-1)">
+					<i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i>
+				</a>
+			</td>
+			<td class="col-sm-4">
+				<h2>프로필 변경</h2>
+				<h3>프로필 아이콘을 선택하세요</h3>
+			</td>
+			<td class="col-sm-7">
+				<img src="${pimg_src }" width="10"  style="float: right;">
+			</td>
+		<tr>
+		</table>
+	</div>
+</c:if>
 <c:if test="${!empty(pro_list) }">
 	<c:forEach var="G_list" items="${group_list }">
 	<div class="container">
-	<h1>${G_list.pro_group_name } </h1>
+	<h3>${G_list.pro_group_name } </h3>
 		<div class="vmcarousel-normal">
 		<c:forEach var="I_list" items="${pro_list }">
 			<c:if test="${G_list.pro_group_no eq I_list.pro_group_no }">
-				<a href="<c:url value='/profile/user/insertForm?first=${first }&pimg_src=${I_list.pimg_src }&pimg_num=${I_list.pimg_num }'/>">
-					<img src="${I_list.pimg_src }" width="150">
-				</a>					
+				<c:choose>
+					<c:when test="${empty(profile_num) }">
+						<a href="<c:url value='/profile/user/insertForm?first=${first }&pimg_src=${I_list.pimg_src }&pimg_num=${I_list.pimg_num }'/>">
+							<img src="${I_list.pimg_src }" width="120">
+						</a>					
+					</c:when>
+					<c:otherwise>
+						<a href="<c:url value='/profile/user/updateFormView?profile_num=${profile_num }&n_pimg_src=${I_list.pimg_src }&n_pimg_num=${I_list.pimg_num }'/>">
+							<img src="${I_list.pimg_src }" width="120">
+						</a>
+					</c:otherwise>
+				</c:choose>
 			</c:if>
 		</c:forEach>
 		</div>
