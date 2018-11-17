@@ -17,19 +17,15 @@ function pwdCk(){
 	}else{
 		if(nic.val()==null){
 			nic.focus();
-			alert("1");
 			return false;
 		}else if(pwd.val()==null){
 			pwd.focus();
-			alert("2");
 			return false;
 		}else if(pwd1.val()==null){
 			pwd1.focus();
-			alert("3");
 			return false;
 		}else if(pwd.val() != pwd1.val()){
 			pwd.focus();
-			alert("4");
 			return false;
 		}
 		alert(pwd.val());
