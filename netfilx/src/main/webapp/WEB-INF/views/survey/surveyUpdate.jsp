@@ -87,7 +87,6 @@
 			
 		});	
 		$(".opDelBtn").click(function(e){
-			alert("opDelBtn");
 			opDel(e);
 		});
 	});
@@ -683,6 +682,7 @@
 				$("#mainSurvey2").empty();
 				choice1Click();
 				$('.qPlusBox').hide();
+				$('#opDiv').hide();
 			}
 		}else if(n==2 || n=='2'){
 			if(choiceType==2 || choiceType=='2'){
@@ -779,7 +779,7 @@
 					</div>	
 				</div>
 				<div id="mainSurvey1" class="mainSurvey1" style="display: none">			
-					<c:if test="${choiceType==1||choiceType=='1' }">
+					<c:if test="${choiceType=='1' }">
 						<div id="leftBoxDiv" style="margin-right:30px;" class="boxStyle">
 							<div id="rowBox">
 								질문
@@ -815,12 +815,82 @@
 					</c:if>
 				</div>
 				<div id="mainSurvey2" class="mainSurvey2" style="display: none">
-					<c:if test="${choiceType==2||choiceType=='2' }">
-						<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
-						
-						
-						</c:forEach>
-					</c:if>
+					 <c:if test="${choiceType=='2' }">
+					 	<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
+					 		<c:if test="${sqVoList[i].sqType=='1' || sqVoList[i].sqType=='2'}">
+								<div id="box${i }" name="box${i }" class="appendingBox" data-order="${i }" style="margin-top:10px;position:relative;">
+									<input type="hidden" id="existOp${i }" value="${fn:length(salist[i]) }">
+									<div id="sqBox${i }" style="display:block;">
+										<input type="text" class="sqType${i }" name="sqlist[${i }].sqTitle" value="${sqVoList[i].sqTitle }" placeholder="질문내용을 입력하세요">
+										<input type="button" id="delBtn" style="position:absolute;left:90%;" onclick="delDiv(${i})" value="x">
+									</div>
+									<div id="opBox${i }" style="position:relative;display:block;" class="opBox">
+										<c:forEach var="j" begin="0" end="${fn:length(salist[i])-1}">
+											<br>
+											<input type="text" name="ssalist[${i }].alist" value="${salist[i][j].saAnswer }" placeholder="옵션을 입력하세요">
+											<input type="button" style="position:absolute;left:90%;" value="x">
+										</c:forEach>
+									</div>
+								</div>							
+							</c:if>
+					 		<c:if test="${sqVoList[i].sqType=='3' }">
+								<div id="box${i }" name="box${i }" class="appendingBox" data-order="${i }" style="margin-top:10px;position:relative;">
+									<input type="hidden" id="existOp${i }">
+									<div id="sqBox${i }" style="display:block;">
+										<input type="text" class="sqType${i }" name="sqlist[${i }].sqTitle" value="${sqVoList[i].sqTitle }" placeholder="질문내용을 입력하세요">
+										<input type="button" id="delBtn" style="position:absolute;left:90%;" onclick="delDiv(${i })" value="x">
+									</div>
+									<div id="opBox${i }" style="position:relative;display:block;" class="opBox">
+										<br>
+										<div id="selDiv" style="display:block;">
+											<select id="sel1box${i }" n="1" cnt="${i }" value="${fn:split(salist[i][0].saAnswer,'!@#$')[0] }">
+												<option value="0">0</option>
+												<option value="1">1</option>
+											</select>
+											<span> ~ </span>
+											<select id="sel2box${i }" n="2" cnt="${i }" value="${fn:split(salist[i][1].saAnswer,'!@#$')[0] }">
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+												<option value="6">6</option>
+												<option value="7">7</option>
+												<option value="8">8</option>
+												<option value="9">9</option>
+												<option value="10">10</option>												
+											</select>											
+										</div>
+										<div style="display:block;">
+											<input id="hidden1Input${i }" type="hidden" name="ssalist[${2 }].alist">
+											<input id="hidden2Input${i }" type="hidden" name="ssalist[${2 }].alist">
+											<span id="span1op${i }">${fn:split(salist[i][0].saAnswer,'!@#$')[0] }</span>
+											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][0].saAnswer,'!@#$')[1]}" placeholder="옵션을 입력하세요" id="input1op${i }">
+											<br>
+											<span id="span2op${i }">${fn:split(salist[i][1].saAnswer,'!@#$')[0] }</span>
+											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][1].saAnswer,'!@#$')[1]}" placeholder="옵션을 입력하세요" id="input2op${i }">
+										</div>
+									</div>
+								</div>
+							</c:if>
+							
+							<c:if test="${sqVoList[i].sqType=='4' }">
+								<div id="box${i }" name="box${i }" class="appendingBox" data-order="${i }" style="margin-top:10px;position:relative;">
+									<input type="hidden" id="existOp${i }">
+									<div id="sqBox${i }">
+										<input type="text" class="sqType${i }" name="sqlist[${i }].sqTitle" value="${sqVoList[i].sqTitle }" placeholder="질문내용을 입력하세요">
+										<input type="button" id="delBtn" style="position:absolute;left:90%;" onclick="" value="x">
+									</div>
+									<div id="opBox${i }" style="position:relative;display:block;" class="opBox">
+										<br>
+										<input type="text" name="ssalist[${i }].alist" readonly="readonly" value="주관식답변입니다.">
+									</div>
+									<div id="opPlusBox${i }" class="opPlusBox" style="display:none;">
+									</div>
+								</div>
+							</c:if>
+					 
+					 	</c:forEach>
+					 </c:if>				
 				</div>	
 				<div id="opDiv" class="opDiv" style="display: none;margin-top: 10px;width:80%;">
 					<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
@@ -835,6 +905,9 @@
 				</div>
 				<div id="things" class="things">
 					<input type="hidden" name="surveyNum" value="${surveyNum }">
+					<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
+						<input type="hidden" name="sqlist[${i }].sqType" class="org" value="${sqlist[i].sqType }">
+					</c:forEach>
 					<input type="button" id="grid1" onclick="grid(1)" value="객관식그리드로 만들기">
 					<input type="button" id="grid2" onclick="grid(2)"	 value="복합질문형으로 만들기">
 					<input type="button" id="submitBtn1" onclick="submitOk(1)" value="저장하기">
