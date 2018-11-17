@@ -37,7 +37,9 @@
 	
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
-			surveyStart=now(),surveyEnd=#{surveyEnd},state=#{state}
+			surveyStart=now(),
+			<if test="surveyEnd!=null and surveyEnd!=''">surveyEnd=#{surveyEnd},</if>
+			state=#{state}
 		where surveyNum=#{surveyNum}
 	</update>
 	<update id="surveyStateUpdate" parameterType="hashmap">

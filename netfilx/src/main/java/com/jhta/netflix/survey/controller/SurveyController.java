@@ -146,6 +146,15 @@ public class SurveyController {
 		return ".survey.surveyUpdate";
 	}
 	
+	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
+	public String updateOk(Model model) {
+		return ".survey.stats";
+	}
+	@RequestMapping(value="/survey/updateInsert",method=RequestMethod.POST)
+	public String updateInsert(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
+			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
+		return ".survey.stats";
+	}
 	
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(HttpSession session,Model model) {
@@ -184,15 +193,6 @@ public class SurveyController {
 	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
 		//설문테이블 insert
-		String userId=(String)session.getAttribute("id");
-		//String userId="alsl";
-		//설문번호 가져와서 설문테이블 업데이트하기 ====> 아예 설문폼1저장할때 설문번호를 가져와서 계속 파라미터 넘기는걸로 바꿨음
-		//int userNum=service.userSelect(userId).getUsersNum();
-		//Map<String, Object> map=new HashMap<String, Object>();
-		//map.put("userNum", userNum);
-		//map.put("state", "결제완료");
-		//int surveyNum=service.surveyNumSelect(map);
-		//surveyVo.setSurveyNum(surveyNum);
 		service.surveyUpdate(surveyVo);
 		int surveyNum=surveyVo.getSurveyNum();
 		System.out.println("surveyNum : "+surveyNum);

@@ -87,6 +87,191 @@
 	
 	
 	
+	
+	function choice1Click(){		
+		/*$("#choice1").click(function(){//객관식그리드 선택*/
+		choiceType=1;	
+		
+		var leftBoxDiv=document.createElement("div");
+		leftBoxDiv.setAttribute("id","leftBoxDiv");
+		leftBoxDiv.setAttribute("style","margin-right:30px;")
+		leftBoxDiv.setAttribute("class","boxStyle");
+		var rightBoxDiv=document.createElement("div");
+		rightBoxDiv.setAttribute("id","rightBoxDiv");
+		rightBoxDiv.setAttribute("class","boxStyle");
+		
+		var rowBox=document.createElement("div");
+		rowBox.setAttribute("id","rowBox");
+		rowBox.innerHTML="질문";
+		rowBox.appendChild(document.createElement("br"));
+
+		var colBox=document.createElement("div");
+		colBox.setAttribute("id","colBox");
+		colBox.innerHTML="옵션";
+		colBox.appendChild(document.createElement("br"));
+	
+		$("#mainSurvey1").append(leftBoxDiv);
+		$("#leftBoxDiv").append(rowBox);
+		$("#mainSurvey1").append(rightBoxDiv);
+		$("#rightBoxDiv").append(colBox);
+		
+		$("#grid1").show();
+		$("#grid2").show();
+		$("#submitBtn2").show();
+		$("#typeChoice").hide();			
+		$("#mainSurvey1").show();
+		
+		appendBtnBox();
+		appendRow();
+		appendCol(0);
+		
+	}
+	function choice2Click(){
+		/*$("#choice2").click(function(){//복합질문형선택/*/
+			choiceType=2;
+			$("#grid1").show();
+			$("#grid2").show();
+			$("#submitBtn2").show();
+			$("#typeChoice").hide();			
+			$("#mainSurvey2").show();
+			
+			appendDiv(0);	
+			
+		}
+		
+	function appendBtnBox(){//객관식그리드의 추가버튼박스...?
+		var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
+		$("#rowBox").after(rowPlusBox);
+		var colPlusBox=$("<div id='colPlusBox' style='display:none'><input type='button' id='colPlus' value='옵션추가'></div>");
+		$("#colBox").after(colPlusBox);
+		$("#rowPlusBox").css("display","block");
+		$("#colPlusBox").css("display","block");
+		
+		$("#rowPlus").click(function(){
+			appendRow();
+		});
+		$("#colPlus").click(function(){
+			appendCol(1);
+		});		
+		
+	}			
+			
+	function appendRow(){//객관식그리드의 질문추가	
+		exist++;
+		var box=document.createElement("div");
+		box.setAttribute("id","box"+(++cloneCnt));
+		box.setAttribute("name","box"+cloneCnt);
+		box.setAttribute("class","appendingBox");
+		box.setAttribute("data-order",cloneCnt);
+		
+		var sqTitle=document.createElement("input");
+		sqTitle.setAttribute("type","text");
+		sqTitle.setAttribute("name","sqlist["+cloneCnt+"].sqTitle");
+		sqTitle.setAttribute("placeholder","질문내용을 입력하세요");
+		box.appendChild(sqTitle);
+		var delBtn=document.createElement("input");
+		delBtn.setAttribute("type","button");
+		delBtn.setAttribute("value","X");
+		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");			
+		box.appendChild(delBtn);
+		$("#rowBox").append(box);
+		
+		var sqType=document.createElement("input");
+		sqType.setAttribute("type","hidden");
+		sqType.setAttribute("name","sqlist["+cloneCnt+"].sqType");
+		sqType.setAttribute("class","org");
+		sqType.setAttribute("value","0");					
+		$("#things").append(sqType);
+		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
+	}		
+		
+	function appendCol(n){//객관식그리드의 옵션추가	
+		var opBox=document.createElement("div");
+		opBox.setAttribute("id","opBox"+(++opNum));
+		
+		var op=document.createElement("input");
+		op.setAttribute("type","text");
+		op.setAttribute("name","ssalist["+opNum+"].alist");
+		op.setAttribute("placeholder","옵션을 입력하세요");
+		opBox.appendChild(op);
+		
+		if(n==0 || n=='0'){
+			var existOpBox=document.createElement('input');
+			existOpBox.setAttribute('type','hidden');
+			existOpBox.setAttribute('id','existOp');
+			existOpBox.setAttribute('value',opCnt);
+			$("#colBox").append(existOpBox);
+		}else{
+			var existOpBox=document.getElementById('existOp');
+			existOpBox.setAttribute('value',++opCnt);
+		}
+		
+		var delBtn=document.createElement("input");
+		delBtn.setAttribute("type","button");
+		delBtn.onclick=opDel;
+		delBtn.setAttribute("value","X");
+		opBox.appendChild(delBtn);
+		$("#colBox").append(opBox);
+		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
+		
+	}
+
+	function appendDiv(n){//복합질문형 감싸는 Div
+		exist++;		
+		
+		var qBox=document.createElement("div");			
+		qBox.setAttribute("id","box"+ (++cloneCnt));
+		qBox.setAttribute("name","box"+cloneCnt);	
+		qBox.setAttribute("class","appendingBox");	
+		qBox.setAttribute("data-order",cloneCnt);
+		qBox.onclick=showOption;
+		qBox.style='margin-top:10px;position:relative;';			
+		
+		//옵션갯수세려는 용도
+		var existOp=document.createElement("input");
+		existOp.setAttribute("type","hidden");
+		existOp.setAttribute("id","existOp"+cloneCnt);
+		qBox.append(existOp);
+		
+		var sqBox=document.createElement("div");
+		sqBox.setAttribute("id","sqBox"+cloneCnt);
+		var sqTitle=document.createElement("input");
+		sqTitle.setAttribute("type","text");
+		sqTitle.setAttribute("class","sqType"+cloneCnt);
+		sqTitle.setAttribute("name","sqlist["+cloneCnt+"].sqTitle");
+		sqTitle.setAttribute("placeholder","질문내용을 입력하세요");	
+		sqBox.append(sqTitle);
+		qBox.append(sqBox);
+		
+		var delBtn=document.createElement("input");
+		delBtn.setAttribute("type","button");
+		delBtn.setAttribute("id","delBtn");
+		delBtn.setAttribute("style","position:absolute;left:90%;")
+		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");
+		delBtn.setAttribute("value","x");
+		sqBox.append(delBtn);
+		
+		var opBox=document.createElement("div");
+		opBox.setAttribute("id","opBox"+cloneCnt);
+		opBox.setAttribute("style","position:relative;");
+		qBox.append(opBox);				
+		
+		$("#mainSurvey2").append(qBox);				
+		
+		if(n==0){
+			$("#opDiv").css("display","block");
+		}else if(n==1){
+			checktype1();
+		}else if(n==2){
+			checktype2();
+		}else if(n==3){
+			checktype3();
+		}else if(n==4){
+			checktype4();
+		}	
+		
+	}
+	
 	function checktype1(){//객관식답안선택시
 		opNum=1;
 		var existOpNum=1;
@@ -298,6 +483,16 @@
 	}
 	
 	
+	function showOption(){//질문Div눌렀을때 해당 질문의 입력했던 옵션들과 옵션추가버튼보이게!다른Div는 숨겨지고!
+		$("#surveyForm").find(".opBox").hide();		
+		$("#surveyForm").find(".opPlusBox").hide();		
+		$(this).find('div').css("display","block");
+		
+	}
+	
+
+	
+	
 	function delDiv(n){//질문박스지우기	
 		var delBox=document.getElementById("box"+n);
 		if(exist!=1){
@@ -393,6 +588,10 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
+		if($("#surveyName").val()==null || $("#surveyName").val()==''){
+			$("#surveyName").val('제목없음');
+		}
+		
 		//type3인 경우(직선단계) value값 정리하기
 		for(var i=1;i<=2;i++){
 			for(var j=0;j<=cloneCnt;j++){
@@ -413,7 +612,7 @@
 		var appendingBoxArr='';
 		if(choiceType=="2"|| choiceType==2){
 			appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
-		}else if(choiceType="1"||choiceType==1){
+		}else if(choiceType=="1"||choiceType==1){
 			appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
 		}
 		for(var i=0;i<appendingBoxArr.length;i++){
@@ -452,195 +651,6 @@
 		frm.submit();			
 	}
 	
-	function choice1Click(){		
-		/*$("#choice1").click(function(){//객관식그리드 선택*/
-		choiceType=1;	
-		
-		var leftBoxDiv=document.createElement("div");
-		leftBoxDiv.setAttribute("id","leftBoxDiv");
-		leftBoxDiv.setAttribute("style","margin-right:30px;")
-		leftBoxDiv.setAttribute("class","boxStyle");
-		var rightBoxDiv=document.createElement("div");
-		rightBoxDiv.setAttribute("id","rightBoxDiv");
-		rightBoxDiv.setAttribute("class","boxStyle");
-		
-		var rowBox=document.createElement("div");
-		rowBox.setAttribute("id","rowBox");
-		rowBox.innerHTML="질문";
-		rowBox.appendChild(document.createElement("br"));
-
-		var colBox=document.createElement("div");
-		colBox.setAttribute("id","colBox");
-		colBox.innerHTML="옵션";
-		colBox.appendChild(document.createElement("br"));
-	
-		$("#mainSurvey1").append(leftBoxDiv);
-		$("#leftBoxDiv").append(rowBox);
-		$("#mainSurvey1").append(rightBoxDiv);
-		$("#rightBoxDiv").append(colBox);
-		
-		$("#grid1").show();
-		$("#grid2").show();
-		$("#submitBtn2").show();
-		$("#typeChoice").hide();			
-		$("#mainSurvey1").show();
-		
-		appendBtnBox();
-		appendRow();
-		appendCol(0);
-		
-	}
-	function choice2Click(){
-		/*$("#choice2").click(function(){//복합질문형선택/*/
-			choiceType=2;
-			$("#grid1").show();
-			$("#grid2").show();
-			$("#submitBtn2").show();
-			$("#typeChoice").hide();			
-			$("#mainSurvey2").show();
-			
-			appendDiv(0);	
-			
-		}
-		
-	function appendBtnBox(){//객관식그리드의 추가버튼박스...?
-		var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
-		$("#rowBox").after(rowPlusBox);
-		var colPlusBox=$("<div id='colPlusBox' style='display:none'><input type='button' id='colPlus' value='옵션추가'></div>");
-		$("#colBox").after(colPlusBox);
-		$("#rowPlusBox").css("display","block");
-		$("#colPlusBox").css("display","block");
-		
-		$("#rowPlus").click(function(){
-			appendRow();
-		});
-		$("#colPlus").click(function(){
-			appendCol(1);
-		});		
-		
-	}			
-			
-	function appendRow(){//객관식그리드의 질문추가	
-		exist++;
-		var box=document.createElement("div");
-		box.setAttribute("id","box"+(++cloneCnt));
-		box.setAttribute("name","box"+cloneCnt);
-		box.setAttribute("class","appendingBox");
-		box.setAttribute("data-order",cloneCnt);
-		
-		var sqTitle=document.createElement("input");
-		sqTitle.setAttribute("type","text");
-		sqTitle.setAttribute("name","sqlist["+cloneCnt+"].sqTitle");
-		sqTitle.setAttribute("placeholder","질문내용을 입력하세요");
-		box.appendChild(sqTitle);
-		var delBtn=document.createElement("input");
-		delBtn.setAttribute("type","button");
-		delBtn.setAttribute("value","X");
-		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");			
-		box.appendChild(delBtn);
-		$("#rowBox").append(box);
-		
-		var sqType=document.createElement("input");
-		sqType.setAttribute("type","hidden");
-		sqType.setAttribute("name","sqlist["+cloneCnt+"].sqType");
-		sqType.setAttribute("class","org");
-		sqType.setAttribute("value","0");					
-		$("#things").append(sqType);
-		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
-	}		
-		
-	function appendCol(n){//객관식그리드의 옵션추가	
-		var opBox=document.createElement("div");
-		opBox.setAttribute("id","opBox"+(++opNum));
-		
-		var op=document.createElement("input");
-		op.setAttribute("type","text");
-		op.setAttribute("name","ssalist["+opNum+"].alist");
-		op.setAttribute("placeholder","옵션을 입력하세요");
-		opBox.appendChild(op);
-		
-		if(n==0 || n=='0'){
-			var existOpBox=document.createElement('input');
-			existOpBox.setAttribute('type','hidden');
-			existOpBox.setAttribute('id','existOp');
-			existOpBox.setAttribute('value',opCnt);
-			$("#colBox").append(existOpBox);
-		}else{
-			var existOpBox=document.getElementById('existOp');
-			existOpBox.setAttribute('value',++opCnt);
-		}
-		
-		var delBtn=document.createElement("input");
-		delBtn.setAttribute("type","button");
-		delBtn.onclick=opDel;
-		delBtn.setAttribute("value","X");
-		opBox.appendChild(delBtn);
-		$("#colBox").append(opBox);
-		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
-		
-	}
-
-	function appendDiv(n){//복합질문형 감싸는 Div
-		exist++;		
-		
-		var qBox=document.createElement("div");			
-		qBox.setAttribute("id","box"+ (++cloneCnt));
-		qBox.setAttribute("name","box"+cloneCnt);	
-		qBox.setAttribute("class","appendingBox");	
-		qBox.setAttribute("data-order",cloneCnt);
-		qBox.onclick=showOption;
-		qBox.style='margin-top:10px;position:relative;';			
-		
-		//옵션갯수세려는 용도
-		var existOp=document.createElement("input");
-		existOp.setAttribute("type","hidden");
-		existOp.setAttribute("id","existOp"+cloneCnt);
-		qBox.append(existOp);
-		
-		var sqBox=document.createElement("div");
-		sqBox.setAttribute("id","sqBox"+cloneCnt);
-		var sqTitle=document.createElement("input");
-		sqTitle.setAttribute("type","text");
-		sqTitle.setAttribute("class","sqType"+cloneCnt);
-		sqTitle.setAttribute("name","sqlist["+cloneCnt+"].sqTitle");
-		sqTitle.setAttribute("placeholder","질문내용을 입력하세요");	
-		sqBox.append(sqTitle);
-		qBox.append(sqBox);
-		
-		var delBtn=document.createElement("input");
-		delBtn.setAttribute("type","button");
-		delBtn.setAttribute("id","delBtn");
-		delBtn.setAttribute("style","position:absolute;left:90%;")
-		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");
-		delBtn.setAttribute("value","x");
-		sqBox.append(delBtn);
-		
-		var opBox=document.createElement("div");
-		opBox.setAttribute("id","opBox"+cloneCnt);
-		opBox.setAttribute("style","position:relative;");
-		qBox.append(opBox);				
-		
-		$("#mainSurvey2").append(qBox);				
-		
-		if(n==0){
-			$("#opDiv").css("display","block");
-		}else if(n==1){
-			checktype1();
-		}else if(n==2){
-			checktype2();
-		}else if(n==3){
-			checktype3();
-		}else if(n==4){
-			checktype4();
-		}	
-		
-	}
-	function showOption(){//질문Div눌렀을때 해당 질문의 입력했던 옵션들과 옵션추가버튼보이게!다른Div는 숨겨지고!
-		$("#surveyForm").find(".opBox").hide();		
-		$("#surveyForm").find(".opPlusBox").hide();		
-		$(this).find('div').css("display","block");
-		
-	}
 		
 	function grid(n){
 		if(n==1 || n=='1'){

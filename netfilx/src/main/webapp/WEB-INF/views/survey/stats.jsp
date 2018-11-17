@@ -22,6 +22,6 @@
 	
 	<div id="myBox" class="centerBox">
 		<!-- sqList돌리면서 saList돌리면 될듯 -->
-		
+		짜잔
 	</div>
 </div>
