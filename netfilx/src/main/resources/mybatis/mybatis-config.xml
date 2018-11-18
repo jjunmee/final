@@ -40,5 +40,6 @@
 		<typeAlias type="com.jhta.netflix.record.vo.RecordVo" alias="record"/>
 		<typeAlias type="com.jhta.netflix.bookmark.vo.BookmarkVo" alias="bookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
+		<typeAlias type="com.jhta.netflix.alarm.vo.Alarm" alias="alarm"/>
 	</typeAliases>
 </configuration>
