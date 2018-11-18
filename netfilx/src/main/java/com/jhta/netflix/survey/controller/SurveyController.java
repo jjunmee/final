@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +32,7 @@ import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.point_info.service.Point_infoService;
 import com.jhta.netflix.point_info.vo.Point_infoVo;
 import com.jhta.netflix.survey.service.SurveyService;
+import com.jhta.netflix.survey.vo.SrCntDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
 import com.jhta.netflix.survey.vo.SurveyInVo;
@@ -122,9 +126,81 @@ public class SurveyController {
 		model.addAttribute("choiceType",choiceType);
 		
 		
-		
 		return ".survey.surveyDetail";
 	}
+	
+	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
+	public String statsForm(int surveyNum, Model model) {
+		//객관식그리드일경우
+		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
+		String stst="";
+		String strConcat="";
+		for(int i=0;i<sqList.size();i++) {
+			strConcat="['',";
+			String stConcat="[";
+			int sqNum=sqList.get(i).getSqNum();
+			stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+			List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+			List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+			String st="";
+			for(int j=0;j<saVoList.size();j++) {
+				String saAnswer=saVoList.get(j).getSaAnswer();	
+				strConcat=strConcat+"'"+saAnswer+"',";
+				Boolean bool=false;
+				for(SrCntDto dto:ansList) {
+					String srAnswer=dto.getSrAnswer();
+					if(saAnswer.equals(srAnswer)) {
+						int cnt=dto.getCnt();
+						//int cnt=Integer.parseInt(cnt1);
+						//intArr[j]=cnt;
+						st=st+cnt+",";
+						bool=true;
+						
+					}
+				}
+				if(bool==false) {
+					st=st+0+",";
+				}
+			}			
+			st=st.substring(0, st.length()-1);
+			stConcat=stConcat+st+"]";
+			stst=stst+stConcat+",";
+			strConcat=strConcat.substring(0,strConcat.length()-1);
+			strConcat=strConcat+"]";
+			//strConcat=strConcat+","+stConcat;
+			//strList.add(strConcat);
+		}
+		stst=stst.substring(0,stst.length()-1);
+		strConcat=strConcat+","+stst;
+		
+		model.addAttribute("strConcat",strConcat);
+		
+		
+		return ".survey.surveyStats";
+	}
+	
+	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
+	public String stats(int surveyNum, Model model) {
+		/*
+		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);
+		for(SurveyQuestionVo sqVo:sqList) {
+			int sqNum=sqVo.getSqNum();
+			List<Map<String,String>> list=service.srAnswerCnt(sqNum);
+			for(int i=0;i<list.size();i++) {
+				Map<String,String> map=list.get(i);
+				System.out.println("짜자자자자자자자자자자자잔"+map.get("srAnswer")+", "+map.get("cnt"));
+			}
+			
+			
+		}
+		*/
+		
+		
+		
+		
+		return ".survey.result";
+	}
+	
 	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
 	public String update(int surveyNum,Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
@@ -147,18 +223,7 @@ public class SurveyController {
 		
 		return ".survey.surveyUpdate";
 	}
-	/*
-	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
-	public String updateOk(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
-			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
-		
-		
-		
-		
-		
-		return ".survey.stats";
-	}
-	*/
+	
 	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
 	public String updateInsert(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
@@ -402,11 +467,7 @@ public class SurveyController {
 		
 		return "redirect:/survey/list?code=1";
 	}
-	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
-	public String stats(int surveyNum, Model model) {
-		
-		return ".survey.stats";
-	}
+	
 	@RequestMapping(value="/survey/delete")
 	public String delete(String delNumArr,HttpSession session,Model model) {
 		System.out.println(delNumArr);

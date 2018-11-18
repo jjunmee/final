@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.survey.dao.SurveyDao;
+import com.jhta.netflix.survey.vo.SrCntDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
 import com.jhta.netflix.survey.vo.SurveyInVo;
 import com.jhta.netflix.survey.vo.SurveyQuestionVo;
@@ -116,7 +117,9 @@ public class SurveyService {
 	public List<SurveyVo> toUpdateSurveyVoSelect(){
 		return dao.toUpdateSurveyVoSelect();
 	}
-	
+	public List<SrCntDto> srAnswerCnt(int sqNum){
+		return dao.srAnswerCnt(sqNum);
+	}
 	
 	
 	
