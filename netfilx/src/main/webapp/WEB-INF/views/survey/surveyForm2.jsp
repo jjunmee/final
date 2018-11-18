@@ -33,8 +33,15 @@
 			minDate:"0",
 			maxDate:"1y"
 		});		
-		
-		
+		$("#mainSurvey2").sortable({//div순서바꾸기
+			axis: "y",
+			containment: "parent",
+			update: function (event, ui) {
+				var order = $(this).sortable('toArray', {
+					attribute: 'data-order'
+				});
+			}
+		});
 		
 		$("#rowBox").sortable({
 			axis: "y",
@@ -45,15 +52,7 @@
 				});
 			}
 		});
-		$("#mainSurvey2").sortable({//div순서바꾸기
-			axis: "y",
-			containment: "parent",
-			update: function (event, ui) {
-				var order = $(this).sortable('toArray', {
-					attribute: 'data-order'
-				});
-			}
-		});
+		
 		$("#hideBtn").click(function(){
 			if($(".tablehide").css("display")=="none"){
 				$(".tablehide").show();
@@ -77,13 +76,14 @@
 			}
 			$("#qPlusBox").css("display","none");
 			$("#surveyForm").find(".opBox").hide();		
-			$("#surveyForm").find(".opPlusBox").hide();		
+			$("#surveyForm").find(".opPlusBox").hide();	
 			appendDiv(opNum);
 			
 		});	
 		
 		
 	});
+	
 	
 	
 	
@@ -134,10 +134,9 @@
 			$("#submitBtn2").show();
 			$("#typeChoice").hide();			
 			$("#mainSurvey2").show();
-			
 			appendDiv(0);	
-			
-		}
+
+	}
 		
 	function appendBtnBox(){//객관식그리드의 추가버튼박스...?
 		var rowPlusBox=$("<div id='rowPlusBox' style='display:none'><input type='button' id='rowPlus' value='질문추가'></div>");
@@ -308,6 +307,7 @@
 		var opPlusBox=document.getElementById("opPlusBox"+cloneCnt);
 		opPlusBox.setAttribute("style","display:block");
 		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
+		
 		
 	}
 	
@@ -587,68 +587,78 @@
 		choiceBox.setAttribute("name","choiceType");
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
-		
-		if($("#surveyName").val()==null || $("#surveyName").val()==''){
-			$("#surveyName").val('제목없음');
-		}
-		
-		//type3인 경우(직선단계) value값 정리하기
-		for(var i=1;i<=2;i++){
-			for(var j=0;j<=cloneCnt;j++){
-				var st="box"+j;
-				if(document.getElementById(st)!=null){
-					if($("input[name='sqlist["+j+"].sqType']").val()=="3" || $("input[name='sqlist["+j+"].sqType']").val()==3){
-						var selbox=document.getElementById("sel"+i+"box"+j);
-						var inputop=document.getElementById("input"+i+"op"+j);
-						var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
-						console.log(selbox.value);
-						console.log(inputop.value);						
-						hiddenInput.value=selbox.value+"!@#$"+inputop.value;
-					}					
-				}
-			}
-		}
-		//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
-		var appendingBoxArr='';
-		if(choiceType=="2"|| choiceType==2){
-			appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
-		}else if(choiceType=="1"||choiceType==1){
-			appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
-		}
-		for(var i=0;i<appendingBoxArr.length;i++){
-			var appendingBox=appendingBoxArr.get(i);
-			var qbox=appendingBox.getAttribute("id");
-			var cnt=qbox.split("box")[1];
-			$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
-			$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
-			$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
-			if(choiceType==2){
-				$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
-			}			
-		}
-		if(choiceType==1){
-			var signNum=0;
-			for(i=0;i<=opNum;i++){
-				var st="opBox"+i;
-				if(document.getElementById(st)!=null){
-					$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
-					signNum++;
-				}
-			}
-		}
-		
-		var stateBox=document.createElement("input");
-		stateBox.setAttribute("type","hidden");
-		stateBox.setAttribute("name","state");
-		if(n==1){
-			stateBox.setAttribute("value","저장중");
+					
+		if($("#opDiv").css('display')=='block'){
+			alert('질문의 옵션형태를 선택하지 않았습니다. 질문을 삭제하거나 옵션을 선택해주세요');
 		}else{
-			stateBox.setAttribute("value","등록완료");
+			
+
+			
+			if($("#surveyName").val()==null || $("#surveyName").val()==''){
+				$("#surveyName").val('제목없음');
+			}
+			
+			//type3인 경우(직선단계) value값 정리하기
+			for(var i=1;i<=2;i++){
+				for(var j=0;j<=cloneCnt;j++){
+					var st="box"+j;
+					if(document.getElementById(st)!=null){
+						if($("input[name='sqlist["+j+"].sqType']").val()=="3" || $("input[name='sqlist["+j+"].sqType']").val()==3){
+							var selbox=document.getElementById("sel"+i+"box"+j);
+							var inputop=document.getElementById("input"+i+"op"+j);
+							var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
+							console.log(selbox.value);
+							console.log(inputop.value);						
+							hiddenInput.value=selbox.value+"!@#$"+inputop.value;
+						}					
+					}
+				}
+			}
+			//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
+			var appendingBoxArr='';
+			if(choiceType=="2"|| choiceType==2){
+				appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
+			}else if(choiceType=="1"||choiceType==1){
+				appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
+			}
+			for(var i=0;i<appendingBoxArr.length;i++){
+				var appendingBox=appendingBoxArr.get(i);
+				var qbox=appendingBox.getAttribute("id");
+				var cnt=qbox.split("box")[1];
+				$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
+				$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
+				$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+				if(choiceType==2){
+					$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
+				}			
+			}
+			if(choiceType==1){
+				var signNum=0;
+				for(i=0;i<=opNum;i++){
+					var st="opBox"+i;
+					if(document.getElementById(st)!=null){
+						if($("input[name='ssalist["+i+"].alist']").attr('value')==null||$("input[name='ssalist["+i+"].alist']").attr('value')==''){
+							$("input[name='ssalist["+i+"].alist']").attr('value',' ');
+						}
+						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
+						signNum++;
+					}
+				}
+			}
+			
+			var stateBox=document.createElement("input");
+			stateBox.setAttribute("type","hidden");
+			stateBox.setAttribute("name","state");
+			if(n==1){
+				stateBox.setAttribute("value","저장중");
+			}else{
+				stateBox.setAttribute("value","등록완료");
+			}
+			$("#things").append(stateBox);	
+			
+			var frm=document.frm;
+			frm.submit();	
 		}
-		$("#things").append(stateBox);	
-		
-		var frm=document.frm;
-		frm.submit();			
 	}
 	
 		

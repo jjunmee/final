@@ -649,6 +649,7 @@
 				opCnt=1;
 				exist=0;
 				$("#mainSurvey2").empty();
+				$(".org").remove();
 				choice1Click();
 				$('.qPlusBox').hide();
 				$('#opDiv').hide();
@@ -662,6 +663,7 @@
 				opCnt=1;
 				exist=0;
 				$("#mainSurvey1").empty();		
+				$(".org").remove();
 				choice2Click();
 			}
 		}
@@ -674,69 +676,74 @@
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
 		
-		if($("#surveyName").val()==null || $("#surveyName").val()==''){
-			$("#surveyName").val('제목없음');
-		}
-		
-		//type3인 경우(직선단계) value값 정리하기
-		for(var i=1;i<=2;i++){
-			for(var j=0;j<=cloneCnt;j++){
-				var st="box"+j;
-				if(document.getElementById(st)!=null){
-					if($("input[name='sqlist["+j+"].sqType']").val()=="3" || $("input[name='sqlist["+j+"].sqType']").val()==3){
-						var selbox=document.getElementById("sel"+i+"box"+j);
-						var inputop=document.getElementById("input"+i+"op"+j);
-						var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
-						console.log(selbox.value);
-						console.log(inputop.value);						
-						hiddenInput.value=selbox.value+"!@#$"+inputop.value;
-					}					
-				}
-			}
-		}
-		//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
-		var appendingBoxArr='';
-		if(choiceType=="2"|| choiceType==2){
-			appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
-		}else if(choiceType="1"||choiceType==1){
-			appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
-		}
-		for(var i=0;i<appendingBoxArr.length;i++){
-			var appendingBox=appendingBoxArr.get(i);
-			var qbox=appendingBox.getAttribute("id");
-			var cnt=qbox.split("box")[1];
-			$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
-			$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
-			$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
-			if(choiceType==2){
-				$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
-			}			
-		}
-		if(choiceType==1){
-			var signNum=0;
-			for(i=0;i<=opNum;i++){
-				var st="opBox"+i;
-				if(document.getElementById(st)!=null){
-					$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
-					signNum++;
-				}
-			}
-		}
-		
-		var stateBox=document.createElement("input");
-		stateBox.setAttribute("type","hidden");
-		stateBox.setAttribute("name","state");
-		var frm=document.frm;
-		if(n==1){
-			stateBox.setAttribute("value","저장중");	
-			frm.action="<c:url value='/survey/update'/>";
+		if($("#opDiv").css('display')=='block'){
+			alert('질문의 옵션형태를 선택하지 않았습니다. 질문을 삭제하거나 옵션을 선택해주세요');
 		}else{
-			stateBox.setAttribute("value","등록완료");
-			frm.action="<c:url value='/survey/updateInsert'/>";
+			if($("#surveyName").val()==null || $("#surveyName").val()==''){
+				$("#surveyName").val('제목없음');
+			}
+			
+			//type3인 경우(직선단계) value값 정리하기
+			for(var i=1;i<=2;i++){
+				for(var j=0;j<=cloneCnt;j++){
+					var st="box"+j;
+					if(document.getElementById(st)!=null){
+						if($("input[name='sqlist["+j+"].sqType']").val()=="3" || $("input[name='sqlist["+j+"].sqType']").val()==3){
+							var selbox=document.getElementById("sel"+i+"box"+j);
+							var inputop=document.getElementById("input"+i+"op"+j);
+							var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
+							console.log(selbox.value);
+							console.log(inputop.value);						
+							hiddenInput.value=selbox.value+"!@#$"+inputop.value;
+						}					
+					}
+				}
+			}
+			//일단 복합질문형은 인서트 완전잘되고 객관식그리드도 인서트 잘됨.
+			var appendingBoxArr='';
+			if(choiceType=="2"|| choiceType==2){
+				appendingBoxArr=$("#mainSurvey2").find(".appendingBox");
+			}else if(choiceType="1"||choiceType==1){
+				appendingBoxArr=$("#mainSurvey1").find(".appendingBox");
+			}
+			for(var i=0;i<appendingBoxArr.length;i++){
+				var appendingBox=appendingBoxArr.get(i);
+				var qbox=appendingBox.getAttribute("id");
+				var cnt=qbox.split("box")[1];
+				$("input[name='sqlist["+cnt+"].sqType']").attr("class","save");
+				$("input[name='sqlist["+cnt+"].sqType']").attr("name","qlist["+i+"].sqType");
+				$("input[name='sqlist["+cnt+"].sqTitle']").attr("name","qlist["+i+"].sqTitle");
+				if(choiceType==2){
+					$("input[name='ssalist["+cnt+"].alist']").attr("name","salist["+i+"].alist");						
+				}			
+			}
+			if(choiceType==1){
+				var signNum=0;
+				for(i=0;i<=opNum;i++){
+					var st="opBox"+i;
+					if(document.getElementById(st)!=null){
+						if($("input[name='ssalist["+i+"].alist']").attr('value')==null||$("input[name='ssalist["+i+"].alist']").attr('value')==''){
+							$("input[name='ssalist["+i+"].alist']").attr('value',' ');
+						}
+						$("input[name='ssalist["+i+"].alist']").attr("name","salist["+signNum+"].alist");
+						signNum++;
+					}
+				}
+			}
+			
+			var stateBox=document.createElement("input");
+			stateBox.setAttribute("type","hidden");
+			stateBox.setAttribute("name","state");
+			var frm=document.frm;
+			if(n==1){
+				stateBox.setAttribute("value","저장중");	
+			}else{
+				stateBox.setAttribute("value","등록완료");
+			}
+			$("#things").append(stateBox);	
+			
+			frm.submit();		
 		}
-		$("#things").append(stateBox);	
-		
-		frm.submit();			
 	}
 	
 
@@ -793,7 +800,7 @@
 			</div>
 		</div>
 		<div id="box" class="rightBox">	
-			<form name="frm" method="post" enctype="multipart/form-data">
+			<form name="frm" action="<c:url value='/survey/update'/>" method="post" enctype="multipart/form-data">
 				<div id="surveyOverall">
 					<div class="overall">
 						<table style="width:80%">
@@ -950,9 +957,9 @@
 					<input type="button" id="qPlus2" value="같은질문추가" >
 				</div>
 				<div id="things" class="things">
-					<input type="hidden" name="surveyNum" value="${surveyNum }">
+					<input type="hidden" name="surveyNum" value="${surveyVo.surveyNum }">
 					<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
-						<input type="hidden" name="sqlist[${i }].sqType" class="org" value="${sqlist[i].sqType }">
+						<input type="hidden" name="sqlist[${i }].sqType" class="org" value="${sqVoList[i].sqType }">
 					</c:forEach>
 					<input type="button" id="grid1" onclick="grid(1)" value="객관식그리드로 만들기">
 					<input type="button" id="grid2" onclick="grid(2)"	 value="복합질문형으로 만들기">

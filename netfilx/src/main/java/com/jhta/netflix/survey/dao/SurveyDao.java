@@ -42,6 +42,12 @@ public class SurveyDao {
 	public int surveyDelete(int surveyNum) {
 		return session.delete(NAMESPACE+".surveyDelete",surveyNum);
 	}
+	public int surveyQuestionDelete(int surveyNum) {
+		return session.delete(NAMESPACE+".surveyQuestionDelete",surveyNum);
+	}
+	public int surveyVideoDelete(int svNum) {
+		return session.delete(NAMESPACE+".surveyVideoDelete",svNum);
+	}
 	//////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
 		return session.update(NAMESPACE+".surveyUpdate",vo);

@@ -10,13 +10,16 @@
 	</sql>
 	
 	<insert id="surveyInsert" parameterType="survey">
-		insert into survey(userNum,surveyStart,spoint,joinNum,state) values(#{userNum},now(),#{spoint},#{joinNum},"결제완료")
+		insert into survey(userNum,surveyName,surveyStart,spoint,joinNum,state) values(#{userNum},"제목없음",now(),#{spoint},#{joinNum},"결제완료")
 		<selectKey keyProperty="surveyNum" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
 	</insert>
 	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
 		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})
+		<selectKey keyProperty="sqNum" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	<insert id="surveyAnswerInsert" parameterType="surveyAnswer">
 		insert into survey_answer values(0,#{sqNum},#{saAnswer})
@@ -33,6 +36,12 @@
 	
 	<delete id="surveyDelete" parameterType="survey">
 		delete from survey where surveyNum=#{surveyNum}
+	</delete>
+	<delete id="surveyQuestionDelete" parameterType="int">
+		delete from survey_question where surveyNum=#{surveyNum}
+	</delete>
+	<delete id="surveyVideoDelete" parameterType="int">
+		delete from survey_video where svNum=#{svNum}
 	</delete>
 	
 	<update id="surveyUpdate" parameterType="survey">

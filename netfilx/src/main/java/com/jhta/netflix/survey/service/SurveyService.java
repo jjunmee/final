@@ -41,6 +41,12 @@ public class SurveyService {
 	public int surveyDelete(int surveyNum) {
 		return dao.surveyDelete(surveyNum);
 	}
+	public int surveyQuestionDelete(int surveyNum) {
+		return dao.surveyQuestionDelete(surveyNum);
+	}
+	public int surveyVideoDelete(int svNum) {
+		return dao.surveyVideoDelete(svNum);
+	}
 	
 	
 	

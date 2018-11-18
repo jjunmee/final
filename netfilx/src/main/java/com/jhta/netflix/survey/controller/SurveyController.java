@@ -1,6 +1,7 @@
  package com.jhta.netflix.survey.controller;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jhta.netflix.content.vo.ContentVo;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.point_info.service.Point_infoService;
 import com.jhta.netflix.point_info.vo.Point_infoVo;
@@ -145,15 +147,94 @@ public class SurveyController {
 		
 		return ".survey.surveyUpdate";
 	}
-	
+	/*
 	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
-	public String updateOk(Model model) {
+	public String updateOk(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
+			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
+		
+		
+		
+		
+		
 		return ".survey.stats";
 	}
-	@RequestMapping(value="/survey/updateInsert",method=RequestMethod.POST)
+	*/
+	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
 	public String updateInsert(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
-		return ".survey.stats";
+		int surveyNum=surveyVo.getSurveyNum();
+		//surveyTb 업데이트시키기
+		service.surveyUpdate(surveyVo);
+		//기존에 존재했던 영상을 해당경로에서 지우고 설문영상테이블에서 데이터 지우기
+		SurveyVideoVo videoVo = service.surveyVideoSelect(surveyNum);
+		if(videoVo!=null) {
+			String videoUploadPath = session.getServletContext().getRealPath("/resources/upload/survey");
+			File f = new File(videoUploadPath + "\\" + videoVo.getSvSaveSrc());
+			f.delete();
+			service.surveyVideoDelete(videoVo.getSvNum());
+		}
+		//설문영상테이블 insert
+		try {
+			if(!file1.isEmpty()) {//파일이 넘어오면
+				String uploadPath=session.getServletContext().getRealPath("/resources/upload/survey");
+				String orgsrc=file1.getOriginalFilename();
+				String savesrc=UUID.randomUUID()+"_"+orgsrc;
+				InputStream is=file1.getInputStream();
+				FileOutputStream fos=new FileOutputStream(uploadPath+"\\"+savesrc);
+				FileCopyUtils.copy(is, fos);
+				is.close();
+				fos.close();
+				System.out.println("저장경로 : "+uploadPath);
+				long filesize=file1.getSize();
+				System.out.println("파일사이즈 : " + filesize);
+				SurveyVideoVo svVo=new SurveyVideoVo(0, surveyNum, orgsrc, savesrc);
+				service.surveyVideoInsert(svVo);
+			}		
+		}catch(NullPointerException npe) {//���ϰ����� npe�� �߻������� �׳� �ѱ�������?!
+			System.out.println("영상없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}catch(IOException ie) {
+			ie.printStackTrace();
+		}
+		
+		//기존 surveyQuestionTb에 insert되었던 내용 지우고 다시 insert시키기
+		service.surveyQuestionDelete(surveyNum);
+		List<SurveyQuestionDto> qlist = sqDto.getQlist();
+		List<SurveyAnswerDto> salist=saDto.getSalist();	
+		int qtime=0;//질문돌리기
+		for(SurveyQuestionDto sq:qlist) {
+			String sqTitle=sq.getSqTitle();
+			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
+			service.surveyQuestionInsert(sqVo);
+			int sqNum=sqVo.getSqNum();
+			
+			if(choiceType==1) {//객관식 그리드
+				for(int i=0;i<salist.size();i++) {
+					SurveyAnswerDto alist=salist.get(i);					
+					for(String answer:alist.getAlist()) {
+						if(answer.equals(" ")) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, null);
+							service.surveyAnswerInsert(saVo);
+						}else {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);							
+						}
+					}											
+				}					
+			}else if(choiceType==2) {//복합질문타입							
+				for(int i=0;i<salist.size();i++) {
+					if(qtime==i) {
+						SurveyAnswerDto alist=salist.get(i);
+						for(String answer:alist.getAlist()) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);
+						}					
+					}
+				}
+				qtime++;
+			}
+		}		
+		
+		return ".survey.result";
 	}
 	
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
@@ -189,13 +270,18 @@ public class SurveyController {
 		return ".survey.surveyForm2";
 	}
 	
+	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.GET)
+	public String survey(int surveyNum,Model model) {
+		model.addAttribute("surveyNum",surveyNum);
+		return ".survey.surveyForm2";
+	}
+	
 	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.POST)
-	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
+	public String survey1(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
 		//설문테이블 insert
 		service.surveyUpdate(surveyVo);
 		int surveyNum=surveyVo.getSurveyNum();
-		System.out.println("surveyNum : "+surveyNum);
 		//설문영상테이블 insert
 		try {
 			if(!file1.isEmpty()) {//파일이 넘어오면
@@ -226,21 +312,20 @@ public class SurveyController {
 			String sqTitle=sq.getSqTitle();
 			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
 			service.surveyQuestionInsert(sqVo);
-			
-			//질문번호가져오기
-			Map<String, Object> map1=new HashMap<String, Object>();
-			map1.put("surveyNum", surveyNum);
-			map1.put("sqTitle", sqTitle);
-			int sqNum=service.sqNumSelect(map1);
-			//������ ������ȣ�� ������̺� insert�ϱ�
+			int sqNum=sqVo.getSqNum();
 			
 			if(choiceType==1) {//객관식 그리드
 				for(int i=0;i<salist.size();i++) {
-					SurveyAnswerDto alist=salist.get(i);
+					SurveyAnswerDto alist=salist.get(i);					
 					for(String answer:alist.getAlist()) {
-						SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
-						service.surveyAnswerInsert(saVo);
-					}						
+						if(answer.equals(" ")) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, null);
+							service.surveyAnswerInsert(saVo);
+						}else {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);							
+						}
+					}											
 				}					
 			}else if(choiceType==2) {//복합질문타입							
 				for(int i=0;i<salist.size();i++) {
@@ -323,11 +408,17 @@ public class SurveyController {
 		return ".survey.stats";
 	}
 	@RequestMapping(value="/survey/delete")
-	public String delete(String delNumArr,Model model) {
+	public String delete(String delNumArr,HttpSession session,Model model) {
 		System.out.println(delNumArr);
 		String[] numArr=delNumArr.split(",");
 		for(int n=0;n<numArr.length;n++) {
 			int surveyNum=Integer.parseInt(numArr[n]);
+			SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);
+			if(videoVo!=null) {
+				String videoUploadPath = session.getServletContext().getRealPath("/resources/upload/survey");
+				File f = new File(videoUploadPath + "\\" + videoVo.getSvSaveSrc());
+				f.delete();
+			}
 			service.surveyDelete(surveyNum);
 		}
 		
