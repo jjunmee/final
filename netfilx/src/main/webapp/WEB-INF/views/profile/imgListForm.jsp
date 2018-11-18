@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/dist/jquery.vm-carousel.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/profile.css'/>"> 
 <script src="<c:url value='/resources/js/profile/admin-profile.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/dist/jquery.vm-carousel.js'/>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
@@ -14,6 +15,7 @@ jQuery(function($){
 	 });
 });
 </script>
+<div class="list">
 <c:if test="${!empty(s_profile_num) }">
 	<div class="container">
 		<table>
@@ -59,3 +61,4 @@ jQuery(function($){
 	</div>
 	</c:forEach>
 </c:if>
+</div>

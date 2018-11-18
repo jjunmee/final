@@ -212,6 +212,8 @@ public class ProfileController {
 		session.setAttribute("nickname", vo.getNickname());
 		session.setAttribute("pimg_src", vo.getPimg_src());
 		session.setAttribute("profile_first", vo.isProfile_first());
+		}else {
+			return "redirect:/profile/user/index";
 		}
 		return ".main";
 	}
