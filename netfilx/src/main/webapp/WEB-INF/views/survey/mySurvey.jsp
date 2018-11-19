@@ -119,7 +119,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
-						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
+						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}&qNum=1'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
 						<td>${vo.spoint }포인트</td>
 						<td>${vo.state }</td>								
@@ -130,7 +130,7 @@
 					<tr>
 						<td><input type="checkbox" name="check" value="${vo.surveyNum }" onclick="check1()"></td>
 						<td>${num }</td>
-						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}'/>">${vo.surveyName }</a></td>
+						<td><a href="<c:url value='/survey/stats?surveyNum=${vo.surveyNum}&qNum=1'/>">${vo.surveyName }</a></td>
 						<td>${vo.joinNum }</td>
 						<td>${vo.spoint }포인트</td>
 						<td>${vo.state }</td>								

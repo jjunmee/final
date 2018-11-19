@@ -141,53 +141,90 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
-	public String statsForm(int surveyNum, Model model) {
-		//객관식그리드일경우
+	public String statsForm(int surveyNum,int qNum, Model model) {
+		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
-		String stst="";
-		String strConcat="";
-		for(int i=0;i<sqList.size();i++) {
-			strConcat="['',";
-			String stConcat="[";
-			int sqNum=sqList.get(i).getSqNum();
-			stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+		//객관식그리드일경우
+		if(sqList.get(0).getSqType().equals("0")) {
+			String stst="";
+			String strConcat="";
+			for(int i=0;i<sqList.size();i++) {
+				strConcat="['',";
+				String stConcat="[";
+				int sqNum=sqList.get(i).getSqNum();
+				stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+				List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+				List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+				String st="";
+				for(int j=0;j<saVoList.size();j++) {
+					String saAnswer=saVoList.get(j).getSaAnswer();	
+					strConcat=strConcat+"'"+saAnswer+"',";
+					Boolean bool=false;
+					for(SrCntDto dto:ansList) {
+						String srAnswer=dto.getSrAnswer();
+						if(saAnswer.equals(srAnswer)) {
+							int cnt=dto.getCnt();
+							//int cnt=Integer.parseInt(cnt1);
+							//intArr[j]=cnt;
+							st=st+cnt+",";
+							bool=true;
+						}
+					}
+					if(bool==false) {
+						st=st+0+",";
+					}
+				}			
+				st=st.substring(0, st.length()-1);
+				stConcat=stConcat+st+"]";
+				stst=stst+stConcat+",";
+				strConcat=strConcat.substring(0,strConcat.length()-1);
+				strConcat=strConcat+"]";
+				//strConcat=strConcat+","+stConcat;
+				//strList.add(strConcat);
+			}
+			stst=stst.substring(0,stst.length()-1);
+			strConcat=strConcat+","+stst;
+			model.addAttribute("strConcat",strConcat);
+			model.addAttribute("surveyVo",surveyVo);
+			
+			return ".survey.surveyStats1";
+		//복합질문형타입일경우	
+		}else {		
+			System.out.println("여기들어왔다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			SurveyQuestionVo sqVo=sqList.get(qNum-1);
+			int sqNum=sqVo.getSqNum();
 			List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
 			List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
-			String st="";
-			for(int j=0;j<saVoList.size();j++) {
-				String saAnswer=saVoList.get(j).getSaAnswer();	
-				strConcat=strConcat+"'"+saAnswer+"',";
+			String str="['','";
+			String st="['"+sqVo.getSqTitle()+"',";
+			for(int i=0;i<saVoList.size();i++) {
+				String saAnswer=saVoList.get(i).getSaAnswer();
+				str=str+saAnswer+"','";
 				Boolean bool=false;
 				for(SrCntDto dto:ansList) {
 					String srAnswer=dto.getSrAnswer();
 					if(saAnswer.equals(srAnswer)) {
 						int cnt=dto.getCnt();
-						//int cnt=Integer.parseInt(cnt1);
-						//intArr[j]=cnt;
 						st=st+cnt+",";
 						bool=true;
-						
 					}
 				}
 				if(bool==false) {
 					st=st+0+",";
 				}
-			}			
-			st=st.substring(0, st.length()-1);
-			stConcat=stConcat+st+"]";
-			stst=stst+stConcat+",";
-			strConcat=strConcat.substring(0,strConcat.length()-1);
-			strConcat=strConcat+"]";
-			//strConcat=strConcat+","+stConcat;
-			//strList.add(strConcat);
+			}
+			st=st.substring(0,st.length()-1);
+			st=st+"]";
+			str=str.substring(0,str.length()-2);
+			str=str+"],"+st;
+			System.out.println(str);
+			model.addAttribute("strConcat",str);
+			model.addAttribute("surveyVo",surveyVo);
+			
+			return ".survey.surveyStats2";
 		}
-		stst=stst.substring(0,stst.length()-1);
-		strConcat=strConcat+","+stst;
-		
-		model.addAttribute("strConcat",strConcat);
 		
 		
-		return ".survey.surveyStats";
 	}
 
 	
