@@ -74,5 +74,36 @@
 	<select id="maxNum" resultType="int">
 		select max(content_num) from content
 	</select>
+	<select id="userViewList" resultType="content" parameterType="hashmap">
+		select c.* 
+		from content c
+		<if test="listType == 'jjim'">
+			, interasts i
+		</if>
+		<if test="listType == 'best'">
+			,(select content_num,count(*) cnt
+			from interasts
+			group by content_num) i
+		</if>
+		<where>
+			<if test="listType == 'jjim'">
+				c.content_num = i.content_num and i.profile_num = #{profile_num}
+			</if>
+			<if test="listType == 'best'">
+				c.content_num = i.content_num
+			</if>
+		</where>
+		order by 
+		<if test="listType == 'jjim'">
+			i.interasts_num desc
+		</if>
+		<if test="listType == 'new'">
+			c.content_num desc
+		</if>
+		<if test="listType == 'best'">
+			i.cnt desc
+		</if>
+		limit 0,40
+	</select>
 </mapper>
   

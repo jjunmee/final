@@ -46,4 +46,7 @@ public class ContentDao {
 	public int deleteSeries(int num) {
 		return sqlSession.update(NAMESPACE+".deleteSeries", num);
 	}
+	public List<ContentVo> userViewList(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".userViewList", map);
+	}
 }
