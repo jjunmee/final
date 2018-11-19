@@ -41,4 +41,7 @@ public class ContentService {
 	public int deleteSeries(int num) {
 		return dao.deleteSeries(num);
 	}
+	public List<ContentVo> userViewList(HashMap<String, Object> map){
+		return dao.userViewList(map);
+	}
 }

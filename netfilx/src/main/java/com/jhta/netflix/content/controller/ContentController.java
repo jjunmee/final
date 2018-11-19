@@ -289,12 +289,15 @@ public class ContentController {
 		return ".content.list";
 	}
 	@RequestMapping(value="/content/userView",method=RequestMethod.GET)
-	public String userList(Model model) {
+	public String userList(Model model,int profile_num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("sort", "recommend");
-		map.put("startRow", 0);
-		map.put("rowBlockCount", 80);
-		model.addAttribute("list", contentService.list(map));
+		map.put("profile_num", profile_num);
+		map.put("listType", "jjim");
+		model.addAttribute("jjimList", contentService.userViewList(map));
+		map.put("listType", "new");
+		model.addAttribute("newList", contentService.userViewList(map));
+		map.put("listType", "best");
+		model.addAttribute("bestList", contentService.userViewList(map));
 		return ".user_content.list";
 	}
 	@RequestMapping(value="/content/contentPlay",method=RequestMethod.GET)
