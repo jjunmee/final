@@ -58,15 +58,15 @@ public class Pay_infoController {
 		if(pointPrice > 0 && cardPrice > 0) {
 			payment = "point + card";
 			//point_info insert
-			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsersNum());
+			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
 		}else if(pointPrice > 0 && cardPrice < 0) {
 			payment = "point";
 			//point_info insert
-			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsersNum());
+			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
 		}else if(pointPrice < 0 && cardPrice > 0) {
 			payment = "card";
 		}
-		Pay_infoVo vo = new Pay_infoVo(0,null,null,payment,uvo.getUsersNum(),grade_num);
+		Pay_infoVo vo = new Pay_infoVo(0,null,null,payment,uvo.getUsers_num(),grade_num);
 		int n = service.insert(vo);
 		if(n > 0) {
 			//user point update
@@ -91,7 +91,7 @@ public class Pay_infoController {
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.userInfo(id);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("users_num", uvo.getUsersNum());
+		map.put("users_num", uvo.getUsers_num());
 		map.put("keyword", keyword);
 		int totalRowCount = service.listCount(map);
 		PageUtil pu = new PageUtil(pageNum,totalRowCount,10,10);
@@ -104,7 +104,7 @@ public class Pay_infoController {
 			mv.addObject("keyword", keyword);
 			mv.setViewName(".pay.userInfo");
 		}else {
-			Pay_infoVo vo = service.selectone(uvo.getUsersNum());
+			Pay_infoVo vo = service.selectone(uvo.getUsers_num());
 			if(vo != null) {
 				//결제한게 있느냐 있으면
 				Calendar cal = Calendar.getInstance();

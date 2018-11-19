@@ -6,6 +6,14 @@
 	<h1>내가 쓴 댓글</h1>
 	<div>
 		<form action="<c:url value='/admin/userlist'></c:url>" method="post">
+			전체보기<input type="radio" name="sts" value="-1">
+			일반 사용자<input type="radio" name="sts" value="0">
+			관리자<input type="radio" name="sts" value="1">
+			본인인증자<input type="radio" name="sts" value="2">
+			성인인증자<input type="radio" name="sts" value="3">
+			본인인증자 + 성인인증자<input type="radio" name="sts" value="4">
+			탈퇴회원<input type="radio" name="sts" value="5">
+			<input type="submit" value="검색">
 		</form>
 	</div>
 	<table>
@@ -41,12 +49,12 @@
 		<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
 			<c:choose>
 				<c:when test="${pu.pageNum == i }">
-					<a href="<c:url value='/admin/userlist?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/admin/userlist?pageNum=${i }&sts=${sts }'></c:url>">
 						<span style="color: blue;">[${i }]</span>
 					</a>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/admin/userlist?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/admin/userlist?pageNum=${i }&sts=${sts }'></c:url>">
 						<span style="color: gray;">[${i }]</span>
 					</a>
 				</c:otherwise>

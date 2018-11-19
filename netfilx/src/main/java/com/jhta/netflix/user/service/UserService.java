@@ -39,4 +39,7 @@ public class UserService {
 	public List<UserVo> userlist(HashMap<String, Object> map){
 		return dao.userlist(map);
 	}
+	public int userCount(HashMap<String, Object> map) {
+		return dao.userCount(map);
+	}
 }

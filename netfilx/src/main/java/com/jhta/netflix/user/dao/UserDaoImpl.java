@@ -46,4 +46,8 @@ public class UserDaoImpl implements UserDao{
 	public List<UserVo> userlist(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".userlist",map);
 	}
+	@Override
+	public int userCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".userCount", map);
+	}
 }

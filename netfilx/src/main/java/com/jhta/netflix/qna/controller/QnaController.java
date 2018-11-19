@@ -178,7 +178,7 @@ public class QnaController {
 		//String id는 로그인되면 세션에서 가져와서 users_num찾아서 넣어줄꺼야
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.login(id);
-		int users_num = uvo.getUsersNum();
+		int users_num = uvo.getUsers_num();
 		ModelAndView mv = new ModelAndView();
 		QnaVo vo = new QnaVo();
 		String result = "";

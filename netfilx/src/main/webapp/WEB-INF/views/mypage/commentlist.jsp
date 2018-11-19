@@ -19,7 +19,7 @@
 			<th>댓글내용</th>
 			<th>컨텐츠명</th>
 			<th>공개/비공개</th>
-			<th>책갈피</th>
+			<th>책갈피시간</th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
@@ -35,7 +35,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${vo.bookmark == true}">
-					<td>${parseInt(vo.bookmark_time/60) } : ${vo.bookmark_time%60 }</td>
+					<td><fmt:formatNumber value="${vo.bookmark_time/60 }" pattern="0"/> : ${vo.bookmark_time%60 }</td>
 				</c:when>
 				<c:otherwise>
 					<td>無</td>

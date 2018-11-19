@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.lib.SHA512;
 import com.jhta.netflix.lib.UserStatus;
 import com.jhta.netflix.user.service.CertificationService;
@@ -54,7 +56,7 @@ public class UserController {
 		if(vo1!=null) {
 			String pw = SHA512.get_SHA_512_SecurePassword(vo.getPwd(), vo1.getPwd2());
 			if(vo1.getPwd().equals(pw)) {
-				session.setAttribute("users_num", vo1.getUsersNum());
+				session.setAttribute("users_num", vo1.getUsers_num());
 				session.setAttribute("id", vo.getId());
 				session.setAttribute("sts", vo1.getSts());
 				return "redirect:/profile/user/index";
@@ -150,11 +152,38 @@ public class UserController {
 	}
 	
 	//관리자페이지에서 회원리스트 뿌리기
-	public ModelAndView userlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,@RequestParam(value="pageNum",defaultValue="-1")int sts) {
+	@RequestMapping("/admin/userlist")
+	public ModelAndView userlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,@RequestParam(value="sts",defaultValue="-1")int sts) {
 		ModelAndView mv = new ModelAndView();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("sts", sts);
-		
+		int totalRowCount = service.userCount(map);
+		PageUtil pu = new PageUtil(pageNum,totalRowCount,10,10);
+		map.put("startRow", pu.getMysqlStartRow());
+		map.put("rowBlockCount", pu.getRowBlockCount());
+		List<UserVo> list = service.userlist(map);
+		System.out.println("실행 되는건가?????");
+		if(list != null) {
+			mv.addObject("list",list);
+			System.out.println(list.get(0).getUsers_num());
+			mv.addObject("pu",pu);
+			mv.addObject("sts",sts);
+			System.out.println("실행 되는건가????? fifififififififififififif");
+		}else {
+			map.put("sts", -1);
+			totalRowCount = service.userCount(map);
+			pu = new PageUtil(pageNum,totalRowCount,10,10);
+			map.put("startRow", pu.getMysqlStartRow());
+			map.put("rowBlockCount", pu.getRowBlockCount());
+			list = service.userlist(map);
+			mv.addObject("list",list);
+			mv.addObject("pu",pu);
+			mv.addObject("sts",-1);
+			mv.addObject("code","검색된 값이 없음");
+			System.out.println("실행 되는건가????? elseelselsleslelsle");
+		}
+		System.out.println("여기까지는 오는건가????????????????????????");
+		mv.setViewName(".admin.userlist");
 		return mv;
 	}
 }

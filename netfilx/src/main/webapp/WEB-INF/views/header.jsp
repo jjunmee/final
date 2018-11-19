@@ -53,6 +53,7 @@
               <li><a href="<c:url value='/qna/list'/>">문의게시판</a></li>
               <li><a href="<c:url value='/qna/chat'/>">채팅</a></li>
               <li><a href="<c:url value='/grade/grade'/>">등급관리</a></li>
+              <li><a href="<c:url value='/admin/userlist'/>">회원관리</a></li>
             </ul>
           </li>
           <c:if test="${sts eq 1 }">

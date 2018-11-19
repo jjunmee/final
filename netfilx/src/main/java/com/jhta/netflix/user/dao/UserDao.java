@@ -15,4 +15,5 @@ public interface UserDao {
 	public int pointUpdate(HashMap<String, Object> map);
 	public UserVo userInfo(String id);
 	public List<UserVo> userlist(HashMap<String, Object> map);
+	public int userCount(HashMap<String, Object> map);
 }
