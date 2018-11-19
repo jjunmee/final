@@ -21,23 +21,29 @@
 		#info>h2{text-align: left;}
 		
 		#commentDiv{padding: 10px;}
+		#commentDiv a{color: #333;font-weight: bold;}
 		#commentDiv>h4{display: inline;}
-		#commentDiv>select{background-color: lightgray;}
-		#comment{width: 80%;float: right;resize: none;background-color: lightgray;}
+		#comment{width: 80%;float: right;resize: none;}
 		#btnDiv{display: none;text-align: right;padding: 10px;}
-		#commentList>div{border: 1px solid red;padding: 10px;}
+		#commentList>div{padding: 10px;border-radius: 8px;background-color: #999;margin-bottom: 5px;
+			border: 1px solid #828282;}
 		.goodBox{text-align: right;}
 		.goodBox h5,p{text-align: left;}
 		
-		div[id^="subList"]>div{border: 1px solid orange;padding: 10px;}
+		div[id^="subList"]>div{padding: 10px;border-radius: 8px;background-color: #777;margin-bottom: 5px;
+			border: 1px solid #626262;}
 		
 		div[id^="subDiv"]{padding: 10px;display: none;}
 		form[id^="subForm"]>div{width: 20%;float: left;text-align: center;}
-		#subComment{width: 80%;float: right;resize: none;background-color: lightgray;}
+		#subComment{width: 80%;float: right;resize: none;}
+		
+		#moreBtn{width: 100%;display: none;}
 		
 		#rateBox{width:220px;height: 40px;display: inline;}
 		#rateBox>*{text-align: center;}
+		#rateAvg,#jjBtn,.goodBtn{border-radius: 5px;}
 		#score{color: red;display: inline;}
+		
 		.starRev{width: 150px;height: 30px;display: inline-block;}
 		.starR1{
 		    background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat -52px 0;
@@ -178,6 +184,11 @@
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
 			$("#jjBtn").prop("disabled", data.check);
+			if(data.check){
+				$("#jjBtn").prop("class","jjBtn btn-danger");
+			}else{
+				$("#jjBtn").prop("class","jjBtn btn-default");
+			}
 		}
 		function showBtn(id){
 			if(id == 'bookmarkBox'){
@@ -238,6 +249,9 @@
 										+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
 									if(json.good_check){
 										str+="disabled=\"disabled\"";
+										str+="class=\"goodBtn btn-warning\"";
+									}else{
+										str+="class=\"goodBtn btn-default\"";
 									}
 									str+=">"
 									+"<a href=\"javascript:showBtn('subDiv'+"+json.comment_num+");\">답글</a>"
@@ -246,7 +260,7 @@
 										+"<form id=\"subForm"+json.comment_num+"\" onsubmit=\"insertComment('subForm'+"+json.comment_num+")\" "
 										+"action=\"javascript:false;\">"
 											+"<div>"
-												+"프로필명" 
+												+"${sessionScope.nickname }" 
 											+"</div>"
 											+"<textarea rows=\"1\" placeholder=\"공개 답글 추가...\" name=\"comment\" id=\"subComment\"></textarea>"
 											+"<input type=\"hidden\" name=\"content_num\" value=\"${vo.content_num }\">"
@@ -255,8 +269,8 @@
 											+"<input type=\"hidden\" name=\"c_lev\" value=\""+json.comment_num+"\">"
 											+"<input type=\"hidden\" name=\"c_step\" value=\"1\">"
 											+"<br><br>"
-											+"<input type=\"button\" value=\"취소\" onclick=\"hideBtn('subDiv'+"+json.comment_num+")\">"
-											+"<input type=\"submit\" value=\"입력\">"
+											+"<input type=\"button\" value=\"취소\" onclick=\"hideBtn('subDiv'+"+json.comment_num+")\" class=\"btn btn-sm\">"
+											+"<input type=\"submit\" value=\"입력\" class=\"btn btn-default btn-sm\">"
 										+"</form>"
 										+"<br>"
 									+"</div>"
@@ -298,6 +312,9 @@
 												+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
 											if(json.good_check){
 												str+="disabled=\"disabled\"";
+												str+="class=\"goodBtn btn-warning\"";
+											}else{
+												str+="class=\"goodBtn btn-default\"";
 											}
 											str+=">"
 										+"</div>"
@@ -318,6 +335,7 @@
 						if(data.result){
 							$(event.target).val("좋아요 "+data.count);
 							$(event.target).prop("disabled", true);
+							$(event.target).prop("class","goodBtn btn-warning");
 						}else{
 							alert("오류로 인해 좋아요를 실패했습니다!!");
 						}
@@ -326,9 +344,6 @@
 		function onTrackedVideoFrame(currentTime, duration){
 			playTime += currentTime - temp;
 			temp = currentTime;
-		    $("#current").text(currentTime);
-		    $("#total").text(playTime);
-		    $("#duration").text(duration)
 		}
 		function playBookmark(time) {
 			var player = document.getElementById("player");
@@ -343,11 +358,11 @@
 			<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 		</video>
 		<div id="bookmarkDiv">
-			<input type="button" value="책갈피" id="bookmark" onclick="showBtn('bookmarkBox')">
+			<input type="button" value="책갈피" id="bookmark" onclick="showBtn('bookmarkBox')" class="btn btn-primary">
 			<div id="bookmarkBox">
 				<form id="bookmarkForm" onsubmit="insertComment('bookmarkForm')" action="javascript:false;">
 					<div class="profile_name">
-						프로필명 
+						${sessionScope.nickname } 
 					</div>
 					<textarea rows="1" placeholder="책갈피 추가..." name="comment" id="comment"></textarea>
 					<input type="hidden" name="content_num" value="${vo.content_num }">
@@ -358,13 +373,13 @@
 						<input type="number" name="bookmark_time" id="bookmark_time" 
 							onclick="setTime()" onchange="setTime()">
 					</div>
-					<select name="comment_open" style="background-color: lightgray;">
+					<select name="comment_open">
 						<option value="true">공개</option>
 						<option value="false">비공개</option>
 					</select>
 					<input type="hidden" name="bookmark" value="true">
-					<input type="button" value="취소" onclick="hideBtn('bookmarkBox')">
-					<input type="submit" value="입력">
+					<input type="button" value="취소" onclick="hideBtn('bookmarkBox')" class="btn btn-sm">
+					<input type="submit" value="입력" class="btn btn-default btn-sm">
 				</form>
 			</div>
 		</div>
@@ -386,11 +401,8 @@
 					<span class="starR2">5.0</span>
 				</div>
 			</div>
-			<input type="button" value="평점 0.0" id="rateAvg" disabled="disabled" title="asd">
+			<input type="button" value="평점 0.0" id="rateAvg" disabled="disabled" title="asd" class="btn-warning">
 			<input type="button" value="찜" id="jjBtn">
-			<div id="current">0:00</div>
-			<div id="total">0:00</div>
-			<div id="duration">0:00</div>
 		</div>
 		<div id="commentDiv">
 			<h4>댓글 0개</h4>
@@ -401,7 +413,7 @@
 			<br><br>
 			<form id="insertForm" onsubmit="insertComment('insertForm')" action="javascript:false;">
 				<div class="profile_name">
-					프로필명 
+					${sessionScope.nickname } 
 				</div>
 				<textarea rows="1" placeholder="댓글 추가..." name="comment" id="comment" 
 					onfocus="showBtn('btnDiv')"></textarea>
@@ -409,18 +421,17 @@
 				<input type="hidden" name="profile_num" value="${sessionScope.profile_num }">
 				<br><br>
 				<div id="btnDiv">
-					<select name="comment_open" style="background-color: lightgray;">
+					<select name="comment_open">
 						<option value="true">공개</option>
 						<option value="false">비공개</option>
 					</select>
-					<input type="button" value="취소" onclick="hideBtn('btnDiv')">
-					<input type="submit" value="입력">
+					<input type="button" value="취소" onclick="hideBtn('btnDiv')" class="btn btn-sm">
+					<input type="submit" value="입력" class="btn btn-default btn-sm">
 				</div>
 			</form>
 			<div id="commentList">
 			</div>
-			<input type="button" value="더보기" onclick="moreList()" id="moreBtn"
-				style="width: 100%;display: none;">
+			<input type="button" value="더보기" onclick="moreList()" id="moreBtn" class="btn btn-default">
 		</div>
 	</div>
 </body>

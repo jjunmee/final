@@ -24,7 +24,7 @@
 		#detail>div{width: 100%;height: 500px;padding: 20px;
 			position: absolute;z-index: 2;display: none;}
 		.info_div>h5{width: 50%;}
-		.closeBtn{position: absolute;right: 0px;top: 0px;}
+		.closeBtn{position: absolute;right: 0px;top: 0px;border-radius: 50px;background-color: lightgray;}
 		.detail_menu{position: absolute;bottom: 0px;left: 35%;}
 		.detail_menu>a{margin: 10px;}
 		
