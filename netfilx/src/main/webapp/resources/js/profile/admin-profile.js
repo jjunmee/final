@@ -32,6 +32,9 @@ function pro_group_del(){
 
 function pimg_del(){
 	var pimg_no = $("#pimg_no").val();
+	if(pimg_no==null){
+		return false;
+	}
 	var path = $("#path").val()+"/admin/profile/img/del?pimg_no=";
 	location.href=path+pimg_no;
 }

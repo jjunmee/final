@@ -73,7 +73,7 @@
 									<input type="hidden" name="resultList[${i }].sqNum" value="${sqVoList[i].sqNum }">
 								</th>
 								<c:forEach var="j" begin="0" end="${fn:length(saList[0])-1 }">
-									<td style="text-align: center;"><input type="radio" name="resultList[${i }].srAnswer" value="${j }"></td>
+									<td style="text-align: center;"><input type="radio" name="resultList[${i }].srAnswer" value="${saList[0][j].saAnswer }"></td>
 								</c:forEach>
 							</tr>
 						</c:forEach>						

@@ -6,6 +6,7 @@ public class ProfileUserListVo {
 	private int users_num;
 	private int profile_num;
 	private String nickname;
+	private int pimg_num;
 	private int proifle_age;
 	private int sts;
 	private boolean profile_first;
@@ -14,11 +15,12 @@ public class ProfileUserListVo {
 	
 	public ProfileUserListVo() {}
 
-	public ProfileUserListVo(int users_num, int profile_num, String nickname, int proifle_age, int sts,
+	public ProfileUserListVo(int users_num, int profile_num,int pimg_num, String nickname, int proifle_age, int sts,
 			boolean profile_first, String pimg_src) {
 		super();
 		this.users_num = users_num;
 		this.profile_num = profile_num;
+		this.setPimg_num(pimg_num);
 		this.nickname = nickname;
 		this.proifle_age = proifle_age;
 		this.sts = sts;
@@ -88,6 +90,14 @@ public class ProfileUserListVo {
 
 	public void setProfile_regdate(Date profile_regdate) {
 		this.profile_regdate = profile_regdate;
+	}
+
+	public int getPimg_num() {
+		return pimg_num;
+	}
+
+	public void setPimg_num(int pimg_num) {
+		this.pimg_num = pimg_num;
 	}
 	
 	

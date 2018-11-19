@@ -1,10 +1,12 @@
  package com.jhta.netflix.survey.controller;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jhta.netflix.content.vo.ContentVo;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.point_info.service.Point_infoService;
 import com.jhta.netflix.point_info.vo.Point_infoVo;
 import com.jhta.netflix.survey.service.SurveyService;
+import com.jhta.netflix.survey.vo.SrCntDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
 import com.jhta.netflix.survey.vo.SurveyInVo;
@@ -120,9 +126,81 @@ public class SurveyController {
 		model.addAttribute("choiceType",choiceType);
 		
 		
-		
 		return ".survey.surveyDetail";
 	}
+	
+	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
+	public String statsForm(int surveyNum, Model model) {
+		//객관식그리드일경우
+		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
+		String stst="";
+		String strConcat="";
+		for(int i=0;i<sqList.size();i++) {
+			strConcat="['',";
+			String stConcat="[";
+			int sqNum=sqList.get(i).getSqNum();
+			stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+			List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+			List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+			String st="";
+			for(int j=0;j<saVoList.size();j++) {
+				String saAnswer=saVoList.get(j).getSaAnswer();	
+				strConcat=strConcat+"'"+saAnswer+"',";
+				Boolean bool=false;
+				for(SrCntDto dto:ansList) {
+					String srAnswer=dto.getSrAnswer();
+					if(saAnswer.equals(srAnswer)) {
+						int cnt=dto.getCnt();
+						//int cnt=Integer.parseInt(cnt1);
+						//intArr[j]=cnt;
+						st=st+cnt+",";
+						bool=true;
+						
+					}
+				}
+				if(bool==false) {
+					st=st+0+",";
+				}
+			}			
+			st=st.substring(0, st.length()-1);
+			stConcat=stConcat+st+"]";
+			stst=stst+stConcat+",";
+			strConcat=strConcat.substring(0,strConcat.length()-1);
+			strConcat=strConcat+"]";
+			//strConcat=strConcat+","+stConcat;
+			//strList.add(strConcat);
+		}
+		stst=stst.substring(0,stst.length()-1);
+		strConcat=strConcat+","+stst;
+		
+		model.addAttribute("strConcat",strConcat);
+		
+		
+		return ".survey.surveyStats";
+	}
+	
+	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
+	public String stats(int surveyNum, Model model) {
+		/*
+		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);
+		for(SurveyQuestionVo sqVo:sqList) {
+			int sqNum=sqVo.getSqNum();
+			List<Map<String,String>> list=service.srAnswerCnt(sqNum);
+			for(int i=0;i<list.size();i++) {
+				Map<String,String> map=list.get(i);
+				System.out.println("짜자자자자자자자자자자자잔"+map.get("srAnswer")+", "+map.get("cnt"));
+			}
+			
+			
+		}
+		*/
+		
+		
+		
+		
+		return ".survey.result";
+	}
+	
 	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
 	public String update(int surveyNum,Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
@@ -146,6 +224,83 @@ public class SurveyController {
 		return ".survey.surveyUpdate";
 	}
 	
+	@RequestMapping(value="/survey/update",method=RequestMethod.POST)
+	public String updateInsert(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
+			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {
+		int surveyNum=surveyVo.getSurveyNum();
+		//surveyTb 업데이트시키기
+		service.surveyUpdate(surveyVo);
+		//기존에 존재했던 영상을 해당경로에서 지우고 설문영상테이블에서 데이터 지우기
+		SurveyVideoVo videoVo = service.surveyVideoSelect(surveyNum);
+		if(videoVo!=null) {
+			String videoUploadPath = session.getServletContext().getRealPath("/resources/upload/survey");
+			File f = new File(videoUploadPath + "\\" + videoVo.getSvSaveSrc());
+			f.delete();
+			service.surveyVideoDelete(videoVo.getSvNum());
+		}
+		//설문영상테이블 insert
+		try {
+			if(!file1.isEmpty()) {//파일이 넘어오면
+				String uploadPath=session.getServletContext().getRealPath("/resources/upload/survey");
+				String orgsrc=file1.getOriginalFilename();
+				String savesrc=UUID.randomUUID()+"_"+orgsrc;
+				InputStream is=file1.getInputStream();
+				FileOutputStream fos=new FileOutputStream(uploadPath+"\\"+savesrc);
+				FileCopyUtils.copy(is, fos);
+				is.close();
+				fos.close();
+				System.out.println("저장경로 : "+uploadPath);
+				long filesize=file1.getSize();
+				System.out.println("파일사이즈 : " + filesize);
+				SurveyVideoVo svVo=new SurveyVideoVo(0, surveyNum, orgsrc, savesrc);
+				service.surveyVideoInsert(svVo);
+			}		
+		}catch(NullPointerException npe) {//���ϰ����� npe�� �߻������� �׳� �ѱ�������?!
+			System.out.println("영상없음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}catch(IOException ie) {
+			ie.printStackTrace();
+		}
+		
+		//기존 surveyQuestionTb에 insert되었던 내용 지우고 다시 insert시키기
+		service.surveyQuestionDelete(surveyNum);
+		List<SurveyQuestionDto> qlist = sqDto.getQlist();
+		List<SurveyAnswerDto> salist=saDto.getSalist();	
+		int qtime=0;//질문돌리기
+		for(SurveyQuestionDto sq:qlist) {
+			String sqTitle=sq.getSqTitle();
+			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
+			service.surveyQuestionInsert(sqVo);
+			int sqNum=sqVo.getSqNum();
+			
+			if(choiceType==1) {//객관식 그리드
+				for(int i=0;i<salist.size();i++) {
+					SurveyAnswerDto alist=salist.get(i);					
+					for(String answer:alist.getAlist()) {
+						if(answer.equals(" ")) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, null);
+							service.surveyAnswerInsert(saVo);
+						}else {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);							
+						}
+					}											
+				}					
+			}else if(choiceType==2) {//복합질문타입							
+				for(int i=0;i<salist.size();i++) {
+					if(qtime==i) {
+						SurveyAnswerDto alist=salist.get(i);
+						for(String answer:alist.getAlist()) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);
+						}					
+					}
+				}
+				qtime++;
+			}
+		}		
+		
+		return ".survey.result";
+	}
 	
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
 	public String surveyForm1(HttpSession session,Model model) {
@@ -180,22 +335,18 @@ public class SurveyController {
 		return ".survey.surveyForm2";
 	}
 	
+	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.GET)
+	public String survey(int surveyNum,Model model) {
+		model.addAttribute("surveyNum",surveyNum);
+		return ".survey.surveyForm2";
+	}
+	
 	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.POST)
-	public String survey(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
+	public String survey1(SurveyVo surveyVo,@ModelAttribute SurveyQuestionDto sqDto,
 			@ModelAttribute SurveyAnswerDto saDto,MultipartFile file1,HttpSession session,int choiceType) {	
 		//설문테이블 insert
-		String userId=(String)session.getAttribute("id");
-		//String userId="alsl";
-		//설문번호 가져와서 설문테이블 업데이트하기 ====> 아예 설문폼1저장할때 설문번호를 가져와서 계속 파라미터 넘기는걸로 바꿨음
-		//int userNum=service.userSelect(userId).getUsersNum();
-		//Map<String, Object> map=new HashMap<String, Object>();
-		//map.put("userNum", userNum);
-		//map.put("state", "결제완료");
-		//int surveyNum=service.surveyNumSelect(map);
-		//surveyVo.setSurveyNum(surveyNum);
 		service.surveyUpdate(surveyVo);
 		int surveyNum=surveyVo.getSurveyNum();
-		System.out.println("surveyNum : "+surveyNum);
 		//설문영상테이블 insert
 		try {
 			if(!file1.isEmpty()) {//파일이 넘어오면
@@ -226,21 +377,20 @@ public class SurveyController {
 			String sqTitle=sq.getSqTitle();
 			SurveyQuestionVo sqVo=new SurveyQuestionVo(0, surveyNum, sqTitle, sq.getSqType());
 			service.surveyQuestionInsert(sqVo);
-			
-			//질문번호가져오기
-			Map<String, Object> map1=new HashMap<String, Object>();
-			map1.put("surveyNum", surveyNum);
-			map1.put("sqTitle", sqTitle);
-			int sqNum=service.sqNumSelect(map1);
-			//������ ������ȣ�� ������̺� insert�ϱ�
+			int sqNum=sqVo.getSqNum();
 			
 			if(choiceType==1) {//객관식 그리드
 				for(int i=0;i<salist.size();i++) {
-					SurveyAnswerDto alist=salist.get(i);
+					SurveyAnswerDto alist=salist.get(i);					
 					for(String answer:alist.getAlist()) {
-						SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
-						service.surveyAnswerInsert(saVo);
-					}						
+						if(answer.equals(" ")) {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, null);
+							service.surveyAnswerInsert(saVo);
+						}else {
+							SurveyAnswerVo saVo=new SurveyAnswerVo(0, sqNum, answer);
+							service.surveyAnswerInsert(saVo);							
+						}
+					}											
 				}					
 			}else if(choiceType==2) {//복합질문타입							
 				for(int i=0;i<salist.size();i++) {
@@ -317,17 +467,19 @@ public class SurveyController {
 		
 		return "redirect:/survey/list?code=1";
 	}
-	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
-	public String stats(int surveyNum, Model model) {
-		
-		return ".survey.stats";
-	}
+	
 	@RequestMapping(value="/survey/delete")
-	public String delete(String delNumArr,Model model) {
+	public String delete(String delNumArr,HttpSession session,Model model) {
 		System.out.println(delNumArr);
 		String[] numArr=delNumArr.split(",");
 		for(int n=0;n<numArr.length;n++) {
 			int surveyNum=Integer.parseInt(numArr[n]);
+			SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);
+			if(videoVo!=null) {
+				String videoUploadPath = session.getServletContext().getRealPath("/resources/upload/survey");
+				File f = new File(videoUploadPath + "\\" + videoVo.getSvSaveSrc());
+				f.delete();
+			}
 			service.surveyDelete(surveyNum);
 		}
 		

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jhta.netflix.profile.vo.ProfileUserListVo;
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 
 @Repository
 public class ProfileUserDaoImpl implements ProfileUserDao{
@@ -30,4 +31,17 @@ public class ProfileUserDaoImpl implements ProfileUserDao{
 	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
 		return sqlSession.selectList(NAMESPACE+".profileList", map);
 	}
+	@Override
+	public ProfileUserListVo profileInfo(int profile_num) {
+		return sqlSession.selectOne(NAMESPACE+".profileInfo", profile_num);
+	}
+	@Override
+	public int userProfileManagersDelete(int profile_num) {
+		return sqlSession.update(NAMESPACE+".userProfileDelete",profile_num);
+	}
+	@Override
+	public int userProfileManagersUpdate(ProfileUserVo vo) {
+		return sqlSession.update(NAMESPACE+".userProfileUpdate",vo);
+	}
+	
 }

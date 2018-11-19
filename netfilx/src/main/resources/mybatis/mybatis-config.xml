@@ -21,7 +21,8 @@
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyAnswerVo" alias="surveyAnswer"/>		
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyVideoVo" alias="surveyVideo"/>		
 		<typeAlias type="com.jhta.netflix.survey.vo.SurveyResultVo" alias="surveyResult"/>		
-		<typeAlias type="com.jhta.netflix.survey.vo.SurveyInVo" alias="surveyIn"/>		
+		<typeAlias type="com.jhta.netflix.survey.vo.SurveyInVo" alias="surveyIn"/>	
+		<typeAlias type="com.jhta.netflix.survey.vo.SrCntDto" alias="srCnt"/>			
 		<typeAlias type="com.jhta.netflix.series.vo.SeriesVo" alias="series"/>		
 		<typeAlias type="com.jhta.netflix.content_genre.vo.Content_genreVo" alias="cgenre"/>		
 		<typeAlias type="com.jhta.netflix.content_staff.vo.Content_staffVo" alias="cstaff"/>		
@@ -40,5 +41,6 @@
 		<typeAlias type="com.jhta.netflix.record.vo.RecordVo" alias="record"/>
 		<typeAlias type="com.jhta.netflix.bookmark.vo.BookmarkVo" alias="bookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
+		<typeAlias type="com.jhta.netflix.alarm.vo.Alarm" alias="alarm"/>
 	</typeAliases>
 </configuration>

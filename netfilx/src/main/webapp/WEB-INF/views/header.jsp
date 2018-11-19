@@ -1,27 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <!-- Modal -->
- <div class="modal fade" id="myModal" role="dialog">
-   <div class="modal-dialog">
-     <!-- Modal content-->
-     <div class="modal-content">
-       <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal">&times;</button>
-         <h4 class="modal-title">Profile Password</h4>
-       </div>
-       <form method="post" id="modalProfile" action="">
-       <div class="modal-body">
-         <input type="text" id="p_password" name="p_password" min="4" max="4" placeholder="비밀번호입력">
-         <input type="hidden" id="profile_num" name="profile_num" value=""/>
-       </div>
-       <div class="modal-footer">
-       	 <input type="submit" class="btn btn-default" value="전환">
-         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-       </div>
-       </form>
-     </div>
-   </div>
- </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Profile Password</h4>
+      </div>
+      <form method="post" id="modalProfile" action="<c:url value='/profile/user/getInfo'/>">
+      <div class="modal-body">
+        <input type="text" id="p_password" name="p_password" min="4" max="4" placeholder="비밀번호입력">
+        <input type="hidden" id="profile_num" name="profile_num" value=""/>
+      </div>
+      <div class="modal-footer">
+      	 <input type="submit" class="btn btn-default" value="전환">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -70,7 +70,8 @@
 		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
 		          </c:when>
 		          <c:otherwise>
-			          <li class="dropdown" onclick="profile('${pageContext.request.contextPath }')"><a class="dropdown-toggle" data-toggle="dropdown" href="#">마이페이지<span class="caret"></span></a>
+		          	<c:if test="${!empty(profile_num) }">
+			          <li class="dropdown" onclick="profile('${pageContext.request.contextPath }')"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img alt="profile" src="${pimg_src }" width="30"><span class="caret"></span></a>
 			            <ul class="dropdown-menu" id="profile_row">	
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
@@ -78,19 +79,10 @@
 				          <li><a href="<c:url value='/logout'/>">로그아웃</a></li>
 			            </ul>
 			          </li>
+			          </c:if>
 		          </c:otherwise>
 	          </c:choose>
         </ul>
-        <c:if test="${!empty(profile_num) }">
-	        <ul class="nav navbar-nav" style="float: right;">
-	        	<li>
-	        		<a href="">
-	        			<img alt="profile" src="${pimg_src }" width="3">
-	        			<span>${nickname }</span>
-	        		</a>
-	        	</li>
-	        </ul>
-        </c:if>
       </div>
     </div>
   </div>

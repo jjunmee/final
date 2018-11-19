@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.survey.vo.SrCntDto;
 import com.jhta.netflix.survey.vo.SurveyAnswerVo;
 import com.jhta.netflix.survey.vo.SurveyInVo;
 import com.jhta.netflix.survey.vo.SurveyQuestionVo;
@@ -41,6 +42,12 @@ public class SurveyDao {
 	//////////////////////////////////////////////////////////////////
 	public int surveyDelete(int surveyNum) {
 		return session.delete(NAMESPACE+".surveyDelete",surveyNum);
+	}
+	public int surveyQuestionDelete(int surveyNum) {
+		return session.delete(NAMESPACE+".surveyQuestionDelete",surveyNum);
+	}
+	public int surveyVideoDelete(int svNum) {
+		return session.delete(NAMESPACE+".surveyVideoDelete",svNum);
 	}
 	//////////////////////////////////////////////////////////////////
 	public int surveyUpdate(SurveyVo vo) {
@@ -107,7 +114,9 @@ public class SurveyDao {
 	public List<SurveyVo> toUpdateSurveyVoSelect(){
 		return session.selectList(NAMESPACE+".toUpdateSurveyVoSelect");
 	}
-	
+	public List<SrCntDto> srAnswerCnt(int sqNum){
+		return session.selectList(NAMESPACE+".srAnswerCnt",sqNum);
+	}
 	
 	
 	
