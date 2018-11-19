@@ -152,24 +152,28 @@ public class ProfileController {
 	}
 	
 	//profile user insert form move
-		@RequestMapping(value="/profile/user/updateFormView",method=RequestMethod.GET)
-		public ModelAndView profilUserUpdateFormView(@RequestParam("profile_num")String profile_num){
-			ModelAndView mv = new ModelAndView(".profile.insertForm");
-			int profile;
-			try {
-				profile=Integer.parseInt(profile_num);
-			}catch(NullPointerException e) {
-				profile=0;
-			}
-			if(profile>0) {
-			  ProfileUserListVo vo = user_service.profileInfo(profile);
-			  if(vo!=null) {
-				  mv.addObject("vo", vo);
-				  mv.addObject("action", "/nsofhsdfhs");
-			  }
-			}
-			return mv;
+	@RequestMapping(value="/profile/user/updateFormView",method=RequestMethod.GET)
+	public ModelAndView profilUserUpdateFormView(@RequestParam("profile_num")String profile_num,@RequestParam(value="n_pimg_src",defaultValue="")String n_pimg_src,@RequestParam(value="n_pimg_num",defaultValue="")String n_pimg_num){
+		ModelAndView mv = new ModelAndView(".profile.insertForm");
+		int profile;
+		try {
+			profile=Integer.parseInt(profile_num);
+		}catch(NullPointerException e) {
+			profile=0;
 		}
+		if(profile>0) {
+		  ProfileUserListVo vo = user_service.profileInfo(profile);
+		  if(vo!=null) {
+			  mv.addObject("vo", vo);
+			  mv.addObject("action", "/profile/manageProfiles/up");
+		  }
+		}
+		if(n_pimg_num!=null) {
+			mv.addObject("n_pimg_num", n_pimg_num);
+			mv.addObject("n_pimg_src", n_pimg_src);
+		}
+		return mv;
+	}
 	
 	//profile user insertOk
 	@RequestMapping(value="/profile/user/insert",method=RequestMethod.POST)
@@ -179,9 +183,9 @@ public class ProfileController {
 		int img_no = Integer.parseInt(pimg_num);
 		int age;
 		if(child.equals("false")) {
-			age=19;
-		}else {
 			age=7;
+		}else {
+			age=19;
 		}
 		boolean first=false;
 		if(profile_first.equals("true")) {
@@ -208,6 +212,8 @@ public class ProfileController {
 		session.setAttribute("nickname", vo.getNickname());
 		session.setAttribute("pimg_src", vo.getPimg_src());
 		session.setAttribute("profile_first", vo.isProfile_first());
+		}else {
+			return "redirect:/profile/user/index";
 		}
 		return ".main";
 	}
@@ -224,6 +230,18 @@ public class ProfileController {
 		return mv;
 	}
 	
+	///profile/user/img/change?profile_num=${vo. }
+	//profile img All list execute
+	@RequestMapping(value="profile/user/img/change")
+	public ModelAndView profileImgChange(@RequestParam("profile_num")String profile_num,HttpSession session) {
+		ModelAndView mv = new ModelAndView(".profile.imgListForm");
+		List<ProfileVo> group_list = admin_service.groupList();
+		List<ProfileVo> pro_list = admin_service.imgAllList();
+		mv.addObject("group_list", group_list);
+		mv.addObject("pro_list", pro_list);
+		mv.addObject("s_profile_num", profile_num);
+		return mv;
+	}
 	//유저프로필관리
 	@RequestMapping(value="/profile/manageProfiles")
 	public ModelAndView profileUserInfoAdmin(HttpSession session) {
@@ -234,5 +252,28 @@ public class ProfileController {
 			mv.addObject("list",list);
 		}
 		return mv;
+	}
+	
+	//유저프로필 삭제처리 first 값 2로 변경 후 조회시 2번 제외!!!!!!
+	@RequestMapping(value="/profile/manageProfiles/del",method=RequestMethod.GET)
+	public String userProfileDelete(String profile_num) {
+		int num = Integer.parseInt(profile_num);
+		user_service.userProfileManagersDelete(num);
+		return "redirect:/profile/manageProfiles";
+	}
+	//유저프로필 수정
+	@RequestMapping(value="/profile/manageProfiles/up",method=RequestMethod.POST)
+	public String userProfileUpdate(@RequestParam("nickname")String nickname,@RequestParam("pimg_num")String pimg_num,@RequestParam("profile_pwd")String profile_pwd,@RequestParam("child")String child,@RequestParam("profile_num")String profile_num) {
+		int profile_no = Integer.parseInt(profile_num);
+		int img_no = Integer.parseInt(pimg_num);
+		int age;
+		if(child.equals("false")) {
+			age=7;
+		}else {
+			age=19;
+		}
+		ProfileUserVo vo = new ProfileUserVo(profile_no, nickname, 0, img_no, age, profile_pwd, false, null);
+		user_service.userProfileManagersUpdate(vo);
+		return "redirect:/profile/manageProfiles";
 	}
 }

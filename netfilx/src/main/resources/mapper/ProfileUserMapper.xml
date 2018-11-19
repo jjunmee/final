@@ -5,25 +5,29 @@
  <mapper namespace="mapper.ProfileUserMapper">
  	<!-- 해당 유저 프로필 전체 가져오기 -->
  	<select id="userProfileList" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo" parameterType="String">
- 		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and A.id=#{id} order by B.profile_regdate
+ 		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and A.id=#{id} and B.profile_first != 2 order by B.profile_regdate
  	</select>
  	<insert id="userProfileInsert" parameterType="hashmap">
  		insert into profile values(0,#{vo.nickname},(select users_num from users where id = #{id}),#{vo.pimg_num},#{vo.profile_age},#{vo.profile_pwd},#{vo.profile_first}, now())
  	</insert>	
  	<update id="userProfileUpdate" parameterType="profileUser">
- 		update profile set nickname=#{nickname}, pimg_num=#{pimg_num}, profile_pwd=#{profile_pwd}, profile_first=#{profile_first} where profile_num = #{profile_num}
+ 		update profile set nickname=#{nickname}, pimg_num=#{pimg_num}, 
+ 		<if test="profile_pwd != null">
+ 		profile_pwd=#{profile_pwd}, 
+ 		</if>
+ 		profile_age=#{profile_age} where profile_num = #{profile_num}
  	</update>
- 	<delete id="userProfileDelete" parameterType="int">
- 		delete from profile where profile_num = #{profile_num}
- 	</delete>
+ 	<update id="userProfileDelete" parameterType="int">
+ 		update profile set profile_first=2 where profile_num = #{profile_num}
+ 	</update>
  	<select id="getInfo" parameterType="hashmap" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
- 		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num} AND B.profile_pwd = ${profile_pwd}
+ 		select A.users_num,A.sts,B.profile_num,B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num} AND B.profile_pwd = ${profile_pwd} AND B.profile_first != 2
  	</select>
  	<select id="profileInfo" parameterType="int" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
- 		select A.users_num,A.sts,B.profile_num,B.pimg_num, B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num}
+ 		select A.users_num,A.sts,B.profile_num,B.pimg_num, B.nickname,B.profile_age,B.profile_first,C.pimg_src from users A,profile B, profile_img C where A.users_num = B.users_num and B.pimg_num = C.pimg_num  and B.profile_num = #{profile_num} AND B.profile_first != 2
  	</select>
  	<select id="profileList" parameterType="hashmap" resultType="com.jhta.netflix.profile.vo.ProfileUserListVo">
  		select A.users_num, A.profile_num, A.nickname, A.profile_age,
-			A.profile_first, B.pimg_src from profile A, profile_img B where A.pimg_num = B.pimg_num and A.users_num = #{users_num} and A.profile_num != #{profile_num}
+			A.profile_first, B.pimg_src from profile A, profile_img B where A.pimg_num = B.pimg_num and A.users_num = #{users_num} and A.profile_num != #{profile_num} AND A.profile_first != 2
  	</select>
  </mapper>

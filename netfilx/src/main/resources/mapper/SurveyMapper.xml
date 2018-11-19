@@ -10,13 +10,16 @@
 	</sql>
 	
 	<insert id="surveyInsert" parameterType="survey">
-		insert into survey(userNum,surveyStart,spoint,joinNum,state) values(#{userNum},now(),#{spoint},#{joinNum},"결제완료")
+		insert into survey(userNum,surveyName,surveyStart,spoint,joinNum,state) values(#{userNum},"제목없음",now(),#{spoint},#{joinNum},"결제완료")
 		<selectKey keyProperty="surveyNum" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
 	</insert>
 	<insert id="surveyQuestionInsert" parameterType="surveyQuestion">
 		insert into survey_question values(0,#{surveyNum},#{sqTitle},#{sqType})
+		<selectKey keyProperty="sqNum" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	<insert id="surveyAnswerInsert" parameterType="surveyAnswer">
 		insert into survey_answer values(0,#{sqNum},#{saAnswer})
@@ -34,10 +37,18 @@
 	<delete id="surveyDelete" parameterType="survey">
 		delete from survey where surveyNum=#{surveyNum}
 	</delete>
+	<delete id="surveyQuestionDelete" parameterType="int">
+		delete from survey_question where surveyNum=#{surveyNum}
+	</delete>
+	<delete id="surveyVideoDelete" parameterType="int">
+		delete from survey_video where svNum=#{svNum}
+	</delete>
 	
 	<update id="surveyUpdate" parameterType="survey">
 		update survey set surveyName=#{surveyName},surveyDescription=#{surveyDescription},
-			surveyStart=now(),surveyEnd=#{surveyEnd},state=#{state}
+			surveyStart=now(),
+			<if test="surveyEnd!=null and surveyEnd!=''">surveyEnd=#{surveyEnd},</if>
+			state=#{state}
 		where surveyNum=#{surveyNum}
 	</update>
 	<update id="surveyStateUpdate" parameterType="hashmap">
@@ -50,6 +61,7 @@
 		update users set point=point+#{point} where users_num=#{userNum}
 	</update>
 	
+		
 	<select id="leftPoint" parameterType="int" resultType="int">
 		select A.spoint-floor(A.spoint/A.joinNum)*(select count(*) from survey_in where surveyNum=#{surveyNum})
 		from (select spoint,joinNum from survey where surveyNum=#{surveyNum}) A
@@ -113,8 +125,9 @@
 	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">
 		select * from survey where userNum=#{userNum} and state=#{state} order by surveyStart desc
 	</select>
-	
-	
+	<select id="srAnswerCnt" parameterType="int" resultType="srCnt">
+		select srAnswer,count(*) cnt from survey_result where sqNum=#{sqNum} group by srAnswer order by srAnswer;
+	</select>
 	
 	
 	

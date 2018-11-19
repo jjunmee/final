@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.profile.dao.ProfileUserDaoImpl;
 import com.jhta.netflix.profile.vo.ProfileUserListVo;
+import com.jhta.netflix.profile.vo.ProfileUserVo;
 
 @Service
 public class ProfileUserService {
@@ -27,5 +28,11 @@ public class ProfileUserService {
 	}
 	public List<ProfileUserListVo> userProfileList(HashMap<String, Object> map) {
 		return dao.userProfileList(map);
+	}
+	public int userProfileManagersDelete(int profile_num) {
+		return dao.userProfileManagersDelete(profile_num);
+	}
+	public int userProfileManagersUpdate(ProfileUserVo vo) {
+		return dao.userProfileManagersUpdate(vo);
 	}
 }

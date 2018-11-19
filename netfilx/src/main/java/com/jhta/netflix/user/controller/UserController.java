@@ -69,7 +69,7 @@ public class UserController {
 	//회원가입 이동
 	@RequestMapping(value = "/join/default", method = RequestMethod.GET)
 	public String joinSel() {
-		return ".user.join.default";
+		return "/user/join/default";
 	}
 	
 	//일반사용자 회원가입완료
@@ -79,12 +79,12 @@ public class UserController {
 		JoinValidator validator=new JoinValidator();
 		validator.validate(vo,result);
 		if(result.hasErrors()) {
-			return ".user.join.default";
+			return "/user/join/default";
 		}
 		String pass_key = cer_service.getInfo(Integer.parseInt(req.getParameter("passNum")));
 		String pass_check = req.getParameter("passCheck");
 		if(!pass_key.equals(pass_check)) {
-			return ".user.join.default";
+			return "/user/join/default";
 		}
 		String pwd2= SHA512.generateSalt();
 		String pw=SHA512.get_SHA_512_SecurePassword(vo.getPwd(), pwd2);
@@ -102,7 +102,7 @@ public class UserController {
 			session.setAttribute("sts", UserStatus.TRUE_USER);
 			return "redirect:/profile/user/index";
 		}else {
-			return ".user.join.default";
+			return "/user/join/default";
 		}
 	}
 	
@@ -136,7 +136,6 @@ public class UserController {
 						f=false;
 					}
 				}catch(Exception e) {
-					System.out.println(e.getMessage());
 					f=false;
 				}
 		}
