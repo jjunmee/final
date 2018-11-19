@@ -45,7 +45,7 @@ function drawMultSeries() {
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">설문등록하러가기</a>
+			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
 		</div>
 	</div>
 	
