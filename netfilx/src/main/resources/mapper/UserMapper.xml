@@ -20,8 +20,19 @@
 	<select id="userInfo" resultType="user" parameterType="String">
 		select * from users where id = #{id}
 	</select>
+	
+	<!-- 회원리스트 뿌리기 -->
 	<select id="userlist" resultType="user" parameterType="hashmap">
 		select * from users
+		<if test="sts >= 0">
+			where sts = #{sts }
+		</if>
+		order by users_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="userCount" resultType="int" parameterType="hashmap">
+		select count(*)
+		from users
 		<if test="sts >= 0">
 			where sts = #{sts }
 		</if>

@@ -47,7 +47,7 @@ public class MypageController {
 		ModelAndView mv = new ModelAndView();
 		String id = (String)session.getAttribute("id");
 		UserVo vo = service.userInfo(id);
-		Pay_infoVo pavo = paservice.selectone(vo.getUsersNum());
+		Pay_infoVo pavo = paservice.selectone(vo.getUsers_num());
 		if(pavo != null) {
 			//결제한게 있느냐 있으면
 			Calendar cal = Calendar.getInstance();
@@ -133,7 +133,7 @@ public class MypageController {
 			}
 			mv.setViewName(".mypage.commentlist");
 		}else {
-			Pay_infoVo pavo = paservice.selectone(uvo.getUsersNum());
+			Pay_infoVo pavo = paservice.selectone(uvo.getUsers_num());
 			if(pavo != null) {
 				//결제한게 있느냐 있으면
 				Calendar cal = Calendar.getInstance();

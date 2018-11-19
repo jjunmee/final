@@ -49,7 +49,7 @@ public class Point_infoController {
 		String result = null;
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.userInfo(id);
-		int users_num = uvo.getUsersNum();
+		int users_num = uvo.getUsers_num();
 		String usage = "포인트충전-충전-" + pointPrice;
 		String point_payment = "card";
 		int point = uvo.getPoint() + pointPrice;
@@ -73,7 +73,7 @@ public class Point_infoController {
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.userInfo(id);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("users_num", uvo.getUsersNum());
+		map.put("users_num", uvo.getUsers_num());
 		map.put("keyword", keyword);
 		// V 인덱스 갯수 가져오기
 		int totalRowCount = service.listCount(map);

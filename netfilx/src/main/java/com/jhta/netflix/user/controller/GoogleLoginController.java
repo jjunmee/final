@@ -57,7 +57,7 @@ public class GoogleLoginController {
 	    	session.setAttribute("sts", UserStatus.TRUE_USER);
 	    }else {
 	    	session.setAttribute("sts", vo.getSts());
-	    	session.setAttribute("users_num", vo.getUsersNum());
+	    	session.setAttribute("users_num", vo.getUsers_num());
 	    }
 	    session.setAttribute("id", id);
 	    session.setAttribute("sns", "google");

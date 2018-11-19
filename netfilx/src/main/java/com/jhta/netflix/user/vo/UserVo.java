@@ -32,15 +32,16 @@ public class UserVo {
 		this.pwd2 = pwd2;
 	}
 
-	public int getUsersNum() {
-        return users_num;
-    }
 
-    public void setUsersNum(int users_num) {
-        this.users_num = users_num;
-    }
+    public int getUsers_num() {
+		return users_num;
+	}
 
-    public String getId() {
+	public void setUsers_num(int users_num) {
+		this.users_num = users_num;
+	}
+
+	public String getId() {
         return id;
     }
 
