@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div>
+<style>
+	#myPage>table{widht:800px;}
+</style>
+<div id="myPage" class="mhdiv">
 	<h1>마이페이지</h1>
 	<hr>
 	<h2>계정</h2>
@@ -24,22 +27,30 @@
 		</tr>
 	</table>
 	<hr>
-	<h2>결제정보</h2>
+	<h2>가입 멤버십 정보</h2>
 	<table>
 		<tr>
-			<td>${payment }</td>
-			<td><a href="">결제정보 업데이트</a> / <a href="">결제정보 상세정보</a></td>
-		</tr>
-		<tr>
-			<td>${grade_name }</td>
-			<td><a href="<c:url value='/pay/payform'/>">멤버쉽 변경</a></td>
+			<td>
+			<c:choose>
+				<c:when test="${grade_name != null}">
+					종류 : ${grade_name } / 시청가능인원 : ${grade_person }명 / 만료일 : ${pay_end }
+				</c:when>
+				<c:otherwise>
+					<a href="<c:url value='/pay/payform'/>">멤버쉽 구매하기</a>
+				</c:otherwise>
+			</c:choose>
+			</td>
+			<td>
+				<a href="<c:url value='/pay/userInfo'/>">결제내역</a>
+			</td>
 		</tr>
 	</table>
 	<hr>
 	<h2>프로필</h2>
 	<table>
 		<tr>
-			<td>프로필사진/프로필명</td>
+			<td>프로필사진/ ${nickname }</td>
+			<td><a href="<c:url value='/mypage/commentlist'/>">${nickname } 님의 댓글 보기</a></td>
 		</tr>
 	</table>
 </div>

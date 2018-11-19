@@ -20,4 +20,10 @@
 	<select id="userInfo" resultType="user" parameterType="String">
 		select * from users where id = #{id}
 	</select>
+	<select id="userlist" resultType="user" parameterType="hashmap">
+		select * from users
+		<if test="sts >= 0">
+			where sts = #{sts }
+		</if>
+	</select>
  </mapper>

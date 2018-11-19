@@ -3,34 +3,26 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <div class="mhdiv">
-	<h1>${id } 님 포인트 사용내역</h1>
+	<h1>내가 쓴 댓글</h1>
 	<div>
-		<form action="<c:url value='/point/userInfo'></c:url>" method="post">
-			<select name="keyword">
-				<option></option>
-				<option value="사용" <c:if test="${keyword=='사용' }">selected="selected"</c:if>>사용</option>
-				<option value="적립" <c:if test="${keyword=='적립' }">selected="selected"</c:if>>적립</option>
-				<option value="충전" <c:if test="${keyword=='충전' }">selected="selected"</c:if>>충전</option>
-			</select>
-			<input type="submit" value="검색">
+		<form action="<c:url value='/admin/userlist'></c:url>" method="post">
 		</form>
 	</div>
 	<table>
 		<tr>
-			<th>구분</th>
-			<th>상태</th>
-			<th>금액</th>
-			<th>날짜</th>
+			<th>회원번호</th>
+			<th>회원ID</th>
+			<th>회원생년월일</th>
+			<th>보유포인트</th>
+			<th>회원상태</th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
-			<c:set var="usage" value="${fn:split(vo.usage,'-')}"/>
-			<c:forEach var="use" items="${usage}" varStatus="u">
-				<td><c:if test="${u.count == 1 }">${use}</c:if>
-				<c:if test="${u.count == 2 }">${use}</c:if>
-				<c:if test="${u.count == 3 }">${use}</c:if></td>
-			</c:forEach>
-			<td>${vo.point_date }</td>
+			<td>${vo.users_num }</td>
+			<td>${vo.id }</td>
+			<td>${vo.birth }</td>
+			<td>${vo.point }</td>
+			<td>${vo.sts }</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -49,12 +41,12 @@
 		<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
 			<c:choose>
 				<c:when test="${pu.pageNum == i }">
-					<a href="<c:url value='/point/userInfo?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/admin/userlist?pageNum=${i }&keyword=${keyword }'></c:url>">
 						<span style="color: blue;">[${i }]</span>
 					</a>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/point/userInfo?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/admin/userlist?pageNum=${i }&keyword=${keyword }'></c:url>">
 						<span style="color: gray;">[${i }]</span>
 					</a>
 				</c:otherwise>

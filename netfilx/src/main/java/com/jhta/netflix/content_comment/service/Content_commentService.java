@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jhta.netflix.content_comment.dao.Content_commentDao;
 import com.jhta.netflix.content_comment.vo.Comment_bookmarkVo;
 import com.jhta.netflix.content_comment.vo.Content_commentVo;
+import com.jhta.netflix.content_comment.vo.Mypage_commentVo;
 
 @Service
 public class Content_commentService {
@@ -38,5 +39,11 @@ public class Content_commentService {
 	}
 	public List<Content_commentVo> subList(int num){
 		return dao.subList(num);
+	}
+	public List<Mypage_commentVo> userCoList(HashMap<String, Object> map){
+		return dao.userCoList(map);
+	}
+	public int userCoCount(HashMap<String, Object> map) {
+		return dao.userCoCount(map);
 	}
 }

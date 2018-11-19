@@ -1,6 +1,7 @@
 package com.jhta.netflix.user.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,9 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public UserVo userInfo(String id) {
 		return sqlSession.selectOne(NAMESPACE + ".userInfo",id);
+	}
+	@Override
+	public List<UserVo> userlist(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".userlist",map);
 	}
 }

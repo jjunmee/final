@@ -1,11 +1,13 @@
 package com.jhta.netflix.pay_info.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.pay_info.vo.Pay_gradeVo;
 import com.jhta.netflix.pay_info.vo.Pay_infoVo;
 
 @Repository
@@ -20,6 +22,14 @@ public class Pay_infoDao {
 	
 	public List<Pay_infoVo> list(){
 		return sqlSession.selectList(NAMESPACE + ".list");
+	}
+	
+	public List<Pay_gradeVo> userselect(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".userselect",map);
+	}
+	
+	public int listCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".listCount",map);
 	}
 	
 	public Pay_infoVo selectone(int num) {

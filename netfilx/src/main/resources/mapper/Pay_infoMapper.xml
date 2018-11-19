@@ -3,16 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.Pay_infoMapper">
+	<sql id="search">
+		<if test="keyword!=null and keyword!=''">
+			and pay_start like CONCAT('%',#{keyword},'%')
+		</if>
+	</sql>
 	<insert id="insert" parameterType="payInfo">
-		insert into pay_info (pay_start,pay_end,payment,users_num,grade_num) values(#{pay_start},#{pay_end},#{payment},#{users_num},#{grade_num})
+		insert into pay_info (pay_start,pay_end,payment,users_num,grade_num) values(now(),date_add(now(), interval +1 month),#{payment},#{users_num},#{grade_num})
 	</insert>
 	<select id="list" resultType="payInfo">
 		select * from pay_info
 	</select>
 	<select id="selectone" resultType="payInfo">
-		select * from pay_info where pay_num = #{pay_num}
+		select * from pay_info where users_num = #{users_num} order by pay_num desc limit 0,1
 	</select>
 	<delete id="delete">
 		delete from pay_info where pay_num = #{pay_num}
 	</delete>
+	<select id="userselect" resultType="pay_grade" parameterType="hashmap">
+		select p.pay_num, p.pay_start, p.pay_end, p.payment, p.users_num, p.grade_num, g.grade_name, g.grade_price
+		from pay_info p, grade g
+		where p.grade_num = g.grade_num and p.users_num = #{users_num}
+		<include refid="search"/>
+		order by p.pay_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="listCount" resultType="int" parameterType="hashmap">
+		select count(*)
+		from pay_info
+		where users_num = #{users_num}
+		<include refid="search"/>
+	</select>
 </mapper>
