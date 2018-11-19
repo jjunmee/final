@@ -89,7 +89,7 @@ public class SurveyController {
 	public String mySurvey(HttpSession session,Model model) {
 		String userId=(String)session.getAttribute("id");
 		//String userId="alsl";
-		int userNum=service.userSelect(userId).getUsersNum();
+		int userNum=service.userSelect(userId).getUsers_num();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("userNum", userNum);
 		map.put("state","결제완료");
@@ -111,7 +111,7 @@ public class SurveyController {
 	@RequestMapping("/survey/surveyInCheck")
 	@ResponseBody
 	public List<Integer> surveyInCheck(String userId) {
-		int userNum=service.userSelect(userId).getUsersNum();
+		int userNum=service.userSelect(userId).getUsers_num();
 		List<Integer> surveyNumList=service.surveyInSelect1(userNum);
 		return surveyNumList;
 	}
@@ -342,7 +342,7 @@ public class SurveyController {
 	public String surveyForm1ok(SurveyVo vo,HttpSession session,Model model) {
 		String userId=(String)session.getAttribute("id");
 		//String userId="alsl";
-		int userNum=service.userSelect(userId).getUsersNum();
+		int userNum=service.userSelect(userId).getUsers_num();
 		vo.setUserNum(userNum);
 		service.surveyInsert(vo);//surveyNum이 넘어오나 확인해야함!!!!!!!!!!!!
 		int surveyNum=vo.getSurveyNum();
@@ -439,7 +439,7 @@ public class SurveyController {
 	public String resultInsert(HttpSession session,int surveyNum,@ModelAttribute SurveyResultDto resultDto, Model model) {
 		//SurveyIn테이블에 userId가 없으면 insert 시키기==>jsp에서 ajax로 걸러주기때문에 안해도될듯해서 수정함.
 		String userId=(String)session.getAttribute("id");
-		int userNum=service.userSelect(userId).getUsersNum();
+		int userNum=service.userSelect(userId).getUsers_num();
 		SurveyInVo siVo=new SurveyInVo(0, userNum, surveyNum);
 		service.surveyInInsert(siVo);
 		//SurveyResult테이블에 insert시키기
