@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.omg.Messaging.SyncScopeHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -100,6 +102,45 @@ public class FileUpload {
                 ioe.printStackTrace();
             }
         }
+    }
+    
+    // 단일 파일 업로드 
+    public void upload( String dir , MultipartFile file, String saveName){
+    	InputStream in = null;
+    	String path_url = "/docker/tomcat8/watflix"+dir;
+    	SftpATTRS attrs = null;
+    	try {
+    		attrs = channelSftp.stat(path_url);
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+    	if(attrs==null) {
+    		try {
+    			channelSftp.mkdir(path_url);
+    		} catch (SftpException e) {
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    	try{ //파일을 가져와서 inputStream에 넣고 저장경로를 찾아 put 
+    		in = file.getInputStream();
+    		if(channelSftp.stat(path_url)==null) {
+    			channelSftp.mkdir(path_url);
+    		}
+    		channelSftp.cd(path_url);
+    		channelSftp.put(in,saveName);
+    	}catch(SftpException se){
+    		se.printStackTrace();
+    	}catch(FileNotFoundException fe){
+    		fe.printStackTrace();
+    	} catch (IOException e) {
+    		System.out.println(e.getMessage());
+		}finally{
+    		try{
+    			in.close();
+    		} catch(IOException ioe){
+    			ioe.printStackTrace();
+    		}
+    	}
     }
  
     // 파일서버와 세션 종료

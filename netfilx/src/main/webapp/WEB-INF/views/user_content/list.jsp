@@ -197,7 +197,7 @@
 		<div class="main-carousel">
 			<c:forEach items="${jjimList }" var="vo">
 			  <div class="carousel-cell">
-			  	<img src='<c:url value="/resources/upload/stillcut/${vo.content_post2 }"/>'>
+			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 				</video>
@@ -249,7 +249,7 @@
 		<div class="main-carousel">
 			<c:forEach items="${newList }" var="vo">
 			  <div class="carousel-cell">
-			  	<img src='<c:url value="/resources/upload/stillcut/${vo.content_post2 }"/>'>
+			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 				</video>
@@ -301,7 +301,7 @@
 		<div class="main-carousel">
 			<c:forEach items="${bestList }" var="vo">
 			  <div class="carousel-cell">
-			  	<img src='<c:url value="/resources/upload/stillcut/${vo.content_post2 }"/>'>
+			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
 				</video>

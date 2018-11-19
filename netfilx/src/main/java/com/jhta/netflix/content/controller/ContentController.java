@@ -28,6 +28,7 @@ import com.jhta.netflix.content_genre.service.Content_genreService;
 import com.jhta.netflix.content_genre.vo.Content_genreVo;
 import com.jhta.netflix.content_staff.service.Content_staffService;
 import com.jhta.netflix.content_staff.vo.Content_staffVo;
+import com.jhta.netflix.lib.FileUpload;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.series.service.SeriesService;
 
@@ -41,6 +42,8 @@ public class ContentController {
 	private Content_staffService content_staffService;
 	@Autowired
 	private SeriesService seriesService;
+	@Autowired 
+	private FileUpload ftp;
 	
 	@RequestMapping(value="/content/insert",method=RequestMethod.GET)
 	public String insertForm() {
@@ -72,46 +75,28 @@ public class ContentController {
 		}
 		
 		UUID uuid = UUID.randomUUID();
-		String posterUploadPath = session.getServletContext().getRealPath("/resources/upload/poster");
+		String posterUploadPath = "/poster/";
 		String posterSaveName = uuid + "_" + poster.getOriginalFilename();
 		String content_post1 = posterSaveName;
-		String stillcutUploadPath = session.getServletContext().getRealPath("/resources/upload/stillcut");
+		String stillcutUploadPath = "/stillcut/";
 		String stillcutSaveName = uuid + "_" + stillcut.getOriginalFilename();
 		String content_post2 = stillcutSaveName;
-		String trailerUploadPath = session.getServletContext().getRealPath("/resources/upload/trailer");
+		String trailerUploadPath = "/trailer/";
 		String trailer_orgsrc = trailer.getOriginalFilename();
 		String trailerSaveName = uuid + "_" + trailer_orgsrc;
 		String trailer_savesrc = trailerSaveName;
-		String orgUploadPath = session.getServletContext().getRealPath("/resources/upload/org");
+		String orgUploadPath = "/org/";
 		String orgsrc = org.getOriginalFilename();
 		String orgSaveName = uuid + "_" + orgsrc;
 		String savesrc = orgSaveName;
 		try {
-			InputStream is = poster.getInputStream();
-			FileOutputStream fos = new FileOutputStream(posterUploadPath + "\\" + posterSaveName);
-			FileCopyUtils.copy(is, fos);
-			is.close();
-			fos.close();
-			System.out.println(posterUploadPath + "경로에 poster!");
-			is = stillcut.getInputStream();
-			fos = new FileOutputStream(stillcutUploadPath + "\\" + stillcutSaveName);
-			FileCopyUtils.copy(is, fos);
-			is.close();
-			fos.close();
-			System.out.println(stillcutUploadPath + "경로에 stillcut!");
-			is = trailer.getInputStream();
-			fos = new FileOutputStream(trailerUploadPath + "\\" + trailerSaveName);
-			FileCopyUtils.copy(is, fos);
-			is.close();
-			fos.close();
-			System.out.println(trailerUploadPath + "경로에 trailer!");
+			ftp.init();
+			ftp.upload(posterUploadPath, poster, posterSaveName);
+			ftp.upload(stillcutUploadPath, stillcut, stillcutSaveName);
+			ftp.upload(trailerUploadPath, trailer, trailerSaveName);
+			ftp.upload(orgUploadPath, org, orgSaveName);
+			ftp.disconnect();
 			long trailer_size = trailer.getSize();
-			is = org.getInputStream();
-			fos = new FileOutputStream(orgUploadPath + "\\" + orgSaveName);
-			FileCopyUtils.copy(is, fos);
-			is.close();
-			fos.close();
-			System.out.println(orgUploadPath + "경로에 org!");
 			long content_size = org.getSize();
 			ContentVo vo = new ContentVo(content_num, content_name, orgsrc, savesrc, content_summary, 
 					trailer_orgsrc, trailer_savesrc, content_size, trailer_size, content_post1, 
