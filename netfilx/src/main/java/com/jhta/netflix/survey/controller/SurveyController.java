@@ -42,14 +42,19 @@ import com.jhta.netflix.survey.vo.SurveyResultDto;
 import com.jhta.netflix.survey.vo.SurveyResultVo;
 import com.jhta.netflix.survey.vo.SurveyVideoVo;
 import com.jhta.netflix.survey.vo.SurveyVo;
+import com.jhta.netflix.user.service.UserService;
+import com.jhta.netflix.user.vo.UserVo;
 
 @Controller
 public class SurveyController {
 	@Autowired private SurveyService service;
 	@Autowired private Point_infoService pointService;
+	@Autowired private UserService userService;
 	
 	@RequestMapping(value="/survey/list")
-	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,Model model) {
+	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,HttpSession session,Model model) {
+		String id=(String)session.getAttribute("id");
+		UserVo vo=userService.login(id);
 		String state="";		
 		if(code==1) {//현재진행중인설문
 			state="등록완료";			
@@ -71,7 +76,13 @@ public class SurveyController {
 		model.addAttribute("code",code);
 		model.addAttribute("pageUtil",pageUtil);
 		model.addAttribute("field",field);
-		model.addAttribute("keyword",keyword);
+		model.addAttribute("keyword",keyword);			
+		
+		if(vo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		return ".survey.surveyList";
 	}
 	@RequestMapping(value="/survey/mySurvey",method=RequestMethod.GET)
@@ -130,76 +141,92 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
-	public String statsForm(int surveyNum, Model model) {
-		//객관식그리드일경우
+	public String statsForm(int surveyNum,int qNum, Model model) {
+		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
-		String stst="";
-		String strConcat="";
-		for(int i=0;i<sqList.size();i++) {
-			strConcat="['',";
-			String stConcat="[";
-			int sqNum=sqList.get(i).getSqNum();
-			stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+		//객관식그리드일경우
+		if(sqList.get(0).getSqType().equals("0")) {
+			String stst="";
+			String strConcat="";
+			for(int i=0;i<sqList.size();i++) {
+				strConcat="['',";
+				String stConcat="[";
+				int sqNum=sqList.get(i).getSqNum();
+				stConcat=stConcat+"'"+sqList.get(i).getSqTitle()+"'"+",";
+				List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+				List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+				String st="";
+				for(int j=0;j<saVoList.size();j++) {
+					String saAnswer=saVoList.get(j).getSaAnswer();	
+					strConcat=strConcat+"'"+saAnswer+"',";
+					Boolean bool=false;
+					for(SrCntDto dto:ansList) {
+						String srAnswer=dto.getSrAnswer();
+						if(saAnswer.equals(srAnswer)) {
+							int cnt=dto.getCnt();
+							//int cnt=Integer.parseInt(cnt1);
+							//intArr[j]=cnt;
+							st=st+cnt+",";
+							bool=true;
+						}
+					}
+					if(bool==false) {
+						st=st+0+",";
+					}
+				}			
+				st=st.substring(0, st.length()-1);
+				stConcat=stConcat+st+"]";
+				stst=stst+stConcat+",";
+				strConcat=strConcat.substring(0,strConcat.length()-1);
+				strConcat=strConcat+"]";
+				//strConcat=strConcat+","+stConcat;
+				//strList.add(strConcat);
+			}
+			stst=stst.substring(0,stst.length()-1);
+			strConcat=strConcat+","+stst;
+			model.addAttribute("strConcat",strConcat);
+			model.addAttribute("surveyVo",surveyVo);
+			
+			return ".survey.surveyStats1";
+		//복합질문형타입일경우	
+		}else {		
+			System.out.println("여기들어왔다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			SurveyQuestionVo sqVo=sqList.get(qNum-1);
+			int sqNum=sqVo.getSqNum();
 			List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
 			List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
-			String st="";
-			for(int j=0;j<saVoList.size();j++) {
-				String saAnswer=saVoList.get(j).getSaAnswer();	
-				strConcat=strConcat+"'"+saAnswer+"',";
+			String str="['','";
+			String st="['"+sqVo.getSqTitle()+"',";
+			for(int i=0;i<saVoList.size();i++) {
+				String saAnswer=saVoList.get(i).getSaAnswer();
+				str=str+saAnswer+"','";
 				Boolean bool=false;
 				for(SrCntDto dto:ansList) {
 					String srAnswer=dto.getSrAnswer();
 					if(saAnswer.equals(srAnswer)) {
 						int cnt=dto.getCnt();
-						//int cnt=Integer.parseInt(cnt1);
-						//intArr[j]=cnt;
 						st=st+cnt+",";
 						bool=true;
-						
 					}
 				}
 				if(bool==false) {
 					st=st+0+",";
 				}
-			}			
-			st=st.substring(0, st.length()-1);
-			stConcat=stConcat+st+"]";
-			stst=stst+stConcat+",";
-			strConcat=strConcat.substring(0,strConcat.length()-1);
-			strConcat=strConcat+"]";
-			//strConcat=strConcat+","+stConcat;
-			//strList.add(strConcat);
-		}
-		stst=stst.substring(0,stst.length()-1);
-		strConcat=strConcat+","+stst;
-		
-		model.addAttribute("strConcat",strConcat);
-		
-		
-		return ".survey.surveyStats";
-	}
-	
-	@RequestMapping(value="/survey/stats", method=RequestMethod.POST)
-	public String stats(int surveyNum, Model model) {
-		/*
-		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);
-		for(SurveyQuestionVo sqVo:sqList) {
-			int sqNum=sqVo.getSqNum();
-			List<Map<String,String>> list=service.srAnswerCnt(sqNum);
-			for(int i=0;i<list.size();i++) {
-				Map<String,String> map=list.get(i);
-				System.out.println("짜자자자자자자자자자자자잔"+map.get("srAnswer")+", "+map.get("cnt"));
 			}
+			st=st.substring(0,st.length()-1);
+			st=st+"]";
+			str=str.substring(0,str.length()-2);
+			str=str+"],"+st;
+			System.out.println(str);
+			model.addAttribute("strConcat",str);
+			model.addAttribute("surveyVo",surveyVo);
 			
-			
+			return ".survey.surveyStats2";
 		}
-		*/
 		
 		
-		
-		
-		return ".survey.result";
 	}
+
 	
 	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
 	public String update(int surveyNum,Model model) {
@@ -299,7 +326,7 @@ public class SurveyController {
 			}
 		}		
 		
-		return ".survey.result";
+		return "redirect:/survey/mySurvey";
 	}
 	
 	@RequestMapping(value="/survey/surveyInsert1", method=RequestMethod.GET)
@@ -405,7 +432,7 @@ public class SurveyController {
 				qtime++;
 			}
 		}
-		return "redirect:/survey/list?code=1";
+		return "redirect:/survey/mySurvey";
 	}
 	
 	@RequestMapping(value="/survey/resultInsert",method=RequestMethod.POST)
@@ -469,7 +496,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/delete")
-	public String delete(String delNumArr,HttpSession session,Model model) {
+	public String delete(String delNumArr,int code,String userSts,HttpSession session,Model model) {
 		System.out.println(delNumArr);
 		String[] numArr=delNumArr.split(",");
 		for(int n=0;n<numArr.length;n++) {
@@ -483,6 +510,10 @@ public class SurveyController {
 			service.surveyDelete(surveyNum);
 		}
 		
-		return "redirect:/survey/mySurvey";
+		if(userSts.equals("admin")) {
+			return "redirect:/survey/list?code="+code;
+		}else{
+			return "redirect:/survey/mySurvey";			
+		}
 	}
 }

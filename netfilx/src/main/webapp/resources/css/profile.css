@@ -1,6 +1,6 @@
 .main{margin:15% 20%;}
 .profile{margin:10px auto;float: left;padding-left: 10px;}
-.profile .profile_img{width: 180px;height:180px;}
+.profile .profile_img{width: 180px;height:180px;cursor: pointer;}
 .profile .profile_img i{margin: 50% 40%;}
 .profile_nickname{text-align: center;margin-top: 10px; font-size: 15pt;}
 .footer{margin:30px 30%;}

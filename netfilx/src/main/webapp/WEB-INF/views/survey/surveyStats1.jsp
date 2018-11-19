@@ -18,20 +18,24 @@ function drawMultSeries() {
 		${strConcat}
 	]);
 	var options = { 
-		title: 'Population of Largest U.S. Cities',
+		title: '${surveyVo.surveyName}',
 		width:1000,
 		height:1000,
 		chartArea: {width: '50%'},
+		tooltip:{textStyle : {fontSize:12}, showColorCode : true},
+
 		hAxis: {
-			title: 'Total Population',
+			title: '',
 			minValue: 0
 		},
 		vAxis: {
-			title: 'City'
+			title: ''
 		}
 	};
 	var chart=new google.visualization.BarChart(document.getElementById('chart_div'));
 	chart.draw(data,options);
+	//window.addEventListener('resize', function() { chart.draw(data, barChartOption); }, false);
+
 }
     
 </script>
@@ -45,7 +49,7 @@ function drawMultSeries() {
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">설문등록하러가기</a>
+			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
 		</div>
 	</div>
 	
