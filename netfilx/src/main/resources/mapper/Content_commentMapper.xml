@@ -48,5 +48,35 @@
 	<select id="getMax" resultType="int">
 		select max(comment_num) from content_comment
 	</select>
+	<select id="userCoList" parameterType="hashmap" resultType="mypagecomment">
+		select m.comment_num, m.comment, m.c_lev, m.c_step, m.content_num, m.profile_num, m.comment_open, m.bookmark, m.content_name, b.bookmark_time, b.bookmark_num
+		from (select c.comment_num, c.comment, c.c_lev, c.c_step, c.content_num, c.profile_num, c.comment_open, c.bookmark, t.content_name
+				from content_comment c, content t
+				where c.content_num = t.content_num and profile_num = #{profile_num}) m left join bookmark b
+        on m.comment_num = b.comment_num
+        <where>
+			<if test="comment_open != null">
+				and m.comment_open = #{comment_open}
+			</if>
+			<if test="bookmark != null">
+				and m.bookmark = #{bookmark}
+			</if>
+		</where>
+		order by m.comment_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="userCoCount" parameterType="hashmap" resultType="int">
+		select count(*)
+		from content_comment c, content t
+		<where>
+			c.content_num = t.content_num and profile_num = #{profile_num}
+			<if test="comment_open != null">
+					and comment_open = #{comment_open}
+			</if>
+			<if test="bookmark != null">
+				and bookmark = #{bookmark}
+			</if>
+		</where>
+	</select>
 </mapper>
   

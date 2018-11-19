@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <script type="text/javascript">
 	$(function(){
 		var code = '${code}';
@@ -8,7 +9,7 @@
 		}
 	});
 </script>
-<div>
+<div class="mhdiv">
 	<h1>UPDATE</h1>
 	<form method="post" action='<c:url value="/qna/update"/>'>
 		<input type="hidden" name="qna_num" value="${qna_num}">

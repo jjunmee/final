@@ -1,6 +1,7 @@
 package com.jhta.netflix.user.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,8 @@ public class UserService {
 	}
 	public UserVo userInfo(String id){
 		return dao.userInfo(id);
+	}
+	public List<UserVo> userlist(HashMap<String, Object> map){
+		return dao.userlist(map);
 	}
 }

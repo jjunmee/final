@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <script type="text/javascript">
 	$(function(){
@@ -183,7 +184,6 @@
 		$("#genrelist").append(str1);
 			$("input:checkbox[name=gcate_check]:checked").each(function(){
 				var num = $(this).val()
-				alert("arraycate : "+ num);
 				$.ajax({
 					url:"<c:url value='/category/check_genrelist'/>",
 					data:{"num":num},
@@ -206,8 +206,8 @@
 		}
 	}
 </script>
-<div>
-<h1>분류</h1>
+<div class="mhdiv">
+	<h1>분류</h1>
 	<form method="post" action='<c:url value="/category/insert"/>'>
 		분류 
 		<input type="text" name="category_name">
@@ -215,7 +215,7 @@
 	</form>
 		<table id="categorylist">
 		</table>
-<h1>장르</h1>
+	<h1>장르</h1>
 	<form method="post" action='<c:url value="/genre/insert"/>'>
 		장르
 		<select name="category_num" id="category">

@@ -6,7 +6,8 @@
 </style>
 <div class="mhdiv">
 	<div class="div_auto">
-		<h1>결제실패</h1>
+		<h1>결제성공</h1>
+		<p>당일 부터 멤버십사용이 가능합니다.</p>
 		<a href="<c:url value='/mypage/myinfo'/>">계정 페이지로 돌아가기</a>
 	</div>
 </div>

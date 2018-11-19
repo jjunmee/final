@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jhta.netflix.content_comment.vo.Comment_bookmarkVo;
 import com.jhta.netflix.content_comment.vo.Content_commentVo;
+import com.jhta.netflix.content_comment.vo.Mypage_commentVo;
 
 @Repository
 public class Content_commentDao {
@@ -39,5 +40,11 @@ public class Content_commentDao {
 	}
 	public List<Content_commentVo> subList(int num){
 		return sqlSession.selectList(NAMESPACE+".subList", num);
+	}
+	public List<Mypage_commentVo> userCoList(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".userCoList", map);
+	}
+	public int userCoCount(HashMap<String, Object> map) {
+		return sqlSession.selectOne(NAMESPACE + ".userCoCount", map);
 	}
 }

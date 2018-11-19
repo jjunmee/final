@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 <script type="text/javascript">
 	$(function(){
@@ -86,7 +88,7 @@
 		});
 	}
 </script>
-<div>
+<div class="mhdiv">
 <h1>등급관리</h1>
 	<form method="post" action='<c:url value="/grade/insert"/>'>
 		등급명<input type="text" name="grade_name" required>

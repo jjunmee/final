@@ -149,4 +149,13 @@ public class UserController {
 		session.invalidate();
 		return ".main";
 	}
+	
+	//관리자페이지에서 회원리스트 뿌리기
+	public ModelAndView userlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,@RequestParam(value="pageNum",defaultValue="-1")int sts) {
+		ModelAndView mv = new ModelAndView();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("sts", sts);
+		
+		return mv;
+	}
 }

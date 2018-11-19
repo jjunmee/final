@@ -1,0 +1,48 @@
+@charset "UTF-8";
+.mhdiv{width: 1000px; margin: auto;}
+.mhdiv form{width: 900px; margin: auto;}
+.mhdiv table {width: 900px; margin: auto; border-bottom: solid 1px #ccc;}
+.mhdiv table tr{border-top: solid 1px #ccc;}
+.mhdiv th{background-color: #ccc; color: #333; font-weight: bold;}
+.mhdiv input[type=number], input[type=password], input[type=text], textarea, input[type=date], input[type=tel]{
+    background-color: #2E2E2E;
+    color: #fff;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.mhdiv select{
+    background-color: #2E2E2E;
+    color: #fff;
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.mhdiv input[type=submit]{
+    background-color: #8e8e8e;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+.mhdiv input[type=submit]:hover{
+    background-color: #2E2E2E;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.mhdiv input[type=button]{
+    background-color: #8e8e8e;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+.mhdiv input[type=button]:hover{
+    background-color: #2E2E2E;
+    padding: 8px;
+    border-radius: 4px;
+}

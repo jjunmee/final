@@ -1,29 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <style>
 	#pointFillForm ul li{list-style: none; margin-left: 0;}
 	#gradelist{box-sizing: border-box; font-family: 'Helvetica Neue', sans-serif;}
 	#gradelist>ul>li>.bb>div{position: relative; padding: 5px 10px 5px 10px; border-left: 1px solid #fff; float: left;}
 	#gradelist>ul>li>.bb>.cl{clear: left;  border-left: 0px;}
 	#gradelist>ul>li>.bb{border: 3px solid #fff; height: 40px; margin-bottom: 15px; width: 800px;}
-	#gradelist .container {
+	#payForm table th{width: 200px;}
+	#payForm table td{width: 600px;}
+	#mCh th{width: 200px;}
+	#mCh td{width: 600px;}
+	#gradelist .gradebox {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
-		align-items: center;
 	}
 		
 	#gradelist .radio-tile-group {
 		display: flex;
+		flex-direction: column;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
 	
 	#gradelist .input-container {
 		position: relative;
-		height:  4rem;
-		width:  40rem;
-		margin: 0.5rem;
+		height:  30px;
+		width:  400px;
+		margin-bottom: 10px;
 	}
 	
 	#gradelist .radio-button {
@@ -31,8 +37,8 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		height: 100%;
-		width: 100%;
+		height: 30px;
+		width: 400px;
 		margin: 0;
 		cursor: pointer;
 	}
@@ -42,17 +48,16 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
-		height: 100%;
+		width: 400px;
+		height: 30px;
 		border: 2px solid #ccc;
 		border-radius: 5px;
-		padding: 1rem;
-		transition: transform 300ms ease;
+		padding: 10px;
 	}
 	
 	#gradelist .radio-tile-label {
 		text-align: center;
-		font-size: 0.75rem;
+		font-size: 8px;
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -86,52 +91,122 @@
 			url:"<c:url value='/grade/gradelist'/>",
 			dataType:"json",
 			success:function(data){
-				var str="<div class=\"container\"><div class=\"radio-tile-group\">";
+				var str="<div class=\"gradebox\">";
 				$(data).each(function(i,json){
 					str+= "<div class=\"input-container\">"
-							+ "<input id=\"grade" + json.grade_num + "\" class=\"radio-button\" type=\"radio\" name=\"grade\" onclick=\"gradeselect(" + json.grade_price + ")\"/>"
+							+ "<input id=\"grade" + json.grade_num + "\" class=\"radio-button\" type=\"radio\" name=\"grade\" onclick=\"gradeselect(" + json.grade_price + "," + json.grade_num + ")\"/>"
 							+ "<div class=\"radio-tile\">"
 								+ "<label for=\"grade" + json.grade_num + "\" class=\"radio-tile-label\">" + json.grade_name + " / " + json.grade_person + " / " + json.grade_price + "</label>"
 							+ "</div>"
 						+ "</div>";
 				});
-				str+= "</div></div>";
+				str+= "</div>";
 				$("#gradelist").append(str);
 			}
 		});
 	}
 	
-	function gradeselect(num){
+	function gradeselect(price,num){
 		$("#gradePrice").empty();
 		$("#usePoint").empty();
-		var str1 = "<input type=\"number\" name=\"pointPrice\" id=\"id_pointPrice\" min=\"0\" max=\"" + num + "\" step=\"10\" onchange=\"pointCard(" + num + ")\" required>"
-		$("#gradePrice").append(num);
+		var str1 = "<input type=\"number\" value=\"0\" name=\"pointPrice\" id=\"id_pointPrice\" min=\"0\" max=\"";
+		//유저가 가지고 있는 포인트가 >= 멤버쉽금액보다
+		if(${userPoint } >= price){
+			str1 +=  price; 
+		}else{
+			str1 +=  ${userPoint }; 
+		}
+		str1 += "\" step=\"10\" onchange=\"pointCard(" + price + ")\" required>";
+		var str = "<input type=\"hidden\" name=\"grade_num\" value=\"" + num + "\">";
+		$("#gradePrice").append(price + "원" + str);
 		$("#usePoint").append(str1);
 	}
 	
 	function pointCard(num){
+		$("#totalPrice").empty();
+		$("#pointErr").empty();
+		$("#card").empty();
+		//사용할 포인트
 		var pointprice = $("#id_pointPrice").val();
 		var total = 0;
-		if(pointprice >= num){
-			$("#card").hide();
-		}else{
+		//사용할포인트 >= 결제해야할금액
+		var str1 = ""
+		var strcard = ""
+		if(pointprice < num){
 			total = num - pointprice;
-			$("#card").show();
+			strcard = "<table>" +
+						"<tr>" +
+							"<th>총 결제 금액</th>" +
+							"<td>" +
+								"<span id=\"totalPrice\"></span>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th>카드번호</th>" +
+							"<td>" +
+								"<input type=\"text\" name=\"creditCardNumber\" id=\"id_creditCardNumber\" valuse=\"0\" required>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th>이름</th>" +
+							"<td>" +
+								"<input type=\"text\" name=\"username\" id=\"id_username\" valuse=\"0\" required>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th>생일</th>" +
+							"<td>" +
+								"<select name=\"birthDate\" required>" +
+									"<option></option>";
+									for(var i=1; i<=31; i++){
+										strcard +=	"<option value=\"" + i + "\" label=\"" + i + "\">" + i + "</option>";
+									}
+							strcard += "</select>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th>생월</th>" +
+							"<td>" +
+								"<select name=\"birthMonth\" required>" +
+									"<option></option>";
+									for(var i=1; i<=12; i++){
+										strcard +=	"<option value=\"" + i + "\" label=\"" + i + "월\">" + i + "월</option>";
+									}
+								strcard += "</select>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th>생년</th>" +
+							"<td><input type=\"number\" min=\"1800\" max=\"2018\" value=\"1994\" required></td>" +
+						"</tr>" +
+					"</table>";
+		}else{
+			$("#card").empty();
 		}
 		var str = total + "원<input type=\"hidden\" name=\"cardPrice\" value=\"" + total + "\">"
-		$("#totalPrice").append(total);
+		$("#card").append(strcard);
+		$("#totalPrice").append(str);
+		$("#pointErr").append(str1);
+	}
+	function pointCh(){
+		alert("멤버쉽을 선택해주세요");
 	}
 </script>
-<div>
+<div class="mhdiv">
 	<h1>스트리밍 멤버쉽 결제</h1>
-	<div  id="gradelist">
-		
-	</div>
-	</div>
+	<table id="mCh">
+		<tr>
+			<th>멤버쉽 선택</th>
+			<td>
+				<div id="gradelist"></div>
+			</td>
+		</tr>
+	</table>
+	<div id = "payForm">
 	<form action="<c:url value='/pay/payment'/>" method="post">
 		<table>
 			<tr>
-				<th>결제 금액</th>
+				<th>선택한 멤버쉽 금액</th>
 				<td>
 					<span id="gradePrice"></span>
 				</td>
@@ -140,7 +215,7 @@
 				<th>포인트결제</th>
 				<td>
 					보유포인트 : ${userPoint } <br>
-					사용포인트 : <span id="usePoint"><input type="number" name="pointPrice" id="id_pointPrice" step="10" required></span>
+					사용포인트 : <span id="usePoint"><input type="number" name="pointPrice" id="id_pointPrice" step="10" readonly="readonly" onclick="pointCh()"></span><span id="pointErr"></span>
 				</td>
 			</tr>
 		</table>
@@ -155,13 +230,13 @@
 				<tr>
 					<th>카드번호</th>
 					<td>
-						<input type="text" name="creditCardNumber" id="id_creditCardNumber" required>
+						<input type="text" name="creditCardNumber" id="id_creditCardNumber" valuse="0" required>
 					</td>
 				</tr>
 				<tr>
 					<th>이름</th>
 					<td>
-						<input type="text" name="username" id="id_username" required>
+						<input type="text" name="username" id="id_username" valuse="0" required>
 					</td>
 				</tr>
 				<tr>
@@ -231,4 +306,5 @@
 		</div>
 		<input type="submit" value="충전">
 	</form>
+	</div>
 </div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <script src="http://cdn.sockjs.org/sockjs-0.3.4.js"></script>
 <script type="text/javascript">
 	$(function(){
@@ -9,7 +10,7 @@
 		}
 	});
 </script>
-<div>
+<div class="mhdiv">
 	<h1>리스트</h1>
 	<c:choose>
 		<c:when test="${id != null}">

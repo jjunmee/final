@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <style>
 	#pointFillForm ul li{list-style: none; margin-left: 0;}
 </style>
-<div >
+<div class="mhdiv">
 	<h1>포인트 충전</h1>
 	<form action="<c:url value='/point/fill'/>" method="post">
 		<table>
