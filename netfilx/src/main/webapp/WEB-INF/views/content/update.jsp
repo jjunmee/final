@@ -93,7 +93,7 @@
 				str += "시리즈"
 			}
 			str += 
-					" : <input type=\"text\" id=\"searchName\" size=\"20\" onkeyup=\"searchInfo(event,'"+position+"')\">"
+					" : <input type=\"text\" placeholder=\"검색어를 입력하세요...\" id=\"searchName\" size=\"20\" onkeyup=\"searchInfo(event,'"+position+"')\">"
 				+"</div>"
 				+"<div id=\"sFormBox2\">"
 					+"<input type=\"button\" value=\"등록\" onclick=\"insertForm('"+position+"')\" class=\"btn btn-default btn-sm\">"
