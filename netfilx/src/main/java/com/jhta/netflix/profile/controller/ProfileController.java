@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,37 +31,44 @@ import com.jhta.netflix.profile.vo.ProfileVo;
 
 @Controller
 public class ProfileController {
-	@Autowired private ProfileService admin_service;
-	@Autowired private ProfileUserService user_service;
-	@Autowired FileUpload ftp;
-	//amin profile 페이지 이동 
-	@RequestMapping(value="/admin/profile")
+	@Autowired
+	private ProfileService admin_service;
+	@Autowired
+	private ProfileUserService user_service;
+	@Autowired
+	FileUpload ftp;
+
+	// amin profile 페이지 이동
+	@RequestMapping(value = "/admin/profile")
 	public ModelAndView adminProfileView() {
-		ModelAndView mv =new ModelAndView(".admin.profile");
-		List<ProfileVo> pro_group_list = admin_service.groupList(); 
+		ModelAndView mv = new ModelAndView(".admin.profile");
+		List<ProfileVo> pro_group_list = admin_service.groupList();
 		mv.addObject("profile_group", pro_group_list);
 		return mv;
 	}
-	//그룹 추가
-	@RequestMapping(value="/admin/profile/groupInput",method=RequestMethod.POST)
+
+	// 그룹 추가
+	@RequestMapping(value = "/admin/profile/groupInput", method = RequestMethod.POST)
 	public String adminProfileInsert(@RequestParam("pro_group_name") String pro_group_name) {
-		ProfileVo vo= new ProfileVo(0,pro_group_name);
+		ProfileVo vo = new ProfileVo(0, pro_group_name);
 		admin_service.groupInsert(vo);
 		return "redirect:/admin/profile";
 	}
-	
-	//ajax json 그룹 이미지 
-	@RequestMapping(value="/admin/profile/group-img",method=RequestMethod.GET)
+
+	// ajax json 그룹 이미지
+	@RequestMapping(value = "/admin/profile/group-img", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> adminGroupImg(@RequestParam("group_no") int group_no) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<ProfileVo> list = admin_service.proImgList(group_no);
 		map.put("profile_group_img", list);
 		return map;
 	}
-	//이미지 업로드 
+
+	// 이미지 업로드
 	@RequestMapping(value="/admin/profile/imgInput",method=RequestMethod.POST)
 	public String adminGroupImgInput(@RequestParam("file1") MultipartFile file1,@RequestParam("pro_group_no") String pro_group_no,HttpServletRequest req) {
-		String fileName = file1.getOriginalFilename();
+		String[] str = file1.getOriginalFilename().split("\\.");
+		String fileName = UUID.randomUUID()+"."+str[str.length-1];
 		try {
 			InputStream is = file1.getInputStream();
 			String file_path = req.getSession().getServletContext().getRealPath("/resources/")+fileName;
@@ -84,112 +92,118 @@ public class ProfileController {
 		}
 		return "redirect:/admin/profile";
 	}
-	
-	//group delete
-	@RequestMapping(value="/admin/profile/group/del",method=RequestMethod.GET)
+
+	// group delete
+	@RequestMapping(value = "/admin/profile/group/del", method = RequestMethod.GET)
 	public String adminProfileGroupDel(@RequestParam("group_no") String group_no) {
 		int no = Integer.parseInt(group_no);
 		admin_service.groupDel(no);
 		return "redirect:/admin/profile";
 	}
-	
-	//profile img delete
-	@RequestMapping(value="/admin/profile/img/del",method=RequestMethod.GET)
+
+	// profile img delete
+	@RequestMapping(value = "/admin/profile/img/del", method = RequestMethod.GET)
 	public String adminProfileImgDel(@RequestParam("pimg_no") String pimg_no) {
 		int no = Integer.parseInt(pimg_no);
 		try {
 			admin_service.proImgDel(no);
-		}catch(DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			return "redirect:/admin/profile";
 		}
 		return "redirect:/admin/profile";
 	}
-	
-	//profile choice view
-	@RequestMapping(value="/profile/user/index")
+
+	// profile choice view
+	@RequestMapping(value = "/profile/user/index")
 	public ModelAndView profileChoiceView(HttpSession session) {
-		String id = (String)session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		List<ProfileUserListVo> list = user_service.userProfileList(id);
 		ModelAndView mv = new ModelAndView(".profile.index");
-		if(!list.isEmpty()) {
-			session.setAttribute("users_num",list.get(0).getUsers_num());
-			mv.addObject("list",list);
+		if (!list.isEmpty()) {
+			session.setAttribute("users_num", list.get(0).getUsers_num());
+			mv.addObject("list", list);
 		}
 		return mv;
 	}
-	
-	//head json profile get list
-	@RequestMapping(value="/profile/user/json")
+
+	// head json profile get list
+	@RequestMapping(value = "/profile/user/json")
 	public @ResponseBody HashMap<String, Object> profileUsergetList(HttpSession session) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
-			int profile_num = (Integer)session.getAttribute("profile_num");
-			int users_num = (Integer)session.getAttribute("users_num");
-			if(profile_num>0 && users_num>0) {
+			int profile_num = (Integer) session.getAttribute("profile_num");
+			int users_num = (Integer) session.getAttribute("users_num");
+			if (profile_num > 0 && users_num > 0) {
 				map.put("users_num", users_num);
 				map.put("profile_num", profile_num);
 				List<ProfileUserListVo> list = user_service.userProfileList(map);
 				map.put("profileList", list);
 			}
 			return map;
-		}catch (NullPointerException e) {
-			String id = (String)session.getAttribute("id");
+		} catch (NullPointerException e) {
+			String id = (String) session.getAttribute("id");
 			List<ProfileUserListVo> list = user_service.userProfileList(id);
 			map.put("profileList", list);
 			return map;
 		}
 	}
-	
-	//profile user insert form move
-	@RequestMapping(value="/profile/user/insertForm",method=RequestMethod.GET)
-	public ModelAndView profilUserInsertFormView(@RequestParam("first")String first,@RequestParam("pimg_src")String pimg_src,@RequestParam("pimg_num")String pimg_num){
+
+	// profile user insert form move
+	@RequestMapping(value = "/profile/user/insertForm", method = RequestMethod.GET)
+	public ModelAndView profilUserInsertFormView(@RequestParam("first") String first,
+			@RequestParam("pimg_src") String pimg_src, @RequestParam("pimg_num") String pimg_num) {
 		ModelAndView mv = new ModelAndView(".profile.insertForm");
-			  mv.addObject("action", "/profile/user/insert");
-		mv.addObject("first",first);
-		mv.addObject("pimg_src",pimg_src);
-		mv.addObject("pimg_num",pimg_num);
+		mv.addObject("action", "/profile/user/insert");
+		mv.addObject("first", first);
+		mv.addObject("pimg_src", pimg_src);
+		mv.addObject("pimg_num", pimg_num);
 		return mv;
 	}
-	
-	//profile user insert form move
-	@RequestMapping(value="/profile/user/updateFormView",method=RequestMethod.GET)
-	public ModelAndView profilUserUpdateFormView(@RequestParam("profile_num")String profile_num,@RequestParam(value="n_pimg_src",defaultValue="")String n_pimg_src,@RequestParam(value="n_pimg_num",defaultValue="")String n_pimg_num){
+
+	// profile user insert form move
+	@RequestMapping(value = "/profile/user/updateFormView", method = RequestMethod.GET)
+	public ModelAndView profilUserUpdateFormView(@RequestParam("profile_num") String profile_num,
+			@RequestParam(value = "n_pimg_src", defaultValue = "") String n_pimg_src,
+			@RequestParam(value = "n_pimg_num", defaultValue = "") String n_pimg_num) {
 		ModelAndView mv = new ModelAndView(".profile.insertForm");
 		int profile;
 		try {
-			profile=Integer.parseInt(profile_num);
-		}catch(NullPointerException e) {
-			profile=0;
+			profile = Integer.parseInt(profile_num);
+		} catch (NullPointerException e) {
+			profile = 0;
 		}
-		if(profile>0) {
-		  ProfileUserListVo vo = user_service.profileInfo(profile);
-		  if(vo!=null) {
-			  mv.addObject("vo", vo);
-			  mv.addObject("action", "/profile/manageProfiles/up");
-		  }
+		if (profile > 0) {
+			ProfileUserListVo vo = user_service.profileInfo(profile);
+			if (vo != null) {
+				mv.addObject("vo", vo);
+				mv.addObject("action", "/profile/manageProfiles/up");
+			}
 		}
-		if(n_pimg_num!=null) {
+		if (n_pimg_num != null) {
 			mv.addObject("n_pimg_num", n_pimg_num);
 			mv.addObject("n_pimg_src", n_pimg_src);
 		}
 		return mv;
 	}
-	
-	//profile user insertOk
-	@RequestMapping(value="/profile/user/insert",method=RequestMethod.POST)
-	public String profileUserInsertOk(@RequestParam("nickname")String nickname,@RequestParam("pimg_num")String pimg_num,@RequestParam("profile_pwd")String profile_pwd,@RequestParam("child")String child,@RequestParam("profile_first")String profile_first,HttpSession session) {
+
+	// profile user insertOk
+	@RequestMapping(value = "/profile/user/insert", method = RequestMethod.POST)
+	public String profileUserInsertOk(@RequestParam("nickname") String nickname,
+			@RequestParam("pimg_num") String pimg_num, @RequestParam("profile_pwd") String profile_pwd,
+			@RequestParam("child") String child, @RequestParam("profile_first") String profile_first,
+			HttpSession session) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String id = (String)session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		int img_no = Integer.parseInt(pimg_num);
 		int age;
-		if(child.equals("false")) {
-			age=7;
-		}else {
-			age=19;
+		if (child.equals("false")) {
+			age = 7;
+		} else {
+			age = 19;
 		}
-		boolean first=false;
-		if(profile_first.equals("true")) {
-			first=true;
+		boolean first = false;
+		if (profile_first.equals("true")) {
+			first = true;
 		}
 		ProfileUserVo vo = new ProfileUserVo(0, nickname, 0, img_no, age, profile_pwd, first, null);
 		map.put("vo", vo);
@@ -197,30 +211,31 @@ public class ProfileController {
 		user_service.userProfileInsert(map);
 		return "redirect:/profile/user/index";
 	}
-	
-	///profile/user/getInfo?
-	@RequestMapping(value="/profile/user/getInfo",method=RequestMethod.POST)
-	public String userProfileSelect(@RequestParam("profile_num")String profile_num,@RequestParam("p_password")String p_password,HttpSession session) {
-		int no=Integer.parseInt(profile_num);
+
+	/// profile/user/getInfo?
+	@RequestMapping(value = "/profile/user/getInfo", method = RequestMethod.POST)
+	public String userProfileSelect(@RequestParam("profile_num") String profile_num,
+			@RequestParam("p_password") String p_password, HttpSession session) {
+		int no = Integer.parseInt(profile_num);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("profile_num", no);
 		map.put("profile_pwd", p_password);
 		ProfileUserListVo vo = user_service.userProfileInfo(map);
-		if(vo!=null) {
-		session.setAttribute("users_num", vo.getUsers_num());
-		session.setAttribute("profile_num", vo.getProfile_num());
-		session.setAttribute("nickname", vo.getNickname());
-		session.setAttribute("pimg_src", vo.getPimg_src());
-		session.setAttribute("profile_first", vo.isProfile_first());
-		}else {
+		if (vo != null) {
+			session.setAttribute("users_num", vo.getUsers_num());
+			session.setAttribute("profile_num", vo.getProfile_num());
+			session.setAttribute("nickname", vo.getNickname());
+			session.setAttribute("pimg_src", vo.getPimg_src());
+			session.setAttribute("profile_first", vo.isProfile_first());
+		} else {
 			return "redirect:/profile/user/index";
 		}
 		return ".main";
 	}
-	
-	//profile img All list execute
-	@RequestMapping(value="/profile/user/img/listForm")
-	public ModelAndView ProfileAllList(@RequestParam("first")String first,HttpSession session) {
+
+	// profile img All list execute
+	@RequestMapping(value = "/profile/user/img/listForm")
+	public ModelAndView ProfileAllList(@RequestParam("first") String first, HttpSession session) {
 		ModelAndView mv = new ModelAndView(".profile.imgListForm");
 		List<ProfileVo> group_list = admin_service.groupList();
 		List<ProfileVo> pro_list = admin_service.imgAllList();
@@ -229,11 +244,11 @@ public class ProfileController {
 		mv.addObject("first", first);
 		return mv;
 	}
-	
-	///profile/user/img/change?profile_num=${vo. }
-	//profile img All list execute
-	@RequestMapping(value="profile/user/img/change")
-	public ModelAndView profileImgChange(@RequestParam("profile_num")String profile_num,HttpSession session) {
+
+	/// profile/user/img/change?profile_num=${vo. }
+	// profile img All list execute
+	@RequestMapping(value = "profile/user/img/change")
+	public ModelAndView profileImgChange(@RequestParam("profile_num") String profile_num, HttpSession session) {
 		ModelAndView mv = new ModelAndView(".profile.imgListForm");
 		List<ProfileVo> group_list = admin_service.groupList();
 		List<ProfileVo> pro_list = admin_service.imgAllList();
@@ -242,35 +257,39 @@ public class ProfileController {
 		mv.addObject("s_profile_num", profile_num);
 		return mv;
 	}
-	//유저프로필관리
-	@RequestMapping(value="/profile/manageProfiles")
+
+	// 유저프로필관리
+	@RequestMapping(value = "/profile/manageProfiles")
 	public ModelAndView profileUserInfoAdmin(HttpSession session) {
-		String id = (String)session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		List<ProfileUserListVo> list = user_service.userProfileList(id);
 		ModelAndView mv = new ModelAndView(".profile.manageProfiles");
-		if(!list.isEmpty()) {
-			mv.addObject("list",list);
+		if (!list.isEmpty()) {
+			mv.addObject("list", list);
 		}
 		return mv;
 	}
-	
-	//유저프로필 삭제처리 first 값 2로 변경 후 조회시 2번 제외!!!!!!
-	@RequestMapping(value="/profile/manageProfiles/del",method=RequestMethod.GET)
+
+	// 유저프로필 삭제처리 first 값 2로 변경 후 조회시 2번 제외!!!!!!
+	@RequestMapping(value = "/profile/manageProfiles/del", method = RequestMethod.GET)
 	public String userProfileDelete(String profile_num) {
 		int num = Integer.parseInt(profile_num);
 		user_service.userProfileManagersDelete(num);
 		return "redirect:/profile/manageProfiles";
 	}
-	//유저프로필 수정
-	@RequestMapping(value="/profile/manageProfiles/up",method=RequestMethod.POST)
-	public String userProfileUpdate(@RequestParam("nickname")String nickname,@RequestParam("pimg_num")String pimg_num,@RequestParam("profile_pwd")String profile_pwd,@RequestParam("child")String child,@RequestParam("profile_num")String profile_num) {
+
+	// 유저프로필 수정
+	@RequestMapping(value = "/profile/manageProfiles/up", method = RequestMethod.POST)
+	public String userProfileUpdate(@RequestParam("nickname") String nickname,
+			@RequestParam("pimg_num") String pimg_num, @RequestParam("profile_pwd") String profile_pwd,
+			@RequestParam("child") String child, @RequestParam("profile_num") String profile_num) {
 		int profile_no = Integer.parseInt(profile_num);
 		int img_no = Integer.parseInt(pimg_num);
 		int age;
-		if(child.equals("false")) {
-			age=7;
-		}else {
-			age=19;
+		if (child.equals("false")) {
+			age = 7;
+		} else {
+			age = 19;
 		}
 		ProfileUserVo vo = new ProfileUserVo(profile_no, nickname, 0, img_no, age, profile_pwd, false, null);
 		user_service.userProfileManagersUpdate(vo);
