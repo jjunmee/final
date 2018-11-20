@@ -21,4 +21,17 @@
 		from record 
 		where profile_num=#{profile_num} and content_num=#{content_num}
 	</select>
+	
+	<select id="recordlist" resultType="recordContent" parameterType="hashmap">
+		select r.*,c.content_num
+		from record r, content c
+		where r.content_num = c.content_num and r.profile_num = #{profile_num}
+		order by r.record_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
+	<select id="recordCount" parameterType="int" resultType="int">
+		select count(*)
+		from record
+		where profile_num = #{profile_num}
+	</select>
  </mapper>

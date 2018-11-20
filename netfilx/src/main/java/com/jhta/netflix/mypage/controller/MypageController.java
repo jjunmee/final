@@ -24,6 +24,8 @@ import com.jhta.netflix.grade.vo.GradeVo;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.pay_info.service.Pay_infoService;
 import com.jhta.netflix.pay_info.vo.Pay_infoVo;
+import com.jhta.netflix.record.service.RecordService;
+import com.jhta.netflix.record.vo.RecordContentVo;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.vo.UserVo;
 
@@ -41,6 +43,8 @@ public class MypageController {
 	private UserService uservice;
 	@Autowired
 	private BookmarkService bservice;
+	@Autowired
+	private RecordService rservice;
 	
 	@RequestMapping(value="/mypage/myinfo",method=RequestMethod.GET)
 	public ModelAndView userinfo(HttpSession session) {
@@ -71,6 +75,7 @@ public class MypageController {
 		return mv;
 	}
 	
+	//댓글기록 가져오기
 	@RequestMapping("/mypage/commentlist")
 	public ModelAndView commentlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,HttpSession session,
 			String comment_true, String comment_false, String bookmark_true, String bookmark_false) {
@@ -155,6 +160,52 @@ public class MypageController {
 			mv.addObject("birth", uvo.getBirth());
 			mv.addObject("point", uvo.getPoint());
 			mv.addObject("code", "포인트 내역이 없습니다.");
+			mv.setViewName(".mypage.myinfo");
+		}
+		return mv;
+	}
+	
+	//시청내역
+	@RequestMapping("/mypage/recordlist")
+	public ModelAndView recordlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		int profile_num = (Integer)session.getAttribute("profile_num");
+		System.out.println("profile_num=================" + profile_num);
+		String id = (String)session.getAttribute("id");
+		UserVo uvo = uservice.userInfo(id);
+		int totalRowCount = rservice.recordCount(profile_num);
+		PageUtil pu = new PageUtil(pageNum,totalRowCount,10,10);
+		map.put("startRow",pu.getMysqlStartRow());
+		map.put("rowBlockCount", pu.getRowBlockCount());
+		List<RecordContentVo> list = rservice.recordlist(map);
+		if(list != null) {
+			mv.addObject("list",list);
+			mv.addObject("pu",pu);
+			mv.setViewName(".mypage.recordlist");
+		}else {
+			Pay_infoVo pavo = paservice.selectone(uvo.getUsers_num());
+			if(pavo != null) {
+				//결제한게 있느냐 있으면
+				Calendar cal = Calendar.getInstance();
+				Date today = new Date(cal.getTimeInMillis());
+				Date pay_end = pavo.getPay_end();
+				long today_d = today.getTime();
+				long pay_end_d = pay_end.getTime();
+				GradeVo gvo = gservice.selectone(pavo.getGrade_num());
+				//만료일이 남아있느냐 있으면
+				if(pay_end_d >= today_d) {
+					String gradeName = gvo.getGrade_name();
+					String[] part = gradeName.split("-");
+					mv.addObject("grade_name", part[0]);
+					mv.addObject("grade_person", part[1]);
+					mv.addObject("pay_end", pay_end);
+				}
+			}
+			mv.addObject("pwd", uvo.getPwd());
+			mv.addObject("birth", uvo.getBirth());
+			mv.addObject("point", uvo.getPoint());
+			mv.addObject("code", "시청내역이 없습니다.");
 			mv.setViewName(".mypage.myinfo");
 		}
 		return mv;

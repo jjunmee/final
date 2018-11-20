@@ -12,7 +12,7 @@
 	});
 </script>
 <div class="mhdiv">
-	<h1>내가 쓴 댓글</h1>
+	<h1>회원관리</h1>
 	<div>
 		<form action="<c:url value='/admin/userlist'></c:url>" method="post" class="form1000">
 			전체보기<input type="radio" name="sts" value="-1" <c:if test="${sts == -1 }">checked="checked"</c:if>>
