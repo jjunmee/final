@@ -73,7 +73,7 @@
 		var temp = 0;
 
 		$(window).on("beforeunload", function(){
-			var next_watch = $("#current").text();
+			var next_watch = parseInt(document.getElementById("player").currentTime);
 			$.get("<c:url value='/record/record'/>",
 					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },
 						"next_watch":Number(next_watch),"total_time":Number(playTime)},
@@ -183,7 +183,6 @@
 		}
 		function clickJj(data) {
 			$("#jjBtn").val("찜 "+data.count);
-			$("#jjBtn").prop("disabled", data.check);
 			if(data.check){
 				$("#jjBtn").prop("class","jjBtn btn-danger");
 			}else{
@@ -248,7 +247,6 @@
 									+"<input type=\"button\" value=\"좋아요 "+json.good_count
 										+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
 									if(json.good_check){
-										str+="disabled=\"disabled\"";
 										str+="class=\"goodBtn btn-warning\"";
 									}else{
 										str+="class=\"goodBtn btn-default\"";
@@ -311,7 +309,6 @@
 											+"<input type=\"button\" value=\"좋아요 "+json.good_count
 												+"\" onclick=\"clickGood(event,"+json.comment_num+")\" ";
 											if(json.good_check){
-												str+="disabled=\"disabled\"";
 												str+="class=\"goodBtn btn-warning\"";
 											}else{
 												str+="class=\"goodBtn btn-default\"";
@@ -334,8 +331,11 @@
 					function(data) {
 						if(data.result){
 							$(event.target).val("좋아요 "+data.count);
-							$(event.target).prop("disabled", true);
-							$(event.target).prop("class","goodBtn btn-warning");
+							if(data.check){
+								$(event.target).prop("class","goodBtn btn-warning");
+							}else{
+								$(event.target).prop("class","goodBtn btn-default");
+							}
 						}else{
 							alert("오류로 인해 좋아요를 실패했습니다!!");
 						}

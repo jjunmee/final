@@ -24,6 +24,9 @@ public class RatesDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	public List<RatesVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}

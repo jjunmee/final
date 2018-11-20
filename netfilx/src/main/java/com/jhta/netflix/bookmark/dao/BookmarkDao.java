@@ -18,6 +18,9 @@ public class BookmarkDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	public BookmarkVo timeSelec(int num) {
 		return sqlSession.selectOne(NAMESPACE + ".timeSelec",num);
 	}

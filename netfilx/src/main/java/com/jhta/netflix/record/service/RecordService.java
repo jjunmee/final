@@ -24,6 +24,9 @@ public class RecordService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 	public List<RecordVo> list(){
 		return dao.list();
 	}

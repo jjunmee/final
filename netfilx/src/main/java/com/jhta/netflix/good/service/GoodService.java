@@ -23,6 +23,9 @@ public class GoodService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 	public List<GoodVo> list(){
 		return dao.list();
 	}

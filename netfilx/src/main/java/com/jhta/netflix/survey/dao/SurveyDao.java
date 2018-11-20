@@ -117,6 +117,9 @@ public class SurveyDao {
 	public List<SrCntDto> srAnswerCnt(int sqNum){
 		return session.selectList(NAMESPACE+".srAnswerCnt",sqNum);
 	}
+	public List<SurveyResultVo> surveyResultSelect(int sqNum){
+		return session.selectList(NAMESPACE+".surveyResultSelect",sqNum);
+	}
 	
 	
 	

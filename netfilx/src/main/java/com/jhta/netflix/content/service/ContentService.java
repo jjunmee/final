@@ -44,4 +44,7 @@ public class ContentService {
 	public List<ContentVo> userViewList(HashMap<String, Object> map){
 		return dao.userViewList(map);
 	}
+	public List<ContentVo> seriesList(int num){
+		return dao.seriesList(num);
+	}
 }

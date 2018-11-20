@@ -28,12 +28,27 @@ public class InterastsController {
 	public String insert(InterastsVo vo) {
 		JSONObject json = new JSONObject();
 		try {
-			int n = service.insert(vo);
-			if(n>0) {
-				json.put("result", true);
-				count_check(json, vo.getContent_num(), vo.getProfile_num());
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("content_num", vo.getContent_num());
+			map.put("profile_num", vo.getProfile_num());
+			InterastsVo resultVo = service.find(map);
+			if(resultVo == null) {
+				int n = service.insert(vo);
+				if(n>0) {
+					json.put("result", true);
+					count_check(json, vo.getContent_num(), vo.getProfile_num());
+				}else {
+					json.put("result", false);
+				}
 			}else {
-				json.put("result", false);
+				int n = service.delete(resultVo.getInterasts_num());
+				if(n>0) {
+					json.put("result", true);
+					count_check(json, vo.getContent_num(), vo.getProfile_num());
+				}else {
+					json.put("result", false);
+				}
+				
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

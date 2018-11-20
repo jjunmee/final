@@ -114,14 +114,7 @@ public class FileUpload {
     	} catch (Exception e) {
     		System.out.println(e.getMessage());
     	}
-    	if(attrs==null) {
-    		try {
-    			channelSftp.mkdir(path_url);
-    		} catch (SftpException e) {
-    			System.out.println(e.getMessage());
-    		}
-    	}
-    	try{ //파일을 가져와서 inputStream에 넣고 저장경로를 찾아 put 
+    	try{
     		in = file.getInputStream();
     		if(channelSftp.stat(path_url)==null) {
     			channelSftp.mkdir(path_url);
@@ -140,6 +133,15 @@ public class FileUpload {
     		} catch(IOException ioe){
     			ioe.printStackTrace();
     		}
+    	}
+    }
+    // 단일 파일 삭제 
+    public void delete( String dir){
+    	String path_url = "/docker/tomcat8/watflix"+dir;
+    	try{
+    		channelSftp.rm(path_url);
+    	}catch(SftpException se){
+    		se.printStackTrace();
     	}
     }
  

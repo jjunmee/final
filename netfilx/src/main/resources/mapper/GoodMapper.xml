@@ -12,6 +12,9 @@
 	<delete id="delete" parameterType="int">
 		delete from good where good_num=#{value}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from good where comment_num=#{comment_num}
+	</delete>
 	<select id="list" resultType="good">
 		select * from good
 	</select>

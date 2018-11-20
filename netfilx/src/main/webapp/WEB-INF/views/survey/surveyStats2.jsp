@@ -10,34 +10,46 @@
 </style>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawMultSeries);
- 
-function drawMultSeries() {
-	var data = google.visualization.arrayToDataTable([
-		${strConcat}
-	]);
-	var options = { 
-		title: '${surveyVo.surveyName}',
-		width:1000,
-		height:1000,
-		chartArea: {width: '50%'},
-		tooltip:{textStyle : {fontSize:12}, showColorCode : true},
-
-		hAxis: {
-			title: '',
-			minValue: 0
-		},
-		vAxis: {
-			title: ''
-		}
-	};
-	var chart=new google.visualization.BarChart(document.getElementById('chart_div'));
-	chart.draw(data,options);
-	//window.addEventListener('resize', function() { chart.draw(data, barChartOption); }, false);
-
-}
+	google.charts.load('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback(drawMultSeries);
+	 
+	function drawMultSeries() {	
+		var data = google.visualization.arrayToDataTable([
+			${strConcat}
+		]);
+		var options = { 
+			title: '${sqTitle}',
+			width:1000,
+			
+			chartArea: {width: '50%'},
+			tooltip:{textStyle : {fontSize:12}, showColorCode : true},
+	
+			hAxis: {
+				title: '',
+				minValue: 0
+			},
+			vAxis: {
+				title: ''
+			}
+		};
+		var chart=new google.visualization.BarChart(document.getElementById('chart_div'));
+		chart.draw(data,options);
+		//window.addEventListener('resize', function() { chart.draw(data, barChartOption); }, false);
+		
+	}
     
+	function idCheck(n){
+		var userId=document.getElementById("userId");
+		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
+			alert('먼저 로그인을 해주세요');
+		}else{
+			if(n==0){//나의설문지
+				location.href="<c:url value='/survey/mySurvey'/>";
+			}else if(n==1){//설문구매
+				location.href="<c:url value='/survey/surveyInsert1'/>";
+			}
+		}
+	}
 </script>
 <div class="surveyList">
 	<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
@@ -49,16 +61,23 @@ function drawMultSeries() {
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
+			<a href="javascript:idCheck(0);">나의 설문지</a>
 		</div>
 	</div>
-	
 	<div id="myBox" class="centerBox">
+		<div id="surveyName">
+			${surveyVo.surveyName }
+		</div>
+		<div id="qNums">
+			<c:forEach var="i" begin="1" end="${qNums }">
+				<a href="<c:url value='/survey/stats?surveyNum=${surveyVo.surveyNum }&qNum=${i }'/>">${i }</a>
+			</c:forEach>
+		</div>
 		<div id="chart_div">
 			
 		</div>
 		
 		 
 	</div>
-	
+	<input type="hidden" id="userId" value="${sessionScope.id }">
 </div>

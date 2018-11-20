@@ -49,4 +49,7 @@ public class ContentDao {
 	public List<ContentVo> userViewList(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".userViewList", map);
 	}
+	public List<ContentVo> seriesList(int num){
+		return sqlSession.selectList(NAMESPACE + ".seriesList", num);
+	}
 }

@@ -128,6 +128,9 @@
 	<select id="srAnswerCnt" parameterType="int" resultType="srCnt">
 		select srAnswer,count(*) cnt from survey_result where sqNum=#{sqNum} group by srAnswer order by srAnswer;
 	</select>
+	<select id="surveyResultSelect" parameterType="int" resultType="surveyResult">
+		select * from survey_result where sqNum=#{sqNum}
+	</select>
 	
 	
 	
