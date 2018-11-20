@@ -90,7 +90,7 @@
 </script>
 <div class="mhdiv">
 <h1>등급관리</h1>
-	<form method="post" action='<c:url value="/grade/insert"/>'>
+	<form method="post" action='<c:url value="/grade/insert"/>' class="form1000">
 		등급명<input type="text" name="grade_name" required>
 		인원<input type="number" min="1" max="10" name="grade_person" required>
 		가격<input type="number" min="5000" max="50000" step="500" name="grade_price" required>

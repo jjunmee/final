@@ -101,7 +101,9 @@
 </style>
 <div class="surveyList">
 	<div class="topBox">
-		<div class="delBox"><input type="button" value="삭제" onclick="delete1()"></div>
+		<c:if test="${userSts=='admin' }">
+			<div class="delBox"><input type="button" value="삭제" onclick="delete1()"></div>
+		</c:if>
 		<div class="surBtn"><input type="button" class="surBtn" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 	</div>
 	<div id="tab" class="leftBox">

@@ -203,7 +203,7 @@
 		</tr>
 	</table>
 	<div id = "payForm">
-	<form action="<c:url value='/pay/payment'/>" method="post">
+	<form action="<c:url value='/pay/payment'/>" method="post" class="form1000">
 		<table>
 			<tr>
 				<th>선택한 멤버쉽 금액</th>

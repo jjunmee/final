@@ -34,4 +34,8 @@
 		where users_num = #{users_num}
 		<include refid="search"/>
 	</select>
+	
+	<update id="userGradeUp" parameterType="hashmap">
+		update pay_info set grade_num = #{grade_num} where users_num = #{users_num}
+	</update>
 </mapper>

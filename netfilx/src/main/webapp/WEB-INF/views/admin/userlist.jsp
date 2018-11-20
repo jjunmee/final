@@ -1,18 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
+<script type="text/javascript">
+	$(function(){
+		var code = '${code}';
+		if(code != null && code != ""){
+			alert(code);
+		}
+	});
+</script>
 <div class="mhdiv">
 	<h1>내가 쓴 댓글</h1>
 	<div>
-		<form action="<c:url value='/admin/userlist'></c:url>" method="post">
-			전체보기<input type="radio" name="sts" value="-1">
-			일반 사용자<input type="radio" name="sts" value="0">
-			관리자<input type="radio" name="sts" value="1">
-			본인인증자<input type="radio" name="sts" value="2">
-			성인인증자<input type="radio" name="sts" value="3">
-			본인인증자 + 성인인증자<input type="radio" name="sts" value="4">
-			탈퇴회원<input type="radio" name="sts" value="5">
+		<form action="<c:url value='/admin/userlist'></c:url>" method="post" class="form1000">
+			전체보기<input type="radio" name="sts" value="-1" <c:if test="${sts == -1 }">checked="checked"</c:if>>
+			관리자<input type="radio" name="sts" value="1" <c:if test="${sts == 1 }">checked="checked"</c:if>>
+			일반 사용자<input type="radio" name="sts" value="0" <c:if test="${sts == 0 }">checked="checked"</c:if>>
+			쇼셜가입자<input type="radio" name="sts" value="2" <c:if test="${sts == 2 }">checked="checked"</c:if>>
+			탈퇴회원<input type="radio" name="sts" value="9" <c:if test="${sts == 9 }">checked="checked"</c:if>>
 			<input type="submit" value="검색">
 		</form>
 	</div>
@@ -23,14 +30,42 @@
 			<th>회원생년월일</th>
 			<th>보유포인트</th>
 			<th>회원상태</th>
+			<th>멤버쉽</th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
 			<td>${vo.users_num }</td>
 			<td>${vo.id }</td>
-			<td>${vo.birth }</td>
+			<td>
+				<fmt:formatDate value="${vo.birth}" pattern="yyyy-MM-dd"/>
+			</td>
 			<td>${vo.point }</td>
-			<td>${vo.sts }</td>
+			<td>
+				<form action="<c:url value='/admin/userOut'></c:url>" method="post">
+				<input type="hidden" name="users_num" value="${vo.users_num }">
+				<select name="sts">
+					<option>==선택==</option>
+					<option value="1" label="관리자" <c:if test="${vo.sts == 1}">selected="selected"</c:if>>관리자</option>
+					<option value="0" label="일반사용자" <c:if test="${vo.sts == 0}">selected="selected"</c:if>>일반사용자</option>
+					<option value="2" label="본인인증자" <c:if test="${vo.sts == 2}">selected="selected"</c:if>>쇼셜가입자</option>
+					<option value="9" label="탈퇴처리" <c:if test="${vo.sts == 9}">selected="selected"</c:if>>탈퇴처리</option>
+				</select>
+				<input type="submit" value="변경">
+				</form>
+			</td>
+			<td>
+				<c:if test="${vo.grade_name != null }">
+					<form action="<c:url value='/admin/userStsUp'></c:url>" method="post">
+					<input type="hidden" name="users_num" value="${vo.users_num }">
+					<select name="sts">
+						<c:forEach var="g" items="${glist }">
+							<option value="${g.grade_num }" label="${g.grade_name }" <c:if test="${vo.grade_num == g.grade_num }">selected="selected"</c:if>>${g.grade_name }</option>
+						</c:forEach>
+					</select>
+					<input type="submit" value="변경">
+					</form>
+				</c:if>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>

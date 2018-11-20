@@ -27,6 +27,8 @@
 	}
 	function delete1(){
 		var delNumArr="";
+		var code=0;
+		var userSts='user';
 		var chk=document.getElementsByName("check");
 		for(var i=1;i<chk.length;i++){
 			if(chk[i].checked==true){
@@ -39,7 +41,7 @@
 			return false;
 		}
 		if(confirm("삭제하시겠습니까?")){
-			location.href="<c:url value='/survey/delete?delNumArr="+delNumArr+"'/>";
+			location.href="<c:url value='/survey/delete?delNumArr="+delNumArr+"&code="+code+"&userSts="+userSts+"'/>";
 		}
 	}
 	function idCheck(n){

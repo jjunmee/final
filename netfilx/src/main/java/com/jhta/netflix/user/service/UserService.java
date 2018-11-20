@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.user.dao.UserDaoImpl;
+import com.jhta.netflix.user.vo.Admin_userVo;
 import com.jhta.netflix.user.vo.UserVo;
 
 @Service
@@ -36,10 +37,13 @@ public class UserService {
 	public UserVo userInfo(String id){
 		return dao.userInfo(id);
 	}
-	public List<UserVo> userlist(HashMap<String, Object> map){
+	public List<Admin_userVo> userlist(HashMap<String, Object> map){
 		return dao.userlist(map);
 	}
 	public int userCount(HashMap<String, Object> map) {
 		return dao.userCount(map);
+	}
+	public int userStsUp(HashMap<String, Object> map) {
+		return dao.userStsUp(map);
 	}
 }

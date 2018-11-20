@@ -23,13 +23,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jhta.netflix.grade.service.GradeService;
+import com.jhta.netflix.grade.vo.GradeVo;
 import com.jhta.netflix.lib.PageUtil;
 import com.jhta.netflix.lib.SHA512;
 import com.jhta.netflix.lib.UserStatus;
+import com.jhta.netflix.pay_info.service.Pay_infoService;
 import com.jhta.netflix.user.service.CertificationService;
 import com.jhta.netflix.user.service.UserService;
 import com.jhta.netflix.user.validator.JoinValidator;
 import com.jhta.netflix.user.validator.LoginValidator;
+import com.jhta.netflix.user.vo.Admin_userVo;
 import com.jhta.netflix.user.vo.CertificationVo;
 import com.jhta.netflix.user.vo.DefaultJoinVo;
 import com.jhta.netflix.user.vo.LoginVo;
@@ -42,6 +46,10 @@ public class UserController {
 	@Autowired private CertificationService cer_service;
 	
 	@Autowired private JavaMailSender mailSender;
+	
+	@Autowired private Pay_infoService pservice;
+	
+	@Autowired private GradeService gservice;
 	
 	//일반사용자 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -153,37 +161,63 @@ public class UserController {
 	
 	//관리자페이지에서 회원리스트 뿌리기
 	@RequestMapping("/admin/userlist")
-	public ModelAndView userlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,@RequestParam(value="sts",defaultValue="-1")int sts) {
+	public ModelAndView userlist(@RequestParam(value="pageNum",defaultValue="1")int pageNum,@RequestParam(value="sts",defaultValue="-1")int sts,String code) {
 		ModelAndView mv = new ModelAndView();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("sts", sts);
 		int totalRowCount = service.userCount(map);
+		if(totalRowCount == 0) {
+			map.put("sts", -1);
+			totalRowCount = service.userCount(map);
+			mv.addObject("sts",-1);
+			code = "검색된 값이 없음";
+		}else {
+			mv.addObject("sts",sts);
+		}
 		PageUtil pu = new PageUtil(pageNum,totalRowCount,10,10);
 		map.put("startRow", pu.getMysqlStartRow());
 		map.put("rowBlockCount", pu.getRowBlockCount());
-		List<UserVo> list = service.userlist(map);
-		System.out.println("실행 되는건가?????");
-		if(list != null) {
-			mv.addObject("list",list);
-			System.out.println(list.get(0).getUsers_num());
-			mv.addObject("pu",pu);
-			mv.addObject("sts",sts);
-			System.out.println("실행 되는건가????? fifififififififififififif");
-		}else {
-			map.put("sts", -1);
-			totalRowCount = service.userCount(map);
-			pu = new PageUtil(pageNum,totalRowCount,10,10);
-			map.put("startRow", pu.getMysqlStartRow());
-			map.put("rowBlockCount", pu.getRowBlockCount());
-			list = service.userlist(map);
-			mv.addObject("list",list);
-			mv.addObject("pu",pu);
-			mv.addObject("sts",-1);
-			mv.addObject("code","검색된 값이 없음");
-			System.out.println("실행 되는건가????? elseelselsleslelsle");
-		}
-		System.out.println("여기까지는 오는건가????????????????????????");
+		List<Admin_userVo> list = service.userlist(map);
+		List<GradeVo> glist = gservice.list();
+		mv.addObject("list",list);
+		mv.addObject("glist",glist);
+		mv.addObject("pu",pu);
+		mv.addObject("code",code);
 		mv.setViewName(".admin.userlist");
+		return mv;
+	}
+	
+	//관리자페이지에서 회원상태 변경하기
+	@RequestMapping("/admin/userStsUp")
+	public ModelAndView userStsUp(int users_num,int sts) {
+		ModelAndView mv = new ModelAndView();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("users_num", users_num);
+		map.put("sts",sts);
+		int n = service.userStsUp(map);
+		if(n>0) {
+			mv.addObject("code","상태변경성공");
+		}else {
+			mv.addObject("code","상태변경실패");
+		}
+		mv.setViewName("redirect:/admin/userlist");
+		return mv;
+	}
+	
+	//관리자페이지에서 회원 멤버쉽 변경하기
+	@RequestMapping("/admin/userGradeUp")
+	public ModelAndView userGradeUp(int users_num,int grade_num) {
+		ModelAndView mv = new ModelAndView();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("users_num", users_num);
+		map.put("grade_num",grade_num);
+		int n = pservice.userGradeUp(map);
+		if(n>0) {
+			mv.addObject("code","회원멤버쉽변경성공");
+		}else {
+			mv.addObject("code","회원멤버쉽변경실패");
+		}
+		mv.setViewName("redirect:/admin/userlist");
 		return mv;
 	}
 }

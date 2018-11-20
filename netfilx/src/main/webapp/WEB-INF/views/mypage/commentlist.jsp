@@ -6,7 +6,7 @@
 <div class="mhdiv">
 	<h1>내가 쓴 댓글</h1>
 	<div>
-		<form action="<c:url value='/mypage/commentlist'></c:url>" method="post">
+		<form action="<c:url value='/mypage/commentlist'></c:url>" method="post" class="form1000">
 			공개<input type="checkbox" name="comment_true" value="true"<c:if test="${comment_open == true }">checked="checked"</c:if>>/
 			비공개<input type="checkbox" name="comment_false" value="false"<c:if test="${comment_open == false }">checked="checked"</c:if>>/
 			책갈피있음<input type="checkbox" name="bookmark_true" value="true"<c:if test="${bookmark == true }">checked="checked"</c:if>>/

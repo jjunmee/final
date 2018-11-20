@@ -22,8 +22,12 @@
 	</select>
 	
 	<!-- 회원리스트 뿌리기 -->
-	<select id="userlist" resultType="user" parameterType="hashmap">
-		select * from users
+	<select id="userlist" resultType="adminUser" parameterType="hashmap">
+		select u.*, g.pay_num, g.grade_num, g.grade_name
+		from users u left join (select p.*, g.grade_name, g.grade_price
+								from pay_info p, grade g
+								where p.grade_num = g.grade_num and pay_end >= now()) g
+		on u.users_num = g.users_num
 		<if test="sts >= 0">
 			where sts = #{sts }
 		</if>
@@ -37,4 +41,9 @@
 			where sts = #{sts }
 		</if>
 	</select>
+	
+	<!-- 탈퇴시키기 -->
+	<update id="userStsUp" parameterType="hashmap">
+		update users set sts = #{sts} where users_num = #{users_num}
+	</update>
  </mapper>

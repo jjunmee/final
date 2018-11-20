@@ -115,7 +115,7 @@
 		</c:choose>
 	</div>
 	<div>
-		<form action="<c:url value='/qna/list'></c:url>" method="post">
+		<form action="<c:url value='/qna/list'></c:url>" method="post" class="form1000">
 			<select name="field">
 				<option value="qna_title" <c:if test="${field=='qna_title' }">selected="selected"</c:if>>제목</option>
 				<option value="id" <c:if test="${field=='id' }">selected="selected"</c:if>>작성자</option>
