@@ -39,4 +39,8 @@ public class Pay_infoDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE + ".delete",num);
 	}
+	
+	public int userGradeUp(HashMap<String, Object> map) {
+		return sqlSession.update(NAMESPACE + ".userGradeUp", map);
+	}
 }

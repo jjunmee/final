@@ -5,7 +5,7 @@
 <div class="mhdiv">
 	<h1>${id } 님 포인트 사용내역</h1>
 	<div>
-		<form action="<c:url value='/point/userInfo'></c:url>" method="post">
+		<form action="<c:url value='/point/userInfo'></c:url>" method="post" class="form1000">
 			<select name="keyword">
 				<option></option>
 				<option value="사용" <c:if test="${keyword=='사용' }">selected="selected"</c:if>>사용</option>

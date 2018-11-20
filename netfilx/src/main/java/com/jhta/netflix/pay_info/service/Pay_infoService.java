@@ -38,4 +38,8 @@ public class Pay_infoService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	
+	public int userGradeUp(HashMap<String, Object> map) {
+		return dao.userGradeUp(map);
+	}
 }

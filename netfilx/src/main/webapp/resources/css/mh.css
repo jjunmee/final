@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .mhdiv{width: 1000px; margin: auto;}
-.mhdiv form{width: 900px; margin: auto;}
-.mhdiv table {width: 900px; margin: auto; border-bottom: solid 1px #ccc;}
+.mhdiv .form1000{width: 1000px; margin: auto; margin-bottom: 10px;}
+.mhdiv table {width: 1000px; margin: auto; border-bottom: solid 1px #ccc; margin-bottom: 10px;}
 .mhdiv table tr{border-top: solid 1px #ccc;}
 .mhdiv th{background-color: #ccc; color: #333; font-weight: bold;}
 .mhdiv input[type=number], input[type=password], input[type=text], textarea, input[type=date], input[type=tel]{

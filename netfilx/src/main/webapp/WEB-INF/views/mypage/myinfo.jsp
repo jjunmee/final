@@ -1,24 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <style>
 	#myPage>table{widht:800px;}
+	#myPage table td{padding: 15px;}
 </style>
 <div id="myPage" class="mhdiv">
 	<h1>마이페이지</h1>
-	<hr>
 	<h2>계정</h2>
 	<table>
 		<tr>
 			<td>이메일 : ${id }</td>
-			<td><a href="">이메일주소변경</a></td>
+			<td><!-- <a href="">이메일주소변경</a> --></td>
 		</tr>
 		<tr>
 			<td>비밀번호 : ******</td>
-			<td><a href="">비밀번호변경</a></td>
+			<td><!-- <a href="">비밀번호변경</a> --></td>
 		</tr>
 		<tr>
-			<td>생년월일 : ${birth }</td>
-			<td><a href="">생년월일변경</a></td>
+			<td>생년월일 : <fmt:formatDate value="${birth}" pattern="yyyy-MM-dd"/></td>
+			<td><!-- <a href="">생년월일변경</a> --></td>
 		</tr>
 		<!-- 없으면 안보이게 처리 -->
 		<tr>
@@ -26,7 +28,6 @@
 			<td><a href="<c:url value='/point/fill'/>">포인트충전</a>/<a href="<c:url value='/point/userInfo'/>">사용내역</a></td>
 		</tr>
 	</table>
-	<hr>
 	<h2>가입 멤버십 정보</h2>
 	<table>
 		<tr>
@@ -45,7 +46,6 @@
 			</td>
 		</tr>
 	</table>
-	<hr>
 	<h2>프로필</h2>
 	<table>
 		<tr>

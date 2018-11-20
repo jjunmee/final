@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.user.vo.Admin_userVo;
 import com.jhta.netflix.user.vo.UserVo;
 
 @Repository
@@ -43,11 +44,15 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne(NAMESPACE + ".userInfo",id);
 	}
 	@Override
-	public List<UserVo> userlist(HashMap<String, Object> map){
+	public List<Admin_userVo> userlist(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".userlist",map);
 	}
 	@Override
 	public int userCount(HashMap<String, Object> map) {
 		return sqlSession.selectOne(NAMESPACE + ".userCount", map);
+	}
+	@Override
+	public int userStsUp(HashMap<String, Object> map) {
+		return sqlSession.update(NAMESPACE + ".userStsUp",map);
 	}
 }

@@ -11,7 +11,7 @@
 </script>
 <div class="mhdiv">
 	<h1>UPDATE</h1>
-	<form method="post" action='<c:url value="/qna/update"/>'>
+	<form method="post" action='<c:url value="/qna/update"/>' class="form1000">
 		<input type="hidden" name="qna_num" value="${qna_num}">
 		<table width="800" border="1">
 			<tr>

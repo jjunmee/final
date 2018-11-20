@@ -6,7 +6,7 @@
 </style>
 <div class="mhdiv">
 	<h1>포인트 충전</h1>
-	<form action="<c:url value='/point/fill'/>" method="post">
+	<form action="<c:url value='/point/fill'/>" method="post" class="form1000">
 		<table>
 			<tr>
 				<th>충전금액</th>

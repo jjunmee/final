@@ -208,7 +208,7 @@
 </script>
 <div class="mhdiv">
 	<h1>분류</h1>
-	<form method="post" action='<c:url value="/category/insert"/>'>
+	<form method="post" action='<c:url value="/category/insert"/>' class="form1000">
 		분류 
 		<input type="text" name="category_name">
 		<input type="submit" value="추가">
@@ -216,7 +216,7 @@
 		<table id="categorylist">
 		</table>
 	<h1>장르</h1>
-	<form method="post" action='<c:url value="/genre/insert"/>'>
+	<form method="post" action='<c:url value="/genre/insert"/>' class="form1000">
 		장르
 		<select name="category_num" id="category">
 		</select>
