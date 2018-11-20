@@ -102,11 +102,6 @@
 						function(data) {
 							info += " / " + data.series_name;
 							$(data.list).each(function(i, json) {
-								if(json.staff_position == 1){
-									$(".tb_director").append("<tr><td>"+json.staff_name+"</td></tr>");
-								}else{
-									$(".tb_actor").append("<tr><td>"+json.staff_name+"</td></tr>");
-								}
 							});
 				});
 				$(".series_info").html();
@@ -149,7 +144,7 @@
 							if(data.result){
 								clickJj(data);
 							}else{
-								alert("오류로 인해 찜에 실패했습니다!!");
+								alert("오류로 인해 요청작업을 실패했습니다!!");
 							}
 				});
 			});
@@ -165,14 +160,13 @@
 			*/
 			var $detail = $("#detail").hide().detach();
 			$detail.appendTo($("#"+targetId)).slideDown(function() {
-				detailView(1,vo.series_num);
 				$(event.target.previousElementSibling.previousElementSibling).clone()
 					.removeAttr("style").prop("autoplay", "autoplay").prependTo("#detail");
+				detailView(1,vo.series_num);
 			});
 		}
 		function clickJj(data) {
 			$(".jjBtn").val("찜 "+data.count);
-			$(".jjBtn").prop("disabled", data.check);
 			if(data.check){
 				$(".jjBtn").prop("class","jjBtn btn btn-danger");
 			}else{
@@ -185,7 +179,10 @@
 			$("#detail").slideUp();
 		}
 		function detailView(num,series_num) {
+			var v = document.getElementById("detail").firstChild;
 			$("#detail>div").hide();
+			$(".detail_menu").remove();
+			$(".closeBtn").remove();
 			var str = 
 			"<div class=\"detail_menu\">"
 				+"<a class=\"a1\" href=\"javascript:detailView(1,"+series_num+");\">콘텐츠 정보</a>";
@@ -197,12 +194,16 @@
 			+"</div>"
 			+"<input class=\"closeBtn\" type=\"button\" value=\"x\" onclick=\"closeDetail()\">";
 			if(num == 1){
+				v.play();
 				$(".info_div").append(str).show();
 			}else if(num == 2){
+				v.pause();
 				$(".series_info").append(str).show();
 			}else if(num == 3){
+				v.pause();
 				$(".similar_content").append(str).show();
 			}else if(num == 4){
+				v.pause();
 				$(".detail_div").append(str).show();
 			}
 			$(".detail_menu").show();
@@ -384,12 +385,54 @@
 		</div>
 		<div class="series_info">
 			<div class="main-carousel">
-			  <div class="carousel-cell">
-			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-				</video>
-			  </div>
-		</div>
+				<c:forEach items="${jjimList }" var="vo">
+				  <div class="carousel-cell">
+				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
+				  	<video loop>
+						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					</video>
+					<div>
+						<h3>${vo.content_name }</h3>
+						<h5>
+							${vo.content_regdate} / 
+							<c:choose>
+								<c:when test="${vo.watch_age == 12}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 15}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 19}">
+									청불
+								</c:when>
+								<c:otherwise>
+									전체관람가
+								</c:otherwise>
+							</c:choose>
+						</h5>
+						<br><br>
+						<h5>${vo.content_summary }</h5>
+					</div>
+					<div onclick="contentDetail(event,{
+						content_num:${vo.content_num},
+						content_name:'${vo.content_name}',
+						orgsrc:'${vo.orgsrc}',
+						savesrc:'${vo.savesrc}',
+						content_summary:'${vo.content_summary}',
+						trailer_orgsrc:'${vo.trailer_orgsrc}',
+						trailer_savesrc:'${vo.trailer_savesrc}',
+						content_size:${vo.content_size},
+						trailer_size:${vo.trailer_size},
+						content_post1:'${vo.content_post1}',
+						content_post2:'${vo.content_post2}',
+						release_date:'${vo.release_date}',
+						watch_age:${vo.watch_age},
+						content_regdate:'${vo.content_regdate}',
+						series_num:${vo.series_num}
+					},'jjimContent')"></div>
+				  </div>
+				</c:forEach>
+			</div>
 		</div>
 		<div class="similar_content">
 		</div>
