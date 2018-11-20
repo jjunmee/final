@@ -17,6 +17,9 @@ public class BookmarkService{
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 	public BookmarkVo timeSelec(int num) {
 		return dao.timeSelec(num);
 	}

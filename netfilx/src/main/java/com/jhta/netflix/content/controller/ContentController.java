@@ -1,8 +1,5 @@
 package com.jhta.netflix.content.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -13,24 +10,34 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jhta.netflix.bookmark.service.BookmarkService;
 import com.jhta.netflix.content.service.ContentService;
 import com.jhta.netflix.content.vo.ContentVo;
+import com.jhta.netflix.content_comment.service.Content_commentService;
+import com.jhta.netflix.content_comment.vo.Content_commentVo;
 import com.jhta.netflix.content_genre.service.Content_genreService;
 import com.jhta.netflix.content_genre.vo.Content_genreVo;
 import com.jhta.netflix.content_staff.service.Content_staffService;
 import com.jhta.netflix.content_staff.vo.Content_staffVo;
+import com.jhta.netflix.good.service.GoodService;
+import com.jhta.netflix.interasts.service.InterastsService;
 import com.jhta.netflix.lib.FileUpload;
 import com.jhta.netflix.lib.PageUtil;
+import com.jhta.netflix.rates.service.RatesService;
+import com.jhta.netflix.record.service.RecordService;
 import com.jhta.netflix.series.service.SeriesService;
+import com.jhta.netflix.series.vo.SeriesVo;
 
 @Controller
 public class ContentController {
@@ -44,6 +51,18 @@ public class ContentController {
 	private SeriesService seriesService;
 	@Autowired 
 	private FileUpload ftp;
+	@Autowired
+	private InterastsService interastsService;
+	@Autowired
+	private RatesService ratesService;
+	@Autowired
+	private RecordService recordService;
+	@Autowired
+	private Content_commentService content_commentService;
+	@Autowired
+	private GoodService goodService;
+	@Autowired
+	private BookmarkService bookmarkService;
 	
 	@RequestMapping(value="/content/insert",method=RequestMethod.GET)
 	public String insertForm() {
@@ -116,18 +135,27 @@ public class ContentController {
 	@RequestMapping(value="/content/delete",method=RequestMethod.GET)
 	public String delete(HttpSession session,int num) {
 		ContentVo orgVo = contentService.find(num);
-		String posterUploadPath = session.getServletContext().getRealPath("/resources/upload/poster");
-		File f = new File(posterUploadPath + "\\" + orgVo.getContent_post1());
-		f.delete();
-		String stillcutUploadPath = session.getServletContext().getRealPath("/resources/upload/stillcut");
-		f = new File(stillcutUploadPath + "\\" + orgVo.getContent_post2());
-		f.delete();
-		String trailerUploadPath = session.getServletContext().getRealPath("/resources/upload/trailer");
-		f = new File(trailerUploadPath + "\\" + orgVo.getTrailer_savesrc());
-		f.delete();
-		String orgUploadPath = session.getServletContext().getRealPath("/resources/upload/org");
-		f = new File(orgUploadPath + "\\" + orgVo.getSavesrc());
-		f.delete();
+		ftp.init();
+		String posterDeletePath = "/poster/" + orgVo.getContent_post1();
+		ftp.delete(posterDeletePath);
+		String stillcutDeletePath = "/stillcut/" + orgVo.getContent_post2();
+		ftp.delete(stillcutDeletePath);
+		String trailerDeletePath = "/trailer/" + orgVo.getTrailer_savesrc();
+		ftp.delete(trailerDeletePath);
+		String orgDeletePath = "/org/" + orgVo.getSavesrc();
+		ftp.delete(orgDeletePath);
+		ftp.disconnect();
+		List<Content_commentVo> list = content_commentService.relDeleteList(num);
+		for(Content_commentVo vo : list) {
+			goodService.relDelete(vo.getComment_num());
+			if(vo.isBookmark()) {
+				bookmarkService.relDelete(vo.getComment_num());
+			}
+		}
+		content_commentService.relDelete(num);
+		recordService.relDelete(num);
+		ratesService.relDelete(num);
+		interastsService.relDelete(num);
 		content_genreService.relDelete(num);
 		content_staffService.relDelete(num);
 		contentService.delete(num);
@@ -178,64 +206,46 @@ public class ContentController {
 			}
 		}
 		ContentVo orgVo = contentService.find(content_num);
+		ftp.init();
 		UUID uuid = UUID.randomUUID();
 		try {
 			if(!poster.isEmpty()) {
-				String posterUploadPath = session.getServletContext().getRealPath("/resources/upload/poster");
+				String posterUploadPath = "/poster/";
 				String posterSaveName = uuid + "_" + poster.getOriginalFilename();
 				content_post1 = posterSaveName;
-				File f = new File(posterUploadPath + "\\" + orgVo.getContent_post1());
-				f.delete();
-				InputStream is = poster.getInputStream();
-				FileOutputStream fos = new FileOutputStream(posterUploadPath + "\\" + posterSaveName);
-				FileCopyUtils.copy(is, fos);
-				is.close();
-				fos.close();
-				System.out.println(posterUploadPath + "경로에 poster!");
+				String posterDeletePath = "/poster/" + orgVo.getContent_post1();
+				ftp.delete(posterDeletePath);
+				ftp.upload(posterUploadPath, poster, posterSaveName);
 			}
 			if(!stillcut.isEmpty()) {
-				String stillcutUploadPath = session.getServletContext().getRealPath("/resources/upload/stillcut");
+				String stillcutUploadPath = "/stillcut/";
 				String stillcutSaveName = uuid + "_" + stillcut.getOriginalFilename();
 				content_post2 = stillcutSaveName;
-				File f = new File(stillcutUploadPath + "\\" + orgVo.getContent_post2());
-				f.delete();
-				InputStream is = stillcut.getInputStream();
-				FileOutputStream fos = new FileOutputStream(stillcutUploadPath + "\\" + stillcutSaveName);
-				FileCopyUtils.copy(is, fos);
-				is.close();
-				fos.close();
-				System.out.println(stillcutUploadPath + "경로에 stillcut!");
+				String stillcutDeletePath = "/stillcut/" + orgVo.getContent_post2();
+				ftp.delete(stillcutDeletePath);
+				ftp.upload(stillcutUploadPath, stillcut, stillcutSaveName);
 			}
 			if(!trailer.isEmpty()) {
-				String trailerUploadPath = session.getServletContext().getRealPath("/resources/upload/trailer");
+				String trailerUploadPath = "/trailer/";
 				trailer_orgsrc = trailer.getOriginalFilename();
 				String trailerSaveName = uuid + "_" + trailer_orgsrc;
 				trailer_savesrc = trailerSaveName;
-				File f = new File(trailerUploadPath + "\\" + orgVo.getTrailer_savesrc());
-				f.delete();
-				InputStream is = trailer.getInputStream();
-				FileOutputStream fos = new FileOutputStream(trailerUploadPath + "\\" + trailerSaveName);
-				FileCopyUtils.copy(is, fos);
-				is.close();
-				fos.close();
+				String trailerDeletePath = "/trailer/" + orgVo.getTrailer_savesrc();
+				ftp.delete(trailerDeletePath);
+				ftp.upload(trailerUploadPath, trailer, trailerSaveName);
 				trailer_size = trailer.getSize();
-				System.out.println(trailerUploadPath + "경로에 trailer!");
 			}
 			if(!org.isEmpty()) {
-				String orgUploadPath = session.getServletContext().getRealPath("/resources/upload/org");
+				String orgUploadPath = "/org/";
 				orgsrc = org.getOriginalFilename();
 				String orgSaveName = uuid + "_" + orgsrc;
 				savesrc = orgSaveName;
-				File f = new File(orgUploadPath + "\\" + orgVo.getSavesrc());
-				f.delete();
-				InputStream is = org.getInputStream();
-				FileOutputStream fos = new FileOutputStream(orgUploadPath + "\\" + orgSaveName);
-				FileCopyUtils.copy(is, fos);
+				String orgDeletePath = "/org/" + orgVo.getSavesrc();
+				ftp.delete(orgDeletePath);
+				ftp.upload(orgUploadPath, org, orgSaveName);
 				content_size = org.getSize();
-				is.close();
-				fos.close();
-				System.out.println(orgUploadPath + "경로에 org!");
 			}
+			ftp.disconnect();
 			ContentVo vo = new ContentVo(content_num, content_name, orgsrc, savesrc, content_summary, 
 					trailer_orgsrc, trailer_savesrc, content_size, trailer_size, content_post1, 
 					content_post2, release_date, watch_age, null, series_num);
@@ -290,6 +300,37 @@ public class ContentController {
 		ContentVo vo = contentService.find(content_num);
 		model.addAttribute("vo", vo);
 		return ".user_content.play";
+	}
+	@RequestMapping(value="/content/seriesList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String seriesList(int series_num) {
+		//json을 시리즈명,시리즈리스트 보내기
+		JSONObject json = new JSONObject();
+		SeriesVo seriesVo = seriesService.find(series_num);
+		json.put("series_name", seriesVo.getSeries_name());
+		List<ContentVo> list = contentService.seriesList(series_num);
+		JSONArray arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		json.put("list", arr);
+		return json.toString();
 	}
 }
 

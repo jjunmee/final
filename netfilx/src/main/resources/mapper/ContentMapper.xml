@@ -105,5 +105,8 @@
 		</if>
 		limit 0,40
 	</select>
+	<select id="seriesList" resultType="content" parameterType="int">
+		select * from content where series_num=#{series_num} order by release_date
+	</select>
 </mapper>
   

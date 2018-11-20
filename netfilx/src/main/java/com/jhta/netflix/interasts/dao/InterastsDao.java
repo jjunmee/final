@@ -24,6 +24,9 @@ public class InterastsDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	public List<InterastsVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}

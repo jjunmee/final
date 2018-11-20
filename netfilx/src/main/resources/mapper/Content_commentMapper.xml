@@ -15,6 +15,9 @@
 	<delete id="delete" parameterType="int">
 		delete from content_comment where comment_num=#{comment_num}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from content_comment where content_num=#{content_num}
+	</delete>
 	<select id="list" parameterType="hashmap" resultType="cbookmark">
 		select cc.*, b.bookmark_time 
 		from (content_comment cc left join 
@@ -77,6 +80,9 @@
 				and bookmark = #{bookmark}
 			</if>
 		</where>
+	</select>
+	<select id="relDeleteList" resultType="ccomment" parameterType="int">
+		select * from content_comment where content_num=#{content_num}
 	</select>
 </mapper>
   

@@ -24,6 +24,9 @@ public class GoodDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	public List<GoodVo> list(){
 		return sqlSession.selectList(NAMESPACE+".list");
 	}

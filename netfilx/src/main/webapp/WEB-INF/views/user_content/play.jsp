@@ -73,7 +73,7 @@
 		var temp = 0;
 
 		$(window).on("beforeunload", function(){
-			var next_watch = $("#current").text();
+			var next_watch = parseInt(document.getElementById("player").currentTime);
 			$.get("<c:url value='/record/record'/>",
 					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },
 						"next_watch":Number(next_watch),"total_time":Number(playTime)},

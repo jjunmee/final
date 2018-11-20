@@ -15,6 +15,9 @@
 	<delete id="delete" parameterType="int">
 		delete from interasts where interasts_num=#{interasts_num}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from interasts where content_num=#{content_num}
+	</delete>
 	<select id="list" resultType="interasts">
 		select * from interasts
 	</select>

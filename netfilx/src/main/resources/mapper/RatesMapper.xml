@@ -11,7 +11,10 @@
 		where rates_num=#{rates_num}
 	</update>
 	<delete id="delete" parameterType="int">
-		delete form rates where rates_num=#{rates_num}
+		delete from rates where rates_num=#{rates_num}
+	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from rates where content_num=#{content_num}
 	</delete>
 	<select id="list" resultType="rates">
 		select * from rates

@@ -9,6 +9,9 @@
 	<delete id="delete" parameterType="int">
 		delete from bookmark where bookmark_num=#{value}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from bookmark where comment_num=#{value}
+	</delete>
 	<select id="timeSelec" resultType="bookmark">
 		select * from bookmark where comment_num = #{comment_num}
 	</select>

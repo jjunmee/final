@@ -13,6 +13,9 @@
 	<delete id="delete" parameterType="int">
 		delete from record where record_num=#{record_num}
 	</delete>
+	<delete id="relDelete" parameterType="int">
+		delete from record where content_num=#{content_num}
+	</delete>
 	<select id="list" resultType="record">
 		select * from record
 	</select>

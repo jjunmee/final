@@ -10,7 +10,7 @@
 		.carousel-cell>img,.carousel-cell>video{border: 2px solid #999;border-radius: 8px;}
 		.carousel-cell{width: 18%;height: 100%;}
 		.carousel-cell>img{width: 200px;height: 150px;margin-top: 25px;
-			position:absolute;z-index: 2;}
+			position:absolute;z-index: 2;cursor: pointer;}
 		.carousel-cell>video{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
 			background-color: black;position:absolute;z-index: 3;display: none;}
 		.carousel-cell>div{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
@@ -25,7 +25,7 @@
 			position: absolute;z-index: 2;display: none;}
 		.info_div>h5{width: 50%;}
 		.closeBtn{position: absolute;right: 0px;top: 0px;border-radius: 50px;background-color: lightgray;}
-		.detail_menu{position: absolute;bottom: 0px;left: 35%;}
+		.detail_menu{position: absolute;bottom: 0px;left: 50%;transform:translate(-50%, 0%);}
 		.detail_menu>a{margin: 10px;}
 		
 		th{font-size: 20px;}
@@ -97,7 +97,19 @@
 				info += "전체관람가";
 			}
 			if(vo.series_num != 0){
-				info += " / " + vo.series_num;
+				$.get("<c:url value='/content/seriesList'/>",
+						{"series_num":vo.series_num},
+						function(data) {
+							info += " / " + data.series_name;
+							$(data.list).each(function(i, json) {
+								if(json.staff_position == 1){
+									$(".tb_director").append("<tr><td>"+json.staff_name+"</td></tr>");
+								}else{
+									$(".tb_actor").append("<tr><td>"+json.staff_name+"</td></tr>");
+								}
+							});
+				});
+				$(".series_info").html();
 			}
 			$(".detail_info").html(info);
 			$(".detail_summary").html(vo.content_summary);
@@ -153,7 +165,7 @@
 			*/
 			var $detail = $("#detail").hide().detach();
 			$detail.appendTo($("#"+targetId)).slideDown(function() {
-				detailView(1);
+				detailView(1,vo.series_num);
 				$(event.target.previousElementSibling.previousElementSibling).clone()
 					.removeAttr("style").prop("autoplay", "autoplay").prependTo("#detail");
 			});
@@ -172,19 +184,30 @@
 			$("#detail>div").hide();
 			$("#detail").slideUp();
 		}
-		function detailView(num) {
+		function detailView(num,series_num) {
 			$("#detail>div").hide();
+			var str = 
+			"<div class=\"detail_menu\">"
+				+"<a class=\"a1\" href=\"javascript:detailView(1,"+series_num+");\">콘텐츠 정보</a>";
+				if(series_num != 0){
+					str+="<a class=\"a2\" href=\"javascript:detailView(2,"+series_num+");\">회차 정보</a>"
+				}
+				str+="<a class=\"a3\" href=\"javascript:detailView(3,"+series_num+");\">비슷한 컨텐츠</a>"
+				+"<a class=\"a4\" href=\"javascript:detailView(4,"+series_num+");\">상세 정보</a>"
+			+"</div>"
+			+"<input class=\"closeBtn\" type=\"button\" value=\"x\" onclick=\"closeDetail()\">";
+			if(num == 1){
+				$(".info_div").append(str).show();
+			}else if(num == 2){
+				$(".series_info").append(str).show();
+			}else if(num == 3){
+				$(".similar_content").append(str).show();
+			}else if(num == 4){
+				$(".detail_div").append(str).show();
+			}
+			$(".detail_menu").show();
 			$(".detail_menu>a").css("color", "white");
 			$(".a"+num).css("color","red");
-			if(num == 1){
-				$(".info_div").show();
-			}else if(num == 2){
-				$(".info_div").show();
-			}else if(num == 3){
-				$(".info_div").show();
-			}else if(num == 4){
-				$(".detail_div").show();
-			}
 		}
 		function contentPlay() {
 			location.href = "<c:url value='/content/contentPlay'/>";
@@ -358,14 +381,17 @@
 			<h5 class="detail_summary"></h5>
 			<input type="button" value="재생" class="playBtn btn btn-info">
 			<input type="button" value="찜" class="jjBtn">
-			<br>
-			<div class="detail_menu">
-				<a class="a1" href="javascript:detailView(1);">콘텐츠 정보</a>
-				<a class="a2" href="javascript:detailView(2);">회차 정보</a>
-				<a class="a3" href="javascript:detailView(3);">비슷한 컨텐츠</a>
-				<a class="a4" href="javascript:detailView(4);">상세 정보</a>
-			</div>
-			<input class="closeBtn" type="button" value="x" onclick="closeDetail()">
+		</div>
+		<div class="series_info">
+			<div class="main-carousel">
+			  <div class="carousel-cell">
+			  	<video loop>
+					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+				</video>
+			  </div>
+		</div>
+		</div>
+		<div class="similar_content">
 		</div>
 		<div class="detail_div">
 			<h2 class="name"></h2>
@@ -382,13 +408,6 @@
 				</table>
 				<br>
 			</div>
-			<div class="detail_menu">
-				<a class="a1" href="javascript:detailView(1);">콘텐츠 정보</a>
-				<a class="a2" href="javascript:detailView(2);">회차 정보</a>
-				<a class="a3" href="javascript:detailView(3);">비슷한 컨텐츠</a>
-				<a class="a4" href="javascript:detailView(4);">상세 정보</a>
-			</div>
-			<input class="closeBtn" type="button" value="x" onclick="closeDetail()">
 		</div>
 	</div>
 </body>

@@ -23,6 +23,9 @@ public class InterastsService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 	public List<InterastsVo> list(){
 		return dao.list();
 	}

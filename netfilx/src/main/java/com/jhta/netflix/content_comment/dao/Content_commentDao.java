@@ -26,6 +26,9 @@ public class Content_commentDao {
 	public int delete(int num) {
 		return sqlSession.delete(NAMESPACE+".delete", num);
 	}
+	public int relDelete(int num) {
+		return sqlSession.delete(NAMESPACE+".relDelete", num);
+	}
 	public List<Comment_bookmarkVo> list(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE+".list", map);
 	}
@@ -40,6 +43,9 @@ public class Content_commentDao {
 	}
 	public List<Content_commentVo> subList(int num){
 		return sqlSession.selectList(NAMESPACE+".subList", num);
+	}
+	public List<Content_commentVo> relDeleteList(int num){
+		return sqlSession.selectList(NAMESPACE+".relDeleteList", num);
 	}
 	public List<Mypage_commentVo> userCoList(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".userCoList", map);

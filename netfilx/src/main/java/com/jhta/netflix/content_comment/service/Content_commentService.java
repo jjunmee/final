@@ -25,6 +25,9 @@ public class Content_commentService {
 	public int delete(int num) {
 		return dao.delete(num);
 	}
+	public int relDelete(int num) {
+		return dao.relDelete(num);
+	}
 	public List<Comment_bookmarkVo> list(HashMap<String, Object> map){
 		return dao.list(map);
 	}
@@ -39,6 +42,9 @@ public class Content_commentService {
 	}
 	public List<Content_commentVo> subList(int num){
 		return dao.subList(num);
+	}
+	public List<Content_commentVo> relDeleteList(int num){
+		return dao.relDeleteList(num);
 	}
 	public List<Mypage_commentVo> userCoList(HashMap<String, Object> map){
 		return dao.userCoList(map);
