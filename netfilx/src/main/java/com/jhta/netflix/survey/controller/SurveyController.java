@@ -141,7 +141,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
-	public String statsForm(int surveyNum,int qNum, Model model) {
+	public String statsForm(Model model, int surveyNum, int qNum) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
 		//객관식그리드일경우
@@ -186,44 +186,90 @@ public class SurveyController {
 			strConcat=strConcat+","+stst;
 			model.addAttribute("strConcat",strConcat);
 			model.addAttribute("surveyVo",surveyVo);
-			
 			return ".survey.surveyStats1";
 		//복합질문형타입일경우	
 		}else {		
-			System.out.println("여기들어왔다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			SurveyQuestionVo sqVo=sqList.get(qNum-1);
 			int sqNum=sqVo.getSqNum();
-			List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
-			List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
-			String str="['','";
-			String st="['"+sqVo.getSqTitle()+"',";
-			for(int i=0;i<saVoList.size();i++) {
-				String saAnswer=saVoList.get(i).getSaAnswer();
-				str=str+saAnswer+"','";
-				Boolean bool=false;
-				for(SrCntDto dto:ansList) {
-					String srAnswer=dto.getSrAnswer();
-					if(saAnswer.equals(srAnswer)) {
-						int cnt=dto.getCnt();
-						st=st+cnt+",";
-						bool=true;
+			if(sqVo.getSqType().equals("1") || sqVo.getSqType().equals("2")) {//객관식답안||중복답안
+				List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+				List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+				String str="['','";
+				String st="['"+sqVo.getSqTitle()+"',";
+				for(int i=0;i<saVoList.size();i++) {
+					String saAnswer=saVoList.get(i).getSaAnswer();
+					str=str+saAnswer+"','";
+					Boolean bool=false;
+					for(SrCntDto dto:ansList) {
+						String srAnswer=dto.getSrAnswer();
+						if(saAnswer.equals(srAnswer)) {
+							int cnt=dto.getCnt();
+							st=st+cnt+",";
+							bool=true;
+						}
+					}
+					if(bool==false) {
+						st=st+0+",";
 					}
 				}
-				if(bool==false) {
-					st=st+0+",";
+				st=st.substring(0,st.length()-1);
+				st=st+"]";
+				str=str.substring(0,str.length()-2);
+				str=str+"],"+st;
+				model.addAttribute("strConcat",str);	
+				model.addAttribute("surveyVo",surveyVo);
+				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNums",sqList.size());
+				return ".survey.surveyStats2";
+			}else if(sqVo.getSqType().equals("3")){
+				List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
+				List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
+				String[] ans1=new String[2];
+				ans1[0]=saVoList.get(0).getSaAnswer().split("!@#")[0];
+				ans1[1]=saVoList.get(0).getSaAnswer().split("!@#")[1];
+				String[] ans2=new String[2];
+				ans2[0]=saVoList.get(1).getSaAnswer().split("!@#")[0];
+				ans2[1]=saVoList.get(1).getSaAnswer().split("!@#")[1];
+				
+				int num1=Integer.parseInt(ans1[0]);
+				int num2=Integer.parseInt(ans2[0]);
+				int[] intArr=new int[num2-num1+1];
+				int n=0;
+				for(int i=num1;i<=num2;i++) {
+					intArr[n]=0;
+					n++;
 				}
+				for(int i=0;i<ansList.size();i++) {
+					int answer=Integer.parseInt(ansList.get(i).getSrAnswer());
+					intArr[answer-1]=ansList.get(i).getCnt();
+				}
+				String str="['','인원수']";
+				String st="";
+				for(int i=num1;i<=num2;i++) {					
+					st=st+"['"+i+"점',"+intArr[i-1]+"],";
+				}
+				st=st.substring(0,st.length()-1);
+				str=str+","+st;
+				model.addAttribute("strConcat",str);
+				model.addAttribute("ans1",ans1);
+				model.addAttribute("ans2",ans2);
+				model.addAttribute("surveyVo",surveyVo);
+				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNums",sqList.size());
+				return ".survey.surveyStats2";
+				
+			}else if(sqVo.getSqType().equals("4")){
+				List<SurveyResultVo> ansList=service.surveyResultSelect(sqNum);
+				//List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);				
+				model.addAttribute("ansList",ansList);				
+				model.addAttribute("surveyVo",surveyVo);
+				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNums",sqList.size());
+				return ".survey.surveyStats3";
 			}
-			st=st.substring(0,st.length()-1);
-			st=st+"]";
-			str=str.substring(0,str.length()-2);
-			str=str+"],"+st;
-			System.out.println(str);
-			model.addAttribute("strConcat",str);
-			model.addAttribute("surveyVo",surveyVo);
 			
-			return ".survey.surveyStats2";
 		}
-		
+		return null;
 		
 	}
 

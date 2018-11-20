@@ -89,7 +89,7 @@
 								<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
 								<tr>
 									<td>
-										<input type="radio" name="resultList[${i }].srAnswer" value="${j }">
+										<input type="radio" name="resultList[${i }].srAnswer" value="${saList[i][j].saAnswer }">
 										${saList[i][j].saAnswer }
 									</td>
 								</tr>
@@ -99,7 +99,7 @@
 								<c:forEach var="j" begin="0" end="${fn:length(saList[i])-1 }">
 								<tr>
 									<td>
-										<input type="checkbox" name="resultList[${i }].srAnswer" value="${j }">
+										<input type="checkbox" name="resultList[${i }].srAnswer" value="${saList[i][j].saAnswer }">
 										${saList[i][j].saAnswer }
 									</td>
 								</tr>

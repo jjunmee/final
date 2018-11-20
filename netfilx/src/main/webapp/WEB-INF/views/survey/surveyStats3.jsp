@@ -8,35 +8,7 @@
 	.surveyList .leftBox{width:14%;float: left} 
 	.surveyList .centerBox{width:78%;float:left} 
 </style>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawMultSeries);
- 
-function drawMultSeries() {
-	var data = google.visualization.arrayToDataTable([
-		${strConcat}
-	]);
-	var options = { 
-		title: '${surveyVo.surveyName}',
-		width:1000,
-		height:1000,
-		chartArea: {width: '50%'},
-		tooltip:{textStyle : {fontSize:12}, showColorCode : true},
-
-		hAxis: {
-			title: '',
-			minValue: 0
-		},
-		vAxis: {
-			title: ''
-		}
-	};
-	var chart=new google.visualization.BarChart(document.getElementById('chart_div'));
-	chart.draw(data,options);
-	//window.addEventListener('resize', function() { chart.draw(data, barChartOption); }, false);
-
-}
 function idCheck(n){
 	var userId=document.getElementById("userId");
 	if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
@@ -49,7 +21,6 @@ function idCheck(n){
 		}
 	}
 }
-    
 </script>
 <div class="surveyList">
 	<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
@@ -64,10 +35,23 @@ function idCheck(n){
 			<a href="javascript:idCheck(0);">나의 설문지</a>
 		</div>
 	</div>
+	
 	<div id="myBox" class="centerBox">
-		<div id="chart_div">
-			
+		<div id="surveyName">
+			${surveyVo.surveyName }<br>
+			${sqTitle }
 		</div>
+		<div id="qNums">
+			<c:forEach var="i" begin="1" end="${qNums }">
+				<a href="<c:url value='/survey/stats?surveyNum=${surveyVo.surveyNum }&qNum=${i }'/>">${i }</a>
+			</c:forEach>
+		</div>
+		<div id="chart_div">
+			<c:forEach var="i" begin="0" end="${fn:length(ansList)-1 }">
+				${ansList[i].srAnswer }<br>
+			</c:forEach>
+		</div>
+		
 		 
 	</div>
 	<input type="hidden" id="userId" value="${sessionScope.id }">

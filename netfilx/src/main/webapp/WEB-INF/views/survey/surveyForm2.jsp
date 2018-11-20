@@ -609,7 +609,7 @@
 							var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
 							console.log(selbox.value);
 							console.log(inputop.value);						
-							hiddenInput.value=selbox.value+"!@#$"+inputop.value;
+							hiddenInput.value=selbox.value+"!@#"+inputop.value;
 						}					
 					}
 				}

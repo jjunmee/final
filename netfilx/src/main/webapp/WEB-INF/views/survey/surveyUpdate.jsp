@@ -694,7 +694,7 @@
 							var hiddenInput=document.getElementById("hidden"+i+"Input"+j);
 							console.log(selbox.value);
 							console.log(inputop.value);						
-							hiddenInput.value=selbox.value+"!@#$"+inputop.value;
+							hiddenInput.value=selbox.value+"!@#"+inputop.value;
 						}					
 					}
 				}
@@ -894,12 +894,12 @@
 									<div id="opBox${i }" style="position:relative;" class="opBox">
 										<br>
 										<div id="selDiv" style="display:block;">
-											<select id="sel1box${i }" n="1" cnt="${i }" value="${fn:split(salist[i][0].saAnswer,'!@#$')[0] }">
+											<select id="sel1box${i }" n="1" cnt="${i }" value="${fn:split(salist[i][0].saAnswer,'!@#')[0] }">
 												<option value="0">0</option>
 												<option value="1">1</option>
 											</select>
 											<span> ~ </span>
-											<select id="sel2box${i }" n="2" cnt="${i }" value="${fn:split(salist[i][1].saAnswer,'!@#$')[0] }">
+											<select id="sel2box${i }" n="2" cnt="${i }" value="${fn:split(salist[i][1].saAnswer,'!@#')[0] }">
 												<option value="2">2</option>
 												<option value="3">3</option>
 												<option value="4">4</option>
@@ -914,11 +914,11 @@
 										<div style="display:block;">
 											<input id="hidden1Input${i }" type="hidden" name="ssalist[${2 }].alist">
 											<input id="hidden2Input${i }" type="hidden" name="ssalist[${2 }].alist">
-											<span id="span1op${i }">${fn:split(salist[i][0].saAnswer,'!@#$')[0] }</span>
-											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][0].saAnswer,'!@#$')[1]}" placeholder="옵션을 입력하세요" id="input1op${i }">
+											<span id="span1op${i }">${fn:split(salist[i][0].saAnswer,'!@#')[0] }</span>
+											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][0].saAnswer,'!@#')[1]}" placeholder="옵션을 입력하세요" id="input1op${i }">
 											<br>
-											<span id="span2op${i }">${fn:split(salist[i][1].saAnswer,'!@#$')[0] }</span>
-											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][1].saAnswer,'!@#$')[1]}" placeholder="옵션을 입력하세요" id="input2op${i }">
+											<span id="span2op${i }">${fn:split(salist[i][1].saAnswer,'!@#')[0] }</span>
+											<input type="text" style="margin-left:5px;" value="${fn:split(salist[i][1].saAnswer,'!@#')[1]}" placeholder="옵션을 입력하세요" id="input2op${i }">
 										</div>
 									</div>
 									<div id="opPlusBox${i }" class="opPlusBox">										
