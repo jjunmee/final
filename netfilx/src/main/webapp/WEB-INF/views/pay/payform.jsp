@@ -117,7 +117,8 @@
 			str1 +=  ${userPoint }; 
 		}
 		str1 += "\" step=\"10\" onchange=\"pointCard(" + price + ")\" required>";
-		var str = "<input type=\"hidden\" name=\"grade_num\" value=\"" + num + "\">";
+		var str = price + "원<input type=\"hidden\" name=\"cardPrice\" value=\"" + price + "\">"
+		$("#totalPrice").append(str);
 		$("#gradePrice").append(price + "원" + str);
 		$("#usePoint").append(str1);
 	}

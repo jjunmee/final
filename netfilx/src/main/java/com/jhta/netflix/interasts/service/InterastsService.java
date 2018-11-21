@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.interasts.dao.InterastsDao;
+import com.jhta.netflix.interasts.vo.InterastsContentVo;
 import com.jhta.netflix.interasts.vo.InterastsVo;
 
 @Service
@@ -34,5 +35,11 @@ public class InterastsService {
 	}
 	public int count(int num) {
 		return dao.count(num);
+	}
+	public int interastsCount(int num) {
+		return dao.interastsCount(num);
+	}
+	public List<InterastsContentVo> interastslist(HashMap<String, Object> map){
+		return dao.interastslist(map);
 	}
 }

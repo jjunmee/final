@@ -27,5 +27,18 @@
 	<select id="count" parameterType="int" resultType="int">
 		select count(*) from interasts where content_num=#{content_num}
 	</select>
+	
+	<select id="interastsCount" parameterType="int" resultType="int">
+		select count(*)
+		from interasts
+		where profile_num = #{profile_num}
+	</select>
+	<select id="interastslist" parameterType="interastsContent" resultType="hashmap">
+		select i.*, c.content_name, c.content_post2
+		from interasts i, content c
+		where i.content_num = c.content_num and profile_num = #{profile_num}
+		order by i.interasts_num desc
+		limit #{startRow}, #{rowBlockCount}
+	</select>
 </mapper>
   

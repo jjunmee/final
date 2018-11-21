@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jhta.netflix.interasts.vo.InterastsContentVo;
 import com.jhta.netflix.interasts.vo.InterastsVo;
 
 @Repository
@@ -35,5 +36,11 @@ public class InterastsDao {
 	}
 	public int count(int num) {
 		return sqlSession.selectOne(NAMESPACE+".count", num);
+	}
+	public int interastsCount(int num) {
+		return sqlSession.selectOne(NAMESPACE + ".interastsCount", num);
+	}
+	public List<InterastsContentVo> interastslist(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".interastslist", map);
 	}
 }

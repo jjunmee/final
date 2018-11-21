@@ -50,8 +50,9 @@
 	<table>
 		<tr>
 			<td>프로필사진/ ${nickname }</td>
-			<td><a href="<c:url value='/mypage/commentlist'/>">${nickname } 님의 댓글 보기</a></td>
-			<td><a href="<c:url value='/mypage/recordlist'/>">${nickname } 님의 시청기록보기</a></td>
+			<td><a href="<c:url value='/mypage/commentlist'/>">댓글 보기</a></td>
+			<td><a href="<c:url value='/mypage/recordlist'/>">시청기록보기</a></td>
+			<td><a href="<c:url value='/mypage/interastslist'/>">찜영상</a></td>
 		</tr>
 	</table>
 </div>
