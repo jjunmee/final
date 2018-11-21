@@ -73,6 +73,7 @@
 		var temp = 0;
 
 		$(window).on("beforeunload", function(){
+			var v = document.getElementById("player");
 			var next_watch = parseInt(document.getElementById("player").currentTime);
 			$.get("<c:url value='/record/record'/>",
 					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },
@@ -80,6 +81,12 @@
 					function(data) {
 						
 			});
+			if(v.played && playTime != 0){
+				$.get("<c:url value='/limit/exit'/>",
+						{"users_num":${sessionScope.users_num }},
+						function(data) {
+				});
+			}
 	    });
 
 		$(function() {
@@ -132,6 +139,26 @@
 			"play", 
 			function(event){
 				temp = Math.round(this.currentTime);
+				$.get("<c:url value='/limit/check'/>",
+						{"users_num":${sessionScope.users_num }},
+						function(data) {
+							if(data.check == "false"){
+								this.pause();
+								alert("동시접속제한!!!!");
+							}else if(data.check == "pay"){
+								location.href="<c:url value='/pay/payform'/>";
+							}
+				});
+			});
+			$("#player").on(
+			"pause", 
+			function(event){
+				if(playTime != 0){
+					$.get("<c:url value='/limit/exit'/>",
+							{"users_num":${sessionScope.users_num }},
+							function(data) {
+					});
+				}
 			});
 			$.get(
 			"<c:url value='/record/getInfo'/>", 
