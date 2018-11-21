@@ -49,6 +49,8 @@ public class Pay_infoController {
 	@RequestMapping(value="/pay/payment",method=RequestMethod.POST)
 	public ModelAndView payment(HttpSession session,@RequestParam(value="pointPrice",defaultValue="-1")int pointPrice,@RequestParam(value="cardPrice",defaultValue="-1")int cardPrice, int grade_num) {
 		ModelAndView mv = new ModelAndView();
+		System.out.println("pointPrice=================" + pointPrice);
+		System.out.println("cardPrice=================" + cardPrice);
 		String id = (String)session.getAttribute("id");
 		UserVo uvo = uservice.userInfo(id);
 		Point_infoVo pvo = new Point_infoVo();
@@ -58,14 +60,16 @@ public class Pay_infoController {
 		if(pointPrice > 0 && cardPrice > 0) {
 			payment = "point + card";
 			//point_info insert
-			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
 			System.out.println("usage============" + payment);
-		}else if(pointPrice > 0 && cardPrice < 0) {
+			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
+			pservice.insert(pvo);
+		}else if(pointPrice > 0 && cardPrice <= 0) {
 			payment = "point";
 			//point_info insert
-			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
 			System.out.println("usage============" + payment);
-		}else if(pointPrice < 0 && cardPrice > 0) {
+			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
+			pservice.insert(pvo);
+		}else if(pointPrice <= 0 && cardPrice > 0) {
 			payment = "card";
 			System.out.println("usage============" + payment);
 		}
@@ -78,7 +82,6 @@ public class Pay_infoController {
 			map.put("point", userPoint);
 			map.put("users_num", vo.getUsers_num());
 			uservice.pointUpdate(map);
-			pservice.insert(pvo);
 			result = ".pay.payOk";
 		}else {
 			mv.addObject("code", "요청실패");
