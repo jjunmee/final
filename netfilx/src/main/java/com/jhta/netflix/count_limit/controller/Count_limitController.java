@@ -31,6 +31,8 @@ public class Count_limitController {
 				}
 			}else {
 				int limitNum = Integer.parseInt(sLimitNum.split("-")[1]);
+				System.out.println(limitNum);
+				System.out.println(vo.getCount());
 				if(vo.getCount() >= limitNum) {
 					json.put("check", "false");
 				}else {
