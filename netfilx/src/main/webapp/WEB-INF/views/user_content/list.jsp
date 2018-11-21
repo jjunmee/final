@@ -7,16 +7,24 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style type="text/css">
-		.carousel-cell>img,.carousel-cell>video{border: 2px solid #999;border-radius: 8px;}
-		.carousel-cell{width: 18%;height: 100%;}
-		.carousel-cell>img{width: 200px;height: 150px;margin-top: 25px;
+		.carousel-cell.main>img,.carousel-cell.main>video{border: 2px solid #999;border-radius: 8px;}
+		.carousel-cell.main{width: 18%;height: 100%;}
+		.carousel-cell.main>img{width: 200px;height: 150px;margin-top: 25px;
 			position:absolute;z-index: 2;cursor: pointer;}
-		.carousel-cell>video{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
+		.carousel-cell.main>video{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
 			background-color: black;position:absolute;z-index: 3;display: none;}
-		.carousel-cell>div{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
+		.carousel-cell.main>div{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
 			position:absolute;z-index: 4;display: none;cursor: pointer;}
-		.carousel-cell>div>*{padding-left: 20px;}
-		.main-carousel{height: 200px;}
+		.carousel-cell.main>div>*{padding-left: 20px;}
+		.main-carousel.main{height: 200px;}
+		
+		.main-carousel.series{height: 300px;margin-top: 50px;}
+		.carousel-cell.series{width: 24%;height: 50%;}
+		.seriesSub{width: 260px;height: 150px;padding: 5px;}
+		.carousel-cell.series>video{border: 2px solid #999;border-radius: 8px;background-color: black;
+			height: 150px;}
+		
+		
 		#detail{width: 100%;height: 500px;margin: auto;background-color: black;display: none;}
 		.detail_div>div{float: left;}
 		.detail_div>div>table{width: 150px;}
@@ -36,7 +44,7 @@
 	<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 	<script type="text/javascript">
 		$(function () {
-			$('.main-carousel').flickity({
+			$('.main-carousel.main').flickity({
 				  cellAlign:'center',
 				  autoPlay:false,
 				  draggable:false,
@@ -45,7 +53,7 @@
 				  resize: false,
 				  pageDots: false
 			});
-			$(".carousel-cell>img").hover(function(event) {
+			$(".carousel-cell.main>img").hover(function(event) {
 				$(this).css({
 					'z-index': 3
 				}).delay(800).animate({
@@ -69,7 +77,7 @@
 					'z-index': 2
 				});
 			});
-			$(".carousel-cell>div").mouseout(function(event) {
+			$(".carousel-cell.main>div").mouseout(function(event) {
 				$(event.target.previousElementSibling.previousElementSibling.previousElementSibling).animate({
 					'margin-top':25,
 					'margin-left':0,
@@ -84,6 +92,7 @@
 			});
 		});
 		function contentDetail(event,vo,targetId) {
+			$("#detail>div").hide();
 			$("#detail>video").remove();
 			$(".name").html(vo.content_name);
 			var info = vo.content_regdate + " / ";
@@ -102,10 +111,37 @@
 						function(data) {
 							info += " / " + data.series_name;
 							$(".detail_info").html(info);
+							var str = 
+							"<h2>"+data.series_name+"</h2>"
+							+"<div class=\"main-carousel series\">";
 							$(data.list).each(function(i, json) {
+								str+=
+								  "<div class=\"carousel-cell series\">"
+								  	+"<video loop onclick=\"contentPlay("+json.content_num+")\">"
+										+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+									+"</video>"
+									  +"<div class=\"seriesSub\">"
+									  	+"<h4>"+json.content_name+"</h4>"
+									  	+"<p>"+json.content_summary+"</p>"
+									  +"</div>"
+								  +"</div>";
+							});
+							str+="</div>";
+							$(".series_info").empty();
+							$(".series_info").append(str);
+							$(".series_info video").each(function(i, element) {
+								element.currentTime = 60;
+							});
+							$(".series_info video").css("cursor", "pointer");
+							$('.main-carousel.series').flickity({
+								  cellAlign:'center',
+								  autoPlay:false,
+								  draggable:false,
+								  groupCells:4,
+								  setGallerySize: false,
+								  pageDots: false
 							});
 				});
-				$(".series_info").html();
 			}else{
 				$(".detail_info").html(info);
 			}
@@ -212,17 +248,17 @@
 			$(".detail_menu>a").css("color", "white");
 			$(".a"+num).css("color","red");
 		}
-		function contentPlay() {
-			location.href = "<c:url value='/content/contentPlay'/>";
+		function contentPlay(num) {
+			location.href = "<c:url value='/content/contentPlay?content_num="+num+"'/>";
 		}
 	</script>
 </head>
 <body>
 	<h4>내가 찜한 콘텐츠</h4>
 	<div id="jjimContent">
-		<div class="main-carousel">
+		<div class="main-carousel main">
 			<c:forEach items="${jjimList }" var="vo">
-			  <div class="carousel-cell">
+			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
@@ -272,9 +308,9 @@
 	</div>
 	<h4>신규 콘텐츠</h4>
 	<div id="newContent">
-		<div class="main-carousel">
+		<div class="main-carousel main">
 			<c:forEach items="${newList }" var="vo">
-			  <div class="carousel-cell">
+			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
@@ -324,9 +360,9 @@
 	</div>
 	<h4>Watflix 인기 콘텐츠</h4>
 	<div id="bestContent">
-		<div class="main-carousel">
+		<div class="main-carousel main">
 			<c:forEach items="${bestList }" var="vo">
-			  <div class="carousel-cell">
+			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
 					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
@@ -386,55 +422,6 @@
 			<input type="button" value="찜" class="jjBtn">
 		</div>
 		<div class="series_info">
-			<div class="main-carousel">
-				<c:forEach items="${jjimList }" var="vo">
-				  <div class="carousel-cell">
-				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
-				  	<video loop>
-						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-					</video>
-					<div>
-						<h3>${vo.content_name }</h3>
-						<h5>
-							${vo.content_regdate} / 
-							<c:choose>
-								<c:when test="${vo.watch_age == 12}">
-									${vo.watch_age }
-								</c:when>
-								<c:when test="${vo.watch_age == 15}">
-									${vo.watch_age }
-								</c:when>
-								<c:when test="${vo.watch_age == 19}">
-									청불
-								</c:when>
-								<c:otherwise>
-									전체관람가
-								</c:otherwise>
-							</c:choose>
-						</h5>
-						<br><br>
-						<h5>${vo.content_summary }</h5>
-					</div>
-					<div onclick="contentDetail(event,{
-						content_num:${vo.content_num},
-						content_name:'${vo.content_name}',
-						orgsrc:'${vo.orgsrc}',
-						savesrc:'${vo.savesrc}',
-						content_summary:'${vo.content_summary}',
-						trailer_orgsrc:'${vo.trailer_orgsrc}',
-						trailer_savesrc:'${vo.trailer_savesrc}',
-						content_size:${vo.content_size},
-						trailer_size:${vo.trailer_size},
-						content_post1:'${vo.content_post1}',
-						content_post2:'${vo.content_post2}',
-						release_date:'${vo.release_date}',
-						watch_age:${vo.watch_age},
-						content_regdate:'${vo.content_regdate}',
-						series_num:${vo.series_num}
-					},'jjimContent')"></div>
-				  </div>
-				</c:forEach>
-			</div>
 		</div>
 		<div class="similar_content">
 		</div>
