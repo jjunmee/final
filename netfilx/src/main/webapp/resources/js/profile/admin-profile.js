@@ -42,3 +42,10 @@ function pimg_del(){
 function sel_pimg(no){
 	$("#pimg_no").val(no);
 }
+function group_ck(){
+	var no = $("#pro_group_no").val();
+	if(no=="" || no==null){
+		alert("그룹을 선택해 주세요")
+		return false;
+	}
+}

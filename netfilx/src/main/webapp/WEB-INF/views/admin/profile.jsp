@@ -34,7 +34,7 @@
 		</form>
 	</div>
 	<div class="row">
-	<form method="post" action="<c:url value='/admin/profile/imgInput'/>" enctype="multipart/form-data">
+	<form method="post" action="<c:url value='/admin/profile/imgInput'/>" enctype="multipart/form-data" onsubmit="return group_ck()">
 		<div class="col-sm-11 col-md-11">	
 		<input type="file" name="file1" id="file1" class="form-control">
 		</div>

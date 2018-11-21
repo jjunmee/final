@@ -35,7 +35,7 @@
 	<!-- Root Logger -->
 	<root>
 		<!-- <priority value="WARN" /> -->
-		<priority value="WARN"/>
+		<priority value="ERROR"/>
 		<appender-ref ref="console" />
 	</root>
 	

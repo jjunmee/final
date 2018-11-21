@@ -1,10 +1,10 @@
 function pwdCk(){
 	var pwd = $("#pwd");
 	var pwd1 = $("#pwd1");
-	var ck = $("#progile_num");
+	var ck = $("#profile_num1");
 	var nic = $("#nickname");
-	if(ck.val()!=null){
-		if(pwd.val()!=null || pwd1.val()!=null){
+	if(ck.val()!==null && ck.val()!=""){
+		if(pwd.val()!="" || pwd1.val()!=""){
 			if(pwd.val() != pwd1.val()){
 				pwd.focus();
 				return false;
@@ -15,22 +15,20 @@ function pwdCk(){
 			return false;
 		}
 	}else{
-		if(nic.val()==null){
+		if(nic.val()==""){
 			nic.focus();
 			return false;
-		}else if(pwd.val()==null){
+		}else if(pwd.val()==""){
 			pwd.focus();
 			return false;
-		}else if(pwd1.val()==null){
+		}else if(pwd1.val()==""){
 			pwd1.focus();
 			return false;
 		}else if(pwd.val() != pwd1.val()){
 			pwd.focus();
 			return false;
 		}
-		alert(pwd.val());
 	}
-	
 }
 
 function change_child(row){

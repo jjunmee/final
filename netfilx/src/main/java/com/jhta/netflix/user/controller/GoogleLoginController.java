@@ -60,7 +60,6 @@ public class GoogleLoginController {
 	    	session.setAttribute("users_num", vo.getUsers_num());
 	    }
 	    session.setAttribute("id", id);
-	    session.setAttribute("sns", "google");
 	    session.setAttribute("accessToken", accessToken);
 	    return "redirect:/profile/user/index";
 	}
