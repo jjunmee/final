@@ -41,6 +41,7 @@
 		<typeAlias type="com.jhta.netflix.point_info.vo.User_pointVo" alias="UserPointInfo"/>
 		<typeAlias type="com.jhta.netflix.rates.vo.RatesAvgVo" alias="ratesAvg"/>
 		<typeAlias type="com.jhta.netflix.record.vo.RecordVo" alias="record"/>
+		<typeAlias type="com.jhta.netflix.record.vo.RecordContentVo" alias="recordContent"/>
 		<typeAlias type="com.jhta.netflix.bookmark.vo.BookmarkVo" alias="bookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Mypage_commentVo" alias="mypagecomment"/>

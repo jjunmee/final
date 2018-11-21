@@ -1,11 +1,13 @@
 package com.jhta.netflix.record.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jhta.netflix.record.dao.RecordDao;
+import com.jhta.netflix.record.vo.RecordContentVo;
 import com.jhta.netflix.record.vo.RecordVo;
 
 @Service
@@ -30,5 +32,11 @@ public class RecordService {
 	}
 	public RecordVo find(RecordVo vo) {
 		return dao.find(vo);
+	}
+	public List<RecordContentVo> recordlist(HashMap<String, Object> map){
+		return dao.recordlist(map);
+	}
+	public int recordCount(int num) {
+		return dao.recordCount(num);
 	}
 }
