@@ -51,11 +51,12 @@
 	<context:component-scan base-package="com.jhta.netflix" />
 	
 	<!-- Intercepter -->
-<!-- 
+
 	<beans:bean id="LoginIntercepter" class="com.jhta.netflix.LoginIntercepter"></beans:bean>
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
+			<exclude-mapping path="/resources/**"/>
 			
 			<exclude-mapping path="/loginForm"/>
 			<exclude-mapping path="/join/default"/>
@@ -63,14 +64,21 @@
 			<exclude-mapping path="/user/google"/>
 			<exclude-mapping path="/user/naver"/>
 			
+			
 			<exclude-mapping path="/profile/user/index"/>
 			<exclude-mapping path="/profile/user/getInfo"/>
-			<exclude-mapping path="/profile/user/json"/>
 			<exclude-mapping path="/profile/user/insertForm"/>
-			<exclude-mapping path="/admin/**"/>
+			<exclude-mapping path="/profile/user/img/listForm"/>
 			<beans:ref bean="LoginIntercepter"/>
 		</interceptor>
 	</interceptors>
- -->
+	
+	<beans:bean id="AdminIntercepter" class="com.jhta.netflix.AdminIntercepter"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:ref bean="AdminIntercepter"/>
+		</interceptor>
+	</interceptors>
  
 </beans:beans>

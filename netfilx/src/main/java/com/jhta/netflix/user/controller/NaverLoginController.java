@@ -77,7 +77,6 @@ public class NaverLoginController {
 	    	session.setAttribute("users_num", vo.getUsers_num());
 	    }
 	    session.setAttribute("id", id);
-	    session.setAttribute("sns", "naver");
 	    session.setAttribute("accessToken", json1.getString("accessToken").toString());
 	    session.setAttribute("tokenType", json1.getString("tokenType").toString());
 	    session.setAttribute("refreshToken", json1.getString("refreshToken").toString());

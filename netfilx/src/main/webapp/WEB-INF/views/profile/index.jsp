@@ -27,19 +27,19 @@
 						<a href="<c:url value='/profile/user/img/listForm?first=true'/>" class="btn-lg">
 							<i class="glyphicon glyphicon-plus-sign" ></i>
 						</a>
+						<div><p class="profile_nickname">프로필 추가</p></div>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${fn:length(list) < 4 }">
 							<a href="<c:url value='/profile/user/img/listForm?first=false'/>" class="btn-lg">
 								<i class="glyphicon glyphicon-plus-sign"></i>
 							</a>
+							<div><p class="profile_nickname">프로필 추가</p></div>
 						</c:if>
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div>
-				<p class="profile_nickname">프로필 추가</p>
-			</div>
+			
 		</div>
 	</div>
 <c:if test="${profile_first eq true }">

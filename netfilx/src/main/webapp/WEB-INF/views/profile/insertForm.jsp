@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-md-offset-2">
 			<c:choose>
-				<c:when test="${!empty(n_pimg_num) }">
+				<c:when test="${!empty(c_profile_num) }">
 				<h1>프로필 변경</h1>
 				</c:when>
 				<c:otherwise>
@@ -73,7 +73,7 @@
 				</c:otherwise>
 			</c:choose>
 			<input type="hidden" value="${first }" name="profile_first">
-			<input type="hidden" value="${c_profile_num }" name="profile_num">
+			<input type="hidden" value="${c_profile_num }" id="profile_num1" name="profile_num">
 		</div>
 		</div>
 		<div class="container footer">
