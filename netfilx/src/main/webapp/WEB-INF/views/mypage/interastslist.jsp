@@ -4,43 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/mh.css'/>">
 <div class="mhdiv">
-	<h1>내가 쓴 댓글</h1>
-	<div>
-		<form action="<c:url value='/mypage/commentlist'></c:url>" method="post" class="form1000">
-			공개<input type="checkbox" name="comment_true" value="true"<c:if test="${comment_open == true }">checked="checked"</c:if>>/
-			비공개<input type="checkbox" name="comment_false" value="false"<c:if test="${comment_open == false }">checked="checked"</c:if>>/
-			책갈피있음<input type="checkbox" name="bookmark_true" value="true"<c:if test="${bookmark == true }">checked="checked"</c:if>>/
-			책갈피없음<input type="checkbox" name="bookmark_false" value="false"<c:if test="${bookmark == false }">checked="checked"</c:if>>/
-			<input type="submit" value="검색">
-		</form>
-	</div>
+	<h1>찜영상</h1>
 	<table>
 		<tr>
-			<th>댓글내용</th>
+			<th>컨텐츠 이미지</th>
 			<th>컨텐츠명</th>
-			<th>공개/비공개</th>
-			<th>책갈피시간</th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
-			<td>${vo.comment }</td>
+			<td><a href="<c:url value='/content/contentPlay?content_num=${vo.content_num}'/>"><img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'></a></td>
 			<td>${vo.content_name }</td>
-			<c:choose>
-				<c:when test="${vo.comment_open == true}">
-					<td>공개</td>
-				</c:when>
-				<c:otherwise>
-					<td>비공개</td>
-				</c:otherwise>
-			</c:choose>
-			<c:choose>
-				<c:when test="${vo.bookmark == true}">
-					<td><fmt:parseNumber var="bookmark_time" value="${vo.bookmark_time/60 }" integerOnly="true"/>${bookmark_time} : ${vo.bookmark_time%60 }</td>
-				</c:when>
-				<c:otherwise>
-					<td>無</td>
-				</c:otherwise>
-			</c:choose>
 		</tr>
 		</c:forEach>
 	</table>
@@ -59,12 +32,12 @@
 		<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
 			<c:choose>
 				<c:when test="${pu.pageNum == i }">
-					<a href="<c:url value='/mypage/commentlist?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/mypage/interastslist?pageNum=${i }&keyword=${keyword }'></c:url>">
 						<span style="color: blue;">[${i }]</span>
 					</a>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/mypage/commentlist?pageNum=${i }&keyword=${keyword }'></c:url>">
+					<a href="<c:url value='/mypage/interastslist?pageNum=${i }&keyword=${keyword }'></c:url>">
 						<span style="color: gray;">[${i }]</span>
 					</a>
 				</c:otherwise>

@@ -71,8 +71,10 @@
 		var rowPage = 1;
 		var playTime = 0;
 		var temp = 0;
+		var limitFlag = true;
 
 		$(window).on("beforeunload", function(){
+			var v = document.getElementById("player");
 			var next_watch = parseInt(document.getElementById("player").currentTime);
 			$.get("<c:url value='/record/record'/>",
 					{"content_num":${vo.content_num },"profile_num":${sessionScope.profile_num },
@@ -80,6 +82,12 @@
 					function(data) {
 						
 			});
+			if((!v.paused) && playTime != 0){
+				$.get("<c:url value='/limit/exit'/>",
+						{"users_num":${sessionScope.users_num }},
+						function(data) {
+				});
+			}
 	    });
 
 		$(function() {
@@ -126,12 +134,32 @@
 			function(event){
 				if(!this.paused){
 					onTrackedVideoFrame(Math.round(this.currentTime), Math.round(this.duration));
+				}else{
+					if(limitFlag && playTime != 0){
+						$.get("<c:url value='/limit/exit'/>",
+								{"users_num":${sessionScope.users_num }},
+								function(data) {
+						});
+					}
 				}
 			});
 			$("#player").on(
 			"play", 
 			function(event){
+				limitFlag = true;
+				var v = document.getElementById("player");
 				temp = Math.round(this.currentTime);
+				$.get("<c:url value='/limit/check'/>",
+						{"users_num":${sessionScope.users_num }},
+						function(data) {
+							if(data.check == "false"){
+								limitFlag = false;
+								v.pause();
+								alert("동시접속제한!!!!");
+							}else if(data.check == "pay"){
+								location.href="<c:url value='/pay/payform'/>";
+							}
+				});
 			});
 			$.get(
 			"<c:url value='/record/getInfo'/>", 

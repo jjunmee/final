@@ -31,6 +31,7 @@
 		<typeAlias type="com.jhta.netflix.qna_user.vo.Qna_userVo" alias="qnauser"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Content_commentVo" alias="ccomment"/>
 		<typeAlias type="com.jhta.netflix.interasts.vo.InterastsVo" alias="interasts"/>
+		<typeAlias type="com.jhta.netflix.interasts.vo.InterastsContentVo" alias="interastsContent"/>
 		<typeAlias type="com.jhta.netflix.good.vo.GoodVo" alias="good"/>
 		<typeAlias type="com.jhta.netflix.profile.vo.ProfileUserVo" alias="profileUser"/>
 		<typeAlias type="com.jhta.netflix.rates.vo.RatesVo" alias="rates"/>
@@ -46,5 +47,6 @@
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Mypage_commentVo" alias="mypagecomment"/>
 		<typeAlias type="com.jhta.netflix.alarm.vo.Alarm" alias="alarm"/>
+		<typeAlias type="com.jhta.netflix.count_limit.vo.Count_limitVo" alias="cl"/>
 	</typeAliases>
 </configuration>

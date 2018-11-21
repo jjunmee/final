@@ -25,12 +25,13 @@
 		<property name="locations" value="/WEB-INF/*.properties"/>
 	</bean>	
    
-   <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
    		<property name="driverClassName" value="${driver}"/>
    		<property name="url" value="${url}"/>
    		<property name="username" value="${user}"/>
    		<property name="password" value="${password}"/>
    </bean> 
+   <!-- 
    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
       <constructor-arg ref="dataSourceSpied" />
       <property name="logFormatter">
@@ -40,6 +41,7 @@
          </bean>
       </property>
    </bean>
+    -->
    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
    		<property name="dataSource" ref="dataSource"/>
    		<property name="mapperLocations" value="classpath*:mapper/*.xml"/>

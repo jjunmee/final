@@ -7,15 +7,15 @@
 	<h1>시청내역</h1>
 	<table>
 		<tr>
+			<th>시청컨텐츠</th>
 			<th>이어보기시간</th>
 			<th>누적시청시간</th>
-			<th>시청컨텐츠</th>
 		</tr>
 		<c:forEach var="vo" items="${list }">
 		<tr>
-			<td>${vo.next_watch }</td>
-			<td>${vo.total_time }</td>
-			<td>${vo.content_name }</td>
+			<td><a href="<c:url value='/content/contentPlay?content_num=${vo.content_num}'/>">${vo.content_name }</a></td>
+			<td><fmt:parseNumber var="next_watch" value="${vo.next_watch/60 }" integerOnly="true"/>${next_watch} : ${vo.next_watch%60 }</td>
+			<td><fmt:parseNumber var="total_time" value="${vo.total_time/60 }" integerOnly="true"/>${total_time} : ${vo.total_time%60 }</td>
 		</tr>
 		</c:forEach>
 	</table>

@@ -101,12 +101,14 @@
 						{"series_num":vo.series_num},
 						function(data) {
 							info += " / " + data.series_name;
+							$(".detail_info").html(info);
 							$(data.list).each(function(i, json) {
 							});
 				});
 				$(".series_info").html();
+			}else{
+				$(".detail_info").html(info);
 			}
-			$(".detail_info").html(info);
 			$(".detail_summary").html(vo.content_summary);
 			$.get("<c:url value='/staff/detailList'/>",
 					{"content_num":vo.content_num},

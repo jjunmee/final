@@ -109,6 +109,7 @@
 	function gradeselect(price,num){
 		$("#gradePrice").empty();
 		$("#usePoint").empty();
+		$("#totalPrice").empty();
 		var str1 = "<input type=\"number\" value=\"0\" name=\"pointPrice\" id=\"id_pointPrice\" min=\"0\" max=\"";
 		//유저가 가지고 있는 포인트가 >= 멤버쉽금액보다
 		if(${userPoint } >= price){
@@ -118,6 +119,8 @@
 		}
 		str1 += "\" step=\"10\" onchange=\"pointCard(" + price + ")\" required>";
 		var str = "<input type=\"hidden\" name=\"grade_num\" value=\"" + num + "\">";
+		var str2 = price + "원<input type=\"hidden\" name=\"cardPrice\" value=\"" + price + "\">"
+		$("#totalPrice").append(str2);
 		$("#gradePrice").append(price + "원" + str);
 		$("#usePoint").append(str1);
 	}

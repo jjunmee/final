@@ -59,12 +59,15 @@ public class Pay_infoController {
 			payment = "point + card";
 			//point_info insert
 			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
+			System.out.println("usage============" + payment);
 		}else if(pointPrice > 0 && cardPrice < 0) {
 			payment = "point";
 			//point_info insert
 			pvo = new Point_infoVo(0,null,"멤버십결제-사용-" + pointPrice,"point",uvo.getUsers_num());
+			System.out.println("usage============" + payment);
 		}else if(pointPrice < 0 && cardPrice > 0) {
 			payment = "card";
+			System.out.println("usage============" + payment);
 		}
 		Pay_infoVo vo = new Pay_infoVo(0,null,null,payment,uvo.getUsers_num(),grade_num);
 		int n = service.insert(vo);
