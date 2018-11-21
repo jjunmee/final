@@ -81,7 +81,7 @@
 					function(data) {
 						
 			});
-			if(v.played && playTime != 0){
+			if((!v.paused) && playTime != 0){
 				$.get("<c:url value='/limit/exit'/>",
 						{"users_num":${sessionScope.users_num }},
 						function(data) {
