@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.Count_limitMapper">
+	<insert id="insert" parameterType="cl">
+		insert into count_limit values(0,#{count},#{users_num})
+	</insert>
+	<update id="update" parameterType="cl">
+		update count_limit set count=#{count} where users_num=#{users_num}
+	</update>
+	<select id="find" parameterType="int" resultType="cl">
+		select * from count_limit where users_num=#{users_num}
+	</select>
+	<select id="getLimitNum" parameterType="int" resultType="string">
+		select g.grade_name
+		from pay_info pi, grade g
+		where pi.grade_num=g.grade_num 
+		and users_num=#{users_num}
+		<![CDATA[and now()<(select max(pay_end) from pay_info where users_num=#{users_num})]]>
+	</select>
+</mapper>

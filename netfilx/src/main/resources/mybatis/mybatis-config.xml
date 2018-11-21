@@ -45,5 +45,6 @@
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Mypage_commentVo" alias="mypagecomment"/>
 		<typeAlias type="com.jhta.netflix.alarm.vo.Alarm" alias="alarm"/>
+		<typeAlias type="com.jhta.netflix.count_limit.vo.Count_limitVo" alias="cl"/>
 	</typeAliases>
 </configuration>
