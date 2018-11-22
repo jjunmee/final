@@ -55,4 +55,7 @@ public class ContentDao {
 	public List<ContentVo> recommendList(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".recommendList", map);
 	}
+	public List<ContentVo> similarList(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".similarList", map);
+	}
 }

@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style type="text/css">
-		p{text-overflow: ellipsis;overflow: hidden;}
+		.carousel-cell.main p{text-overflow: ellipsis;overflow: hidden;word-break:break-all;height: 40%;}
 		.carousel-cell.main>img,.carousel-cell.main>video{}
 		.carousel-cell.main{width: 18%;height: 100%;}
 		.carousel-cell.main>img{width: 200px;height: 150px;margin-top: 25px;
@@ -16,7 +16,7 @@
 			background-color: black;position:absolute;z-index: 3;display: none;}
 		.carousel-cell.main>div{width: 300px;height: 200px;margin-top: 0px;margin-left: -50px;
 			position:absolute;z-index: 4;display: none;cursor: pointer;}
-		.carousel-cell.main>div>*{padding-left: 20px;}
+		.carousel-cell.main>div>*{padding-left: 10px;padding-right: 10px;}
 		.main-carousel.main{height: 200px;}
 		
 		.main-carousel.series{height: 300px;margin-top: 50px;}
@@ -24,6 +24,8 @@
 		.seriesSub{width: 260px;height: 150px;padding: 5px;}
 		.carousel-cell.series>video{border: 2px solid #999;border-radius: 8px;background-color: black;
 			height: 150px;}
+			
+		.seriesSub p{text-overflow: ellipsis;overflow: hidden;word-break:break-all;width: 100%;height: 45%;}
 		
 		
 		#detail{width: 100%;height: 500px;margin: auto;background-color: black;display: none;}
@@ -32,10 +34,11 @@
 		#detail>video{height: 500px;right: 0px;position: absolute;z-index: 1;}
 		#detail>div{width: 100%;height: 500px;padding: 20px;
 			position: absolute;z-index: 2;display: none;}
+		.detail_summary{text-overflow: ellipsis;overflow: hidden;word-break:break-all;width: 50%;height: 30%;}
 		.info_div>h5{width: 50%;}
-		.closeBtn{position: absolute;right: 0px;top: 0px;border-radius: 50px;background-color: lightgray;}
+		.closeBtn{position: absolute;right: 0px;top: 0px;border-radius: 50px;background-color: #222;}
 		.detail_menu{position: absolute;bottom: 0px;left: 50%;transform:translate(-50%, 0%);}
-		.detail_menu>a{margin: 10px;}
+		.detail_menu>a{margin: 10px;font-weight: bold;}
 		
 		th{font-size: 20px;}
 	</style>
@@ -142,6 +145,40 @@
 			}else{
 				$(".detail_info").html(info);
 			}
+			$.get("<c:url value='/content/similarList'/>",
+					{"content_num":vo.content_num,"series_num":vo.series_num},
+					function(data) {
+						var str = 
+						"<h2>"+vo.content_name+"</h2>"
+						+"<div class=\"main-carousel series\">";
+						$(data).each(function(i, json) {
+							str+=
+							  "<div class=\"carousel-cell series\">"
+							  	+"<video loop onclick=\"contentPlay("+json.content_num+")\">"
+									+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+								+"</video>"
+								  +"<div class=\"seriesSub\">"
+								  	+"<h4>"+json.content_name+"</h4>"
+								  	+"<p>"+json.content_summary+"</p>"
+								  +"</div>"
+							  +"</div>";
+						});
+						str+="</div>";
+						$(".similar_content").empty();
+						$(".similar_content").append(str);
+						$(".similar_content video").each(function(i, element) {
+							element.currentTime = Math.floor(Math.random() * 50) + 10;
+						});
+						$(".similar_content video").css("cursor", "pointer");
+						$('.main-carousel.series').flickity({
+							  cellAlign:'center',
+							  autoPlay:false,
+							  draggable:false,
+							  groupCells:4,
+							  setGallerySize: false,
+							  pageDots: false
+						});
+			});
 			$(".detail_summary").html(vo.content_summary);
 			$.get("<c:url value='/staff/detailList'/>",
 					{"content_num":vo.content_num},
@@ -279,8 +316,7 @@
 							</c:otherwise>
 						</c:choose>
 					</h5>
-					<br><br>
-					<h5>${vo.content_summary }</h5>
+					<p>${vo.content_summary }</p>
 				</div>
 				<div onclick="contentDetail(event,{
 					content_num:${vo.content_num},
@@ -331,7 +367,6 @@
 							</c:otherwise>
 						</c:choose>
 					</h5>
-					<br><br>
 					<p>${vo.content_summary }</p>
 				</div>
 				<div onclick="contentDetail(event,{
@@ -383,8 +418,7 @@
 							</c:otherwise>
 						</c:choose>
 					</h5>
-					<br><br>
-					<h5>${vo.content_summary }</h5>
+					<p>${vo.content_summary }</p>
 				</div>
 				<div onclick="contentDetail(event,{
 					content_num:${vo.content_num},
@@ -435,8 +469,7 @@
 							</c:otherwise>
 						</c:choose>
 					</h5>
-					<br><br>
-					<h5>${vo.content_summary }</h5>
+					<p>${vo.content_summary }</p>
 				</div>
 				<div onclick="contentDetail(event,{
 					content_num:${vo.content_num},
@@ -465,7 +498,7 @@
 			<br><br>
 			<h4 class="detail_info"></h4>
 			<br><br>
-			<h5 class="detail_summary"></h5>
+			<p class="detail_summary"></p>
 			<input type="button" value="재생" class="playBtn btn btn-info">
 			<input type="button" value="찜" class="jjBtn">
 		</div>

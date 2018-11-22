@@ -50,4 +50,7 @@ public class ContentService {
 	public List<ContentVo> recommendList(HashMap<String, Object> map){
 		return dao.recommendList(map);
 	}
+	public List<ContentVo> similarList(HashMap<String, Object> map){
+		return dao.similarList(map);
+	}
 }

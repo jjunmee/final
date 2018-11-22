@@ -364,6 +364,35 @@ public class ContentController {
 		}
 		return arr.toString();
 	}
+	@RequestMapping(value="/content/similarList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String similarList(int content_num,int series_num) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("content_num", content_num);
+		map.put("series_num", series_num);
+		List<ContentVo> list = contentService.similarList(map);
+		JSONArray arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		return arr.toString();
+	}
 }
 
 
