@@ -145,5 +145,26 @@
 	<select id="seriesList" resultType="content" parameterType="int">
 		select * from content where series_num=#{series_num} order by release_date
 	</select>
+	<select id="similarList" parameterType="hashmap" resultType="content">
+		select c.*
+		from content c inner join
+		(
+			select content_num
+			from content_genre cg inner join
+			(
+				select genre_num
+				from content_genre
+				where content_num=#{content_num}
+			) my
+			on cg.genre_num=my.genre_num
+			group by content_num
+			order by count(*) desc
+		) j
+		on c.content_num = j.content_num
+		<if test="series_num != 0">
+			where series_num != #{series_num}
+		</if>
+		limit 0,20
+	</select>
 </mapper>
   

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ChartMapper">
+
+	<!-- 순이익!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 이번달 ((포인트+멤버십)-멤버십포인트결제) 순이익 -->
+	<select id="thisMonthTotal" resultType="int">
+		select (a.pr + b.us-c.pm) gain
+		from (select IFNULL(sum(g.grade_price),0) pr
+			from pay_info p, grade g 
+	        where p.grade_num = g.grade_num 
+	        <![CDATA[and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)) a,
+			(select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) us
+			from point_info pi
+			where pi.usage like '%충전%'
+			and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)) b,
+	        (select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) pm
+			from point_info pi
+			where pi.usage like '%멤버십결제%'
+			and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)) c]]>
+	</select>
+	
+	<!-- 지난달 ((포인트+멤버십)-멤버십포인트결제) 순이익 (1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
+	<select id="nextMonthTotal" resultType="int" parameterType="hashmap">
+		select (a.pr + b.us - c.pm) gain
+		from (select IFNULL(sum(g.grade_price),0) pr
+			from pay_info p, grade g 
+			where p.grade_num = g.grade_num 
+			<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+			and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)) a,
+			(select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) us
+			from point_info pi
+			where pi.usage like '%충전%'
+			and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+			and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)) b,
+	        (select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) pm
+			from point_info pi
+			where pi.usage like '%멤버십결제%'
+			and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+			and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)) c]]>
+	</select>
+	
+	<!-- 멤버십결제!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 이번달멤버십결제총액 -->
+	<select id="mPayThisMonthSum" resultType="int">
+		select sum(g.grade_price) tmgain
+		from pay_info p, grade g 
+		where p.grade_num = g.grade_num 
+		<![CDATA[ and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+	</select>
+	
+	<!-- 지난달멤버십결제총액(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
+	<select id="mPayNextMonthSum" resultType="int" parameterType="hashmap">
+		select sum(g.grade_price) nmgain
+		from pay_info p, grade g 
+		where p.grade_num = g.grade_num 
+		<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+		and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
+	</select>
+	
+	<!-- 포인트충전!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 이번달 포인트 충전 -->
+	<select id="pointThisMonthPay" resultType="int">
+		select sum(SUBSTRING_INDEX(pi.usage, '-', -1)) ptPay
+		from point_info pi
+		where pi.usage like '%충전%'
+		<![CDATA[and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+	</select>
+	
+	<!-- 지난달 포인트 충전(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
+	<select id="pointNextMonthPay" resultType="int" parameterType="hashmap">
+		select sum(SUBSTRING_INDEX(pi.usage, '-', -1)) pnPay
+		from point_info pi
+		where pi.usage like '%충전%'
+		<![CDATA[and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+		and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
+	</select>
+	
+	<!-- 포인트멤버십결제!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 이번달 포인트로 멤버쉽 결제 -->
+	<select id="pointMemThisMonthSum" resultType="int" parameterType="hashmap">
+		select count(SUBSTRING_INDEX(pi.usage, '-', -1)) tmcount
+		from point_info pi
+		where pi.usage like '%멤버십결제%'
+		<![CDATA[and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+	</select>
+	
+	<!-- 지난달 포인트로 멤버쉽 결제(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
+	<select id="pointMemNextMonthSum" resultType="int" parameterType="hashmap">
+		select count(SUBSTRING_INDEX(pi.usage, '-', -1)) nmcount
+		from point_info pi
+		where pi.usage like '%멤버십결제%' 
+		<![CDATA[and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+		and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
+	</select>
+	
+	<!-- 등급카운트!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- 이번달 등급별 카운트 수 -->
+	<select id="gradeThisNameCount" resultType="gnameCount" parameterType="int">
+		select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+		from pay_info p, grade g 
+		where p.grade_num = g.grade_num 
+		<![CDATA[and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+        group by g.grade_name
+        limit #{limitNum},1
+	</select>
+	
+	<!-- 지난달 등급별 카운트 수 -->
+	<select id="gradeNextNameCount" resultType="gnameCount" parameterType="hashmap">
+		select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+		from pay_info p, grade g 
+		where p.grade_num = g.grade_num 
+		<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+		and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
+        group by g.grade_name
+        limit #{limitNum},1
+	</select>
+	
+	<!-- 이번달 결제된 멤버십 등급 갯수 -->
+	<select id="thisGradeCount" resultType="int">
+		select count(p.gname)
+		from (select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+			from pay_info p, grade g 
+			where p.grade_num = g.grade_num 
+			<![CDATA[and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+	        group by g.grade_name) p
+	</select>
+	
+	<!-- 지난달 결제된 멤버십 등급 갯수 -->
+	<select id="nextGradeCount" resultType="int" parameterType="hashmap">
+		select count(p.gname)
+		from (select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+			from pay_info p, grade g 
+			where p.grade_num = g.grade_num 
+			<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
+			and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
+	        group by g.grade_name) p
+	</select>
+	
+</mapper>

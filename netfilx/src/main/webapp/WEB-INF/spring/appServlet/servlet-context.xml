@@ -69,6 +69,8 @@
 			<exclude-mapping path="/profile/user/getInfo"/>
 			<exclude-mapping path="/profile/user/insertForm"/>
 			<exclude-mapping path="/profile/user/img/listForm"/>
+			<exclude-mapping path="/profile/user/insert"/>
+			
 			<beans:ref bean="LoginIntercepter"/>
 		</interceptor>
 	</interceptors>
