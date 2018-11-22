@@ -12,6 +12,7 @@
 		#listTable{width: 1100px;}
 		.updateA{color: skyblue;}
 		.deleteA{color: pink;}
+		p{text-overflow: ellipsis;overflow: hidden;width: 435px;height: 15px;}
 	</style>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
 	<script type="text/javascript">
@@ -53,7 +54,7 @@
 					<tr>
 						<td>${vo.content_num }</td>
 						<td>${vo.content_name }</td>
-						<td>${vo.content_summary }</td>
+						<td><p>${vo.content_summary }</p></td>
 						<td>${vo.release_date }</td>
 						<td>${vo.content_regdate }</td>
 						<td>
