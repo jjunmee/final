@@ -8,7 +8,19 @@
 	<title>Insert title here</title>
 	<style type="text/css">
 		video{width: 100%;}
-		#block{width: 70%;padding: 20px;}
+		#content{padding: 30px;padding-top: 80px;display: flex;}
+		#block{width: 70%;}
+		#side{width: 30%;padding: 10px;}
+		#sideList{width: 100%;}
+		.recVideo{width: 100%;border-radius: 8px;padding: 3px;display: flex;background-color: #333;
+			margin: 5px;border-bottom: 3px solid black;border-right: 3px solid black;
+			border-left: 2px solid gray;border-top: 2px solid gray;}
+		.videoBox{width: 40%;}
+		.textBox{width: 60%;padding: 5px;}
+		.recVideo video{width: 100%;border-radius: 8px;cursor: pointer;}
+		.recVideo p{width: 100%;}
+		.title{font-size: 100%;}
+		.releaseDate{font-size: 9px;}
 		
 		#bookmarkDiv{width: 100%;text-align: right}
 		#bookmarkBox{width: 100%;}
@@ -168,7 +180,35 @@
 				var player = document.getElementById("player");
 				player.currentTime=data.next_watch;
 			});
+			$.get(
+			"<c:url value='/content/recommendList'/>", 
+			{"profile_num":${sessionScope.profile_num }}, 
+			function(data) {
+				var str = "";
+				$(data).each(function(i, json){
+					str +=
+					"<div class=\"recVideo\">"
+						+"<div class=\"videoBox\">"
+							+"<video onclick=\"contentPlay("+json.content_num+")\">"
+								+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+							+"</video>"
+						+"</div>"
+						+"<div class=\"textBox\">"
+							+"<p class=\"title\">"+json.content_name+"</p>"
+							+"<p class=\"releaseDate\">"+json.release_date+"</p>"
+						+"</div>"
+					+"</div>";
+				});
+				$("#sideList").append(str);
+				$("#sideList video").each(function(i, element) {
+					element.currentTime = Math.floor(Math.random() * 50) + 10;
+				});
+			});
 		});
+		
+		function contentPlay(num) {
+			location.href = "<c:url value='/content/contentPlay?content_num="+num+"'/>";
+		}
 		
 		function setAvg(){
 			$.get("<c:url value='/rates/getAvg'/>",
@@ -460,6 +500,11 @@
 			<div id="commentList">
 			</div>
 			<input type="button" value="더보기" onclick="moreList()" id="moreBtn" class="btn btn-default">
+		</div>
+	</div>
+	<div id="side">
+		<h5>${sessionScope.nickname } 님의 취향저격 콘텐츠</h5>
+		<div id="sideList">
 		</div>
 	</div>
 </body>

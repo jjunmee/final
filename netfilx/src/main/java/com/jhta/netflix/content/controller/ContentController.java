@@ -293,6 +293,9 @@ public class ContentController {
 		model.addAttribute("newList", contentService.userViewList(map));
 		map.put("listType", "best");
 		model.addAttribute("bestList", contentService.userViewList(map));
+		map.put("startRow", 0);
+		map.put("rowBlockCount", 40);
+		model.addAttribute("recommendList", contentService.recommendList(map));
 		return ".user_content.list";
 	}
 	@RequestMapping(value="/content/contentPlay",method=RequestMethod.GET)
@@ -304,7 +307,6 @@ public class ContentController {
 	@RequestMapping(value="/content/seriesList",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String seriesList(int series_num) {
-		//json을 시리즈명,시리즈리스트 보내기
 		JSONObject json = new JSONObject();
 		SeriesVo seriesVo = seriesService.find(series_num);
 		json.put("series_name", seriesVo.getSeries_name());
@@ -331,6 +333,36 @@ public class ContentController {
 		}
 		json.put("list", arr);
 		return json.toString();
+	}
+	@RequestMapping(value="/content/recommendList",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String recommendList(int profile_num) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("profile_num", profile_num);
+		map.put("startRow", 0);
+		map.put("rowBlockCount", 10);
+		List<ContentVo> list = contentService.recommendList(map);
+		JSONArray arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		return arr.toString();
 	}
 }
 
