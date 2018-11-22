@@ -14,8 +14,9 @@ public class AdminIntercepter implements HandlerInterceptor{
 			throws Exception {
 			HttpSession session = request.getSession();
 			int n = (Integer)session.getAttribute("sts");
+			int profile_num = (Integer)session.getAttribute("profile_num");
 			if(n!=1) {
-				response.sendRedirect(session.getServletContext().getContextPath()+"/content/userView");
+				response.sendRedirect(session.getServletContext().getContextPath()+"/content/userView?profile_num="+profile_num);
 				return false;
 			}
 			return true;
