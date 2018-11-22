@@ -105,6 +105,43 @@
 		</if>
 		limit 0,40
 	</select>
+	<select id="recommendList" parameterType="hashmap" resultType="content">
+		select c.*
+		from content c inner join
+		(
+			select content_num
+			from content_genre cg inner join
+			(
+				select g.genre_num
+				from
+				(
+					select cg.*
+					from
+					(
+						select * 
+						from interasts 
+						where profile_num=#{profile_num}
+					) i, content_genre cg
+					where i.content_num = cg.content_num
+				) cg, genre g
+				where cg.genre_num = g.genre_num
+				group by genre_num
+				order by count(*) desc
+				limit 0,3
+			) my
+			on cg.genre_num=my.genre_num
+			group by content_num
+			order by count(*) desc
+		) rec
+		on c.content_num=rec.content_num
+		where c.content_num not in
+		(
+			select content_num 
+			from interasts 
+			where profile_num=#{profile_num}
+		)
+		limit #{startRow}, #{rowBlockCount}
+	</select>
 	<select id="seriesList" resultType="content" parameterType="int">
 		select * from content where series_num=#{series_num} order by release_date
 	</select>

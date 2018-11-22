@@ -52,4 +52,7 @@ public class ContentDao {
 	public List<ContentVo> seriesList(int num){
 		return sqlSession.selectList(NAMESPACE + ".seriesList", num);
 	}
+	public List<ContentVo> recommendList(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".recommendList", map);
+	}
 }

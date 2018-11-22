@@ -47,4 +47,7 @@ public class ContentService {
 	public List<ContentVo> seriesList(int num){
 		return dao.seriesList(num);
 	}
+	public List<ContentVo> recommendList(HashMap<String, Object> map){
+		return dao.recommendList(map);
+	}
 }
