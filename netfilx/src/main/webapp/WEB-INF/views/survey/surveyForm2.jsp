@@ -102,12 +102,12 @@
 		
 		var rowBox=document.createElement("div");
 		rowBox.setAttribute("id","rowBox");
-		rowBox.innerHTML="질문";
+		rowBox.innerHTML="<h4>&nbsp;QUESTION</h4>";
 		rowBox.appendChild(document.createElement("br"));
 
 		var colBox=document.createElement("div");
 		colBox.setAttribute("id","colBox");
-		colBox.innerHTML="옵션";
+		colBox.innerHTML="<h4>&nbsp;OPTION</h4>";
 		colBox.appendChild(document.createElement("br"));
 	
 		$("#mainSurvey1").append(leftBoxDiv);
@@ -170,7 +170,8 @@
 		box.appendChild(sqTitle);
 		var delBtn=document.createElement("input");
 		delBtn.setAttribute("type","button");
-		delBtn.setAttribute("value","X");
+		delBtn.setAttribute("id","delBtn");
+		delBtn.setAttribute("value","x");
 		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");			
 		box.appendChild(delBtn);
 		$("#rowBox").append(box);
@@ -207,8 +208,9 @@
 		
 		var delBtn=document.createElement("input");
 		delBtn.setAttribute("type","button");
+		delBtn.setAttribute("id","delBtn");
 		delBtn.onclick=opDel;
-		delBtn.setAttribute("value","X");
+		delBtn.setAttribute("value","x");
 		opBox.appendChild(delBtn);
 		$("#colBox").append(opBox);
 		//$('.surveyList').scrollTop($('.surveyList')[0].scrollHeight);
@@ -245,7 +247,6 @@
 		var delBtn=document.createElement("input");
 		delBtn.setAttribute("type","button");
 		delBtn.setAttribute("id","delBtn");
-		delBtn.setAttribute("style","position:absolute;left:90%;")
 		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");
 		delBtn.setAttribute("value","x");
 		sqBox.append(delBtn);
@@ -290,7 +291,7 @@
 		$("#opDiv").css("display","none");		
 		var opDelBtn=document.createElement("input");
 		opDelBtn.setAttribute("type","button");
-		opDelBtn.setAttribute("style","position:absolute;left:90%;")
+		opDelBtn.setAttribute("id","delBtn");
 		opDelBtn.setAttribute("value","x");
 		opDelBtn.onclick=opDel;
 		
@@ -330,7 +331,7 @@
 		$("#opDiv").css("display","none");
 		var opDelBtn=document.createElement("input");
 		opDelBtn.setAttribute("type","button");
-		opDelBtn.setAttribute("style","position:absolute;left:90%;")
+		opDelBtn.setAttribute("id","delBtn");
 		opDelBtn.setAttribute("value","x");
 		opDelBtn.onclick=opDel;
 		
@@ -545,7 +546,7 @@
 		option.setAttribute("placeholder","옵션을 입력하세요");
 		var opDelBtn=document.createElement("input");
 		opDelBtn.setAttribute("type","button");
-		opDelBtn.setAttribute("style","position:absolute;left:90%;")
+		opDelBtn.setAttribute("id","delBtn");
 		opDelBtn.setAttribute("value","x");
 		opDelBtn.onclick=opDel;
 		var box="opBox"+cnt;
@@ -587,9 +588,9 @@
 		choiceBox.setAttribute("name","choiceType");
 		choiceBox.setAttribute("value",choiceType);
 		$("#things").append(choiceBox);	
-					
+		
 		if($("#opDiv").css('display')=='block'){
-			alert('질문의 옵션형태를 선택하지 않았습니다. 질문을 삭제하거나 옵션을 선택해주세요');
+			alert('질문의 옵션형태를 선택하지 않았습니다.\n질문을 삭제하거나 옵션을 선택해주세요');
 		}else{
 			
 
@@ -646,6 +647,10 @@
 				}
 			}
 			
+			var surveyDescription=$("#surveyDescription").val();
+			surveyDescription=surveyDescription.replace(/(?:\r\n|\r|\n)/g,"<br/>");
+			$("#surveyDescription").val(surveyDescription);
+			
 			var stateBox=document.createElement("input");
 			stateBox.setAttribute("type","hidden");
 			stateBox.setAttribute("name","state");
@@ -689,43 +694,30 @@
 			}
 		}
 	}
-	
+	function idCheck(){
+		location.href="<c:url value='/survey/mySurvey'/>";
+	}
 
 </script>
-<style type="text/css">
-	#hideBtn{position:absolute;left:75%;}
+<style type="text/css">	
+	#typeChoice{width:80%;margin-top:50px;margin-left: 10%;}
+	#choice1{margin-right: 30px;}
+	#choice1, #choice2{width:300px;height:100px;border-radius: 7px;}
 	
-	#mainSurvey1 input[type=text]{
+	.overall{position:relative;}
+	.overall table{background-color: #2E2E2E}
+	.overall textarea{
 		background-color: #2E2E2E;
 	    color: #fff;
 	    padding: 8px;
-	    border: 1px solid #ccc;
-	    border-radius: 4px;
-	    width:300px;
-	    margin-top:10px;
+	    border-color:#2E2E2E;
+	    width:100%;
 	}
-	.mainSurvey1{width:80%;margin-top:30px ;float: none;display: inline-block;}
-	.mainSurvey1 .boxStyle{float:left;}
-	.mainSurvey2{width:80%;margin-top:30px ;float: none;}
-	.mainSurvey2 input[type=text]{width:400px;}
-	#things #grid1{position:fixed;left:80%;top:20%;}
-	#things #grid2{position:fixed;left:80%;top:26%;}
-	#things #submitBtn1{position: fixed;left:80%;top:32%; }
-	#things #submitBtn2{position:fixed;left:80%;top:38%;}
-	#typeChoice{width:80%;margin-top:10px;}
-	#rowPlus{margin-top:10px;}
-	#colPlus{margin-top:10px;}
-	
-	.surveyList{padding-left: 80px;padding-top: 100px;height:auto;overflow: hidden;}
-	.surveyList .leftBox{width:14%;float: left;} 
-	.surveyList .rightBox{width:80%;float: left;text-align: center;} 
-	.overall{position:relative;}
-	.overall input[type=text], textarea, input[type=date]{
+	.overall input[type=text], input[type=date]{
 	    background-color: #2E2E2E;
 	    color: #fff;
 	    padding: 8px;
-	    border: 1px solid #ccc;
-	    border-radius: 4px;
+	    border-color:#2E2E2E;
 	    width:500px;
 	}
 	
@@ -739,15 +731,17 @@
 			<div class="leftDivBox">
 				<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 			</div>
-			<div class="leftDivBox">
-				<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
-			</div>
+			<c:if test="${userSts=='user' }">
+				<div class="leftDivBox">
+					<a href="javascript:idCheck();">나의 설문지</a>
+				</div>
+			</c:if>
 		</div>
-		<div id="box" class="rightBox">	
+		<div id="box" class="centerBox">	
 			<form name="frm" action="<c:url value='/survey/surveyInsert2'/>" method="post" enctype="multipart/form-data">
 				<div id="surveyOverall">
 					<div class="overall">
-						<table style="width:80%">
+						<table>
 							<tr class="tableshow">
 								<th><label for="surveyName">설문제목</label></th>
 								<td>
@@ -780,14 +774,14 @@
 				<div id="mainSurvey2" class="mainSurvey2" style="display: none">
 								
 				</div>	
-				<div id="opDiv" class="opDiv" style="display: none;margin-top: 10px;width:80%;">
+				<div id="opDiv" class="opDiv" style="display: none;">
 					<input type="button" id="type1" onclick="checktype1()" value="객관식질문">
 					<input type="button" id="type2" onclick="checktype2()" value="중복체크">
 					<input type="button" id="type3" onclick="checktype3()" value="직선단계">
 					<input type="button" id="type4" onclick="checktype4()" value="주관식질문">
 				</div>
 				
-				<div id="qPlusBox" class="qPlusBox" style="display: none;margin-top:10px;width:80%;">				
+				<div id="qPlusBox" class="qPlusBox" style="display: none;">				
 					<input type="button" id="qPlus1" value="질문추가" >
 					<input type="button" id="qPlus2" value="같은질문추가" >
 				</div>

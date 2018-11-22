@@ -10,30 +10,29 @@
 </style>
 <script type="text/javascript">
 function idCheck(n){
-	var userId=document.getElementById("userId");
-	if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
-		alert('먼저 로그인을 해주세요');
-	}else{
-		if(n==0){//나의설문지
-			location.href="<c:url value='/survey/mySurvey'/>";
-		}else if(n==1){//설문구매
-			location.href="<c:url value='/survey/surveyInsert1'/>";
-		}
+	if(n==0){//나의설문지
+		location.href="<c:url value='/survey/mySurvey'/>";
+	}else if(n==1){//설문구매
+		location.href="<c:url value='/survey/surveyInsert1'/>";
 	}
 }
 </script>
 <div class="surveyList">
-	<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 	<div id="tab" class="leftBox">
+		<c:if test="${userSts=='user' }">
+			<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
+		</c:if>
 		<div class="leftDivBox">
 			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
 		</div>
 		<div class="leftDivBox">
 			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 		</div>
-		<div class="leftDivBox">
-			<a href="javascript:idCheck(0);">나의 설문지</a>
-		</div>
+		<c:if test="${userSts=='user' }">
+			<div class="leftDivBox">
+				<a href="javascript:idCheck(0);">나의 설문지</a>
+			</div>
+		</c:if>
 	</div>
 	
 	<div id="myBox" class="centerBox">
