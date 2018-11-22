@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class AdminIntercepter implements HandlerInterceptor{
 
@@ -16,7 +15,7 @@ public class AdminIntercepter implements HandlerInterceptor{
 			HttpSession session = request.getSession();
 			int n = (Integer)session.getAttribute("sts");
 			if(n!=1) {
-				response.sendRedirect(session.getServletContext().getContextPath()+"/main");
+				response.sendRedirect(session.getServletContext().getContextPath()+"/content/userView");
 				return false;
 			}
 			return true;

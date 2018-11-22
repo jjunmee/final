@@ -156,7 +156,7 @@ public class UserController {
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return ".main";
+		return ".user.login";
 	}
 	
 	//관리자페이지에서 회원리스트 뿌리기
