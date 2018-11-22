@@ -230,7 +230,7 @@ public class ProfileController {
 		} else {
 			return "redirect:/profile/user/index";
 		}
-		return ".main";
+		return "redirect:/content/userView?profile_num"+profile_num;
 	}
 
 	// profile img All list execute
