@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
-	position: relative; padding: 0px; margin: 0px;background-color: #424242;
+	position: relative; padding: 0px; margin: 0px;background-color: #151515;
 }
 #header{background-color: black;}
 #content {padding-top:50px;color: #fff; background-color: #151515; width: 100%; margin: auto;}
