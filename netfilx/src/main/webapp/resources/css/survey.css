@@ -1,46 +1,49 @@
 @charset "UTF-8";
 
-input[type=submit]{
-    background-color: #8e8e8e;
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-}
+input[type=submit]{background-color: #8e8e8e;color: white;padding: 8px;border: none;border-radius: 4px;}
+input[type=submit]:hover{background-color: #2E2E2E;padding: 8px;border-radius: 4px;}
+input[type=button]{background-color: #424242;color: white;padding: 8px;border: none;border-radius: 4px;}
+input[type=button]:hover{background-color: #2E2E2E;padding: 8px;border-radius: 4px;}
+input[type=text]{background-color: #151515;color: #fff;padding: 8px;border-color:#151515;border-bottom-width:2px;border-bottom-color:white;border-radius: 0px;}
+table{border-collapse: collapse;width: 98%;}
+tr{border-bottom: solid 3px #424242}
+th {background-color: #2E2E2E;color: white;text-align: center;}
+td {color: white;text-align: center;}
 
-input[type=submit]:hover{
-    background-color: #2E2E2E;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-input[type=button]{
-    background-color: #8e8e8e;
-    color: white;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-}
-
-input[type=button]:hover{
-    background-color: #2E2E2E;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-table{
-    border-collapse: collapse;
-    width: 1000px;
-}
-
-
-tr:nth-child(even){background-color: #4e4e4e}
-
-th {
-    background-color: #2E2E2E;
-    color: white;
-}
-
+.surveyList{position:relative;padding-left: 50px;padding-top: 90px;height:700px;}
+.surveyList .topBox{padding-left: 14%;padding-bottom: 40px;}
+.surveyList .topBox .delBox{float:left;margin-top: 2px;margin-left: 2.4%; }
+.surveyList .topBox .delBox input[type=button]{background-color: #151515;margin-left: 18%;color: tan}
+.surveyList .topBox #orderBox{float:left;margin-top:0px;margin-left:2.4%;width:150px;}
+.surveyList .topBox .searchForm{float:right;margin-right:9%;}
+.surveyList .topBox .searchForm input[name='keyword']{width:400px;}
+.surveyList .leftBox{position:fixed;top:140px;width:12%;float: left;text-align:center ;margin-right:5px ;background-color: #151515;border-radius: 5px;}
+.surveyList .leftBox .surBtn{margin-bottom: 10px;}
+.surveyList .leftBox .leftDivBox{height: 40px;}
+.surveyList .centerBox{position:relative;left:16%;width:78%;float:left;margin-top:3px;}
+.surveyList .centerBox .pageMoving{margin-top: 50px;text-align: center;margin-right: 4%;}
+.surveyList .overall table{width:75%;}
+.surveyList .overall table th{width:17%;}
+.surveyList .overall table td{text-align: left;}
+.mainSurvey1{width:80%;margin-top:30px;margin-left:50px;float: none;display: inline-block;}
+.mainSurvey2{width:80%;margin-top:30px;float: none;}
+.mainSurvey1 .boxStyle{float:left;}
+.mainSurvey2 .appendingBox{margin-left: 15%}
+.mainSurvey1 #delBtn{width:25px;height:25px;text-align: center;padding-top: 3px;}
+.mainSurvey2 #delBtn{position:absolute;left:600px;width:25px;height:25px;text-align: center;padding-top: 3px;margin-top:8px;}
+.mainSurvey1 input[type=text]{width:330px;height:30px;margin-top:10px;margin-right: 5px;}
+.mainSurvey2 input[type=text]{width:600px;height:30px;margin-top:10px;margin-right: 10px;}
+.mainSurvey1 #rowPlus, #colPlus{margin-top:10px;}
+.surveyList .opDiv{margin-top: 10px;width:80%;padding-left: 22%;}
+.surveyList .opDiv input[type=button]{width:95px;}
+.surveyList .qPlusBox{margin-top:10px;width:80%;padding-left:27%;}
+.surveyList .qPlusBox input[type=button]{width:120px;height:70px;margin-right: 10px;}
+.surveyList .opPlusBox input[type=button]{background-color: #424242;}
+.surveyList #things #grid1{position:fixed;left:80%;top:20%;}
+.surveyList #things #grid2{position:fixed;left:80%;top:26%;}
+.surveyList #things #submitBtn1{position: fixed;left:80%;top:32%; }
+.surveyList #things #submitBtn2{position:fixed;left:80%;top:38%;}
+#hideBtn{position:absolute;left:71%;}
 
 <!--
 .ui-datepicker{ font-size: 12px; width: 500px; }

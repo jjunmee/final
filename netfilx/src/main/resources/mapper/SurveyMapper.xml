@@ -107,19 +107,21 @@
 	</select>
 	<select id="listCountSelect" parameterType="hashmap" resultType="int">
 		select count(*) from survey where state=#{state}
-		<include refid="search"/>
+		<include refid="search"/>		
 	</select>
 	<select id="surveyListSelect" parameterType="hashmap" resultType="survey">
 		select * from survey where state=#{state}
 		<include refid="search"></include>	
-		<choose>
-			<when test="state=='등록완료'">
-				order by surveyEnd desc
-			</when>			
-			<when test="state=='설문종료'">
-				order by surveyStart desc
-			</when>
-		</choose>
+		order by
+		<if test="sort=='surveyStart'">
+			surveyStart desc
+		</if>
+		<if test="sort=='surveyEnd'">
+			surveyEnd desc
+		</if>
+		<if test="sort=='expensive'">
+			spoint/joinNum desc
+		</if>
 		limit #{startRow},#{rowBlockCount}
 	</select>
 	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">

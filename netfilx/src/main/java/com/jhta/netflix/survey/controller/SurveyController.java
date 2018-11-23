@@ -52,7 +52,8 @@ public class SurveyController {
 	@Autowired private UserService userService;
 	
 	@RequestMapping(value="/survey/list")
-	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,HttpSession session,Model model) {
+	public String surveyList(@RequestParam(value="pageNum",defaultValue="1")int pageNum,String field,String keyword,int code,
+			@RequestParam(value="sort",defaultValue="surveyStart")String sort,HttpSession session,Model model) {
 		String id=(String)session.getAttribute("id");
 		UserVo vo=userService.login(id);
 		String state="";		
@@ -65,6 +66,7 @@ public class SurveyController {
 		map.put("state", state);
 		map.put("field", field);
 		map.put("keyword", keyword);
+		map.put("sort", sort);
 		int totalRowCount=service.listCountSelect(map);
 		PageUtil pageUtil=new PageUtil(pageNum, totalRowCount, 10, 10);
 		map.put("startRow", pageUtil.getMysqlStartRow());
@@ -74,6 +76,7 @@ public class SurveyController {
 		
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
+		model.addAttribute("sort",sort);
 		model.addAttribute("pageUtil",pageUtil);
 		model.addAttribute("field",field);
 		model.addAttribute("keyword",keyword);			
@@ -100,6 +103,13 @@ public class SurveyController {
 		List<SurveyVo> list2= service.mySurveyListSelect(map);
 		map.replace("state", "설문종료");
 		List<SurveyVo> list3= service.mySurveyListSelect(map);
+		
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		model.addAttribute("list0",list0);
 		model.addAttribute("list1",list1);
 		model.addAttribute("list2",list2);
@@ -117,7 +127,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/surveyDetail",method=RequestMethod.GET)
-	public String detail1(int surveyNum, Model model) {
+	public String detail1(int surveyNum,HttpSession session ,Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
 		SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);//설문번호로 영상정보가져오기
 		List<SurveyQuestionVo> sqVoList=service.surveyQuestionSelect(surveyNum);//해당 설문번호갖는 질문리스트가져오기
@@ -130,6 +140,15 @@ public class SurveyController {
 			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
 			saList.add(aList);
 		}
+		
+		String userId=(String)session.getAttribute("id");
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
+		
 		model.addAttribute("surveyVo",surveyVo);
 		model.addAttribute("videoVo",videoVo);
 		model.addAttribute("sqVoList",sqVoList);
@@ -141,9 +160,16 @@ public class SurveyController {
 	}
 	
 	@RequestMapping(value="/survey/stats", method=RequestMethod.GET)
-	public String statsForm(Model model, int surveyNum, int qNum) {
+	public String statsForm(Model model, int surveyNum, int qNum,HttpSession session) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);
 		List<SurveyQuestionVo> sqList=service.surveyQuestionSelect(surveyNum);		
+		String userId=(String)session.getAttribute("id");
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		//객관식그리드일경우
 		if(sqList.get(0).getSqType().equals("0")) {
 			String stst="";
@@ -184,6 +210,7 @@ public class SurveyController {
 			}
 			stst=stst.substring(0,stst.length()-1);
 			strConcat=strConcat+","+stst;
+			
 			model.addAttribute("strConcat",strConcat);
 			model.addAttribute("surveyVo",surveyVo);
 			return ".survey.surveyStats1";
@@ -275,7 +302,7 @@ public class SurveyController {
 
 	
 	@RequestMapping(value="/survey/update",method=RequestMethod.GET)
-	public String update(int surveyNum,Model model) {
+	public String update(int surveyNum,HttpSession session,Model model) {
 		SurveyVo surveyVo=service.surveySelect(surveyNum);//넘어온 설문번호로 설문정보가져오기
 		SurveyVideoVo videoVo=service.surveyVideoSelect(surveyNum);//설문번호로 영상정보가져오기
 		List<SurveyQuestionVo> sqVoList=service.surveyQuestionSelect(surveyNum);//해당 설문번호갖는 질문리스트가져오기
@@ -287,6 +314,13 @@ public class SurveyController {
 			}
 			List<SurveyAnswerVo> aList=service.surveyAnswerSelect(sqVo.getSqNum());//질문하나당답안리스트
 			saList.add(aList);
+		}
+		String userId=(String)session.getAttribute("id");
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
 		}
 		model.addAttribute("surveyVo",surveyVo);
 		model.addAttribute("videoVo",videoVo);
@@ -380,6 +414,12 @@ public class SurveyController {
 		String userId=(String)session.getAttribute("id");
 		//String userId="alsl";
 		int point=service.userSelect(userId).getPoint();
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		model.addAttribute("userId",userId);
 		model.addAttribute("userPoint",point);
 		return ".survey.surveyForm1";
@@ -403,14 +443,27 @@ public class SurveyController {
 			Point_infoVo pointVo=new Point_infoVo(0, null, usage, "point", userNum);
 			pointService.insert(pointVo);
 			
-		}		
+		}	
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		model.addAttribute("surveyNum",surveyNum);
 		return ".survey.surveyForm2";
 	}
 	
 	@RequestMapping(value="/survey/surveyInsert2",method=RequestMethod.GET)
-	public String survey(int surveyNum,Model model) {
+	public String survey(int surveyNum,HttpSession session,Model model) {
 		model.addAttribute("surveyNum",surveyNum);
+		String userId=(String)session.getAttribute("id");
+		UserVo userVo=userService.login(userId);
+		if(userVo.getSts()==1) {//관리자일경우 
+			model.addAttribute("userSts","admin");
+		}else {
+			model.addAttribute("userSts","user");
+		}
 		return ".survey.surveyForm2";
 	}
 	
@@ -478,6 +531,7 @@ public class SurveyController {
 				qtime++;
 			}
 		}
+		
 		return "redirect:/survey/mySurvey";
 	}
 	
@@ -537,7 +591,6 @@ public class SurveyController {
 			pointService.insert(pointVo1);	
 			
 		}
-		
 		return "redirect:/survey/list?code=1";
 	}
 	

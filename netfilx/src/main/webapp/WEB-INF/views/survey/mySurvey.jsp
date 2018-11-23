@@ -45,43 +45,37 @@
 		}
 	}
 	function idCheck(n){
-		var userId=document.getElementById("userId");
-		if(userId.getAttribute("value")==null || userId.getAttribute("value")==''){
-			alert('먼저 로그인을 해주세요');
-		}else{
-			if(n==0){//나의설문지
-				location.href="<c:url value='/survey/mySurvey'/>";
-			}else if(n==1){//설문구매
-				location.href="<c:url value='/survey/surveyInsert1'/>";
-			}
+		if(n==0){//나의설문지
+			location.href="<c:url value='/survey/mySurvey'/>";
+		}else if(n==1){//설문구매
+			location.href="<c:url value='/survey/surveyInsert1'/>";
 		}
 	}
 	
 </script>
 <style type="text/css">
-	.surveyList{padding-left: 80px;padding-top: 90px;height:700px;overflow: auto;}
-	.surveyList .topBox{padding-left: 14%;padding-bottom: 10px;}
-	.surveyList .topBox .delBox{float:left;margin-top: 0px;}
-	.surveyList .topBox .surBtn{float:auto;margin-left: 425px;}
-	.surveyList .leftBox{width:14%;height:100%;float: left} 
-	.surveyList .centerBox{width:78%;float:left;}
+	.surveyList{overflow: auto;}
 </style>
 <div class="surveyList">
 	<div class="topBox">
 		<div class="delBox"><input type="button" value="삭제" onclick="delete1()"></div>
-		<div class="surBtn"><input type="button" class="surBtn" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 	</div>
 	<div id="tab" class="leftBox">
+		<c:if test="${userSts=='user' }">
+			<div class="surBtn"><input type="button" class="surBtn" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
+		</c:if>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
+			<a href="<c:url value='/survey/list?code=1'/>">진행중인 설문지</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
+			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문지</a>
 		</div>
-		<div class="leftDivBox">
-			<a href="javascript:idCheck(0);">나의 설문지</a>
-			<input type="hidden" id="userId" value="${sessionScope.id }">
-		</div>
+		<c:if test="${userSts=='user' }">
+			<div class="leftDivBox">
+				<a href="javascript:idCheck(0);">나의 설문지</a>
+				<input type="hidden" id="userId" value="${sessionScope.id }">
+			</div>
+		</c:if>
 	</div>
 	
 	<div id="myListBox" class="centerBox">			

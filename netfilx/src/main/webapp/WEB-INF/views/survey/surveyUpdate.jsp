@@ -14,6 +14,10 @@
 	var exist=${fn:length(sqVoList)};//질문몇개인가 세려는 용도
 	
 	$(document).ready(function(){
+		var description='${surveyVo.surveyDescription}';
+		description=description.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+		$('#surveyDescription').val(description);
+		
 		if(${videoVo!=null}){
 			var videoCheck=document.getElementById('videoCheck');
 			videoCheck.checked=true;
@@ -137,12 +141,12 @@
 		
 		var rowBox=document.createElement("div");
 		rowBox.setAttribute("id","rowBox");
-		rowBox.innerHTML="질문";
+		rowBox.innerHTML="<h3>&nbsp;QUESTION</h3>";
 		rowBox.appendChild(document.createElement("br"));
 
 		var colBox=document.createElement("div");
 		colBox.setAttribute("id","colBox");
-		colBox.innerHTML="옵션";
+		colBox.innerHTML="<h3>&nbsp;OPTION</h3>";
 		colBox.appendChild(document.createElement("br"));
 	
 		$("#mainSurvey1").append(leftBoxDiv);
@@ -206,6 +210,7 @@
 		box.appendChild(sqTitle);
 		var delBtn=document.createElement("input");
 		delBtn.setAttribute("type","button");
+		delBtn.setAttribute("id","delBtn");
 		delBtn.setAttribute("value","x");
 		delBtn.setAttribute("onclick","delDiv("+cloneCnt+")");			
 		box.appendChild(delBtn);
@@ -244,6 +249,7 @@
 		var delBtn=document.createElement("input");
 		delBtn.setAttribute("type","button");
 		delBtn.onclick=opDel1;
+		delBtn.setAttribute("id","delBtn");
 		delBtn.setAttribute("value","x");
 		opBox.appendChild(delBtn);
 		$("#colBox").append(opBox);
@@ -745,25 +751,18 @@
 			frm.submit();		
 		}
 	}
-	
+	function idCheck(){
+		location.href="<c:url value='/survey/mySurvey'/>";
+	}
 
 </script>
 <style type="text/css">
 	#hideBtn{position:absolute;left:75%;}
 	
-	#mainSurvey1 input[type=text]{
-		background-color: #2E2E2E;
-	    color: #fff;
-	    padding: 8px;
-	    border: 1px solid #ccc;
-	    border-radius: 4px;
-	    width:300px;
-	    margin-top:10px;
-	}
+	
 	.mainSurvey1{width:80%;margin-top:30px ;float: none;display: inline-block;}
 	.mainSurvey1 .boxStyle{float:left;}
 	.mainSurvey2{width:80%;margin-top:30px ;float: none;}
-	.mainSurvey2 input[type=text]{width:400px;}
 	#things #grid1{position:fixed;left:80%;top:20%;}
 	#things #grid2{position:fixed;left:80%;top:26%;}
 	#things #submitBtn1{position: fixed;left:80%;top:32%; }
@@ -795,11 +794,13 @@
 			<div class="leftDivBox">
 				<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
 			</div>
-			<div class="leftDivBox">
-				<a href="<c:url value='/survey/mySurvey'/>">나의 설문지</a>
-			</div>
+			<c:if test="${userSts=='user' }">
+				<div class="leftDivBox">
+					<a href="javascript:idCheck();">나의 설문지</a>
+				</div>
+			</c:if>
 		</div>
-		<div id="box" class="rightBox">	
+		<div id="box" class="centerBox">	
 			<form name="frm" action="<c:url value='/survey/update'/>" method="post" enctype="multipart/form-data">
 				<div id="surveyOverall">
 					<div class="overall">
@@ -830,7 +831,7 @@
 					<c:if test="${choiceType=='1' }">
 						<div id="leftBoxDiv" style="margin-right:30px;" class="boxStyle">
 							<div id="rowBox">
-								질문
+								&nbsp;QUESTION
 								<br>
 								<c:forEach var="i" begin="0" end="${fn:length(sqVoList)-1 }">
 									<div id="box${i }" name="box${i }" class="appendingBox" data-order="${i }">
@@ -845,7 +846,7 @@
 						</div>
 						<div id="rightBoxDiv" class="boxStyle">
 							<div id="colBox">							
-								옵션
+								&nbsp;OPTION
 								<br>
 								<input type="hidden" id="existOp" value="${fn:length(salist[0]) }">
 								<c:forEach var="i" begin="0" end="${fn:length(salist[0])-1 }">
