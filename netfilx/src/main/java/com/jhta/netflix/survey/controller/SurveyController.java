@@ -74,6 +74,12 @@ public class SurveyController {
 		
 		List<SurveyVo> list= service.surveyListSelect(map);
 		
+		List<Integer> joinCntList=new ArrayList<Integer>();
+		for(SurveyVo surveyVo:list) {
+			int joinCnt=service.surveyInCnt(surveyVo.getSurveyNum());
+			joinCntList.add(joinCnt);
+		}
+		model.addAttribute("joinCntList",joinCntList);
 		model.addAttribute("list",list);
 		model.addAttribute("code",code);
 		model.addAttribute("sort",sort);

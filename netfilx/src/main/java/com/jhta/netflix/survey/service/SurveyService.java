@@ -123,7 +123,9 @@ public class SurveyService {
 	public List<SurveyResultVo> surveyResultSelect(int sqNum){
 		return dao.surveyResultSelect(sqNum);
 	}
-	
+	public int surveyInCnt(int surveyNum) {
+		return dao.surveyInCnt(surveyNum);
+	}
 	
 	
 	

@@ -120,7 +120,9 @@ public class SurveyDao {
 	public List<SurveyResultVo> surveyResultSelect(int sqNum){
 		return session.selectList(NAMESPACE+".surveyResultSelect",sqNum);
 	}
-	
+	public int surveyInCnt(int surveyNum) {
+		return session.selectOne(NAMESPACE+".surveyInCnt",surveyNum);
+	}
 	
 	
 	

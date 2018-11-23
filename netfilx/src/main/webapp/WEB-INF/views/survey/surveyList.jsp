@@ -160,6 +160,7 @@
 						</c:when>
 					</c:choose>					
 				</tr>
+				<c:set var="cnt" value="0"/>
 				<c:forEach var="vo" items="${list }">
 					<tr> 
 					<c:if test="${userSts=='admin' }">
@@ -172,7 +173,7 @@
 					<c:if test="${code==2 }">
 						<td id="surveyName">${vo.surveyName }</td>
 					</c:if>
-						<td>${vo.joinNum }</td>
+						<td>${joinCntList[cnt]} / ${vo.joinNum }</td>
 						<td>${Math.round(vo.spoint/vo.joinNum) }포인트</td>
 						<td>${vo.surveyStart }</td>
 						<td>${vo.surveyEnd }</td>	
@@ -180,6 +181,7 @@
 						<td><span id="surveyInSpan${vo.surveyNum }">미참여</span></td>
 					</c:if>
 					</tr>
+					<c:set var="cnt" value="${cnt+1 }"/>
 				</c:forEach>	
 			</table>
 		</div>	

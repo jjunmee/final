@@ -133,7 +133,9 @@
 	<select id="surveyResultSelect" parameterType="int" resultType="surveyResult">
 		select * from survey_result where sqNum=#{sqNum}
 	</select>
-	
+	<select id="surveyInCnt" parameterType="int" resultType="int">
+		select count(*) cnt from survey_in where surveyNum=#{surveyNum}
+	</select>
 	
 	
 	
