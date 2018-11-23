@@ -3,10 +3,12 @@ package com.jhta.netflix.chart.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jhta.netflix.chart.service.ChartService;
 import com.jhta.netflix.chart.vo.GnameCountVo;
@@ -17,29 +19,38 @@ public class ChartController {
 	private ChartService service;
 	
 	@RequestMapping("/admin/paychart")
-	public ModelAndView paychart() {
-		ModelAndView mv = new ModelAndView();
-		//4개월동안의 매출현황 가져오기
-		for(int i=1; i<=4; i++) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("n1", 1);	map.put("n2", 2);
-			int nextMonthTotal = service.nextMonthTotal(map);
-			int limitNext = service.thisGradeCount();
-			for(int n=0; n < limitNext; n++) {
-				map.put("limitNext", n);
-				GnameCountVo gradeNextNameCount = service.gradeNextNameCount(map);
-				mv.addObject("gradeNextNameCount"+n, gradeNextNameCount);
-			}
-			mv.addObject("nextMonthTotal"+i,nextMonthTotal);
+	public String paychart() {
+		return ".admin.paychart";
+	}
+	
+	@RequestMapping(value="/chart/gradeNameThisCount",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String gradeNameThisCount() {
+		List<GnameCountVo> list = service.gradeThisNameCount();
+		JSONArray arr = new JSONArray();
+		for(GnameCountVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("gname", vo.getGname());
+			json.put("gcount", vo.getGcount());
+			arr.put(json);
 		}
-		int limitThis = service.thisGradeCount();
-		int thisMonthTotal = service.thisMonthTotal();
-		for(int n=0; n < limitThis; n++) {
-			GnameCountVo gradeThisNameCount = service.gradeThisNameCount(n);
-			mv.addObject("gradeThisNameCount"+n, gradeThisNameCount);
+		return arr.toString();
+	}
+	
+	@RequestMapping(value="/chart/gradeNameNextCount",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String gradeNameNextCount() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("n1", 1);
+		map.put("n2", 2);
+		List<GnameCountVo> list = service.gradeNextNameCount(map);
+		JSONArray arr = new JSONArray();
+		for(GnameCountVo vo : list) {
+			JSONObject json = new JSONObject();
+			json.put("gname", vo.getGname());
+			json.put("gcount", vo.getGcount());
+			arr.put(json);
 		}
-		mv.addObject("thisMonthTotal", thisMonthTotal);
-		mv.setViewName(".admin.paychart");
-		return mv;
+		return arr.toString();
 	}
 }

@@ -55,20 +55,12 @@ public class ChartDao {
 		return sqlSession.selectOne(NAMESPACE + ".pointMemNextMonthSum", map);
 	}
 	
-	public GnameCountVo gradeThisNameCount(int num){
-		return sqlSession.selectOne(NAMESPACE + ".gradeThisNameCount",num);
+	public List<GnameCountVo> gradeThisNameCount(){
+		return sqlSession.selectList(NAMESPACE + ".gradeThisNameCount");
 	}
 	
-	public GnameCountVo gradeNextNameCount(HashMap<String, Object> map){
-		return sqlSession.selectOne(NAMESPACE + ".gradeNextNameCount", map);
-	}
-	
-	public int thisGradeCount() {
-		return sqlSession.selectOne(NAMESPACE + ".thisGradeCount");
-	}
-	
-	public int nextGradeCount(HashMap<String, Object> map) {
-		return sqlSession.selectOne(NAMESPACE + ".nextGradeCount",map);
+	public List<GnameCountVo> gradeNextNameCount(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".gradeNextNameCount", map);
 	}
 	
 }

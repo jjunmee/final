@@ -12,6 +12,9 @@
 <style>
 	.bb-chart-arc path {stroke : none;}
 	.bb path{stroke:none;}
+	#chartDiv{margin:auto; width: 1000px; border-radius: 3px; background-color: #555; height: 400px;}
+	#gradeNameThisCount{float: left;width: 500px; margin-top: 40px;}
+	#gradeNameNextCount{float: left;width: 500px; margin-top: 40px;}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -19,74 +22,75 @@
 		if(code != null && code != ""){
 			alert(code);
 		}
-		thisMonthTotal();
+		gradeNameThisCount();
+		gradeNameNextCount();
 	});
-	/* 
-	function gTNC(){
+	
+	//이번달 등급 카운트
+	function gradeNameThisCount(){
 		$.ajax({
-			url:"<c:url value='/paychart/gradeThisNameCount'/>",
+			url:"<c:url value='/chart/gradeNameThisCount'/>",
 			dataType:"json",
-			success:function(gnc){
+			success:function(mt){
+				var arr = new Array();
+				$(mt).each(function(i,json) {
+					arr.push([json.gname,json.gcount]);
+				});
 				var chart = bb.generate({
-				  data: {
-				    columns: [
-				$(gnc).each(function(i,json){
-					[json.gname,json.gcount],
-				})
-				    ],
-				    type: "donut"
-				  },
-				  donut: {
-				    title: "매출",
-				    padAngle: 0.05
-				  },
-				  tooltip:{
-					  show:false
-				  },
-				  legend:{
-					  position : "right"
-				  },
-				  bindto: "#gradeThisNameCount"
+					data: {
+						columns: arr,
+						type: "donut"
+					},
+					donut: {
+						title: "이번달 등급",
+						padAngle: 0.1
+					},
+					tooltip:{
+						show:false
+					},
+					legend:{
+						position : "right"
+					},
+					bindto: "#gradeNameThisCount"
 				});
 			}
 		});
 	}
-	 */
-	function thisMonthTotal(){
-		var chart = bb.generate({
-		  data: {
-		    columns: [
-			["data1", 30],
-			["data2", 45],
-			["data3", 25]
-		    ],
-		    type: "donut"
-		  },
-		  donut: {
-		    title: "매출",
-		    padAngle: 0.05
-		  },
-		  tooltip:{
-			  show:false
-		  },
-		  legend:{
-			  position : "right"
-		  },
-		  bindto: "#gradeThisNameCount"
+	//1달전 등급 카운트
+	function gradeNameNextCount(){
+		$.ajax({
+			url:"<c:url value='/chart/gradeNameNextCount'/>",
+			dataType:"json",
+			success:function(mt){
+				var arr = new Array();
+				$(mt).each(function(i,json) {
+					arr.push([json.gname,json.gcount]);
+				});
+				var chart = bb.generate({
+					data: {
+						columns: arr,
+						type: "donut"
+					},
+					donut: {
+						title: "1달전",
+						padAngle: 0.1
+					},
+					tooltip:{
+						show:false
+					},
+					legend:{
+						position : "right"
+					},
+					bindto: "#gradeNameNextCount"
+				});
+			}
 		});
 	}
 </script>
 <div class="mhdiv">
 	<h1>매출현황</h1>
-	<div id="thisMonthTotal">${thisMonthTotal}</div>
-	<div id="nextMonthTotal"></div>
-	<div id="mPayThisMonthSum"></div>
-	<div id="mPayNextMonthSum"></div>
-	<div id="pointThisMonthPay"></div>
-	<div id="pointNextMonthPay"></div>
-	<div id="pointMemThisMonthSum"></div>
-	<div id="pointMemNextMonthSum"></div>
-	<div id="gradeThisNameCount"></div>
-	<div id="gradeNextNameCount"></div>
-	
+	<div id="chartDiv">
+		<div id="gradeNameThisCount"></div>
+		<div id="gradeNameNextCount"></div>
+	</div>
 </div>

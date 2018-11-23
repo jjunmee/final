@@ -38,16 +38,10 @@ public class ChartService {
 	public int pointMemNextMonthSum(HashMap<String, Object> map) {
 		return dao.pointMemNextMonthSum(map);
 	}
-	public GnameCountVo gradeThisNameCount(int num) {
-		return dao.gradeThisNameCount(num);
+	public List<GnameCountVo> gradeThisNameCount() {
+		return dao.gradeThisNameCount();
 	}
-	public GnameCountVo gradeNextNameCount(HashMap<String, Object> map) {
+	public List<GnameCountVo> gradeNextNameCount(HashMap<String, Object> map) {
 		return dao.gradeNextNameCount(map);
-	}
-	public int thisGradeCount() {
-		return dao.thisGradeCount();
-	}
-	public int nextGradeCount(HashMap<String, Object> map) {
-		return dao.nextGradeCount(map);
 	}
 }

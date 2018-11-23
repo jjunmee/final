@@ -98,13 +98,12 @@
 	
 	<!-- 등급카운트!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달 등급별 카운트 수 -->
-	<select id="gradeThisNameCount" resultType="gnameCount" parameterType="int">
+	<select id="gradeThisNameCount" resultType="gnameCount" parameterType="hashmap">
 		select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
 		from pay_info p, grade g 
 		where p.grade_num = g.grade_num 
 		<![CDATA[and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
         group by g.grade_name
-        limit #{limitNum},1
 	</select>
 	
 	<!-- 지난달 등급별 카운트 수 -->
@@ -115,7 +114,6 @@
 		<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
 		and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
         group by g.grade_name
-        limit #{limitNum},1
 	</select>
 	
 	<!-- 이번달 결제된 멤버십 등급 갯수 -->
@@ -129,7 +127,7 @@
 	</select>
 	
 	<!-- 지난달 결제된 멤버십 등급 갯수 -->
-	<select id="nextGradeCount" resultType="int" parameterType="hashmap">
+	<select id="nextGradeCount" resultType="int">
 		select count(p.gname)
 		from (select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
 			from pay_info p, grade g 
