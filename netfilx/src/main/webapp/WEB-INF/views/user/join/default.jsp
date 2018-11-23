@@ -8,10 +8,9 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/bootstrap.min.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/main.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/loginform.css'/>">
-<script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery-3.3.1.min.js'/>"></script>
-<script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
 <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
 <script src="<c:url value='/resources/js/lib/lib.js'/>"></script>
 <script src="<c:url value='/resources/js/user/join.js'/>"></script>
 <title>WATFLIX</title>

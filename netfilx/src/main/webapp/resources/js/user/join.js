@@ -1,4 +1,5 @@
 	function email_check_id(){
+		alert("asdasda");
 		$("#email_ck").empty();
 		var ck_id=$("#id").val();
 		ck_id.replace(/\s/gi, "");
@@ -17,6 +18,7 @@
 				data : {"id":ck_id},
 				success : function(data){
 					if(data.success){
+						alert("11111");
 						$("#email_ck").html("메일이 전송되었습니다.");
 						var cer_no = data.sertification;
 						$("#email_boolean").val("true");
@@ -24,6 +26,7 @@
 					}else{
 						$("#email_ck").html("사용중인 이메일 또는 잘못된 이메일 입니다.");
 					}
+					
 				}
 			});
 		}
