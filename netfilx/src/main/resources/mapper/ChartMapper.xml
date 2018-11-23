@@ -7,7 +7,7 @@
 	<!-- 순이익!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달 ((포인트+멤버십)-멤버십포인트결제) 순이익 -->
 	<select id="thisMonthTotal" resultType="int">
-		select (a.pr + b.us-c.pm) gain
+		select IFNULL((a.pr + b.us-c.pm),0) gain
 		from (select IFNULL(sum(g.grade_price),0) pr
 			from pay_info p, grade g 
 	        where p.grade_num = g.grade_num 
@@ -24,7 +24,7 @@
 	
 	<!-- 지난달 ((포인트+멤버십)-멤버십포인트결제) 순이익 (1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
 	<select id="nextMonthTotal" resultType="int" parameterType="hashmap">
-		select (a.pr + b.us - c.pm) gain
+		select IFNULL((a.pr + b.us - c.pm),0) gain
 		from (select IFNULL(sum(g.grade_price),0) pr
 			from pay_info p, grade g 
 			where p.grade_num = g.grade_num 
@@ -45,7 +45,7 @@
 	<!-- 멤버십결제!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달멤버십결제총액 -->
 	<select id="mPayThisMonthSum" resultType="int">
-		select sum(g.grade_price) tmgain
+		select IFNULL(sum(g.grade_price),0) tmgain
 		from pay_info p, grade g 
 		where p.grade_num = g.grade_num 
 		<![CDATA[ and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
@@ -53,7 +53,7 @@
 	
 	<!-- 지난달멤버십결제총액(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
 	<select id="mPayNextMonthSum" resultType="int" parameterType="hashmap">
-		select sum(g.grade_price) nmgain
+		select IFNULL(sum(g.grade_price),0) nmgain
 		from pay_info p, grade g 
 		where p.grade_num = g.grade_num 
 		<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
@@ -63,7 +63,7 @@
 	<!-- 포인트충전!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달 포인트 충전 -->
 	<select id="pointThisMonthPay" resultType="int">
-		select sum(SUBSTRING_INDEX(pi.usage, '-', -1)) ptPay
+		select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) ptPay
 		from point_info pi
 		where pi.usage like '%충전%'
 		<![CDATA[and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
@@ -71,7 +71,7 @@
 	
 	<!-- 지난달 포인트 충전(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
 	<select id="pointNextMonthPay" resultType="int" parameterType="hashmap">
-		select sum(SUBSTRING_INDEX(pi.usage, '-', -1)) pnPay
+		select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) pnPay
 		from point_info pi
 		where pi.usage like '%충전%'
 		<![CDATA[and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
@@ -81,25 +81,39 @@
 	<!-- 포인트멤버십결제!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달 포인트로 멤버쉽 결제 -->
 	<select id="pointMemThisMonthSum" resultType="int" parameterType="hashmap">
-		select count(SUBSTRING_INDEX(pi.usage, '-', -1)) tmcount
+		select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) tmppay
 		from point_info pi
 		where pi.usage like '%멤버십결제%'
 		<![CDATA[and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
 	</select>
+	<!--
+	<select id="pointMemThisMonthSum" resultType="int" parameterType="hashmap">
+		select IFNULL(count(SUBSTRING_INDEX(pi.usage, '-', -1)),0) tmcount
+		from point_info pi
+		where pi.usage like '%멤버십결제%'
+		<![CDATA[and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
+	</select> -->
 	
 	<!-- 지난달 포인트로 멤버쉽 결제(1달전 = 1,2, 2달전  = 2,3, 3달전 = 3,4 .. 이렇게 넣으면 됨) -->
 	<select id="pointMemNextMonthSum" resultType="int" parameterType="hashmap">
-		select count(SUBSTRING_INDEX(pi.usage, '-', -1)) nmcount
+		select IFNULL(sum(SUBSTRING_INDEX(pi.usage, '-', -1)),0) nmppay
+		from point_info pi
+		where pi.usage like '%멤버십결제%'
+		<![CDATA[and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)) 
+		and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 2 MONTH)), 1)]]>
+	</select>
+	<!-- <select id="pointMemNextMonthSum" resultType="int" parameterType="hashmap">
+		select IFNULL(count(SUBSTRING_INDEX(pi.usage, '-', -1)),0) nmcount
 		from point_info pi
 		where pi.usage like '%멤버십결제%' 
 		<![CDATA[and point_date <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
 		and point_date >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL #{n2} MONTH)), 1)]]>
-	</select>
+	</select> -->
 	
 	<!-- 등급카운트!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<!-- 이번달 등급별 카운트 수 -->
 	<select id="gradeThisNameCount" resultType="gnameCount" parameterType="hashmap">
-		select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+		select IFNULL(SUBSTRING_INDEX(g.grade_name, '-', 1),0) gname,IFNULL(count(g.grade_price),0) gcount
 		from pay_info p, grade g 
 		where p.grade_num = g.grade_num 
 		<![CDATA[and pay_start >= ADDDATE(LAST_DAY(SUBDATE(now(), INTERVAL 1 MONTH)), 1)]]>
@@ -108,7 +122,7 @@
 	
 	<!-- 지난달 등급별 카운트 수 -->
 	<select id="gradeNextNameCount" resultType="gnameCount" parameterType="hashmap">
-		select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
+		select IFNULL(SUBSTRING_INDEX(g.grade_name, '-', 1),0) gname,IFNULL(count(g.grade_price),0) gcount
 		from pay_info p, grade g 
 		where p.grade_num = g.grade_num 
 		<![CDATA[and pay_start <= LAST_DAY(SUBDATE(now(), INTERVAL #{n1} MONTH)) 
@@ -118,7 +132,7 @@
 	
 	<!-- 이번달 결제된 멤버십 등급 갯수 -->
 	<select id="thisGradeCount" resultType="int">
-		select count(p.gname)
+		select IFNULL(count(p.gname),0)
 		from (select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
 			from pay_info p, grade g 
 			where p.grade_num = g.grade_num 
@@ -128,7 +142,7 @@
 	
 	<!-- 지난달 결제된 멤버십 등급 갯수 -->
 	<select id="nextGradeCount" resultType="int">
-		select count(p.gname)
+		select IFNULL(count(p.gname),0)
 		from (select SUBSTRING_INDEX(g.grade_name, '-', 1) gname,IFNULL(count(g.grade_price),0) gcount
 			from pay_info p, grade g 
 			where p.grade_num = g.grade_num 

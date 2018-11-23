@@ -53,4 +53,37 @@ public class ChartController {
 		}
 		return arr.toString();
 	}
+	
+	@RequestMapping(value="/chart/monthTotal",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String monthTotal() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		JSONObject json = new JSONObject();
+		int thisMonthTotal = service.thisMonthTotal(); //이번달순이익
+		int mPayThisMonthSum = service.mPayThisMonthSum(); //이번달멤버십결제총액
+		int pointThisMonthPay = service.pointThisMonthPay(); //이번달포인트충전
+		int pointMemThisMonthSum = service.pointMemThisMonthSum();//이번달포인트로멤버십결제
+		json.put("thisMonthTotal",thisMonthTotal);
+		json.put("mPayThisMonthSum",mPayThisMonthSum);
+		json.put("pointThisMonthPay",pointThisMonthPay);
+		json.put("pointMemThisMonthSum",pointMemThisMonthSum);
+		System.out.println("thisMonthTotal========"+mPayThisMonthSum);
+		System.out.println("mPayThisMonthSum========"+thisMonthTotal);
+		System.out.println("pointThisMonthPay========"+pointThisMonthPay);
+		System.out.println("pointMemThisMonthSum========"+pointMemThisMonthSum);
+		for(int i=1; i<4; i++) {
+			int j = i+1;
+			map.put("n"+i, i);
+			map.put("n"+j, j);
+			int nextMonthTotal = service.nextMonthTotal(map); //지난달순이익
+			int mPayNextMonthSum = service.nextMonthTotal(map); //지난달멤버십결제총액
+			int pointNextMonthPay = service.pointNextMonthPay(map);//지난달포인트충전
+			int pointMemNextMonthSum = service.pointMemNextMonthSum(map);//지난달포인트로멤버십결제
+			json.put("nextMonthTotal"+i,nextMonthTotal);
+			json.put("mPayNextMonthSum"+i,mPayNextMonthSum);
+			json.put("pointNextMonthPay"+i,pointNextMonthPay);
+			json.put("pointMemNextMonthSum"+i,pointMemNextMonthSum);
+		}
+		return json.toString();
+	}
 }
