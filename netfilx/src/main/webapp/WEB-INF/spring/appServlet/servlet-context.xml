@@ -63,6 +63,7 @@
 			<exclude-mapping path="/login"/>
 			<exclude-mapping path="/user/google"/>
 			<exclude-mapping path="/user/naver"/>
+			<exclude-mapping path="/email_check_k"/>
 			
 			
 			<exclude-mapping path="/profile/user/index"/>

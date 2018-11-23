@@ -1,4 +1,28 @@
 -- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
+-- trigger 마지막에 추가 --
+delimiter //
+create trigger alarm_tr after insert on content for each row
+begin
+	declare no int;
+    DECLARE done INT DEFAULT FALSE;
+    declare  cur cursor for (select distinct B.profile_num from content A, interasts B where A.content_num = B.content_num AND A.series_num = new.series_num)union(select distinct B.profile_num from content A, record B where A.content_num = B.content_num AND A.series_num = new.series_num);
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    if new.series_num != 0 then 
+      set @num = (select ifnull(max(alarm_num)+1,1) from alarm_info);
+      insert into alarm_info values(@num,new.content_name, now(),new.content_num);
+      open cur;
+	  recom_loop:Loop
+	  fetch  cur into no;
+	  if done then
+       LEAVE recom_loop;
+	  end if;	
+      insert into alarm_user values(0,@num,0,no);
+      end Loop;
+    close cur;
+   end if;
+end
+//
+delimiter ;
 
 -- profile_group Table Create SQL
 CREATE TABLE profile_group
@@ -67,18 +91,6 @@ ALTER TABLE profile ADD CONSTRAINT FK_profile_pimg_num_profile_img_pimg_num FORE
  REFERENCES profile_img (pimg_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
--- series Table Create SQL
-CREATE TABLE series
-(
-    `series_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT '시리즈번호', 
-    `series_name`  VARCHAR(100)    NOT NULL    COMMENT '시리즈명', 
-    `season`       VARCHAR(100)    NOT NULL    COMMENT '시즌', 
-    PRIMARY KEY (series_num)
-);
-
-ALTER TABLE series COMMENT '시리즈';
-
-
 -- content Table Create SQL
 CREATE TABLE content
 (
@@ -102,42 +114,42 @@ CREATE TABLE content
 
 ALTER TABLE content COMMENT '컨텐츠';
 
-ALTER TABLE content ADD CONSTRAINT FK_content_series_num_series_series_num FOREIGN KEY (series_num)
- REFERENCES series (series_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-
--- surveye Table Create SQL
-CREATE TABLE surveye
+-- survey Table Create SQL
+CREATE TABLE survey
 (
-    `survey_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '설문번호', 
-    `survey_name`     VARCHAR(100)    NOT NULL    COMMENT '설문명', 
-    `survey_start`    DATE            NOT NULL    COMMENT '설문시작일', 
-    `survey_end`      DATE            NOT NULL    COMMENT '설문만료일', 
-    `users_num`       INT             NOT NULL    COMMENT '유저번호', 
-    `survey_content`  VARCHAR(500)    NOT NULL    COMMENT '설문설명', 
-    PRIMARY KEY (survey_num)
+    `surveyNum`          INT             NOT NULL    AUTO_INCREMENT COMMENT '설문번호', 
+    `userNum`            INT             NOT NULL    COMMENT '유저번호', 
+    `surveyName`         VARCHAR(100)    NOT NULL    COMMENT '설문명', 
+    `surveyDescription`  VARCHAR(100)    NOT NULL    COMMENT '설문설명', 
+    `surveyStart`        DATE            NOT NULL    COMMENT '설문시작일', 
+    `surveyEnd`          DATE            NOT NULL    COMMENT '설문종료일', 
+    `spoint`             INT             NOT NULL    COMMENT '설문결제포인트', 
+    `joinNum`            INT             NOT NULL    COMMENT '참여인원', 
+    `state`              VARCHAR(20)     NOT NULL    COMMENT '설문상태', 
+    PRIMARY KEY (surveyNum)
 );
 
-ALTER TABLE surveye COMMENT '설문';
+ALTER TABLE survey COMMENT '설문';
 
-ALTER TABLE surveye ADD CONSTRAINT FK_surveye_users_num_users_users_num FOREIGN KEY (users_num)
+ALTER TABLE survey ADD CONSTRAINT FK_survey_userNum_users_users_num FOREIGN KEY (userNum)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- survey_question Table Create SQL
 CREATE TABLE survey_question
 (
-    `sq_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '질문번호', 
-    `sq_content`  VARCHAR(500)    NOT NULL    COMMENT '질문내용', 
-    `survey_num`  INT             NOT NULL    COMMENT '설문번호', 
-    `sq_type`     INT             NOT NULL    COMMENT '질문타입', 
-    PRIMARY KEY (sq_num)
+    `sqNum`      INT             NOT NULL    AUTO_INCREMENT COMMENT '질문번호', 
+    `surveyNum`  INT             NOT NULL    COMMENT '설문번호', 
+    `sqTitle`    VARCHAR(500)    NOT NULL    COMMENT '질문제목', 
+    `sqType`     INT             NOT NULL    COMMENT '질문타입', 
+    PRIMARY KEY (sqNum)
 );
 
 ALTER TABLE survey_question COMMENT '설문질문';
 
-ALTER TABLE survey_question ADD CONSTRAINT FK_survey_question_survey_num_surveye_survey_num FOREIGN KEY (survey_num)
- REFERENCES surveye (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE survey_question ADD CONSTRAINT FK_survey_question_surveyNum_survey_surveyNum FOREIGN KEY (surveyNum)
+ REFERENCES survey (surveyNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- content_comment Table Create SQL
@@ -188,9 +200,10 @@ ALTER TABLE grade COMMENT '등급';
 -- alarm_info Table Create SQL
 CREATE TABLE alarm_info
 (
-    `alarm_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '알람정보번호', 
+    `alarm_num`      INT             NOT NULL    COMMENT '알람정보번호', 
     `alarm_content`  VARCHAR(500)    NOT NULL    COMMENT '알람정보내용', 
     `alarm_date`     DATE            NOT NULL    COMMENT '알림일', 
+    `content_num`    INT             NOT NULL    COMMENT '콘텐츠번호', 
     PRIMARY KEY (alarm_num)
 );
 
@@ -265,18 +278,18 @@ ALTER TABLE count_limit ADD CONSTRAINT FK_count_limit_users_num_users_users_num 
 -- survey_in Table Create SQL
 CREATE TABLE survey_in
 (
-    `si_num`      INT    NOT NULL    AUTO_INCREMENT COMMENT '설문여부번호', 
-    `users_num`   INT    NOT NULL    COMMENT '유저번호', 
-    `survey_num`  INT    NOT NULL    COMMENT '설문번호', 
-    PRIMARY KEY (si_num)
+    `siNum`      INT    NOT NULL    AUTO_INCREMENT COMMENT '설문여부번호', 
+    `userNum`    INT    NOT NULL    COMMENT '유저번호', 
+    `surveyNum`  INT    NOT NULL    COMMENT '설문번호', 
+    PRIMARY KEY (siNum)
 );
 
 ALTER TABLE survey_in COMMENT '설문여부';
 
-ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_users_num_users_users_num FOREIGN KEY (users_num)
+ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_userNum_users_users_num FOREIGN KEY (userNum)
  REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_survey_num_surveye_survey_num FOREIGN KEY (survey_num)
- REFERENCES surveye (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE survey_in ADD CONSTRAINT FK_survey_in_surveyNum_survey_surveyNum FOREIGN KEY (surveyNum)
+ REFERENCES survey (surveyNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- pay_info Table Create SQL
@@ -319,11 +332,11 @@ ALTER TABLE good ADD CONSTRAINT FK_good_profile_num_profile_profile_num FOREIGN 
 -- record Table Create SQL
 CREATE TABLE record
 (
-    `record_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT '시청기록번호', 
-    `next_watch`   TIME    NOT NULL    COMMENT '이어보기', 
-    `total_time`   TIME    NOT NULL    COMMENT '누적시청시간', 
-    `profile_num`  INT     NOT NULL    COMMENT '프로필번호', 
-    `content_num`  INT     NOT NULL    COMMENT '컨텐츠번호', 
+    `record_num`   INT    NOT NULL    AUTO_INCREMENT COMMENT '시청기록번호', 
+    `next_watch`   INT    NOT NULL    COMMENT '이어보기', 
+    `total_time`   INT    NOT NULL    COMMENT '누적시청시간', 
+    `profile_num`  INT    NOT NULL    COMMENT '프로필번호', 
+    `content_num`  INT    NOT NULL    COMMENT '컨텐츠번호', 
     PRIMARY KEY (record_num)
 );
 
@@ -373,31 +386,31 @@ ALTER TABLE rates ADD CONSTRAINT FK_rates_content_num_content_content_num FOREIG
 -- survey_answer Table Create SQL
 CREATE TABLE survey_answer
 (
-    `sa_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT '답변번호', 
-    `sa_answer`  VARCHAR(500)    NOT NULL    COMMENT '설문답변', 
-    `sq_num`     INT             NOT NULL    COMMENT '질문번호', 
-    PRIMARY KEY (sa_num)
+    `saNum`     INT             NOT NULL    AUTO_INCREMENT COMMENT '답변번호', 
+    `sqNum`     INT             NOT NULL    COMMENT '질문번호', 
+    `saAnswer`  VARCHAR(500)    NOT NULL    COMMENT '설문답변', 
+    PRIMARY KEY (saNum)
 );
 
 ALTER TABLE survey_answer COMMENT '설문답변';
 
-ALTER TABLE survey_answer ADD CONSTRAINT FK_survey_answer_sq_num_survey_question_sq_num FOREIGN KEY (sq_num)
- REFERENCES survey_question (sq_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE survey_answer ADD CONSTRAINT FK_survey_answer_sqNum_survey_question_sqNum FOREIGN KEY (sqNum)
+ REFERENCES survey_question (sqNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- survey_result Table Create SQL
 CREATE TABLE survey_result
 (
-    `sr_num`     INT             NOT NULL    AUTO_INCREMENT COMMENT '설문결과번호', 
-    `sq_num`     INT             NOT NULL    COMMENT '질문번호', 
-    `sr_answer`  VARCHAR(500)    NOT NULL    COMMENT '답변', 
-    PRIMARY KEY (sr_num)
+    `srNum`     INT             NOT NULL    AUTO_INCREMENT COMMENT '설문결과번호', 
+    `sqNum`     INT             NOT NULL    COMMENT '질문번호', 
+    `srAnswer`  VARCHAR(500)    NOT NULL    COMMENT '답변', 
+    PRIMARY KEY (srNum)
 );
 
 ALTER TABLE survey_result COMMENT '설문결과';
 
-ALTER TABLE survey_result ADD CONSTRAINT FK_survey_result_sq_num_survey_question_sq_num FOREIGN KEY (sq_num)
- REFERENCES survey_question (sq_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE survey_result ADD CONSTRAINT FK_survey_result_sqNum_survey_question_sqNum FOREIGN KEY (sqNum)
+ REFERENCES survey_question (sqNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- content_genre Table Create SQL
@@ -430,27 +443,40 @@ CREATE TABLE static_question
 ALTER TABLE static_question COMMENT '자주묻는질문';
 
 
--- survey_content Table Create SQL
-CREATE TABLE survey_content
+-- survey_video Table Create SQL
+CREATE TABLE survey_video
 (
-    `sc_num`      INT            NOT NULL    AUTO_INCREMENT COMMENT '설문영상번호', 
-    `sc_`         VARCHAR(45)    NOT NULL    COMMENT '파일경로', 
-    `survey_num`  INT            NOT NULL    COMMENT '설문번호', 
-    PRIMARY KEY (sc_num)
+    `svNum`      INT             NOT NULL    AUTO_INCREMENT COMMENT '설문영상번호', 
+    `surveyNum`  INT             NOT NULL    COMMENT '설문번호', 
+    `svOrgSrc`   VARCHAR(100)    NOT NULL    COMMENT '파일원본이름', 
+    `svSaveSrc`  VARCHAR(100)    NOT NULL    COMMENT '파일저장이름', 
+    PRIMARY KEY (svNum)
 );
 
-ALTER TABLE survey_content COMMENT '설문영상';
+ALTER TABLE survey_video COMMENT '설문영상';
 
-ALTER TABLE survey_content ADD CONSTRAINT FK_survey_content_survey_num_surveye_survey_num FOREIGN KEY (survey_num)
- REFERENCES surveye (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE survey_video ADD CONSTRAINT FK_survey_video_surveyNum_survey_surveyNum FOREIGN KEY (surveyNum)
+ REFERENCES survey (surveyNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- series Table Create SQL
+CREATE TABLE series
+(
+    `series_num`   INT             NOT NULL    AUTO_INCREMENT COMMENT '시리즈번호', 
+    `series_name`  VARCHAR(100)    NOT NULL    COMMENT '시리즈명', 
+    `season`       VARCHAR(100)    NOT NULL    COMMENT '시즌', 
+    PRIMARY KEY (series_num)
+);
+
+ALTER TABLE series COMMENT '시리즈';
 
 
 -- bookmark Table Create SQL
 CREATE TABLE bookmark
 (
-    `bookmark_num`   INT     NOT NULL    AUTO_INCREMENT COMMENT '책갈피번호', 
-    `comment_num`    INT     NOT NULL    COMMENT '컨텐츠댓글번호', 
-    `bookmark_time`  TIME    NOT NULL    COMMENT '책갈피시간', 
+    `bookmark_num`   INT    NOT NULL    AUTO_INCREMENT COMMENT '책갈피번호', 
+    `comment_num`    INT    NOT NULL    COMMENT '컨텐츠댓글번호', 
+    `bookmark_time`  INT    NOT NULL    COMMENT '책갈피시간', 
     PRIMARY KEY (bookmark_num)
 );
 
@@ -507,8 +533,8 @@ CREATE TABLE report
 
 ALTER TABLE report COMMENT '신고내역';
 
-ALTER TABLE report ADD CONSTRAINT FK_report_survey_num_surveye_survey_num FOREIGN KEY (survey_num)
- REFERENCES surveye (survey_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE report ADD CONSTRAINT FK_report_survey_num_survey_surveyNum FOREIGN KEY (survey_num)
+ REFERENCES survey (surveyNum)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE report ADD CONSTRAINT FK_report_profile_num_profile_profile_num FOREIGN KEY (profile_num)
  REFERENCES profile (profile_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
@@ -522,5 +548,22 @@ CREATE TABLE certification
 );
 
 ALTER TABLE certification COMMENT '이메일 본인인증 키';
+
+
+-- point_info Table Create SQL
+CREATE TABLE point_info
+(
+    `point_num`      INT             NOT NULL    AUTO_INCREMENT COMMENT '포인트번호', 
+    `point_date`     DATE            NOT NULL    COMMENT '날짜', 
+    `usage`          VARCHAR(100)    NOT NULL    COMMENT '사용내역', 
+    `point_payment`  VARCHAR(15)     NOT NULL    COMMENT '결제방법', 
+    `users_num`      INT             NOT NULL    COMMENT '유저번호', 
+    PRIMARY KEY (point_num)
+);
+
+ALTER TABLE point_info COMMENT '포인트내역';
+
+ALTER TABLE point_info ADD CONSTRAINT FK_point_info_users_num_users_users_num FOREIGN KEY (users_num)
+ REFERENCES users (users_num)  ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
