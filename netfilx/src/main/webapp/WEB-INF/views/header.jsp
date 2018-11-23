@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript">
+	function searchFocus(event) {
+		if(event == 'in'){
+			$("#searchText").animate({
+				"width":"300px"
+			});
+		}else{
+			$("#searchText").animate({
+				"width":"55px"
+			});
+		}
+	}
+	function searchContent() {
+		///////////////////////////////////////검색기능
+	}
+</script>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
   <div class="modal-dialog">
@@ -85,6 +101,9 @@
 		          </c:otherwise>
 	          </c:choose>
         </ul>
+        <input type="text" id="searchText" placeholder=" 검색" 
+        	onfocus="searchFocus('in')" onfocusout="searchFocus('out')" onkeyup="searchContent()"
+        	style="float: right;margin-top: 10px;width: 55px;">
       </div>
     </div>
   </div>

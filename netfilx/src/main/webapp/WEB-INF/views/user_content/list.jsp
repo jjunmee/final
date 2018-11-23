@@ -20,8 +20,8 @@
 		.main-carousel.main{height: 200px;}
 		
 		.main-carousel.series{height: 300px;margin-top: 50px;}
-		.carousel-cell.series{width: 24%;height: 100%;}
-		.seriesSub{width: 260px;height: 150px;padding: 5px;}
+		.carousel-cell.series{width: 24%;height: 100%;text-align: center;}
+		.seriesSub{width: 260px;height: 150px;padding: 5px;margin: auto;}
 		.carousel-cell.series>video{border: 2px solid #999;border-radius: 8px;background-color: black;
 			height: 150px;}
 			
