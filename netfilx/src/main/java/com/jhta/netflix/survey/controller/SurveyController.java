@@ -266,20 +266,21 @@ public class SurveyController {
 				
 				int num1=Integer.parseInt(ans1[0]);
 				int num2=Integer.parseInt(ans2[0]);
-				int[] intArr=new int[num2-num1+1];
-				int n=0;
-				for(int i=num1;i<=num2;i++) {
-					intArr[n]=0;
-					n++;
+				int[] intArr=new int[num2+1];
+				for(int i=0;i<=num2;i++) {
+					intArr[i]=0;					
 				}
+				System.out.println("ansList size : "+ansList.size());
 				for(int i=0;i<ansList.size();i++) {
 					int answer=Integer.parseInt(ansList.get(i).getSrAnswer());
-					intArr[answer-1]=ansList.get(i).getCnt();
+					System.out.println("여기!!!!!!!! answer : "+answer);
+					System.out.println("여기1!!!!!!!!!! cnt : "+ ansList.get(i).getCnt());
+					intArr[answer]=ansList.get(i).getCnt();
 				}
 				String str="['','인원수']";
 				String st="";
 				for(int i=num1;i<=num2;i++) {					
-					st=st+"['"+i+"점',"+intArr[i-1]+"],";
+					st=st+"['"+i+"점',"+intArr[i]+"],";
 				}
 				st=st.substring(0,st.length()-1);
 				str=str+","+st;

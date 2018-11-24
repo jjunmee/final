@@ -21,10 +21,10 @@ function idCheck(n){
 			<div class="surBtn"><input type="button" onclick="javascript:idCheck(1);" value="설문구매하러가기"></div>
 		</c:if>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
+			<a href="<c:url value='/survey/list?code=1'/>">진행중인 설문지</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
+			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문지</a>
 		</div>
 		<c:if test="${userSts=='user' }">
 			<div class="leftDivBox">

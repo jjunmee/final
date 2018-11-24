@@ -4,7 +4,7 @@
 <link type='text/css' href="<c:url value='/resources/css/survey.css'/>" rel='stylesheet' media='screen' />
 <style type="text/css">
 	.surveyList{padding-left: 80px;padding-top: 90px;height:auto;overflow: hidden}
-	
+	 
 </style>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
