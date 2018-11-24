@@ -1,6 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
+	$(function() {
+		$.get("<c:url value='/content/categorylist'/>",
+				function(data) {
+					$(data).each(function(i, json) {
+						if(json.category_name != '미정'){
+							str = 
+								"<li><a href=\""
+									+"<c:url value='/content/userView"
+									+"?profile_num=${sessionScope.profile_num }&category_num="+json.category_num+"'/>"
+								+"\">"
+									+json.category_name
+								+"</a></li>";
+							$("#mainHead").append(str);
+						}
+					});
+		});
+	});
 	function searchFocus(event) {
 		if(event == 'in'){
 			$("#searchText").animate({
@@ -52,9 +69,7 @@
     </div>
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li><a href="<c:url value='/content/userView?profile_num=${sessionScope.profile_num }'/>">홈</a></li>
-          <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
+        <ul class="nav navbar-nav" id="mainHead">
           <c:if test="${sts eq 1 }">
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">관리자<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -70,6 +85,8 @@
             </ul>
           </li>
           </c:if>
+          <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
+          <li><a href="<c:url value='/content/userView?profile_num=${sessionScope.profile_num }'/>">홈</a></li>
         </ul>
         
         <ul class="nav navbar-nav" style="float: right;">
