@@ -53,30 +53,20 @@
     <div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
+          <li><a href="<c:url value='/content/userView?profile_num=${sessionScope.profile_num }'/>">홈</a></li>
           <li><a href="<c:url value='/survey/list?code=1'/>">설문</a></li>
-          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">민성작업 <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
-	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
-	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
-	          <li><a href="<c:url value='/series/list'/>">시리즈 관리</a></li>
-	          <li><a href="<c:url value='/content/userView?profile_num=${sessionScope.profile_num }'/>">콘텐츠 뷰</a></li>
-            </ul>
-          </li>
-          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">미현작업<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-	          <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
-              <li><a href="<c:url value='/qna/list'/>">문의게시판</a></li>
-              <li><a href="<c:url value='/qna/chat'/>">채팅</a></li>
-              <li><a href="<c:url value='/grade/grade'/>">등급관리</a></li>
-              <li><a href="<c:url value='/admin/userlist'/>">회원관리</a></li>
-              <li><a href="<c:url value='/admin/paychart'/>">매출통계</a></li>
-            </ul>
-          </li>
           <c:if test="${sts eq 1 }">
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">관리자<span class="caret"></span></a>
             <ul class="dropdown-menu">
 	          <li><a href="<c:url value='/admin/profile'/>">프로필 관리</a></li>
+	          <li><a href="<c:url value='/content/insert'/>">컨텐츠등록</a></li>
+	          <li><a href="<c:url value='/content/list'/>">컨텐츠목록</a></li>
+	          <li><a href="<c:url value='/staff/list'/>">스테프 관리</a></li>
+	          <li><a href="<c:url value='/series/list'/>">시리즈 관리</a></li>
+	          <li><a href="<c:url value='/category/category'/>">카테고리관리</a></li>
+              <li><a href="<c:url value='/grade/grade'/>">등급관리</a></li>
+              <li><a href="<c:url value='/admin/userlist'/>">회원관리</a></li>
+              <li><a href="<c:url value='/admin/paychart'/>">매출통계</a></li>
             </ul>
           </li>
           </c:if>
@@ -93,7 +83,7 @@
 			            <ul class="dropdown-menu" id="profile_row">	
 			              <li><a href="<c:url value='/profile/user/index'/>">프로필</a></li>
 			              <li><a href="<c:url value='/mypage/myinfo'/>">계정</a></li>
-			              <li><a href="#">고객센터</a></li>
+			              <li><a href="<c:url value='/qna/list'/>">고객센터</a></li>
 				          <li><a href="<c:url value='/logout'/>">로그아웃</a></li>
 			            </ul>
 			          </li>
