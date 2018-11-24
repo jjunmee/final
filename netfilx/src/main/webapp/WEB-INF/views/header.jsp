@@ -5,7 +5,7 @@
 		$.get("<c:url value='/content/categorylist'/>",
 				function(data) {
 					$(data).each(function(i, json) {
-						if(json.category_name != '미정'){
+						if(${sessionScope.profile_num} != null && json.category_name != '미정'){
 							str = 
 								"<li><a href=\""
 									+"<c:url value='/content/userView"
@@ -19,18 +19,37 @@
 		});
 	});
 	function searchFocus(event) {
+		var searchText = document.getElementById("searchText");
 		if(event == 'in'){
 			$("#searchText").animate({
 				"width":"300px"
 			});
+			searchText.placeholder = "제목, 이름, 장르";
 		}else{
 			$("#searchText").animate({
 				"width":"55px"
 			});
+			searchText.placeholder = "검색";
 		}
 	}
 	function searchContent() {
-		///////////////////////////////////////검색기능
+		var txt = document.getElementById("searchText").value;
+		$.get("<c:url value='/content/searchContent'/>",
+				{"txt":txt},
+				function(data) {
+					$(data).each(function(i, json) {
+						if(json.category_name != '미정'){
+							str = 
+								"<li><a href=\""
+									+"<c:url value='/content/userView"
+									+"?profile_num=${sessionScope.profile_num }&category_num="+json.category_num+"'/>"
+								+"\">"
+									+json.category_name
+								+"</a></li>";
+							$("#mainHead").append(str);
+						}
+					});
+		});
 	}
 </script>
 <!-- Modal -->

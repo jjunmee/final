@@ -166,5 +166,77 @@
 		</if>
 		limit 0,20
 	</select>
+	<select id="searchGenreName" parameterType="hashmap" resultType="content">
+		select c.*
+		from content c inner join
+		(
+			select content_num
+			from content_genre cg inner join
+			(
+				select genre_num 
+				from genre 
+				where genre_name like concat('%',#{txt},'%')
+				<if test="category_num != 0">
+					and category_num=#{category_num}
+				</if>
+			) g
+			on cg.genre_num=g.genre_num
+			group by content_num
+		) s
+		on c.content_num=s.content_num
+	</select>
+	<select id="searchStaffName" parameterType="hashmap" resultType="content">
+		select c.*
+		from content c inner join
+		(
+			select scs.content_num
+			from
+			(
+				select content_num
+				from content_staff cs inner join
+				(
+					select staff_num 
+					from staff 
+					where staff_name like concat('%',#{txt},'%')
+				) s
+				on cs.staff_num=s.staff_num
+				group by content_num
+			) scs inner join
+			(
+				select content_num
+				from content_genre cg inner join
+				(
+					select genre_num 
+					from genre 
+					<if test="category_num != 0">
+						where category_num=#{category_num}
+					</if>
+				) g
+				on cg.genre_num=g.genre_num
+				group by content_num
+			) scg
+			on scs.content_num=scg.content_num
+		) ss
+		on c.content_num=ss.content_num
+	</select>
+	<select id="searchContentName" parameterType="hashmap" resultType="content">
+		select c.*
+		from content c inner join
+		(
+			select content_num
+			from content_genre cg inner join
+			(
+				select genre_num 
+				from genre 
+				<if test="category_num != 0">
+					where category_num=#{category_num}
+				</if>
+			) g
+			on cg.genre_num=g.genre_num
+			group by content_num
+		) cg
+		on c.content_num=cg.content_num
+		where content_name like concat('%',#{txt},'%')
+	</select>
 </mapper>
   

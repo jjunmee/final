@@ -100,7 +100,7 @@
 			</div>
 			<br>
 			<input type="hidden" id="pageNum" name="pageNum" value="${pageUtil.pageNum }">
-			<input type="text" placeholder="제목,이름(x),장르(x)" name="keyword" value="${keyword }">
+			<input type="text" placeholder="제목" name="keyword" value="${keyword }">
 			<input type="submit" value="검색" class="btn btn-default btn-sm">
 		</form>
 	</div>
