@@ -36,6 +36,7 @@
 			searchText.placeholder = "검색";
 		}
 	}
+	/*
 	function searchContent() {
 		var txt = document.getElementById("searchText").value;
 		$.get("<c:url value='/content/searchContent'/>",
@@ -86,6 +87,7 @@
 				$("#content").append(str);
 		});
 	}
+	*/
 </script>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
