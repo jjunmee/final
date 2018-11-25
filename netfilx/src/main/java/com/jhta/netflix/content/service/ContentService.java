@@ -53,4 +53,13 @@ public class ContentService {
 	public List<ContentVo> similarList(HashMap<String, Object> map){
 		return dao.similarList(map);
 	}
+	public List<ContentVo> searchGenreName(HashMap<String, Object> map){
+		return dao.searchGenreName(map);
+	}
+	public List<ContentVo> searchStaffName(HashMap<String, Object> map){
+		return dao.searchStaffName(map);
+	}
+	public List<ContentVo> searchContentName(HashMap<String, Object> map){
+		return dao.searchContentName(map);
+	}
 }

@@ -122,6 +122,7 @@
 		<if test="sort=='expensive'">
 			spoint/joinNum desc
 		</if>
+		, surveyNum desc
 		limit #{startRow},#{rowBlockCount}
 	</select>
 	<select id="mySurveyListSelect" parameterType="hashmap" resultType="survey">

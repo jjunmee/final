@@ -190,7 +190,7 @@
 					"<div class=\"recVideo\">"
 						+"<div class=\"videoBox\">"
 							+"<video onclick=\"contentPlay("+json.content_num+")\">"
-								+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+								+"<source src='<c:url value='http://dmszone.com:8080/watflix/org/"+json.savesrc+"'/>' type='video/mp4'>"
 							+"</video>"
 						+"</div>"
 						+"<div class=\"textBox\">"
@@ -423,7 +423,7 @@
 <body>
 	<div id="block">
 		<video controls id="player">
-			<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+			<source src='<c:url value="http://dmszone.com:8080/watflix/org/${vo.savesrc }"/>' type="video/mp4">
 		</video>
 		<div id="bookmarkDiv">
 			<input type="button" value="책갈피" id="bookmark" onclick="showBtn('bookmarkBox')" class="btn btn-primary">

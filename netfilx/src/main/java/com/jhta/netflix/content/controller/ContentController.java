@@ -284,7 +284,7 @@ public class ContentController {
 		return ".content.list";
 	}
 	@RequestMapping(value="/content/userView",method=RequestMethod.GET)
-	public String userList(Model model,int profile_num) {
+	public String userList(HttpSession session,Model model,int profile_num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("profile_num", profile_num);
 		map.put("listType", "jjim");
@@ -296,6 +296,7 @@ public class ContentController {
 		map.put("startRow", 0);
 		map.put("rowBlockCount", 40);
 		model.addAttribute("recommendList", contentService.recommendList(map));
+		session.setAttribute("searchState", "on");
 		return ".user_content.list";
 	}
 	@RequestMapping(value="/content/contentPlay",method=RequestMethod.GET)
@@ -392,6 +393,82 @@ public class ContentController {
 			arr.put(obj);
 		}
 		return arr.toString();
+	}
+	@RequestMapping(value="/content/searchContent",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String searchContent(HttpSession session,String txt,
+			@RequestParam(value="category_num",defaultValue="0")int category_num) {
+		JSONObject json = new JSONObject();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("txt", txt);
+		map.put("category_num", category_num);
+		List<ContentVo> list = contentService.searchContentName(map);
+		JSONArray arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		json.put("searchContentName", arr);
+		list = contentService.searchStaffName(map);
+		arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		json.put("searchStaffName", arr);
+		list = contentService.searchGenreName(map);
+		arr = new JSONArray();
+		for(ContentVo vo : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("content_num", vo.getContent_num());
+			obj.put("content_name", vo.getContent_name());
+			obj.put("orgsrc", vo.getOrgsrc());
+			obj.put("savesrc", vo.getSavesrc());
+			obj.put("content_summary", vo.getContent_summary());
+			obj.put("trailer_orgsrc", vo.getTrailer_orgsrc());
+			obj.put("trailer_savesrc", vo.getTrailer_savesrc());
+			obj.put("content_size", vo.getContent_size());
+			obj.put("trailer_size", vo.getTrailer_size());
+			obj.put("content_post1", vo.getContent_post1());
+			obj.put("content_post2", vo.getContent_post2());
+			obj.put("release_date", vo.getRelease_date());
+			obj.put("watch_age", vo.getWatch_age());
+			obj.put("content_regdate", vo.getContent_regdate());
+			obj.put("series_num", vo.getSeries_num());
+			arr.put(obj);
+		}
+		json.put("searchGenreName", arr);
+		return json.toString();
 	}
 }
 

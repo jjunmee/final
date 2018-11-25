@@ -58,4 +58,13 @@ public class ContentDao {
 	public List<ContentVo> similarList(HashMap<String, Object> map){
 		return sqlSession.selectList(NAMESPACE + ".similarList", map);
 	}
+	public List<ContentVo> searchGenreName(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".searchGenreName", map);
+	}
+	public List<ContentVo> searchStaffName(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".searchStaffName", map);
+	}
+	public List<ContentVo> searchContentName(HashMap<String, Object> map){
+		return sqlSession.selectList(NAMESPACE + ".searchContentName", map);
+	}
 }

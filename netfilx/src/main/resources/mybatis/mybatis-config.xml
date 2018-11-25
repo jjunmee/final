@@ -46,7 +46,7 @@
 		<typeAlias type="com.jhta.netflix.bookmark.vo.BookmarkVo" alias="bookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Comment_bookmarkVo" alias="cbookmark"/>
 		<typeAlias type="com.jhta.netflix.content_comment.vo.Mypage_commentVo" alias="mypagecomment"/>
-		<typeAlias type="com.jhta.netflix.alarm.vo.Alarm" alias="alarm"/>
+		<typeAlias type="com.jhta.netflix.alarm.vo.AlarmVo" alias="alarm"/>
 		<typeAlias type="com.jhta.netflix.count_limit.vo.Count_limitVo" alias="cl"/>
 		<typeAlias type="com.jhta.netflix.chart.vo.GnameCountVo" alias="gnameCount"/>
 	</typeAliases>
