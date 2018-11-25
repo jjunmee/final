@@ -24,11 +24,16 @@ public class AlarmController {
 	@RequestMapping(value="/alarm/count")
 	public String alarm(HttpSession session) {
 		int profile_num = (Integer)session.getAttribute("profile_num");
-		int row = alarm.getCount(profile_num);
-		if(row>5) {
-			row = 5;
+		List<AlarmVo> row = alarm.getCount(profile_num);
+		int r = 0;
+		if(!row.isEmpty()) {
+			for(AlarmVo vo : row) {
+				if(vo.getAlarm_state()==0) {
+					r+=1;
+				}
+			}
 		}
-		session.setAttribute("alarm_count", row);
+		session.setAttribute("alarm_count", r);
 		return "redirect:/content/userView?profile_num="+profile_num;
 	}
 	

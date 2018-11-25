@@ -12,7 +12,7 @@ import com.jhta.netflix.alarm.vo.AlarmVo;
 public class Alarm {
 	@Autowired private AlarmImpl dao;
 	
-	public int getCount(int profile_num) {
+	public List<AlarmVo> getCount(int profile_num) {
 		return dao.getCount(profile_num);
 	}
 	public List<AlarmVo> getList(int profile_num){

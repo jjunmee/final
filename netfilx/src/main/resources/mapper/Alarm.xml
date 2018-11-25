@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.Alarm">
-	<select id="getCount" resultType="int" parameterType="int">
-		select count(alarm_state) from alarm_user where alarm_state=0 and profile_num = #{profile_num} limit 5
+	<select id="getCount" resultType="alarm" parameterType="int">
+		select B.alarm_state from alarm_info A, alarm_user B where A.alarm_num = B.alarm_num AND B.profile_num = #{profile_num} AND 
+		 <![CDATA[ date(A.alarm_date) >= date(subdate(now(), INTERVAL 3 DAY)) and date(A.alarm_date) <= date(now())]]> 
+		 limit 5 
 	</select>
 	<select id="getList" resultType="alarm" parameterType="int">
 		select B.au_num, A.alarm_content, A.content_num, B.alarm_state from alarm_info A, alarm_user B where A.alarm_num = B.alarm_num AND B.profile_num = #{profile_num} AND 

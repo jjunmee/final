@@ -37,6 +37,10 @@ public class AlarmVo {
 		this.alarm_state = alarm_state;
 	}
 	
+	public AlarmVo(int alarm_state) {
+		this.alarm_state=alarm_state;
+	}
+	
 	public int getAlarm_num() {
 		return alarm_num;
 	}

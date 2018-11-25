@@ -14,8 +14,8 @@ public class AlarmImpl implements Alarm {
 	private SqlSession sqlSession;
 	private final String NAMESPACE = "mapper.Alarm";
 	@Override
-	public int getCount(int profile_num) {
-		return sqlSession.selectOne(NAMESPACE+".getCount",profile_num);
+	public List<AlarmVo> getCount(int profile_num) {
+		return sqlSession.selectList(NAMESPACE+".getCount",profile_num);
 	}
 
 	@Override
