@@ -11,6 +11,7 @@
 		$('#surveyDescription').innerHTML(description);
 		
 	});
+	/*
 	function nullChecking(){
 		var bool=true;
 		for(var i=0;i<${fn:length(sqVoList)};i++){
@@ -21,7 +22,7 @@
 			};
 		}
 	}
-			/*
+			
 			if(nullCheck[i].type=='radio'){
 				
 					alert("radio");
@@ -192,7 +193,7 @@
 				<input type="hidden" name="field" value="${field }">
 				<input type="hidden" name="keyword" value="${keyword }">
 				<input type="hidden" name="surveyNum" value="${surveyVo.surveyNum }">
-				<input type="button" id="submitBtn" onclick="nullChecking()" value="참가">
+				<input type="submit" id="submitBtn" value="참가">
 			</div>
 		</form>
 	</div>
