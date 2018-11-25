@@ -98,11 +98,11 @@
       </div>
       <form method="post" id="modalProfile" action="<c:url value='/profile/user/getInfo'/>">
       <div class="modal-body">
-        <input type="text" id="p_password" name="p_password" min="4" max="4" placeholder="비밀번호입력">
+        <input type="password" id="p_password" name="p_password" min="4" max="4" placeholder="비밀번호입력">
         <input type="hidden" id="profile_num" name="profile_num" value=""/>
       </div>
       <div class="modal-footer">
-      	 <input type="submit" class="btn btn-default" value="전환">
+      	 <input type="submit" class="btn btn-default" value="완료">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
       </form>
@@ -143,7 +143,7 @@
           <li><a href="<c:url value='/content/userView?profile_num=${sessionScope.profile_num }'/>">홈</a></li>
         </ul>
         
-        <ul class="nav navbar-nav" style="float: right;">
+        <ul class="nav navbar-nav" style="float: right;margin-right: 20px">
 	          <c:choose>
 		          <c:when test="${id eq null }">
 		         	 <li><a href="<c:url value='/loginForm'/>">로그인</a></li>
@@ -162,6 +162,16 @@
 		          </c:otherwise>
 	          </c:choose>
         </ul>
+        <ul class="nav navbar-nav" style="float: right;">
+          <li id="dropdown" onclick="alarm_view('${pageContext.request.contextPath }')"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          	<i class="glyphicon glyphicon-bullhorn btn-lg" style="color: white;padding: 0px 0px;">
+	          	<c:if test="${alarm_count ne '0'}">
+	          		<span style="color: red;margin-left: -6px;">${alarm_count }</span>
+	          	</c:if>
+          	</i></a>
+            <ul class="dropdown-menu" id="alarm_row"></ul>
+          </li>
+         </ul>
         <input type="text" id="searchText" placeholder=" 검색" 
         	onfocus="searchFocus('in')" onfocusout="searchFocus('out')" onkeyup="searchContent()"
         	style="float: right;margin-top: 10px;width: 55px;display: none;">

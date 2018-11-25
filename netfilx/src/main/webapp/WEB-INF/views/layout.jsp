@@ -20,6 +20,8 @@
 <script src="<c:url value='/resources/js/jquery-ui.min.js'/>"></script>
 <script src="<c:url value='/resources/js/header.js'/>"></script>
 
+
+
 <!-- https://flickity.metafizzy.co/ -->
 	<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.js"></script>
 <title>WATFLIX!</title>
