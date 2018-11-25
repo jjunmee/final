@@ -33,13 +33,13 @@
 				<c:choose>
 				<c:when test="${!empty(n_pimg_num) }">
 						<a href="<c:url value='/profile/user/img/change?profile_num=${vo.profile_num }'/>">
-							<img src="${n_pimg_src }" width="180">
+							<img src="${n_pimg_src }" width="180" height="180">
 						</a>
 						<input type="hidden" name="pimg_num" value="${n_pimg_num }">
 					</c:when>
 					<c:otherwise>
 						<a href="<c:url value='/profile/user/img/change?profile_num=${vo.profile_num }'/>">
-							<img src="${vo.pimg_src }" width="180">
+							<img src="${vo.pimg_src }" width="180" height="180">
 						</a>
 						<input type="hidden" name="pimg_num" value="${vo.pimg_num }">
 					</c:otherwise>

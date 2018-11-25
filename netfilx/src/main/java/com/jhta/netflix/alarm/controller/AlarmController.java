@@ -25,6 +25,9 @@ public class AlarmController {
 	public String alarm(HttpSession session) {
 		int profile_num = (Integer)session.getAttribute("profile_num");
 		int row = alarm.getCount(profile_num);
+		if(row>5) {
+			row = 5;
+		}
 		session.setAttribute("alarm_count", row);
 		return "redirect:/content/userView?profile_num="+profile_num;
 	}

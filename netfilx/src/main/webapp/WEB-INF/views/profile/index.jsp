@@ -11,7 +11,7 @@
 					<div class="profile">
 						<div class="profile_img">
 							<a data-toggle="modal" data-target="#myModal" class="modalProfileNum" data-profile_num="${vo.profile_num }">
-								<img src="${vo.pimg_src }" id="profile_num" width="180" name="profile_num">
+								<img src="${vo.pimg_src }" id="profile_num" width="180" height="180" name="profile_num">
 							</a>
 						</div>
 						<div>

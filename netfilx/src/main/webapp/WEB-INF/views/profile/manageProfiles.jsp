@@ -20,7 +20,7 @@
 							</c:otherwise>
 						</c:choose>
 						<a href="<c:url value='/profile/user/updateFormView?profile_num=${vo.profile_num }'/>">
-							<img src="${vo.pimg_src }" width="180" id="profile_num" name="profile_num">
+							<img src="${vo.pimg_src }" width="180" height="180" id="profile_num" name="profile_num">
 						</a>
 					</div>
 					<div>

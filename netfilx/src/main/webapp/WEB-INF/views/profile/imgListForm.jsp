@@ -46,12 +46,12 @@ jQuery(function($){
 				<c:choose>
 					<c:when test="${empty(s_profile_num) }">
 						<a href="<c:url value='/profile/user/insertForm?first=${first }&pimg_src=${I_list.pimg_src }&pimg_num=${I_list.pimg_num }'/>">
-							<img src="${I_list.pimg_src }" width="120">
+							<img src="${I_list.pimg_src }" width="120" height="120">
 						</a>					
 					</c:when>
 					<c:otherwise>
 						<a href="<c:url value='/profile/user/updateFormView?profile_num=${s_profile_num }&n_pimg_src=${I_list.pimg_src }&n_pimg_num=${I_list.pimg_num }'/>">
-							<img src="${I_list.pimg_src }" width="120">
+							<img src="${I_list.pimg_src }" width="120" height="120">
 						</a>
 					</c:otherwise>
 				</c:choose>

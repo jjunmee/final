@@ -5,7 +5,7 @@
 .profile_nickname{text-align: center;margin-top: 10px; font-size: 15pt;}
 .footer{margin:30px 30%;}
 .manages{padding:6px;font-size:15pt;border:solid 2px gray;color: white;}
-
+#proImg-slide img{width: 150px; height: 150px;} 
 .list{margin:10% 20%; width: 60%;}
 .inup-input{margin:10px 0;}
 
