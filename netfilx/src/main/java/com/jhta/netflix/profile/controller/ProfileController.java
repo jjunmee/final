@@ -213,7 +213,7 @@ public class ProfileController {
 	}
 
 	/// profile/user/getInfo?
-	@RequestMapping(value = "/profile/user/getInfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/profile/user/getInfo", method = {RequestMethod.POST,RequestMethod.GET})
 	public String userProfileSelect(@RequestParam("profile_num") String profile_num,
 			@RequestParam("p_password") String p_password, HttpSession session) {
 		int no = Integer.parseInt(profile_num);
@@ -230,7 +230,8 @@ public class ProfileController {
 		} else {
 			return "redirect:/profile/user/index";
 		}
-		return "redirect:/content/userView?profile_num="+profile_num;
+		//알람을 가지러 가자!!!!
+		return "redirect:/alarm/count";
 	}
 
 	// profile img All list execute

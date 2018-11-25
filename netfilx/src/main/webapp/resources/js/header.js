@@ -28,3 +28,25 @@ jQuery(function($){
 		$("#profile_num").val(num);
 	});
 });
+function alarm_view(row){
+	var path=row+"/alarm/list";
+	var result="";
+	$.ajax({
+		url : path,
+		type : "get",
+		dataType:"json",
+		success : function(data){
+			$.each(data.alarm_list,function(index, item){
+				if(item.alarm_state=='1'){
+				result+="<li class='alarm_list'>";
+				result+="<a href='"+row+"/content/contentPlay?content_num="+item.content_num+"'>"+item.alarm_content+"보러가기</a></li>";
+				}else{
+					result+="<li class='alarm_list alarm'>";	
+					result+="<a href='"+row+"/alarm/content?content_num="+item.content_num+"&au_num="+item.au_num+"'>"+item.alarm_content+"보러가기</a></li>";
+				}
+			});
+			$(".alarm_row").remove();
+			$("#alarm_row").prepend(result);
+		}
+	});
+}
