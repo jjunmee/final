@@ -228,7 +228,7 @@ public class SurveyController {
 				List<SrCntDto> ansList=service.srAnswerCnt(sqNum);
 				List<SurveyAnswerVo> saVoList=service.surveyAnswerSelect(sqNum);
 				String str="['','";
-				String st="['"+sqVo.getSqTitle()+"',";
+				String st="['',";
 				for(int i=0;i<saVoList.size();i++) {
 					String saAnswer=saVoList.get(i).getSaAnswer();
 					str=str+saAnswer+"','";
@@ -252,6 +252,7 @@ public class SurveyController {
 				model.addAttribute("strConcat",str);	
 				model.addAttribute("surveyVo",surveyVo);
 				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNum",qNum);
 				model.addAttribute("qNums",sqList.size());
 				return ".survey.surveyStats2";
 			}else if(sqVo.getSqType().equals("3")){
@@ -289,6 +290,7 @@ public class SurveyController {
 				model.addAttribute("ans2",ans2);
 				model.addAttribute("surveyVo",surveyVo);
 				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNum",qNum);
 				model.addAttribute("qNums",sqList.size());
 				return ".survey.surveyStats2";
 				
@@ -298,6 +300,7 @@ public class SurveyController {
 				model.addAttribute("ansList",ansList);				
 				model.addAttribute("surveyVo",surveyVo);
 				model.addAttribute("sqTitle",sqVo.getSqTitle());
+				model.addAttribute("qNum",qNum);
 				model.addAttribute("qNums",sqList.size());
 				return ".survey.surveyStats3";
 			}

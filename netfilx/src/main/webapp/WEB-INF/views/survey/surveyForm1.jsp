@@ -63,10 +63,10 @@
 <div class="surveyList">	
 	<div id="tab" class="leftBox">
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=1'/>">현재진행중인설문</a>
+			<a href="<c:url value='/survey/list?code=1'/>">진행중인 설문지</a>
 		</div>
 		<div class="leftDivBox">
-			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문</a>
+			<a href="<c:url value='/survey/list?code=2'/>">완료된 설문지</a>
 		</div>
 		<c:if test="${userSts=='user' }">
 			<div class="leftDivBox">

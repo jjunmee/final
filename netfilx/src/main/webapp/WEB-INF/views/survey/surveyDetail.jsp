@@ -11,6 +11,40 @@
 		$('#surveyDescription').innerHTML(description);
 		
 	});
+	function nullChecking(){
+		var bool=true;
+		for(var i=0;i<${fn:length(sqVoList)};i++){
+			var str="resultList["+i+"].srAnswer";
+			var nullCheck=document.getElementsByName(str);
+			if(nullCheck[i].type==null || nullCheck[i].type=='undefined'){
+				alert("text"); 
+			};
+		}
+	}
+			/*
+			if(nullCheck[i].type=='radio'){
+				
+					alert("radio");
+					bool=false;
+				
+			}else if(nullCheck[i].type=='checkbox'){
+				
+					alert("checkbox");
+					bool=false;
+				
+			}else if(nullCheck[i].type=='text'){
+				alert("text");
+			}
+		}
+		
+		if(bool==false){
+			alert("설문의 빈 답안을 모두 채워주세요.");
+		}else{
+			$("#qstFrm").submit();
+		}
+		*/
+		
+	
 	function idCheck(n){
 		if(n==0){//나의설문지
 			location.href="<c:url value='/survey/mySurvey'/>";
@@ -23,7 +57,7 @@
 	.surveyList{height:auto;overflow: hidden}
 	.surveyList table{color: white;text-align: center;}
 	.surveyList table .sqTitle{text-align: left;}
-	.surveyList #things input[type=submit]{margin-left:44%;width:70px;margin-top: 35px;}
+	.surveyList #things #submitBtn{margin-left:44%;width:70px;margin-top: 35px;}
 	#surveyDescription{float:left;width:50%;margin-left: 2%;}
 	#surveyDate{width:30%;float: right;margin-right: 2%;}
 	.surveyList #video{width:700px;height:350px;margin:auto;text-align:center;}
@@ -147,7 +181,7 @@
 								</tr>
 							</c:if>
 							<c:if test="${sqVoList[i].sqType==4 }">
-								<tr><td style="text-align: left;"><input type="text" name="resultList[${i }].srAnswer"></td></tr>
+								<tr><td style="text-align: left;"><input type="text" name="resultList[${i }].srAnswer" placeholder="답변을 작성해주세요"></td></tr>
 							</c:if>
 						</c:forEach>
 					</table>	
@@ -158,7 +192,7 @@
 				<input type="hidden" name="field" value="${field }">
 				<input type="hidden" name="keyword" value="${keyword }">
 				<input type="hidden" name="surveyNum" value="${surveyVo.surveyNum }">
-				<input type="submit" value="참가">
+				<input type="button" id="submitBtn" onclick="nullChecking()" value="참가">
 			</div>
 		</form>
 	</div>

@@ -35,17 +35,22 @@ function idCheck(n){
 	
 	<div id="myBox" class="centerBox">
 		<div id="surveyName">
-			${surveyVo.surveyName }<br>
-			${sqTitle }
+			<h3>${surveyVo.surveyName }</h3>		
 		</div>
-		<div id="qNums">
-			<c:forEach var="i" begin="1" end="${qNums }">
-				<a href="<c:url value='/survey/stats?surveyNum=${surveyVo.surveyNum }&qNum=${i }'/>">${i }</a>
+		<div id="chart_div" style="margin-top: 15px;">
+			${sqTitle }<br>
+			<c:forEach var="i" begin="0" end="${fn:length(ansList)-1 }">
+				<li style="margin-top: 10px;">${ansList[i].srAnswer }</li>
 			</c:forEach>
 		</div>
-		<div id="chart_div">
-			<c:forEach var="i" begin="0" end="${fn:length(ansList)-1 }">
-				${ansList[i].srAnswer }<br>
+		<div id="qNums" style="margin-top: 15px;">
+			<c:forEach var="i" begin="1" end="${qNums }">
+				<c:if test="${i==qNum }">
+					<span style="color:white">[ ${i }번 ]&nbsp;</span>
+				</c:if>
+				<c:if test="${i!=qNum }">				
+					<a href="<c:url value='/survey/stats?surveyNum=${surveyVo.surveyNum }&qNum=${i }'/>">[ ${i }번 ]&nbsp;</a>
+				</c:if>
 			</c:forEach>
 		</div>
 		
