@@ -516,7 +516,6 @@
 				<br>
 				<table class="tb_genre">
 				</table>
->>>>>>> branch 'master' of https://github.com/jjunmee/final.git
 			</div>
 		</div>
 	</div>
