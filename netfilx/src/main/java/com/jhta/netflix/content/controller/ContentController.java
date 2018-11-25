@@ -284,7 +284,7 @@ public class ContentController {
 		return ".content.list";
 	}
 	@RequestMapping(value="/content/userView",method=RequestMethod.GET)
-	public String userList(Model model,int profile_num) {
+	public String userList(HttpSession session,Model model,int profile_num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("profile_num", profile_num);
 		map.put("listType", "jjim");
@@ -296,6 +296,7 @@ public class ContentController {
 		map.put("startRow", 0);
 		map.put("rowBlockCount", 40);
 		model.addAttribute("recommendList", contentService.recommendList(map));
+		session.setAttribute("searchState", "on");
 		return ".user_content.list";
 	}
 	@RequestMapping(value="/content/contentPlay",method=RequestMethod.GET)
@@ -395,7 +396,7 @@ public class ContentController {
 	}
 	@RequestMapping(value="/content/searchContent",produces="application/json;charset=utf-8")
 	@ResponseBody
-	public String searchContent(String txt,
+	public String searchContent(HttpSession session,String txt,
 			@RequestParam(value="category_num",defaultValue="0")int category_num) {
 		JSONObject json = new JSONObject();
 		HashMap<String, Object> map = new HashMap<String, Object>();

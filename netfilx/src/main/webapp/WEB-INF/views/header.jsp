@@ -17,6 +17,10 @@
 						}
 					});
 		});
+		if('${sessionScope.searchState}' == 'on'){
+			$("#searchText").show();
+			<%session.setAttribute("searchState", null);%>
+		}
 	});
 	function searchFocus(event) {
 		var searchText = document.getElementById("searchText");
@@ -37,18 +41,49 @@
 		$.get("<c:url value='/content/searchContent'/>",
 				{"txt":txt},
 				function(data) {
-					$(data).each(function(i, json) {
-						if(json.category_name != '미정'){
-							str = 
-								"<li><a href=\""
-									+"<c:url value='/content/userView"
-									+"?profile_num=${sessionScope.profile_num }&category_num="+json.category_num+"'/>"
-								+"\">"
-									+json.category_name
-								+"</a></li>";
-							$("#mainHead").append(str);
-						}
+					$("#content>*").hide();
+					var str = "<div id=\"searchContentName\">";
+					$(data.searchContentName).each(function(i, json) {
+					  str+="<div class=\"carousel-cell main\">"
+						  	+"<img src='<c:url value='http://dmszone.com:8080/watflix/stillcut/"+json.content_post2+"'/>'>"
+						  	+"<video loop>"
+								+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+							+"</video>"
+							+"<div>"
+								+"<h3>"+json.content_name+"</h3>"
+								+"<h5>"
+									+json.content_regdate+" / ";
+									if(json.watch_age == 12 || json.watch_age == 15){
+										str += json.watch_age;
+									}else if(json.watch_age == 19){
+										str += "청불";
+									}else{
+										str += "전체관람가";
+									}
+								str+="</h5>"
+								+"<p>"+json.content_summary+"</p>"
+							+"</div>"
+							+"<div onclick=\"contentDetail(event,{"
+								+"content_num:"+json.content_num+","
+								+"content_name:"+json.content_name+","
+								+"orgsrc:'"+json.orgsrc+"',"
+								+"savesrc:'"+json.savesrc+"',"
+								+"content_summary:'"+json.content_summary+"',"
+								+"trailer_orgsrc:'"+json.trailer_orgsrc+"',"
+								+"trailer_savesrc:'"+json.trailer_savesrc+"',"
+								+"content_size:"+json.content_size+","
+								+"trailer_size:"+json.trailer_size+","
+								+"content_post1:'"+json.content_post1+"',"
+								+"content_post2:'"+json.content_post2+"',"
+								+"release_date:'"+json.release_date+"',"
+								+"watch_age:"+json.watch_age+","
+								+"content_regdate:'"+json.content_regdate+"',"
+								+"series_num:"+json.series_num
+							+"},'jjimContent')\"></div>"
+						+"</div>"
+						+"</div>";
 					});
+				$("#content").append(str);
 		});
 	}
 </script>
@@ -129,7 +164,7 @@
         </ul>
         <input type="text" id="searchText" placeholder=" 검색" 
         	onfocus="searchFocus('in')" onfocusout="searchFocus('out')" onkeyup="searchContent()"
-        	style="float: right;margin-top: 10px;width: 55px;">
+        	style="float: right;margin-top: 10px;width: 55px;display: none;">
       </div>
     </div>
   </div>

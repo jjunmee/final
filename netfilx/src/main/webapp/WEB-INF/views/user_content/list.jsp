@@ -118,7 +118,7 @@
 								str+=
 								  "<div class=\"carousel-cell series\">"
 								  	+"<video loop onclick=\"contentPlay("+json.content_num+")\">"
-										+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+										+"<source src='<c:url value='http://dmszone.com:8080/watflix/org/"+json.savesrc+"'/>' type='video/mp4'>"
 									+"</video>"
 									  +"<div class=\"seriesSub\">"
 									  	+"<h4>"+json.content_name+"</h4>"
@@ -155,7 +155,7 @@
 							str+=
 							  "<div class=\"carousel-cell series\">"
 							  	+"<video loop onclick=\"contentPlay("+json.content_num+")\">"
-									+"<source src='<c:url value='/resources/media/hut.mp4'/>' type='video/mp4'>"
+									+"<source src='<c:url value='http://dmszone.com:8080/watflix/org/"+json.savesrc+"'/>' type='video/mp4'>"
 								+"</video>"
 								  +"<div class=\"seriesSub\">"
 								  	+"<h4>"+json.content_name+"</h4>"
@@ -295,7 +295,7 @@
 			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					<source src='<c:url value="http://dmszone.com:8080/watflix/org/${vo.savesrc }"/>' type="video/mp4">
 				</video>
 				<div>
 					<h3>${vo.content_name }</h3>
@@ -346,7 +346,7 @@
 			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					<source src='<c:url value="http://dmszone.com:8080/watflix/org/${vo.savesrc }"/>' type="video/mp4">
 				</video>
 				<div>
 					<h3>${vo.content_name }</h3>
@@ -397,7 +397,7 @@
 			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					<source src='<c:url value="http://dmszone.com:8080/watflix/org/${vo.savesrc }"/>' type="video/mp4">
 				</video>
 				<div>
 					<h3>${vo.content_name }</h3>
@@ -448,7 +448,7 @@
 			  <div class="carousel-cell main">
 			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
 			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					<source src='<c:url value="http://dmszone.com:8080/watflix/org/${vo.savesrc }"/>' type="video/mp4">
 				</video>
 				<div>
 					<h3>${vo.content_name }</h3>
