@@ -39,9 +39,15 @@ public class AlarmController {
 	}
 	
 	@RequestMapping(value="/alarm/content",method=RequestMethod.GET)
-	public String au_update(@RequestParam("content_num")String content_num,@RequestParam("au_num")String au_num) {
+	public String au_update(@RequestParam("content_num")String content_num,@RequestParam("au_num")String au_num,HttpSession session) {
 		int u_num = Integer.parseInt(au_num);
-		alarm.update_state(u_num);
+		int row = alarm.update_state(u_num);
+		if(row>0) {
+			int s_row = (Integer)session.getAttribute("alarm_count");
+			if(s_row>0) {
+				session.setAttribute("alarm_count", s_row-1);
+			}
+		}
 		return "redirect:/content/contentPlay?content_num="+content_num;
 	}
 }

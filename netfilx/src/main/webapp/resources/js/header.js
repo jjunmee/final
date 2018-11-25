@@ -45,7 +45,7 @@ function alarm_view(row){
 					result+="<a href='"+row+"/alarm/content?content_num="+item.content_num+"&au_num="+item.au_num+"'>"+item.alarm_content+"보러가기</a></li>";
 				}
 			});
-			$(".alarm_row").remove();
+			$(".alarm_list").remove();
 			$("#alarm_row").prepend(result);
 		}
 	});
