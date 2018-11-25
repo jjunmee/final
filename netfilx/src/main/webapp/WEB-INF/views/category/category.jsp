@@ -87,7 +87,7 @@
 				$(data).each(function(i,json) {
 					var str1 = "<option value=\""+json.category_num+"\">"
 						+json.category_name+"</option>";
-					var str2 = "<input type=\"checkbox\" name=\"gcate_check\" value=\"" + json.category_num + "\"onchange=\"checkcheck()\">" + json.category_name;
+					var str2 = "<input type=\"checkbox\" name=\"gcate_check\" value=\"" + json.category_num + "\"onchange=\"checkcheck()\"id=\"cb" + json.category_num + "\"><label for=\"cb" + json.category_num + "\"></label>" + json.category_name;
 					$("#category").append(str1);
 					$("#gcate_check_div").append(str2);
 				});
@@ -168,6 +168,20 @@
 				var str2="<a href=\"javascript:false;\" onclick=\"cupdateOk(" + num + ")\">확인</a>";
 				$("#cate" + num).append(str1);
 				$("#cateok" + num).append(str2);
+			}
+		});
+	}
+	
+	//카테고리 수정확인 클릭시 수정완료
+	function cupdateOk(num){
+		var category_name = $("#cateName"+num).val();
+		$("#categorylist").empty();
+		$.ajax({
+			url:"<c:url value='/category/update'/>",
+			data:{"num":num,"category_name":category_name},
+			dataType:"json",
+			success:function(data){
+				categorylist();
 			}
 		});
 	}

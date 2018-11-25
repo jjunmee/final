@@ -43,7 +43,7 @@ public class CategoryController {
 	}
 	
 	/*
-	//카테고리 삭제
+	//카테고리 삭제 ==장르 컨트롤러에서
 	@RequestMapping(value="/category/delete",method=RequestMethod.GET)
 	public ModelAndView delete(int num) {
 		int n = service.delete(num);
@@ -58,8 +58,8 @@ public class CategoryController {
 		return mv;
 	}
 	*/
-	
-	//카테고리 수정
+	/*
+	//카테고리 수정 ==장르 컨트롤러에서
 	@RequestMapping(value="/category/update",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String update(String category_name,int category_num) {
@@ -74,7 +74,7 @@ public class CategoryController {
 		}
 		return json.toString();
 	}
-	
+	*/
 	//카테고리리스트뿌리기
 	@RequestMapping(value="/content/categorylist",produces="application/json;charset=utf-8")
 	@ResponseBody

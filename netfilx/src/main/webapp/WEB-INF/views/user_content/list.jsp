@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style type="text/css">
+		#userContentDiv{margin: 10px; padding: 10px;}
 		.carousel-cell.main p{text-overflow: ellipsis;overflow: hidden;word-break:break-all;height: 40%;}
 		.carousel-cell.main>img,.carousel-cell.main>video{}
 		.carousel-cell.main{width: 18%;height: 100%;}
@@ -288,238 +289,240 @@
 	</script>
 </head>
 <body>
-	<h4>내가 찜한 콘텐츠</h4>
-	<div id="jjimContent">
-		<div class="main-carousel main">
-			<c:forEach items="${jjimList }" var="vo">
-			  <div class="carousel-cell main">
-			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
-			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-				</video>
-				<div>
-					<h3>${vo.content_name }</h3>
-					<h5>
-						${vo.content_regdate} / 
-						<c:choose>
-							<c:when test="${vo.watch_age == 12}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 15}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 19}">
-								청불
-							</c:when>
-							<c:otherwise>
-								전체관람가
-							</c:otherwise>
-						</c:choose>
-					</h5>
-					<p>${vo.content_summary }</p>
-				</div>
-				<div onclick="contentDetail(event,{
-					content_num:${vo.content_num},
-					content_name:'${vo.content_name}',
-					orgsrc:'${vo.orgsrc}',
-					savesrc:'${vo.savesrc}',
-					content_summary:'${vo.content_summary}',
-					trailer_orgsrc:'${vo.trailer_orgsrc}',
-					trailer_savesrc:'${vo.trailer_savesrc}',
-					content_size:${vo.content_size},
-					trailer_size:${vo.trailer_size},
-					content_post1:'${vo.content_post1}',
-					content_post2:'${vo.content_post2}',
-					release_date:'${vo.release_date}',
-					watch_age:${vo.watch_age},
-					content_regdate:'${vo.content_regdate}',
-					series_num:${vo.series_num}
-				},'jjimContent')"></div>
-			  </div>
-			</c:forEach>
-		</div>
-	</div>
-	<h4>신규 콘텐츠</h4>
-	<div id="newContent">
-		<div class="main-carousel main">
-			<c:forEach items="${newList }" var="vo">
-			  <div class="carousel-cell main">
-			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
-			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-				</video>
-				<div>
-					<h3>${vo.content_name }</h3>
-					<h5>
-						${vo.content_regdate} / 
-						<c:choose>
-							<c:when test="${vo.watch_age == 12}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 15}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 19}">
-								청불
-							</c:when>
-							<c:otherwise>
-								전체관람가
-							</c:otherwise>
-						</c:choose>
-					</h5>
-					<p>${vo.content_summary }</p>
-				</div>
-				<div onclick="contentDetail(event,{
-					content_num:${vo.content_num},
-					content_name:'${vo.content_name}',
-					orgsrc:'${vo.orgsrc}',
-					savesrc:'${vo.savesrc}',
-					content_summary:'${vo.content_summary}',
-					trailer_orgsrc:'${vo.trailer_orgsrc}',
-					trailer_savesrc:'${vo.trailer_savesrc}',
-					content_size:${vo.content_size},
-					trailer_size:${vo.trailer_size},
-					content_post1:'${vo.content_post1}',
-					content_post2:'${vo.content_post2}',
-					release_date:'${vo.release_date}',
-					watch_age:${vo.watch_age},
-					content_regdate:'${vo.content_regdate}',
-					series_num:${vo.series_num}
-				},'newContent')"></div>
-			  </div>
-			</c:forEach>
-		</div>
-	</div>
-	<h4>Watflix 인기 콘텐츠</h4>
-	<div id="bestContent">
-		<div class="main-carousel main">
-			<c:forEach items="${bestList }" var="vo">
-			  <div class="carousel-cell main">
-			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
-			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-				</video>
-				<div>
-					<h3>${vo.content_name }</h3>
-					<h5>
-						${vo.content_regdate} / 
-						<c:choose>
-							<c:when test="${vo.watch_age == 12}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 15}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 19}">
-								청불
-							</c:when>
-							<c:otherwise>
-								전체관람가
-							</c:otherwise>
-						</c:choose>
-					</h5>
-					<p>${vo.content_summary }</p>
-				</div>
-				<div onclick="contentDetail(event,{
-					content_num:${vo.content_num},
-					content_name:'${vo.content_name}',
-					orgsrc:'${vo.orgsrc}',
-					savesrc:'${vo.savesrc}',
-					content_summary:'${vo.content_summary}',
-					trailer_orgsrc:'${vo.trailer_orgsrc}',
-					trailer_savesrc:'${vo.trailer_savesrc}',
-					content_size:${vo.content_size},
-					trailer_size:${vo.trailer_size},
-					content_post1:'${vo.content_post1}',
-					content_post2:'${vo.content_post2}',
-					release_date:'${vo.release_date}',
-					watch_age:${vo.watch_age},
-					content_regdate:'${vo.content_regdate}',
-					series_num:${vo.series_num}
-				},'bestContent')"></div>
-			  </div>
-			</c:forEach>
-		</div>
-	</div>
-	<h4>${sessionScope.nickname } 님의 취향저격 콘텐츠</h4>
-	<div id="recommendContent">
-		<div class="main-carousel main">
-			<c:forEach items="${recommendList }" var="vo">
-			  <div class="carousel-cell main">
-			  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
-			  	<video loop>
-					<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
-				</video>
-				<div>
-					<h3>${vo.content_name }</h3>
-					<h5>
-						${vo.content_regdate} / 
-						<c:choose>
-							<c:when test="${vo.watch_age == 12}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 15}">
-								${vo.watch_age }
-							</c:when>
-							<c:when test="${vo.watch_age == 19}">
-								청불
-							</c:when>
-							<c:otherwise>
-								전체관람가
-							</c:otherwise>
-						</c:choose>
-					</h5>
-					<p>${vo.content_summary }</p>
-				</div>
-				<div onclick="contentDetail(event,{
-					content_num:${vo.content_num},
-					content_name:'${vo.content_name}',
-					orgsrc:'${vo.orgsrc}',
-					savesrc:'${vo.savesrc}',
-					content_summary:'${vo.content_summary}',
-					trailer_orgsrc:'${vo.trailer_orgsrc}',
-					trailer_savesrc:'${vo.trailer_savesrc}',
-					content_size:${vo.content_size},
-					trailer_size:${vo.trailer_size},
-					content_post1:'${vo.content_post1}',
-					content_post2:'${vo.content_post2}',
-					release_date:'${vo.release_date}',
-					watch_age:${vo.watch_age},
-					content_regdate:'${vo.content_regdate}',
-					series_num:${vo.series_num}
-				},'bestContent')"></div>
-			  </div>
-			</c:forEach>
-		</div>
-	</div>
-	<div id="detail">
-		<div class="info_div">
-			<h2 class="name"></h2>
-			<br><br>
-			<h4 class="detail_info"></h4>
-			<br><br>
-			<p class="detail_summary"></p>
-			<input type="button" value="재생" class="playBtn btn btn-info">
-			<input type="button" value="찜" class="jjBtn">
-		</div>
-		<div class="series_info">
-		</div>
-		<div class="similar_content">
-		</div>
-		<div class="detail_div">
-			<h2 class="name"></h2>
-			<br><br>
-			<div>
-				<table class="tb_director">
-				</table>
-				<br>
-				<table class="tb_genre">
-				</table>
+	<div id="userContentDiv">
+		<h4>내가 찜한 콘텐츠</h4>
+		<div id="jjimContent">
+			<div class="main-carousel main">
+				<c:forEach items="${jjimList }" var="vo">
+				  <div class="carousel-cell main">
+				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
+				  	<video loop>
+						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					</video>
+					<div>
+						<h3>${vo.content_name }</h3>
+						<h5>
+							${vo.content_regdate} / 
+							<c:choose>
+								<c:when test="${vo.watch_age == 12}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 15}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 19}">
+									청불
+								</c:when>
+								<c:otherwise>
+									전체관람가
+								</c:otherwise>
+							</c:choose>
+						</h5>
+						<p>${vo.content_summary }</p>
+					</div>
+					<div onclick="contentDetail(event,{
+						content_num:${vo.content_num},
+						content_name:'${vo.content_name}',
+						orgsrc:'${vo.orgsrc}',
+						savesrc:'${vo.savesrc}',
+						content_summary:'${vo.content_summary}',
+						trailer_orgsrc:'${vo.trailer_orgsrc}',
+						trailer_savesrc:'${vo.trailer_savesrc}',
+						content_size:${vo.content_size},
+						trailer_size:${vo.trailer_size},
+						content_post1:'${vo.content_post1}',
+						content_post2:'${vo.content_post2}',
+						release_date:'${vo.release_date}',
+						watch_age:${vo.watch_age},
+						content_regdate:'${vo.content_regdate}',
+						series_num:${vo.series_num}
+					},'jjimContent')"></div>
+				  </div>
+				</c:forEach>
 			</div>
-			<div>
-				<table class="tb_actor">
-				</table>
-				<br>
+		</div>
+		<h4>신규 콘텐츠</h4>
+		<div id="newContent">
+			<div class="main-carousel main">
+				<c:forEach items="${newList }" var="vo">
+				  <div class="carousel-cell main">
+				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
+				  	<video loop>
+						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					</video>
+					<div>
+						<h3>${vo.content_name }</h3>
+						<h5>
+							${vo.content_regdate} / 
+							<c:choose>
+								<c:when test="${vo.watch_age == 12}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 15}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 19}">
+									청불
+								</c:when>
+								<c:otherwise>
+									전체관람가
+								</c:otherwise>
+							</c:choose>
+						</h5>
+						<p>${vo.content_summary }</p>
+					</div>
+					<div onclick="contentDetail(event,{
+						content_num:${vo.content_num},
+						content_name:'${vo.content_name}',
+						orgsrc:'${vo.orgsrc}',
+						savesrc:'${vo.savesrc}',
+						content_summary:'${vo.content_summary}',
+						trailer_orgsrc:'${vo.trailer_orgsrc}',
+						trailer_savesrc:'${vo.trailer_savesrc}',
+						content_size:${vo.content_size},
+						trailer_size:${vo.trailer_size},
+						content_post1:'${vo.content_post1}',
+						content_post2:'${vo.content_post2}',
+						release_date:'${vo.release_date}',
+						watch_age:${vo.watch_age},
+						content_regdate:'${vo.content_regdate}',
+						series_num:${vo.series_num}
+					},'newContent')"></div>
+				  </div>
+				</c:forEach>
+			</div>
+		</div>
+		<h4>Watflix 인기 콘텐츠</h4>
+		<div id="bestContent">
+			<div class="main-carousel main">
+				<c:forEach items="${bestList }" var="vo">
+				  <div class="carousel-cell main">
+				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
+				  	<video loop>
+						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					</video>
+					<div>
+						<h3>${vo.content_name }</h3>
+						<h5>
+							${vo.content_regdate} / 
+							<c:choose>
+								<c:when test="${vo.watch_age == 12}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 15}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 19}">
+									청불
+								</c:when>
+								<c:otherwise>
+									전체관람가
+								</c:otherwise>
+							</c:choose>
+						</h5>
+						<p>${vo.content_summary }</p>
+					</div>
+					<div onclick="contentDetail(event,{
+						content_num:${vo.content_num},
+						content_name:'${vo.content_name}',
+						orgsrc:'${vo.orgsrc}',
+						savesrc:'${vo.savesrc}',
+						content_summary:'${vo.content_summary}',
+						trailer_orgsrc:'${vo.trailer_orgsrc}',
+						trailer_savesrc:'${vo.trailer_savesrc}',
+						content_size:${vo.content_size},
+						trailer_size:${vo.trailer_size},
+						content_post1:'${vo.content_post1}',
+						content_post2:'${vo.content_post2}',
+						release_date:'${vo.release_date}',
+						watch_age:${vo.watch_age},
+						content_regdate:'${vo.content_regdate}',
+						series_num:${vo.series_num}
+					},'bestContent')"></div>
+				  </div>
+				</c:forEach>
+			</div>
+		</div>
+		<h4>${sessionScope.nickname } 님의 취향저격 콘텐츠</h4>
+		<div id="recommendContent">
+			<div class="main-carousel main">
+				<c:forEach items="${recommendList }" var="vo">
+				  <div class="carousel-cell main">
+				  	<img src='<c:url value="http://dmszone.com:8080/watflix/stillcut/${vo.content_post2 }"/>'>
+				  	<video loop>
+						<source src='<c:url value="/resources/media/hut.mp4"/>' type="video/mp4">
+					</video>
+					<div>
+						<h3>${vo.content_name }</h3>
+						<h5>
+							${vo.content_regdate} / 
+							<c:choose>
+								<c:when test="${vo.watch_age == 12}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 15}">
+									${vo.watch_age }
+								</c:when>
+								<c:when test="${vo.watch_age == 19}">
+									청불
+								</c:when>
+								<c:otherwise>
+									전체관람가
+								</c:otherwise>
+							</c:choose>
+						</h5>
+						<p>${vo.content_summary }</p>
+					</div>
+					<div onclick="contentDetail(event,{
+						content_num:${vo.content_num},
+						content_name:'${vo.content_name}',
+						orgsrc:'${vo.orgsrc}',
+						savesrc:'${vo.savesrc}',
+						content_summary:'${vo.content_summary}',
+						trailer_orgsrc:'${vo.trailer_orgsrc}',
+						trailer_savesrc:'${vo.trailer_savesrc}',
+						content_size:${vo.content_size},
+						trailer_size:${vo.trailer_size},
+						content_post1:'${vo.content_post1}',
+						content_post2:'${vo.content_post2}',
+						release_date:'${vo.release_date}',
+						watch_age:${vo.watch_age},
+						content_regdate:'${vo.content_regdate}',
+						series_num:${vo.series_num}
+					},'bestContent')"></div>
+				  </div>
+				</c:forEach>
+			</div>
+		</div>
+		<div id="detail">
+			<div class="info_div">
+				<h2 class="name"></h2>
+				<br><br>
+				<h4 class="detail_info"></h4>
+				<br><br>
+				<p class="detail_summary"></p>
+				<input type="button" value="재생" class="playBtn btn btn-info">
+				<input type="button" value="찜" class="jjBtn">
+			</div>
+			<div class="series_info">
+			</div>
+			<div class="similar_content">
+			</div>
+			<div class="detail_div">
+				<h2 class="name"></h2>
+				<br><br>
+				<div>
+					<table class="tb_director">
+					</table>
+					<br>
+					<table class="tb_genre">
+					</table>
+				</div>
+				<div>
+					<table class="tb_actor">
+					</table>
+					<br>
+				</div>
 			</div>
 		</div>
 	</div>

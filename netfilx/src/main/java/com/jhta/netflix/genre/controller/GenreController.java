@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.netflix.category.service.CategoryService;
 import com.jhta.netflix.category.vo.CateGenreVo;
+import com.jhta.netflix.category.vo.CategoryVo;
 import com.jhta.netflix.content_genre.service.Content_genreService;
 import com.jhta.netflix.content_genre.vo.Content_genreVo;
 import com.jhta.netflix.genre.service.GenreService;
@@ -150,24 +151,80 @@ public class GenreController {
 	public String catedelete(int num) {
 		List<GenreVo> list = service.list(num);
 		JSONObject json = new JSONObject();
-		for(GenreVo vo : list) {
-			int genre_num = vo.getGenre_num();
-			String genre_name = vo.getGenre_name();
-			cgservice.genredelete(genre_num);
-			GenreVo gvo = new GenreVo(genre_num,genre_name,15);
-			int n = service.update(gvo);
-			if(n>0) {
-				int nd = cservice.delete(num);
-				if(nd>0) {
-					json.put("code", "요청성공");
+		System.out.println(list.size());
+		if(list.size() != 0) {
+			for(GenreVo vo : list) {
+				int genre_num = vo.getGenre_num();
+				String genre_name = vo.getGenre_name();
+				cgservice.genredelete(genre_num);
+				GenreVo gvo = new GenreVo(genre_num,genre_name,15);
+				int n = service.update(gvo);
+				if(n>0) {
+					int nd = cservice.delete(num);
+					if(nd>0) {
+						json.put("code", "요청성공");
+						return json.toString();
+					}else {
+						json.put("code", "요청실패");
+					}
 					return json.toString();
 				}else {
 					json.put("code", "요청실패");
 				}
+			}
+		}else {
+			int nd = cservice.delete(num);
+			if(nd>0) {
+				json.put("code", "요청성공");
 				return json.toString();
 			}else {
 				json.put("code", "요청실패");
 			}
+			return json.toString();
+		}
+		return json.toString();
+	}
+	
+	//카테고리 수정
+	@RequestMapping(value="/category/update",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String cateupdate(int num,String category_name) {
+		List<GenreVo> list = service.list(num);
+		JSONObject json = new JSONObject();
+		System.out.println(list.size());
+		if(list.size() != 0) {
+			for(GenreVo vo : list) {
+				int genre_num = vo.getGenre_num();
+				String genre_name = vo.getGenre_name();
+				cgservice.genredelete(genre_num);
+				GenreVo gvo = new GenreVo(genre_num,genre_name,15);
+				int n = service.update(gvo);
+				if(n>0) {
+					CategoryVo cvo = new CategoryVo(num,category_name);
+					System.out.println("장르삭제하고 수정하러 들어옴!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					int nu = cservice.update(cvo);
+					if(nu>0) {
+						json.put("code", "요청성공");
+						return json.toString();
+					}else {
+						json.put("code", "요청실패");
+					}
+					return json.toString();
+				}else {
+					json.put("code", "요청실패");
+				}
+			}
+		}else {
+			CategoryVo cvo = new CategoryVo(num,category_name);
+			System.out.println("장르삭제하고 수정하러 들어옴!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			int nu = cservice.update(cvo);
+			if(nu>0) {
+				json.put("code", "요청성공");
+				return json.toString();
+			}else {
+				json.put("code", "요청실패");
+			}
+			return json.toString();
 		}
 		return json.toString();
 	}
